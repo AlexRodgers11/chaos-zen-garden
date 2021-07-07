@@ -1,4 +1,5 @@
-import React, { useToggle } from './hooks/useToggle';
+import React from 'react';
+import { useToggle } from './hooks/useToggle';
 
 function Snake() {
     const [isOrganized, seIsOrganized] = useToggle(true);
