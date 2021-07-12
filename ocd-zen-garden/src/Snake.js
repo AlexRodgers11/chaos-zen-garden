@@ -8,7 +8,7 @@ import SnakeBox from './SnakeBox';
 
 
 function Snake(props) {
-    const [isOrganized, setIsOrganized] = useToggle(true);
+    const [isOrganized, toggleIsOrganized] = useToggle(true);
     const numBoxes = props.num || 20;
     const boxArr = [];
     for(let k = 1; k <= numBoxes; k++){
@@ -19,14 +19,13 @@ function Snake(props) {
         });
     }
 
-    console.log(boxArr.length);
     return (
         <div>
             <p>Snake Test</p>
             {boxArr.map(idx => (
-                <SnakeBox />
+                <SnakeBox delay={idx.delay} isOrganized={isOrganized}/>
             ))}
-            <button onClick={setIsOrganized}>{isOrganized ? 'Scatter' : 'Organize'}</button>
+            <button onClick={toggleIsOrganized}>{isOrganized ? 'Scatter' : 'Organize'}</button>
         </div>
     )
 }
