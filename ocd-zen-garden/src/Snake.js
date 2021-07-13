@@ -9,21 +9,21 @@ import SnakeBox from './SnakeBox';
 
 function Snake(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(true);
-    const numBoxes = props.num || 20;
+    const numBoxes = props.num || 10;
     const boxArr = [];
     for(let k = 1; k <= numBoxes; k++){
-        let randomNum = Math.ceil(Math.random() * 50)
+        let randomNum = 275 + Math.floor(Math.random() * 50);
         boxArr.push({
             offset: `${randomNum}px`,
-            delay: `${k * 3}s`
+            delay: k * 3
         });
     }
 
     return (
-        <div>
+        <div style={{width: '750px'}}>
             <p>Snake Test</p>
             {boxArr.map(idx => (
-                <SnakeBox delay={idx.delay} isOrganized={isOrganized}/>
+                <SnakeBox delay={idx.delay} isOrganized={isOrganized} margin={idx.offset}/>
             ))}
             <button onClick={toggleIsOrganized}>{isOrganized ? 'Scatter' : 'Organize'}</button>
         </div>
