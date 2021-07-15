@@ -18,13 +18,20 @@ function Snake() {
     }, [nextIndex, boxes])
 
     const organizeBoxes = (idx) => {
-        let newBoxes = boxes.map(box => {
-            if(box.id === boxes[idx].id){
-                return {...box, margin: '350px'}
-            } else {
-                return box
-            }
-        });
+        let newBoxes;
+        if(idx + 1 === boxes.length){
+            newBoxes = boxes.map(box => {
+                return {...box, margin: '350px'} 
+            });
+        } else {
+            newBoxes = boxes.map(box => {
+                if(box.id <= boxes[idx].id){
+                    return {...box, margin: `${boxes[idx+1].margin}`}
+                } else {
+                    return box
+                }
+            });
+        }
         setBoxes(newBoxes);
         setNextIndex(idx + 1);
         if(idx + 1 === boxes.length) setTimeout(() => toggleIsOrganized(), 1000)
