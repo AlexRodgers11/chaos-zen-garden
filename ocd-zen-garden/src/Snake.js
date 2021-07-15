@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import useToggle from './hooks/useToggle';
 
-function Snake(props) {
+function Snake() {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [nextIndex, setNextIndex] = useState(1);
     const [boxes, setBoxes] = useState([{id: 1, margin: `${325 + Math.floor(Math.random() * 50)}px`}, {id: 2, margin: `${325 + Math.floor(Math.random() * 50)}px`}, {id: 3, margin: `${325 + Math.floor(Math.random() * 50)}px`}, {id: 4, margin: `${325 + Math.floor(Math.random() * 50)}px`}, {id: 5, margin: `${325 + Math.floor(Math.random() * 50)}px`}]);
@@ -29,34 +29,6 @@ function Snake(props) {
         setNextIndex(idx + 1);
         if(idx + 1 === boxes.length) setTimeout(() => toggleIsOrganized(), 1000)
     }
-
-
-    // const organizeBoxes = (idx) => {
-    //     let newBoxes = boxes.map(box => {
-    //         if(box.id === boxes[idx].id){
-    //             return {...box, margin: '350px'}
-    //         } else {
-    //             return box
-    //         }
-    //     });
-    //     setBoxes(newBoxes);
-    //     setNextIndex(idx + 1);
-    //     toggleIsOrganized()
-    // }
-
-    // const organizeBoxes = () => {
-    //     for(let k = 0; k < boxes.length; k++){
-    //         let newBoxes = boxes.map(box => {
-    //             if(box.id === boxes[k].id){
-    //                 return {...box, margin: '350px'}
-    //             } else {
-    //                 return box
-    //             }
-    //         })
-    //         setTimeout(() => setBoxes(() => newBoxes), 1000);
-    //     };
-    //     toggleIsOrganized()
-    // }
 
     const scatterBoxes = () => {
         let newBoxes = boxes.map(box => {
