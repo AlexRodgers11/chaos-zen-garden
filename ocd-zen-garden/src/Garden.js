@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import Snake from './Snake';
+import Dots from './Dots';
 
 function Garden(){
     return(
-        <div>
-            Garden Test
+        <div className="Garden">
+            <Snake />
+            <Dots />
         </div>
     )
 }
