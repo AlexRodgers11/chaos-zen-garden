@@ -1,0 +1,20 @@
+.Garden {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr, 1fr, 1fr
+}
+
+.Snake {
+    grid-column: 1;
+    grid-row: 1
+}
+
+.Dots {
+    grid-column: 2;
+    grid-row: 1
+}
+
+.Temp {
+    grid-column: 3;
+    grid-row: 1
+}
