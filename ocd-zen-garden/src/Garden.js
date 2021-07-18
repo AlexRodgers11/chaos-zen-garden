@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import useCurrentWidth from './hooks/useCurrentWidth';
 import Snake from './Snake';
 import Dots from './Dots';
+import BullsEye from './BullsEye';
 import './Garden.css';
 
 function Garden(){
     let width = useCurrentWidth();
     return(
         <div className="Garden">
-            <Snake width={width} className="Snake"/>
-            <Dots width={width} className="Dots"/>
-            <div className="Temp">Temp fake garden piece with width: {width}</div>
+            <Snake width={width} className="Snake" />
+            <Dots width={width} className="Dots" />
+            <BullsEye width={width} className="BullsEye" />
+            {/* <div className="Temp">Temp fake garden piece with width: {width}</div> */}
         </div>
     )
 }
