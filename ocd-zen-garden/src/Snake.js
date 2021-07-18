@@ -4,9 +4,7 @@ import useToggle from './hooks/useToggle';
 function Snake(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [nextIndex, setNextIndex] = useState(1);
-    // const [boxes, setBoxes] = useState([{id: 1, margin: `${325 + Math.floor(Math.random() * 50)}px`}, {id: 2, margin: `${325 + Math.floor(Math.random() * 50)}px`}, {id: 3, margin: `${325 + Math.floor(Math.random() * 50)}px`}, {id: 4, margin: `${325 + Math.floor(Math.random() * 50)}px`}, {id: 5, margin: `${325 + Math.floor(Math.random() * 50)}px`}]);
-    const [boxes, setBoxes] = useState([{id: 1, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`}, {id: 2, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`}, {id: 3, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`}, {id: 4, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`}, {id: 5, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`}]);
-    //.4575 - .085/2
+    const [boxes, setBoxes] = useState([{id: 1, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`}, {id: 2, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`}, {id: 3, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`}, {id: 4, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`}, {id: 5, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`}, {id: 6, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`}, {id: 7, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`}]);
     const firstUpdate = useRef(true);
     useEffect(()=>{
         if(!firstUpdate.current) {
@@ -22,9 +20,7 @@ function Snake(props) {
         let newBoxes;
         if(idx + 1 === boxes.length){
             newBoxes = boxes.map(box => {
-                // return {...box, margin: '350px'} 
                 return {...box, marginLeft: `${props.width * .33 * .4575}px`} 
-                //organized middle is props.width * .33 * 5, which means the margin 
             });
         } else {
             newBoxes = boxes.map(box => {
@@ -42,7 +38,6 @@ function Snake(props) {
 
     const scatterBoxes = () => {
         let newBoxes = boxes.map(box => {
-            // let randomNum = `${325 + Math.floor(Math.random() * 50)}px`;
             let randomNum = `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`;
             return {...box, marginLeft: randomNum};
         })
