@@ -18,3 +18,8 @@
     grid-column: 3;
     grid-row: 1
 }
+
+.Message { 
+    grid-column: 1;
+    grid-row: 2
+}

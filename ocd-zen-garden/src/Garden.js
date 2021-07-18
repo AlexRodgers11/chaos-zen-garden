@@ -3,6 +3,7 @@ import useCurrentWidth from './hooks/useCurrentWidth';
 import Snake from './Snake';
 import Dots from './Dots';
 import BullsEye from './BullsEye';
+import Message from './Message';
 import './Garden.css';
 
 function Garden(){
@@ -12,6 +13,8 @@ function Garden(){
             <Snake width={width} className="Snake" />
             <Dots width={width} className="Dots" />
             <BullsEye width={width} className="BullsEye" />
+            <Message width={width} className="Message" />
+            
             {/* <div className="Temp">Temp fake garden piece with width: {width}</div> */}
         </div>
     )
