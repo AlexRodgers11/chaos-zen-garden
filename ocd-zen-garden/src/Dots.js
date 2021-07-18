@@ -2,8 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import useToggle from './hooks/useToggle';
 
 function Dots(props) {
-    const [isOrganized, setIsOrganized] = useToggle(false);
-    const [nextIndex, setNextIndex] = useState(1);
+    const [isOrganized, toggleIsOrganized] = useToggle(false);
+    const [nextIndex, setNextIndex] = useState({id: 0, dir: 'vertical'});
     const [dots, setDots] = useState([
         {id: 1, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`}, 
         {id: 2, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`}, 
@@ -31,6 +31,18 @@ function Dots(props) {
         {id: 24, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`}, 
         {id: 25, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`}]);
 
+
+    const firstUpdate = useRef(true);
+    useEffect(() => {
+        if(!firstUpdate.current) {
+            if(nextIndex.id < dots.length || nextIndex.dir === 'vertical'){
+                setTimeout(() => {
+                    organizeDots(nextIndex.id, nextIndex.dir);
+                }, 200);
+            }
+        } else {firstUpdate.current = false}
+    }, [dots])
+    
     const displayDots = () => {
         let dotLines = []
         let newLine = []
@@ -41,35 +53,54 @@ function Dots(props) {
                 newLine = []
             }
         }
-        console.log(dotLines);
         return dotLines;
     }
-    const organizeDots = () => {
-        //marginLeft: `${props.width * .33 * .025 - .5}px`, marginTop: `${props.width * .33 * .025 - .5}px`
+    const organizeDots = (idx, dir) => {
+        let newDots;
+        let newDir = dir === 'horizontal' ? 'vertical' : 'horizontal';
+        let newIdx = dir === 'horizontal' ? idx : idx + 1
+        if(dir === 'horizontal') {
+            newDots = dots.map(dot => {
+                if(dot.id === dots[idx].id){
+                    return {...dot, marginLeft: `${props.width * .33 * .025 - .5}`}
+                } else {
+                    return dot
+                }
+            });
+        } else {
+            newDots = dots.map(dot => {
+                if(dot.id === dots[idx].id){
+                    return {...dot, marginTop: `${props.width * .33 * .025 - .5}`}
+                } else {
+                    return dot
+                }
+            });
+        }
+        setDots(newDots);
+        setNextIndex({id: newIdx, dir: newDir});
+        if(idx + 1 === dots.length && dir === 'horizontal') setTimeout(() => toggleIsOrganized(), 1000)
     }
 
     const scatterDots = () => {
-        return dots.map(dot => {
-
-        })
+        let newDots = dots.map(dot => {
+            return {...dot, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`}
+        });
+        setDots(newDots);
+        toggleIsOrganized()
     }
 
     return (
         <div style={{width: '100%', border: '1px solid black'}}>
             <p>Dots Test</p>
-            {/* <div style={{width: '45%', margin: '0 auto'}}> */}
             <div style={{margin: '0 auto'}}>
                 {displayDots().map(dotLine => {
                     return <p style={{marginBlockEnd: 0, marginBlockStart: 0, padding: 0, marginBottom: 0, marginTop: 0}}>
                         {dotLine.map(dot => {
-                            // return <span style={{display: 'inline-block', border: '1px solid black', borderRadius: '50%', width: `${props.width * .33 * .035}px`, height: `${props.width * .33 * .035}px`, margin: `${props.width * .33 * .035}px`, marginBottom: `${props.width * .33 * .035}px`}}></span>
-                            // return <span style={{display: 'inline-block', border: '.5px solid black', width: `${props.width * .33 * .035}px`, height: `${props.width * .33 * .035}px`, marginBottom: '0'}}><span style={{display: 'inline-block', border: '1px solid black', borderRadius: '50%', width: `${props.width * .33 * .035}px`, height: `${props.width * .33 * .035}px`, margin: `${props.width * .33 * .035}px`, marginBottom: `${props.width * .33 * .035}px`}}></span></span>
-                            // return <span style={{display: 'inline-block', border: '1px solid black', width: `${props.width * .33 * .035 + 2}px`, height: `${props.width * .33 * .035 + 2}px`, marginBottom: '0'}}><span style={{display: 'inline-block', border: '1px solid black', borderRadius: '50%', width: `${props.width * .33 * .035}px`, height: `${props.width * .33 * .035}px`}}></span></span>
-                            return <span style={{display: 'inline-block', textAlign: 'left', padding: '0px', border: '1px solid black', width: `${props.width * .33 * .10}px`, height: `${props.width * .33 * .10}px`, marginBottom: '0'}}><span style={{display: 'block', border: '1px solid black', borderRadius: '50%', width: `${props.width * .33 * .05}px`, height: `${props.width * .33 * .05}px`, marginLeft: `${dot.marginLeft}px`, marginTop: `${dot.marginTop}px`}}></span></span>
+                            return <span style={{display: 'inline-block', textAlign: 'left', padding: '0px', width: `${props.width * .33 * .10}px`, height: `${props.width * .33 * .10}px`, marginBottom: '0'}}><span style={{display: 'block', border: '1px solid black', borderRadius: '50%', width: `${props.width * .33 * .05}px`, height: `${props.width * .33 * .05}px`, marginLeft: `${dot.marginLeft}px`, marginTop: `${dot.marginTop}px`}}></span></span>
                         })}
                     </p>
                 })}
-                <button onClick={isOrganized ? scatterDots : () => scatterDots(0)}>{isOrganized ? 'Scatter' : 'Organize'}</button>
+                <button onClick={isOrganized ? scatterDots : () => organizeDots(0, 'horizontal')}>{isOrganized ? 'Scatter' : 'Organize'}</button>
             </div>
         </div>
     )
