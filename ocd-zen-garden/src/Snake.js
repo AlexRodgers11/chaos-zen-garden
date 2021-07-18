@@ -5,8 +5,8 @@ function Snake(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [nextIndex, setNextIndex] = useState(1);
     // const [boxes, setBoxes] = useState([{id: 1, margin: `${325 + Math.floor(Math.random() * 50)}px`}, {id: 2, margin: `${325 + Math.floor(Math.random() * 50)}px`}, {id: 3, margin: `${325 + Math.floor(Math.random() * 50)}px`}, {id: 4, margin: `${325 + Math.floor(Math.random() * 50)}px`}, {id: 5, margin: `${325 + Math.floor(Math.random() * 50)}px`}]);
-    const [boxes, setBoxes] = useState([{id: 1, margin: `${props.width * .33 * .5 + Math.floor(Math.random() * props.width * .33 * .085)}px`}, {id: 2, margin: `${props.width * .33 * .5 + Math.floor(Math.random() * props.width * .33 * .085)}px`}, {id: 3, margin: `${props.width * .33 * .5 + Math.floor(Math.random() * props.width * .33 * .085)}px`}, {id: 4, margin: `${props.width * .33 * .5 + Math.floor(Math.random() * props.width * .33 * .085)}px`}, {id: 5, margin: `${props.width * .33 * .5 + Math.floor(Math.random() * props.width * .33 * .085)}px`}]);
-
+    const [boxes, setBoxes] = useState([{id: 1, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`}, {id: 2, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`}, {id: 3, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`}, {id: 4, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`}, {id: 5, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`}]);
+    //.4575 - .085/2
     const firstUpdate = useRef(true);
     useEffect(()=>{
         if(!firstUpdate.current) {
@@ -23,12 +23,13 @@ function Snake(props) {
         if(idx + 1 === boxes.length){
             newBoxes = boxes.map(box => {
                 // return {...box, margin: '350px'} 
-                return {...box, margin: `${props.width * .33 * .5}px`} 
+                return {...box, marginLeft: `${props.width * .33 * .4575}px`} 
+                //organized middle is props.width * .33 * 5, which means the margin 
             });
         } else {
             newBoxes = boxes.map(box => {
                 if(box.id <= boxes[idx].id){
-                    return {...box, margin: `${boxes[idx+1].margin}`}
+                    return {...box, marginLeft: `${boxes[idx+1].marginLeft}`}
                 } else {
                     return box
                 }
@@ -42,18 +43,18 @@ function Snake(props) {
     const scatterBoxes = () => {
         let newBoxes = boxes.map(box => {
             // let randomNum = `${325 + Math.floor(Math.random() * 50)}px`;
-            let randomNum = `${props.width * .33 * .5 + Math.floor(Math.random() * props.width * .33 * .085)}px`;
-            return {...box, margin: randomNum};
+            let randomNum = `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`;
+            return {...box, marginLeft: randomNum};
         })
         setBoxes(newBoxes);
         toggleIsOrganized();
     }
 
     return (
-        <div>
+        <div style={{width: '100%', border: '1px solid black'}}>
             <p>Snake Test</p>
             {boxes.map(box => (
-                <div style={{boxSizing: 'border-box', border: '1.5px solid black', width: `${props.width * .33 * .085}px`, height: `${props.width * .33 * .085}px`, padding: 0, margin: `0 ${box.margin}`}}></div>
+                <div style={{boxSizing: 'border-box', border: '1.5px solid black', width: `${props.width * .33 * .085}px`, height: `${props.width * .33 * .085}px`, padding: 0, marginTop: '0', marginBottom: '0', marginLeft: `${box.marginLeft}`}}></div>
             ))}
             <button onClick={isOrganized ? scatterBoxes : () => organizeBoxes(0)}>{isOrganized ? 'Scatter' : 'Organize'}</button>
         </div>
