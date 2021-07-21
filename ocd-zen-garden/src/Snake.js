@@ -6,40 +6,19 @@ function Snake(props) {
     const [nextIndex, setNextIndex] = useState(1);
 
     const getColor = idx => {
-        // return 'blue';
         if(idx % 6 === 0) {
-            return 'yellow';
+            return 'salmon';
         } else if(idx % 5 === 0) {
-            return 'blue'
+            return 'lime'
         } else if(idx % 4 === 0) {
-            return 'pink'
+            return 'blue'
         } else if (idx % 3 === 0) {
             return 'orange'
         } else if (idx % 2 === 0) {
-            return 'salmon'
+            return 'pink'
         } else if (idx % 1 === 0) {
-            return 'lime'
+            return 'yellow'
         }
-        // switch(idx) {
-        //     case (idx % 6 === 0):
-        //         return 'salmon';
-        //         break;
-        //     case (idx % 5 === 0):
-        //         return 'lime';
-        //         break;
-        //     case (idx % 4 === 0):
-        //         return 'blue';
-        //         break;
-        //     case (idx % 3 === 0):
-        //         return 'orange';
-        //         break;
-        //     case (idx % 2 === 0):
-        //         return 'pink';
-        //         break;
-        //     case (idx % 1 === 0):
-        //         return 'yellow';
-        //         break;    
-        // }
     }
 
     const [boxes, setBoxes] = useState([{id: 1, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(1)}, {id: 2, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(2)}, {id: 3, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(3)}, {id: 4, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(4)}, {id: 5, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(5)}, {id: 6, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(6)}, {id: 7, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(7)}]);
