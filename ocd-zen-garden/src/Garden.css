@@ -1,3 +1,7 @@
+body {
+    background-color: #404857;
+}
+
 .Garden {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;

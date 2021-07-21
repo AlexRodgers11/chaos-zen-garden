@@ -13,7 +13,7 @@ const colors = {
     blue: '#3e0eff',
     orange: '#ffa30e',
     pink:  '#ff00fb',
-    yellow: '#ff6200'
+    yellow: '#ffff00'
 }
 
 function Garden(){
