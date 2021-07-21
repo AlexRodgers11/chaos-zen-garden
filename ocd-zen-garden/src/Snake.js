@@ -1,25 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import useToggle from './hooks/useToggle';
+import { getColor } from './utils';
 
 function Snake(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [nextIndex, setNextIndex] = useState(1);
-
-    const getColor = idx => {
-        if(idx % 6 === 0) {
-            return 'salmon';
-        } else if(idx % 5 === 0) {
-            return 'lime'
-        } else if(idx % 4 === 0) {
-            return 'blue'
-        } else if (idx % 3 === 0) {
-            return 'orange'
-        } else if (idx % 2 === 0) {
-            return 'pink'
-        } else if (idx % 1 === 0) {
-            return 'yellow'
-        }
-    }
 
     const [boxes, setBoxes] = useState([{id: 1, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(1)}, {id: 2, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(2)}, {id: 3, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(3)}, {id: 4, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(4)}, {id: 5, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(5)}, {id: 6, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(6)}, {id: 7, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(7)}]);
     const firstUpdate = useRef(true);
@@ -66,7 +51,7 @@ function Snake(props) {
         <div style={{width: '100%', border: '1px solid black'}}>
             <p>Snake Test</p>
             {boxes.map(box => (
-                <div style={{boxSizing: 'border-box', border: '1.5px solid black', width: `${props.width * .33 * .085}px`, height: `${props.width * .33 * .085}px`, padding: 0, marginTop: '0', marginBottom: '0', marginLeft: `${box.marginLeft}`, backgroundColor: `${props.colors[box.color]}` }}></div>
+                <div style={{boxSizing: 'border-box', border: '1.5px solid black', width: `${props.width * .33 * .085}px`, height: `${props.width * .33 * .085}px`, padding: 0, marginTop: '0', marginBottom: '0', marginLeft: `${box.marginLeft}`, backgroundColor: `${box.color}` }}></div>
             ))}
             <button onClick={isOrganized ? scatterBoxes : () => organizeBoxes(0)}>{isOrganized ? 'Scatter' : 'Organize'}</button>
         </div>
