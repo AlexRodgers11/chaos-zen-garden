@@ -22,7 +22,7 @@ function Garden(){
         <div className="Garden">
             <Snake width={width} colors={colors} className="Snake" />
             <Dots width={width} className="Dots" />
-            <BullsEye width={width} className="BullsEye" />
+            <BullsEye width={width} id={1} numRings={10} className="BullsEye" />
             <Message width={width} className="Message" />
             <Dominoes width={width} className="Dominoes" />
             
