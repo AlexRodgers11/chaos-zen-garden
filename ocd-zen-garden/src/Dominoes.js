@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState} from 'react';
 import useToggle from './hooks/useToggle';
+import { getColor } from './utils';
 
 function Dominoes(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -11,7 +12,7 @@ function Dominoes(props) {
         return `${tilt}deg`;
     }
 
-    const [lines, setLines] = useState([{id: 1, tilt: generateTilt()}, {id: 2, tilt: generateTilt()}, {id: 3, tilt: generateTilt()}, {id: 4, tilt: generateTilt()}, {id: 5, tilt: generateTilt()}, {id: 6, tilt: generateTilt()}, {id: 7, tilt: generateTilt()}, {id: 8, tilt: generateTilt()}, {id: 9, tilt: generateTilt()}, {id: 10, tilt: generateTilt()}, {id: 11, tilt: generateTilt()}, {id: 12, tilt: generateTilt()}, {id: 13, tilt: generateTilt()}, {id: 14, tilt: generateTilt()}, {id: 15, tilt: generateTilt()}]);
+    const [lines, setLines] = useState([{id: 1, tilt: generateTilt(), color: getColor(1)}, {id: 2, tilt: generateTilt(), color: getColor(2)}, {id: 3, tilt: generateTilt(), color: getColor(3)}, {id: 4, tilt: generateTilt(), color: getColor(4)}, {id: 5, tilt: generateTilt(), color: getColor(5)}, {id: 6, tilt: generateTilt(), color: getColor(6)}, {id: 7, tilt: generateTilt(), color: getColor(7)}, {id: 8, tilt: generateTilt(), color: getColor(8)}, {id: 9, tilt: generateTilt(), color: getColor(9)}, {id: 10, tilt: generateTilt(), color: getColor(10)}, {id: 11, tilt: generateTilt(), color: getColor(11)}, {id: 12, tilt: generateTilt(), color: getColor(12)}, {id: 13, tilt: generateTilt(), color: getColor(13)}, {id: 14, tilt: generateTilt(), color: getColor(14)}, {id: 15, tilt: generateTilt(), color: getColor(15)}]);
 
     const firstUpdate = useRef(false);
     useEffect(() => {
@@ -54,7 +55,7 @@ function Dominoes(props) {
             Dominoes Test
             <div>
                 {lines.map(line => {
-                    return <span style={{display: 'inline-block', width: '3px', backgroundColor: 'black', height: .33 * .55 * props.width, margin: .33 * .02 * props.width, transform: `rotate(${line.tilt})` }}></span>
+                    return <span style={{display: 'inline-block', width: '3px', border: '.75px solid black', height: .33 * .55 * props.width, margin: .33 * .02 * props.width, transform: `rotate(${line.tilt})`, backgroundColor: `${line.color}` }}></span>
                 })}
             </div>
             <button onClick={isOrganized ? tiltLines : () => straightenLines(0)}>{isOrganized ? 'Tilt' : 'Straighten'}</button>

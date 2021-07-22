@@ -1,5 +1,6 @@
 import React,  {useState, useEffect, useRef} from 'react';
 import useToggle from './hooks/useToggle';
+import { getColor } from './utils';
 
 function Message(props){
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -12,7 +13,7 @@ function Message(props){
         
     }
 
-    const [letters, setLetters] = useState([{id: 1, letter: 's', tilt: generateTilt()}, {id: 2, letter: 'e', tilt: generateTilt()}, {id: 3, letter: 'r', tilt: generateTilt()}, {id: 4, letter: 'e', tilt: generateTilt()}, {id: 5, letter: 'n', tilt: generateTilt()}, {id: 6, letter: 'i', tilt: generateTilt()}, {id: 7, letter: 't', tilt: generateTilt()}, {id: 8, letter: 'y', tilt: generateTilt()}]);
+    const [letters, setLetters] = useState([{id: 1, letter: 's', tilt: generateTilt(), color: getColor(1)}, {id: 2, letter: 'e', tilt: generateTilt(), color: getColor(2)}, {id: 3, letter: 'r', tilt: generateTilt(), color: getColor(3)}, {id: 4, letter: 'e', tilt: generateTilt(), color: getColor(4)}, {id: 5, letter: 'n', tilt: generateTilt(), color: getColor(5)}, {id: 6, letter: 'i', tilt: generateTilt(), color: getColor(6)}, {id: 7, letter: 't', tilt: generateTilt(), color: getColor(7)}, {id: 8, letter: 'y', tilt: generateTilt(), color: getColor(8)}]);
 
     let firstUpdate = useRef(true);
     useEffect(() => {
@@ -55,7 +56,7 @@ function Message(props){
             <p>Message Test</p>
             <div>
                 {letters.map(letter => {
-                    return <span style={{display: 'inline-block', margin: '1rem', fontSize: `${props.width * .33 * .1}px`, transform: `rotate(${letter.tilt})`}}>{letter.letter}</span>
+                    return <span style={{display: 'inline-block', margin: '1rem', fontSize: `${props.width * .33 * .1}px`, transform: `rotate(${letter.tilt})`, color: `${letter.color}`}}>{letter.letter}</span>
                 })}
             </div>
             <button onClick={isOrganized ? unalignLetters : () => straightenLetters(0)}>{isOrganized ? 'Unalign' : 'Straighten'}</button>
