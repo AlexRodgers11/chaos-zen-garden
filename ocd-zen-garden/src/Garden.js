@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import useToggle from './hooks/useToggle';
 import useCurrentWidth from './hooks/useCurrentWidth';
 import Snake from './Snake';
 import Dots from './Dots';
@@ -18,11 +19,13 @@ const colors = {
 
 function Garden(){
     let width = useCurrentWidth();
+    // const [bullsEyeStarted, setBullsEyeStarted] = useToggle(false);
     return(
         <div className="Garden">
             <Snake width={width} colors={colors} className="Snake" />
             <Dots width={width} className="Dots" />
-            <BullsEye width={width} id={1} numRings={10} className="BullsEye" />
+            {/* <BullsEye width={width} id={1} numRings={10} className="BullsEye" started ={bullsEyeStarted}/> */}
+            <BullsEye width={width} id={1} numRings={10} className="BullsEye" orgIndex={11}/>
             <Message width={width} className="Message" />
             <Dominoes width={width} className="Dominoes" />
             
