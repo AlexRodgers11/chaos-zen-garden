@@ -19,17 +19,13 @@ const colors = {
 
 function Garden(){
     let width = useCurrentWidth();
-    // const [bullsEyeStarted, setBullsEyeStarted] = useToggle(false);
     return(
         <div className="Garden">
             <Snake width={width} colors={colors} className="Snake" />
             <Dots width={width} className="Dots" />
-            {/* <BullsEye width={width} id={1} numRings={10} className="BullsEye" started ={bullsEyeStarted}/> */}
             <BullsEye width={width} id={1} numRings={10} className="BullsEye" orgIndex={11}/>
             <Message width={width} className="Message" />
             <Dominoes width={width} className="Dominoes" />
-            
-            {/* <div className="Temp">Temp fake garden piece with width: {width}</div> */}
         </div>
     )
 }
