@@ -58,7 +58,7 @@ function BullsEye(props) {
             console.log(`${props.id} setColor running`);
             setMarginLeft(`${((props.width * .33 * .55 / props.numRings)) /2 -1}px`);
             setMarginTop(`${((props.width * .33 * .55 / props.numRings)) /2 -1}px`);
-        } else if (isOrganized){
+        } else if (props.isOrganized){
             ///need to make this if PROPS.isOrganized and pass isOrganized down as a prop as well as state the sawm way I did for orgIndex
             console.log(`${props.id} scatter should run here`)
             setMarginLeft(getMargin());
@@ -71,7 +71,10 @@ function BullsEye(props) {
     }
 
     const scatterRings = () => {
-        setOrgIndex(props.numRings)
+        setOrgIndex(props.numRings);
+        setTimeout(() => {
+            toggleIsOrganized();
+        }, 0)
     }
 
     return (
@@ -82,7 +85,7 @@ function BullsEye(props) {
                     // props.id < props.numRings ? <BullsEye numRings={props.numRings} id={props.id + 1} width={props.width} style={{position: 'relative', marginLeft: `${Math.sqrt((props.width * .33 * .55 / props.numRings)**2  + (props.width * .33 * .55 / props.numRings)**2)}px`, marginTop: `${Math.sqrt((props.width * .33 * .55 / props.numRings)**2  + (props.width * .33 * .55 / props.numRings)**2)}px`, border: '1px solid yellow', borderRadius: '0%', width: `${props.width * .33 * .55 - ((props.width * .33 * .55 / props.numRings) * (props.id)) - 1}px`, height: `${props.width * .33 * .55 - ((props.width * .33 * .55 / props.numRings) * (props.id)) - 1}px`}} /> : null
                     // props.id < props.numRings ? <BullsEye numRings={props.numRings} id={props.id + 1} width={props.width} style={{position: 'relative', marginLeft: `${((props.width * .33 * .55 / props.numRings)) /2 -1}px`, marginTop: `${((props.width * .33 * .55 / props.numRings)) / 2 -1}px`, border: '1px solid yellow', borderRadius: '50%', width: `${props.width * .33 * .55 - ((props.width * .33 * .55 / props.numRings) * (props.id)) - 1}px`, height: `${props.width * .33 * .55 - ((props.width * .33 * .55 / props.numRings) * (props.id)) - 1}px`}} /> : null
                     // props.id <= props.numRings ? <BullsEye started={started ? started : props.started} numRings={props.numRings} id={props.id + 1} width={props.width} style={{position: 'relative', backgroundColor: color, marginLeft: marginLeft, marginTop: marginTop, border: '1px solid yellow', borderRadius: '50%', width: `${props.width * .33 * .55 - ((props.width * .33 * .55 / props.numRings) * (props.id)) - 1}px`, height: `${props.width * .33 * .55 - ((props.width * .33 * .55 / props.numRings) * (props.id)) - 1}px`}} /> : null
-                    props.id < props.numRings ? <BullsEye orgIndex={props.id === 1 ? orgIndex : props.orgIndex} started={started ? started : props.started} numRings={props.numRings} id={props.id + 1} width={props.width} style={{position: 'relative', marginLeft: marginLeft, marginTop: marginTop, border: `1px solid ${color}`, borderRadius: '50%', width: `${props.width * .33 * .55 - ((props.width * .33 * .55 / props.numRings) * (props.id)) - 1}px`, height: `${props.width * .33 * .55 - ((props.width * .33 * .55 / props.numRings) * (props.id)) - 1}px`}} /> : null
+                    props.id < props.numRings ? <BullsEye orgIndex={props.id === 1 ? orgIndex : props.orgIndex} isOrganized={props.id === 1 ? isOrganized : props.isOrganized} started={started ? started : props.started} numRings={props.numRings} id={props.id + 1} width={props.width} style={{position: 'relative', marginLeft: marginLeft, marginTop: marginTop, border: `1px solid ${color}`, borderRadius: '50%', width: `${props.width * .33 * .55 - ((props.width * .33 * .55 / props.numRings) * (props.id)) - 1}px`, height: `${props.width * .33 * .55 - ((props.width * .33 * .55 / props.numRings) * (props.id)) - 1}px`}} /> : null
                     //marginLeft: `${((props.width * .33 * .55 / props.numRings)) /2 -1}px`, (organized position)
                 }
                 
