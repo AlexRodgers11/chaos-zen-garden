@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import useToggle from './hooks/useToggle';
 import { getColor } from './utils';
+import ControlBar from './ControlBar';
 
 function Dots(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -133,7 +134,8 @@ function Dots(props) {
                         })}
                     </p>
                 })}
-                <button onClick={isOrganized ? scatterDots : () => organizeDots(0, 'horizontal')}>{isOrganized ? 'Scatter' : 'Organize'}</button>
+                {/* <button onClick={isOrganized ? scatterDots : () => organizeDots(0, 'horizontal')}>{isOrganized ? 'Scatter' : 'Organize'}</button> */}
+                <ControlBar isOrganized={isOrganized} organizedFunction={scatterDots} unorganizedFunction={() => organizeDots(0, 'horizontal')} unorgButton='Scatter' orgButton='Organize' />
             </div>
         </div>
     )

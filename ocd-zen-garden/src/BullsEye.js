@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import useToggle from './hooks/useToggle';
 import { getColor } from './utils';
+import ControlBar from './ControlBar';
 
 function BullsEye(props) {
     const getMargin = () => {
@@ -60,7 +61,8 @@ function BullsEye(props) {
                 }
                 
             </div>
-            {props.id === 1 ? <button onClick={isOrganized ? scatterRings : organizeRings} >{isOrganized ? 'Scatter' : 'Organize'}</button> : null}
+            {/* {props.id === 1 ? <button onClick={isOrganized ? scatterRings : organizeRings} >{isOrganized ? 'Scatter' : 'Organize'}</button> : null} */}
+            {props.id === 1 ? <ControlBar isOrganized={isOrganized} organizedFunction={scatterRings} unorganizedFunction={organizeRings} unorgButton='Scatter' orgButton='Organize' /> : null}
         </div>
         
     )

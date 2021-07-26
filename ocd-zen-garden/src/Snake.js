@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import useToggle from './hooks/useToggle';
 import { getColor } from './utils';
+import ControlBar from './ControlBar';
 
 function Snake(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -53,7 +54,8 @@ function Snake(props) {
             {boxes.map(box => (
                 <div style={{boxSizing: 'border-box', border: '1.5px solid black', width: `${props.width * .33 * .085}px`, height: `${props.width * .33 * .085}px`, padding: 0, marginTop: '0', marginBottom: '0', marginLeft: `${box.marginLeft}`, backgroundColor: `${box.color}` }}></div>
             ))}
-            <button onClick={isOrganized ? scatterBoxes : () => organizeBoxes(0)}>{isOrganized ? 'Scatter' : 'Organize'}</button>
+            {/* <button onClick={isOrganized ? scatterBoxes : () => organizeBoxes(0)}>{isOrganized ? 'Scatter' : 'Organize'}</button> */}
+            <ControlBar isOrganized={isOrganized} organizedFunction={scatterBoxes} unorganizedFunction={() => organizeBoxes(0)} unorgButton='Scatter' orgButton='Organize' />
         </div>
     )
 }

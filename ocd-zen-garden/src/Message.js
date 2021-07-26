@@ -1,6 +1,7 @@
 import React,  {useState, useEffect, useRef} from 'react';
 import useToggle from './hooks/useToggle';
 import { getColor } from './utils';
+import ControlBar from './ControlBar';
 
 function Message(props){
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -59,7 +60,8 @@ function Message(props){
                     return <span style={{display: 'inline-block', margin: '1rem', fontSize: `${props.width * .33 * .1}px`, transform: `rotate(${letter.tilt})`, color: `${letter.color}`}}>{letter.letter}</span>
                 })}
             </div>
-            <button onClick={isOrganized ? unalignLetters : () => straightenLetters(0)}>{isOrganized ? 'Unalign' : 'Straighten'}</button>
+            {/* <button onClick={isOrganized ? unalignLetters : () => straightenLetters(0)}>{isOrganized ? 'Unalign' : 'Straighten'}</button> */}
+            <ControlBar isOrganized={isOrganized} organizedFunction={unalignLetters} unorganizedFunction={() => straightenLetters(0)} unorgButton='Unalign' orgButton='Straighten' />
         </div>
     )
 }

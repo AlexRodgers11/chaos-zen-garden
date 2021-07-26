@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState} from 'react';
 import Dots from './Dots';
 import useToggle from './hooks/useToggle';
 import { getColor } from './utils';
+import ControlBar from './ControlBar';
 
 function Dominoes(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -73,7 +74,8 @@ function Dominoes(props) {
                     return <span style={{display: 'inline-block', width: '3px', border: '.75px solid black', height: .33 * .55 * props.width, margin: .33 * .02 * props.width, transform: `rotate(${line.tilt})`, backgroundColor: `${line.color}` }}></span>
                 })}
             </div>
-            <button onClick={isOrganized ? tiltLines : () => straightenLines(0)}>{isOrganized ? 'Tilt' : 'Straighten'}</button>
+            {/* <button onClick={isOrganized ? tiltLines : () => straightenLines(0)}>{isOrganized ? 'Tilt' : 'Straighten'}</button> */}
+            <ControlBar isOrganized={isOrganized} organizedFunction={tiltLines} unorganizedFunction={() => straightenLines(0)} unorgButton='Tilt' orgButton='Straighten' />
         </div>
     )
 }
