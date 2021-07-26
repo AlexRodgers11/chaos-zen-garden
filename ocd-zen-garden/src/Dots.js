@@ -6,17 +6,22 @@ function Dots(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [nextIndex, setNextIndex] = useState({id: 0, dir: 'vertical'});
     const [numRows, setNumRows] = useState(5)
-    let startingDotArray = [];
-    for(let i = 0; i < numRows**2; i++) {
-        startingDotArray.push({
-            id: i + 1, 
-            marginLeft: `${props.width * .33 * Math.random() * .05}`,
-            marginTop: `${props.width * .33 * Math.random() * .05}`,
-            color: (getColor(i + 1))
-        })
-    }
 
-    const [dots, setDots] = useState(startingDotArray);
+    const createStartingDotArray = () => {
+        let startingDotArray = [];
+        for(let i = 0; i < numRows**2; i++) {
+            startingDotArray.push({
+                id: i + 1, 
+                marginLeft: `${props.width * .33 * Math.random() * .05}`,
+                marginTop: `${props.width * .33 * Math.random() * .05}`,
+                color: (getColor(i + 1))
+            })
+        }
+        return startingDotArray;
+    }
+    
+
+    const [dots, setDots] = useState(createStartingDotArray());
 
     // const [dots, setDots] = useState([
     //     {id: 1, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(1)}, 
