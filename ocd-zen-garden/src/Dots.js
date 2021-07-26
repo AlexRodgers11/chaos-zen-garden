@@ -6,7 +6,8 @@ import ControlBar from './ControlBar';
 function Dots(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [nextIndex, setNextIndex] = useState({id: 0, dir: 'vertical'});
-    const [numRows, setNumRows] = useState(5)
+    const [numRows, setNumRows] = useState(5);
+    const [speed, setSpeed] = useState(1000);
 
     const createStartingDotArray = () => {
         let startingDotArray = [];
@@ -58,7 +59,7 @@ function Dots(props) {
             if(nextIndex.id < dots.length || nextIndex.dir === 'vertical'){
                 setTimeout(() => {
                     organizeDots(nextIndex.id, nextIndex.dir);
-                }, 200);
+                }, speed * .2);
             }
         } else {firstUpdate.current = false}
     }, [dots])
@@ -75,6 +76,10 @@ function Dots(props) {
     //     }
     //     return dotLines;
     // }
+
+    const handleSetSpeed = time => {
+        setSpeed(time);
+    }
 
     const displayDots = () => {
         let dotLines = []
@@ -135,7 +140,7 @@ function Dots(props) {
                     </p>
                 })}
                 {/* <button onClick={isOrganized ? scatterDots : () => organizeDots(0, 'horizontal')}>{isOrganized ? 'Scatter' : 'Organize'}</button> */}
-                <ControlBar isOrganized={isOrganized} organizedFunction={scatterDots} unorganizedFunction={() => organizeDots(0, 'horizontal')} unorgButton='Scatter' orgButton='Organize' />
+                <ControlBar isOrganized={isOrganized} setSpeed={handleSetSpeed} organizedFunction={scatterDots} unorganizedFunction={() => organizeDots(0, 'horizontal')} unorgButton='Scatter' orgButton='Organize' />
             </div>
         </div>
     )

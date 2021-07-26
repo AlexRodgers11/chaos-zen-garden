@@ -7,6 +7,8 @@ function Message(props){
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [nextIndex, setNextIndex] = useState(0);
     // const [letters, setLetters] = useState(['s', 'e', 'r', 'e', 'n', 'i', 't', 'y']);
+    const [speed, setSpeed] = useState(1000);
+
     const generateTilt = () => {
         let x = Math.floor(Math.random() * 2) === 0 ? -1 : 1;
         let tilt = x * Math.random() * 55;
@@ -22,7 +24,7 @@ function Message(props){
             if(nextIndex < letters.length){
                 setTimeout(() => {
                     straightenLetters(nextIndex);
-                }, 500);
+                }, .5 * speed);
             }
         } else {
             firstUpdate.current = false;
@@ -40,7 +42,7 @@ function Message(props){
         if(idx + 1 === letters.length) {
             setTimeout(() => {
                 toggleIsOrganized();
-            }, 1000)
+            }, speed)
         }
     }
 
@@ -52,6 +54,10 @@ function Message(props){
         toggleIsOrganized();
     }
 
+    const handleSetSpeed = time => {
+        setSpeed(time);
+    }
+
     return (
         <div style={{border: '1px solid black', height: `${props.width * .33}px`}}>
             <p>Message Test</p>
@@ -61,7 +67,7 @@ function Message(props){
                 })}
             </div>
             {/* <button onClick={isOrganized ? unalignLetters : () => straightenLetters(0)}>{isOrganized ? 'Unalign' : 'Straighten'}</button> */}
-            <ControlBar isOrganized={isOrganized} organizedFunction={unalignLetters} unorganizedFunction={() => straightenLetters(0)} unorgButton='Unalign' orgButton='Straighten' />
+            <ControlBar isOrganized={isOrganized} setSpeed={handleSetSpeed} organizedFunction={unalignLetters} unorganizedFunction={() => straightenLetters(0)} unorgButton='Unalign' orgButton='Straighten' />
         </div>
     )
 }
