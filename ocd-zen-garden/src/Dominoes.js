@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState} from 'react';
+import Dots from './Dots';
 import useToggle from './hooks/useToggle';
 import { getColor } from './utils';
 
 function Dominoes(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [nextIdx, setNextIdx] = useState();
+    const [numLines, setNumLines] = useState(10);
 
     const generateTilt = () => {
         let x = Math.floor(Math.random() * 2) === 0 ? -1 : 1;
@@ -12,7 +14,20 @@ function Dominoes(props) {
         return `${tilt}deg`;
     }
 
-    const [lines, setLines] = useState([{id: 1, tilt: generateTilt(), color: getColor(1)}, {id: 2, tilt: generateTilt(), color: getColor(2)}, {id: 3, tilt: generateTilt(), color: getColor(3)}, {id: 4, tilt: generateTilt(), color: getColor(4)}, {id: 5, tilt: generateTilt(), color: getColor(5)}, {id: 6, tilt: generateTilt(), color: getColor(6)}, {id: 7, tilt: generateTilt(), color: getColor(7)}, {id: 8, tilt: generateTilt(), color: getColor(8)}, {id: 9, tilt: generateTilt(), color: getColor(9)}, {id: 10, tilt: generateTilt(), color: getColor(10)}, {id: 11, tilt: generateTilt(), color: getColor(11)}, {id: 12, tilt: generateTilt(), color: getColor(12)}, {id: 13, tilt: generateTilt(), color: getColor(13)}, {id: 14, tilt: generateTilt(), color: getColor(14)}, {id: 15, tilt: generateTilt(), color: getColor(15)}]);
+    const createStartingLinesArray = () => {
+        let startingLineArray = [];
+        for(let i = 0; i < numLines; i++) {
+            startingLineArray.push({
+                id: i + 1,
+                tilt: generateTilt(),
+                color: getColor(i + 1)
+            })
+        }
+        return startingLineArray;
+    }
+
+    const [lines, setLines] = useState(createStartingLinesArray());
+    // const [lines, setLines] = useState([{id: 1, tilt: generateTilt(), color: getColor(1)}, {id: 2, tilt: generateTilt(), color: getColor(2)}, {id: 3, tilt: generateTilt(), color: getColor(3)}, {id: 4, tilt: generateTilt(), color: getColor(4)}, {id: 5, tilt: generateTilt(), color: getColor(5)}, {id: 6, tilt: generateTilt(), color: getColor(6)}, {id: 7, tilt: generateTilt(), color: getColor(7)}, {id: 8, tilt: generateTilt(), color: getColor(8)}, {id: 9, tilt: generateTilt(), color: getColor(9)}, {id: 10, tilt: generateTilt(), color: getColor(10)}, {id: 11, tilt: generateTilt(), color: getColor(11)}, {id: 12, tilt: generateTilt(), color: getColor(12)}, {id: 13, tilt: generateTilt(), color: getColor(13)}, {id: 14, tilt: generateTilt(), color: getColor(14)}, {id: 15, tilt: generateTilt(), color: getColor(15)}]);
 
     const firstUpdate = useRef(false);
     useEffect(() => {
