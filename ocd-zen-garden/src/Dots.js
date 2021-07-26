@@ -5,32 +5,45 @@ import { getColor } from './utils';
 function Dots(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [nextIndex, setNextIndex] = useState({id: 0, dir: 'vertical'});
-    const [dots, setDots] = useState([
-        {id: 1, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(1)}, 
-        {id: 2, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(2)}, 
-        {id: 3, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(3)}, 
-        {id: 4, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(4)}, 
-        {id: 5, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(5)}, 
-        {id: 6, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(6)}, 
-        {id: 7, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(7)}, 
-        {id: 8, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(8)}, 
-        {id: 9, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(9)}, 
-        {id: 10, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(10)}, 
-        {id: 11, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(11)}, 
-        {id: 12, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(12)}, 
-        {id: 13, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(13)}, 
-        {id: 14, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(14)}, 
-        {id: 15, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(15)}, 
-        {id: 16, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(16)}, 
-        {id: 17, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(17)}, 
-        {id: 18, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(18)}, 
-        {id: 19, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(19)}, 
-        {id: 20, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(20)}, 
-        {id: 21, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(21)}, 
-        {id: 22, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(22)}, 
-        {id: 23, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(23)}, 
-        {id: 24, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(14)}, 
-        {id: 25, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(25)}]);
+    const [numRows, setNumRows] = useState(5)
+    let startingDotArray = [];
+    for(let i = 0; i < numRows**2; i++) {
+        startingDotArray.push({
+            id: i + 1, 
+            marginLeft: `${props.width * .33 * Math.random() * .05}`,
+            marginTop: `${props.width * .33 * Math.random() * .05}`,
+            color: (getColor(i + 1))
+        })
+    }
+
+    const [dots, setDots] = useState(startingDotArray);
+
+    // const [dots, setDots] = useState([
+    //     {id: 1, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(1)}, 
+    //     {id: 2, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(2)}, 
+    //     {id: 3, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(3)}, 
+    //     {id: 4, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(4)}, 
+    //     {id: 5, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(5)}, 
+    //     {id: 6, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(6)}, 
+    //     {id: 7, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(7)}, 
+    //     {id: 8, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(8)}, 
+    //     {id: 9, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(9)}, 
+    //     {id: 10, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(10)}, 
+    //     {id: 11, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(11)}, 
+    //     {id: 12, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(12)}, 
+    //     {id: 13, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(13)}, 
+    //     {id: 14, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(14)}, 
+    //     {id: 15, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(15)}, 
+    //     {id: 16, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(16)}, 
+    //     {id: 17, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(17)}, 
+    //     {id: 18, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(18)}, 
+    //     {id: 19, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(19)}, 
+    //     {id: 20, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(20)}, 
+    //     {id: 21, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(21)}, 
+    //     {id: 22, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(22)}, 
+    //     {id: 23, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(23)}, 
+    //     {id: 24, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(14)}, 
+    //     {id: 25, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(25)}]);
 
 
     const firstUpdate = useRef(true);
@@ -44,18 +57,32 @@ function Dots(props) {
         } else {firstUpdate.current = false}
     }, [dots])
     
+    // const displayDots = () => {
+    //     let dotLines = []
+    //     let newLine = []
+    //     for(let k = 0; k < dots.length; k++){
+    //         newLine.push(dots[k]);
+    //         if(newLine.length === 5){
+    //             dotLines.push(newLine);
+    //             newLine = []
+    //         }
+    //     }
+    //     return dotLines;
+    // }
+
     const displayDots = () => {
         let dotLines = []
         let newLine = []
-        for(let k = 0; k < dots.length; k++){
+        for(let k = 0; k < numRows**2; k++){
             newLine.push(dots[k]);
-            if(newLine.length === 5){
+            if(newLine.length === numRows){
                 dotLines.push(newLine);
                 newLine = []
             }
         }
         return dotLines;
     }
+
     const organizeDots = (idx, dir) => {
         let newDots;
         let newDir = dir === 'horizontal' ? 'vertical' : 'horizontal';
