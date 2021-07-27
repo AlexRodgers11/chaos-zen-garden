@@ -83,4 +83,4 @@ const getColor = (idx, palette) => {
 }
 
 
-export { getColor, colors }
+export { getColor, palettes }
