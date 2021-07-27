@@ -16,7 +16,7 @@ function Dots(props) {
                 id: i + 1, 
                 marginLeft: `${props.width * .33 * Math.random() * .05}`,
                 marginTop: `${props.width * .33 * Math.random() * .05}`,
-                color: (getColor(i + 1))
+                color: (getColor(i + 1, 'baseColors'))
             })
         }
         return startingDotArray;

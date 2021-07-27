@@ -22,7 +22,7 @@ function Dominoes(props) {
             startingLineArray.push({
                 id: i + 1,
                 tilt: generateTilt(),
-                color: getColor(i + 1)
+                color: getColor(i + 1, 'baseColors')
             })
         }
         return startingLineArray;

@@ -16,7 +16,7 @@ function Message(props){
         
     }
 
-    const [letters, setLetters] = useState([{id: 1, letter: 's', tilt: generateTilt(), color: getColor(1)}, {id: 2, letter: 'e', tilt: generateTilt(), color: getColor(2)}, {id: 3, letter: 'r', tilt: generateTilt(), color: getColor(3)}, {id: 4, letter: 'e', tilt: generateTilt(), color: getColor(4)}, {id: 5, letter: 'n', tilt: generateTilt(), color: getColor(5)}, {id: 6, letter: 'i', tilt: generateTilt(), color: getColor(6)}, {id: 7, letter: 't', tilt: generateTilt(), color: getColor(7)}, {id: 8, letter: 'y', tilt: generateTilt(), color: getColor(8)}]);
+    const [letters, setLetters] = useState([{id: 1, letter: 's', tilt: generateTilt(), color: getColor(1, 'baseColors')}, {id: 2, letter: 'e', tilt: generateTilt(), color: getColor(2, 'baseColors')}, {id: 3, letter: 'r', tilt: generateTilt(), color: getColor(3, 'baseColors')}, {id: 4, letter: 'e', tilt: generateTilt(), color: getColor(4, 'baseColors')}, {id: 5, letter: 'n', tilt: generateTilt(), color: getColor(5, 'baseColors')}, {id: 6, letter: 'i', tilt: generateTilt(), color: getColor(6, 'baseColors')}, {id: 7, letter: 't', tilt: generateTilt(), color: getColor(7, 'baseColors')}, {id: 8, letter: 'y', tilt: generateTilt(), color: getColor(8, 'baseColors')}]);
 
     let firstUpdate = useRef(true);
     useEffect(() => {
