@@ -5,7 +5,7 @@ import ControlBar from './ControlBar';
 
 function Snake(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
-    const [nextIndex, setNextIndex] = useState(1);
+    const [nextIndex, setNextIndex] = useState(0);
     const [boxes, setBoxes] = useState([{id: 1, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(1, 'baseColors')}, {id: 2, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(2, 'baseColors')}, {id: 3, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(3, 'baseColors')}, {id: 4, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(4, 'baseColors')}, {id: 5, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(5, 'baseColors')}, {id: 6, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(6, 'baseColors')}, {id: 7, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(7, 'baseColors')}]);
     const [speed, setSpeed] = useState(1000);
 
@@ -17,8 +17,12 @@ function Snake(props) {
                     organizeBoxes(nextIndex);
                 }, speed);
             }
-        } else {firstUpdate.current = false}     
-    }, [nextIndex, boxes])
+        } else {
+            firstUpdate.current = false;
+            console.log('firstUpdate changed')
+        }     
+    }, [nextIndex])
+
 
     const organizeBoxes = (idx) => {
         let newBoxes;
@@ -37,6 +41,7 @@ function Snake(props) {
         }
         setBoxes(newBoxes);
         setNextIndex(idx + 1);
+        console.log('setNextIndex just ran')
         if(idx + 1 === boxes.length) setTimeout(() => toggleIsOrganized(), speed)
     }
 
