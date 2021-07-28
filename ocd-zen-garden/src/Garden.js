@@ -19,7 +19,7 @@ function Garden(){
 
     return(
         <div style={{backgroundColor: getColor('base', colorPalette)}} className="Garden">
-            <Snake width={width} className="Snake" />
+            <Snake width={width} className="Snake" palette={colorPalette} />
             <Dots width={width} className="Dots" palette={colorPalette}/>
             <BullsEye width={width} id={1} numRings={10} className="BullsEye" orgIndex={11}/>
             <Message width={width} className="Message" />
