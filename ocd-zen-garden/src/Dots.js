@@ -8,6 +8,8 @@ function Dots(props) {
     const [nextIndex, setNextIndex] = useState({id: 0, dir: 'vertical'});
     const [numRows, setNumRows] = useState(5);
     const [speed, setSpeed] = useState(1000);
+    const [colorPalette, setColorPalette] = useState(props.palette);
+    const [colorUpdating] = useToggle(false);
 
     const createStartingDotArray = () => {
         let startingDotArray = [];
@@ -16,7 +18,7 @@ function Dots(props) {
                 id: i + 1, 
                 marginLeft: `${props.width * .33 * Math.random() * .05}`,
                 marginTop: `${props.width * .33 * Math.random() * .05}`,
-                color: (getColor(i + 1, 'baseColors'))
+                color: (getColor(i + 1, colorPalette))
             })
         }
         return startingDotArray;
@@ -24,6 +26,8 @@ function Dots(props) {
     
 
     const [dots, setDots] = useState(createStartingDotArray());
+
+    
 
     // const [dots, setDots] = useState([
     //     {id: 1, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(1)}, 
@@ -59,11 +63,26 @@ function Dots(props) {
             if(nextIndex.id < dots.length || nextIndex.dir === 'vertical'){
                 setTimeout(() => {
                     organizeDots(nextIndex.id, nextIndex.dir);
-                }, speed * .2);
+                }, speed * .3);
             }
         } else {firstUpdate.current = false}
-    }, [dots])
+    // }, [dots])
+    }, [nextIndex])
     
+    const colorsFirstUpdate = useRef(true)
+    useEffect(() => {
+        if(!colorsFirstUpdate.current) {
+            let newDots = dots.map(dot => {
+                return {...dot, color: getColor(dot.id, props.palette)}
+            });
+            setColorPalette(props.palette);
+            setDots(newDots);
+        } else {
+            colorsFirstUpdate.current = false;
+        }
+        
+    }, [props.palette]);
+
     // const displayDots = () => {
     //     let dotLines = []
     //     let newLine = []
