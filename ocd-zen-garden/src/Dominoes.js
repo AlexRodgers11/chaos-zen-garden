@@ -6,6 +6,7 @@ import ControlBar from './ControlBar';
 
 function Dominoes(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
+    const [colorPalette, setColorPalette] = useState(props.palette);
     const [nextIdx, setNextIdx] = useState();
     const [numLines, setNumLines] = useState(10);
     const [speed, setSpeed] = useState(1000);
@@ -22,7 +23,7 @@ function Dominoes(props) {
             startingLineArray.push({
                 id: i + 1,
                 tilt: generateTilt(),
-                color: getColor(i + 1, 'baseColors')
+                color: getColor(i + 1, colorPalette)
             })
         }
         return startingLineArray;
@@ -31,16 +32,29 @@ function Dominoes(props) {
     const [lines, setLines] = useState(createStartingLinesArray());
     // const [lines, setLines] = useState([{id: 1, tilt: generateTilt(), color: getColor(1)}, {id: 2, tilt: generateTilt(), color: getColor(2)}, {id: 3, tilt: generateTilt(), color: getColor(3)}, {id: 4, tilt: generateTilt(), color: getColor(4)}, {id: 5, tilt: generateTilt(), color: getColor(5)}, {id: 6, tilt: generateTilt(), color: getColor(6)}, {id: 7, tilt: generateTilt(), color: getColor(7)}, {id: 8, tilt: generateTilt(), color: getColor(8)}, {id: 9, tilt: generateTilt(), color: getColor(9)}, {id: 10, tilt: generateTilt(), color: getColor(10)}, {id: 11, tilt: generateTilt(), color: getColor(11)}, {id: 12, tilt: generateTilt(), color: getColor(12)}, {id: 13, tilt: generateTilt(), color: getColor(13)}, {id: 14, tilt: generateTilt(), color: getColor(14)}, {id: 15, tilt: generateTilt(), color: getColor(15)}]);
 
-    const firstUpdate = useRef(false);
+    const firstUpdate = useRef(true);
     useEffect(() => {
-        if(firstUpdate.current && nextIdx < lines.length) {
+        if(!firstUpdate.current && nextIdx < lines.length) {
             setTimeout(() => {
                 straightenLines(nextIdx)
             }, speed)
         } else {
-            firstUpdate.current = true;
+            firstUpdate.current = false;
         }
-    });
+    }, [nextIdx]);
+
+    const colorsFirstUpdate = useRef(true)
+    useEffect(() => {
+        if(!firstUpdate.current) {
+            let newLines = lines.map(line => {
+                return {...line, color: getColor(line.id, props.palette)}
+            });
+            setLines(newLines);
+            setColorPalette(props.palette);
+        } else {
+            firstUpdate.current = false;
+        }
+    }, [props.palette])
 
     const straightenLines = idx => {
         let newLines = lines.map(line => {
