@@ -16,7 +16,21 @@ function Message(props){
         
     }
 
-    const [letters, setLetters] = useState([{id: 1, letter: 's', tilt: generateTilt(), color: getColor(1, 'baseColors')}, {id: 2, letter: 'e', tilt: generateTilt(), color: getColor(2, 'baseColors')}, {id: 3, letter: 'r', tilt: generateTilt(), color: getColor(3, 'baseColors')}, {id: 4, letter: 'e', tilt: generateTilt(), color: getColor(4, 'baseColors')}, {id: 5, letter: 'n', tilt: generateTilt(), color: getColor(5, 'baseColors')}, {id: 6, letter: 'i', tilt: generateTilt(), color: getColor(6, 'baseColors')}, {id: 7, letter: 't', tilt: generateTilt(), color: getColor(7, 'baseColors')}, {id: 8, letter: 'y', tilt: generateTilt(), color: getColor(8, 'baseColors')}]);
+    const [message, setMessage] = useState('Plus Ultra');
+
+    const getLetters = string => {
+        return string.split('').map((letter, idx) => {
+            return {
+                id: idx, 
+                letter: letter,
+                tilt: generateTilt(),
+                color: (getColor(idx, 'baseColors'))
+            }
+        })
+    }
+
+    // const [letters, setLetters] = useState([{id: 1, letter: 's', tilt: generateTilt(), color: getColor(1, 'baseColors')}, {id: 2, letter: 'e', tilt: generateTilt(), color: getColor(2, 'baseColors')}, {id: 3, letter: 'r', tilt: generateTilt(), color: getColor(3, 'baseColors')}, {id: 4, letter: 'e', tilt: generateTilt(), color: getColor(4, 'baseColors')}, {id: 5, letter: 'n', tilt: generateTilt(), color: getColor(5, 'baseColors')}, {id: 6, letter: 'i', tilt: generateTilt(), color: getColor(6, 'baseColors')}, {id: 7, letter: 't', tilt: generateTilt(), color: getColor(7, 'baseColors')}, {id: 8, letter: 'y', tilt: generateTilt(), color: getColor(8, 'baseColors')}]);
+    const [letters, setLetters] = useState(getLetters(message));
 
     let firstUpdate = useRef(true);
     useEffect(() => {
@@ -24,7 +38,7 @@ function Message(props){
             if(nextIndex < letters.length){
                 setTimeout(() => {
                     straightenLetters(nextIndex);
-                }, .5 * speed);
+                }, speed);
             }
         } else {
             firstUpdate.current = false;
@@ -37,8 +51,15 @@ function Message(props){
                 return {...letter, tilt: `0deg`}
             } else return letter;
         });
+        // setLetters(newLetters);
+        if(letters[nextIndex].letter !== ' ') {
+            setNextIndex(idx + 1);
+        } else {
+            setNextIndex(idx + 2);
+            console.log('found a space');
+        }
         setLetters(newLetters);
-        setNextIndex(idx + 1);
+        // setNextIndex(idx + 1);
         if(idx + 1 === letters.length) {
             setTimeout(() => {
                 toggleIsOrganized();
