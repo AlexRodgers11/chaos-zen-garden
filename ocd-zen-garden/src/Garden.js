@@ -22,7 +22,7 @@ function Garden(){
             <Snake width={width} className="Snake" palette={colorPalette} />
             <Dots width={width} className="Dots" palette={colorPalette}/>
             <BullsEye width={width} id={1} numRings={10} className="BullsEye" orgIndex={11} palette={colorPalette}/>
-            <Message width={width} className="Message" />
+            <Message width={width} className="Message" palette={colorPalette}/>
             <Dominoes width={width} className="Dominoes" palette={colorPalette} />
             <select onChange={handleChangePalette} value={colorPalette}>
                 {palettes.map(palette => {

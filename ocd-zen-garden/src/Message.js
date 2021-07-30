@@ -8,6 +8,7 @@ function Message(props){
     const [nextIndex, setNextIndex] = useState(0);
     // const [letters, setLetters] = useState(['s', 'e', 'r', 'e', 'n', 'i', 't', 'y']);
     const [speed, setSpeed] = useState(1000);
+    const [colorPalette, setColorPalette] = useState(props.palette);
 
     const generateTilt = () => {
         let x = Math.floor(Math.random() * 2) === 0 ? -1 : 1;
