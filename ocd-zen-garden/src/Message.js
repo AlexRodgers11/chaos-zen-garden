@@ -44,7 +44,7 @@ function Message(props){
         } else {
             firstUpdate.current = false;
         }
-    }, [letters]);
+    }, [nextIndex]);
     
     const straightenLetters = (idx) => {
         let newLetters = letters.map(letter => {
@@ -52,14 +52,14 @@ function Message(props){
                 return {...letter, tilt: `0deg`}
             } else return letter;
         });
-        // setLetters(newLetters);
-        if(letters[nextIndex].letter !== ' ') {
-            setNextIndex(idx + 1);
-        } else {
-            setNextIndex(idx + 2);
-            console.log('found a space');
-        }
+        // if(letters[nextIndex].letter !== ' ') {
+        //     setNextIndex(idx + 1);
+        // } else {
+        //     setNextIndex(idx + 2);
+        //     console.log('found a space');
+        // }
         setLetters(newLetters);
+        setNextIndex(idx + 1);
         // setNextIndex(idx + 1);
         if(idx + 1 === letters.length) {
             setTimeout(() => {
@@ -67,6 +67,19 @@ function Message(props){
             }, speed)
         }
     }
+
+    let colorFirstUpdate = useRef(true);
+    useEffect(() => {
+        if(!colorFirstUpdate.current) {
+            let newLetters = letters.map(letter => {
+                return {...letter, color: getColor(letter.id, props.palette)}
+            });
+            setLetters(newLetters);
+            setColorPalette(props.palette);
+        } else {
+            colorFirstUpdate.current = false;
+        }
+    }, [props.palette]);
 
     const unalignLetters = () => {
         let newLetters = letters.map(letter => {
