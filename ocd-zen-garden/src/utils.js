@@ -59,10 +59,40 @@ const colors = {
             name: 'tyrianPurple',
             color: '#561643'
         }       
+    },
+    electric: {
+        base: {
+            name: 'black', 
+            color: '#000000'
+        }, 
+        1: {
+            name: '',
+            color: '#fffc00'
+        },
+        2: {
+            name: '',
+            color: '#3f00ff'
+        },
+        3: {
+            name: '',
+            color: '#00FF00'
+        },
+        4: {
+            name: '',
+            color: '#55ffff'
+        },
+        5: {
+            name: '',
+            color: '#ff009f'
+        },
+        6: {
+            name: '',
+            color: '#ff073a'
+        }       
     }
 }
 
-const palettes = ['baseColors', 'testColors1'];
+const palettes = ['baseColors', 'testColors1', 'electric'];
 
 const getColor = (idx, palette) => {
     if(idx === 'base') {
