@@ -81,6 +81,12 @@ function Message(props){
         }
     }, [props.palette]);
 
+    const handleChangeText = text => {
+        console.log(text)
+        setMessage(text);
+        setLetters(getLetters(text));
+    }
+
     const unalignLetters = () => {
         let newLetters = letters.map(letter => {
             return {...letter, tilt: generateTilt()};
@@ -102,7 +108,7 @@ function Message(props){
                 })}
             </div>
             {/* <button onClick={isOrganized ? unalignLetters : () => straightenLetters(0)}>{isOrganized ? 'Unalign' : 'Straighten'}</button> */}
-            <ControlBar isOrganized={isOrganized} setSpeed={handleSetSpeed} organizedFunction={unalignLetters} unorganizedFunction={() => straightenLetters(0)} unorgButton='Unalign' orgButton='Straighten' />
+            <ControlBar isOrganized={isOrganized} text="Enter your own text" textValue={message} changeText={handleChangeText} setSpeed={handleSetSpeed} organizedFunction={unalignLetters} unorganizedFunction={() => straightenLetters(0)} unorgButton='Unalign' orgButton='Straighten' />
         </div>
     )
 }
