@@ -4,6 +4,7 @@ import { getColor } from './utils';
 import ControlBar from './ControlBar';
 import { Howl, Howler } from 'howler';
 import Test from './assets/test2.mp3';
+import Blip from './assets/blip.wav';
 import { v4 as uuidv4 } from 'uuid';
 
 const audioClips = [
@@ -64,7 +65,7 @@ function Snake(props) {
                 }
             });
         }
-        soundPlay(Test);
+        soundPlay(Blip);
         setBoxes(newBoxes);
         setNextIndex(idx + 1);
         console.log('setNextIndex just ran')
@@ -94,7 +95,7 @@ function Snake(props) {
                 )
             })}
             {/* <button onClick={isOrganized ? scatterBoxes : () => organizeBoxes(0)}>{isOrganized ? 'Scatter' : 'Organize'}</button> */}
-            <ControlBar isOrganized={isOrganized} setSpeed={handleSetSpeed} organizedFunction={scatterBoxes} unorganizedFunction={() => organizeBoxes(1)} unorgButton='Scatter' orgButton='Organize' />
+            <ControlBar isOrganized={isOrganized} setSpeed={handleSetSpeed} organizedFunction={scatterBoxes} unorganizedFunction={() => organizeBoxes(0)} unorgButton='Scatter' orgButton='Organize' />
         </div>
     )
 }
