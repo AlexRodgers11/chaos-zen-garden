@@ -3,6 +3,8 @@ import useToggle from './hooks/useToggle';
 import { getColor } from './utils';
 import ControlBar from './ControlBar';
 import { v4 as uuidv4 } from 'uuid';
+import { Howl } from 'howler';
+import Ding from './assets/ding.wav';
 
 function Message(props){
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -10,6 +12,16 @@ function Message(props){
     // const [letters, setLetters] = useState(['s', 'e', 'r', 'e', 'n', 'i', 't', 'y']);
     const [speed, setSpeed] = useState(1000);
     const [colorPalette, setColorPalette] = useState(props.palette);
+    
+    const soundPlay = src => {
+        const sound = new Howl({
+            src: src,
+            sprite: {
+                ding: [0, 350]
+            }
+        });
+        sound.play('ding');
+    }
 
     const generateTilt = () => {
         let x = Math.floor(Math.random() * 2) === 0 ? -1 : 1;
@@ -59,6 +71,7 @@ function Message(props){
         //     setNextIndex(idx + 2);
         //     console.log('found a space');
         // }
+        soundPlay(Ding);
         setLetters(newLetters);
         setNextIndex(idx + 1);
         // setNextIndex(idx + 1);

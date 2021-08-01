@@ -3,6 +3,8 @@ import Dots from './Dots';
 import useToggle from './hooks/useToggle';
 import { getColor } from './utils';
 import ControlBar from './ControlBar';
+import { Howl } from 'howler';
+import Click from './assets/click.wav';
 import { v4 as uuidv4 } from 'uuid';
 
 function Dominoes(props) {
@@ -12,6 +14,16 @@ function Dominoes(props) {
     const [numLines, setNumLines] = useState(10);
     const [speed, setSpeed] = useState(1000);
 
+    const soundPlay = src => {
+        const sound = new Howl({
+            src: src,
+            sprite: {
+                click: [1050, 1000]
+            }
+        });
+        sound.play('click');
+    }
+    
     const generateTilt = () => {
         let x = Math.floor(Math.random() * 2) === 0 ? -1 : 1;
         let tilt = x * Math.random() * 4;
@@ -65,6 +77,7 @@ function Dominoes(props) {
                 return line;
             }
         });
+        soundPlay(Click);
         setLines(newLines);
         setNextIdx(idx + 1);
         if(idx + 1 === lines.length) {

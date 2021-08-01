@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import useToggle from './hooks/useToggle';
 import { getColor } from './utils';
 import ControlBar from './ControlBar';
+import { Howl } from 'howler';
+import Whoop from './assets/whoop.wav';
 
 function BullsEye(props) {
     const getMargin = () => {
@@ -14,6 +16,16 @@ function BullsEye(props) {
     const [marginTop, setMarginTop] = useState(props.id > 1 ? getMargin() : '0');
     const [speed, setSpeed] = useState(1000);
     const [colorPalette, setColorPalette] = useState(props.palette);
+
+    const soundPlay = src => {
+        const sound = new Howl({
+            src: src,
+            sprite: {
+                whoop: [0, 400]
+            }
+        });
+        sound.play('whoop');
+    }
 
     let firstUpdate = useRef(true);
     useEffect(() => {
@@ -35,6 +47,9 @@ function BullsEye(props) {
 
     useEffect(() => {
         if(props.orgIndex === props.id && !isOrganized) {
+            if(orgIndex !== props.numRings) {
+                soundPlay(Whoop);
+            }
             setMarginLeft(`${((props.width * .33 * .55 / props.numRings)) /2 -1}px`);
             setMarginTop(`${((props.width * .33 * .55 / props.numRings)) /2 -1}px`);
         } else if (props.isOrganized){

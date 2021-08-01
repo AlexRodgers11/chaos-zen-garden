@@ -2,7 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import useToggle from './hooks/useToggle';
 import { getColor } from './utils';
 import ControlBar from './ControlBar';
+import { Howl } from 'howler';
 import { v4 as uuidv4 } from 'uuid';
+import Whoosh from './assets/whoosh.wav';
 
 function Dots(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -11,6 +13,16 @@ function Dots(props) {
     const [speed, setSpeed] = useState(1000);
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [colorUpdating] = useToggle(false);
+
+    const soundPlay = src => {
+        const sound = new Howl({
+            src: src,
+            sprite: {
+                whoosh: [3500, 450]
+            }
+        });
+        sound.play('whoosh');
+    }
 
     const createStartingDotArray = () => {
         let startingDotArray = [];
@@ -134,7 +146,8 @@ function Dots(props) {
                     return dot
                 }
             });
-        }
+        };
+        soundPlay(Whoosh);
         setDots(newDots);
         setNextIndex({id: newIdx, dir: newDir});
         if(idx + 1 === dots.length && dir === 'horizontal') setTimeout(() => toggleIsOrganized(), 1000)
