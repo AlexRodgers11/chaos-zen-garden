@@ -3,6 +3,7 @@ import Dots from './Dots';
 import useToggle from './hooks/useToggle';
 import { getColor } from './utils';
 import ControlBar from './ControlBar';
+import { v4 as uuidv4 } from 'uuid';
 
 function Dominoes(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -90,7 +91,8 @@ function Dominoes(props) {
             Dominoes Test
             <div>
                 {lines.map(line => {
-                    return <span style={{display: 'inline-block', width: '3px', border: '.75px solid black', height: .33 * .55 * props.width, margin: .33 * .02 * props.width, transform: `rotate(${line.tilt})`, backgroundColor: `${line.color}` }}></span>
+                    let lineKey = uuidv4();
+                    return <span key={lineKey} style={{display: 'inline-block', width: '3px', border: '.75px solid black', height: .33 * .55 * props.width, margin: .33 * .02 * props.width, transform: `rotate(${line.tilt})`, backgroundColor: `${line.color}` }}></span>
                 })}
             </div>
             {/* <button onClick={isOrganized ? tiltLines : () => straightenLines(0)}>{isOrganized ? 'Tilt' : 'Straighten'}</button> */}

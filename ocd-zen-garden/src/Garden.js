@@ -8,6 +8,7 @@ import BullsEye from './BullsEye';
 import Message from './Message';
 import Dominoes from './Dominoes';
 import './Garden.css';
+import { v4 as uuidv4 } from 'uuid';
 
 function Garden(){
     let width = useCurrentWidth();
@@ -26,7 +27,8 @@ function Garden(){
             <Dominoes width={width} className="Dominoes" palette={colorPalette} />
             <select onChange={handleChangePalette} value={colorPalette}>
                 {palettes.map(palette => {
-                    return <option value={palette}>{palette}</option>
+                    let paletteKey = uuidv4();
+                    return <option key={paletteKey} value={palette}>{palette}</option>
                 })}
             </select>
         </div>

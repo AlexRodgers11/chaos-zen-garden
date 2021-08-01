@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import useToggle from './hooks/useToggle';
 import { getColor } from './utils';
 import ControlBar from './ControlBar';
+import { v4 as uuidv4 } from 'uuid';
 
 function Dots(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -152,9 +153,11 @@ function Dots(props) {
             <p>Dots Test</p>
             <div style={{margin: '0 auto'}}>
                 {displayDots().map(dotLine => {
-                    return <p style={{marginBlockEnd: 0, marginBlockStart: 0, padding: 0, marginBottom: 0, marginTop: 0}}>
+                    let dotLineKey =uuidv4();
+                    return <p key={dotLineKey} style={{marginBlockEnd: 0, marginBlockStart: 0, padding: 0, marginBottom: 0, marginTop: 0}}>
                         {dotLine.map(dot => {
-                            return <span style={{display: 'inline-block', textAlign: 'left', padding: '0px', width: `${props.width * .33 * .10}px`, height: `${props.width * .33 * .10}px`, marginBottom: '0'}}><span style={{display: 'block', border: '1px solid black', borderRadius: '50%', width: `${props.width * .33 * .05}px`, height: `${props.width * .33 * .05}px`, marginLeft: `${dot.marginLeft}px`, marginTop: `${dot.marginTop}px`, backgroundColor: `${dot.color}`}}></span></span>
+                            let dotKey = uuidv4();
+                            return <span key={dotKey} style={{display: 'inline-block', textAlign: 'left', padding: '0px', width: `${props.width * .33 * .10}px`, height: `${props.width * .33 * .10}px`, marginBottom: '0'}}><span style={{display: 'block', border: '1px solid black', borderRadius: '50%', width: `${props.width * .33 * .05}px`, height: `${props.width * .33 * .05}px`, marginLeft: `${dot.marginLeft}px`, marginTop: `${dot.marginTop}px`, backgroundColor: `${dot.color}`}}></span></span>
                         })}
                     </p>
                 })}

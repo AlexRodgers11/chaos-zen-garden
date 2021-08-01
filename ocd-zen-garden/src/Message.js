@@ -2,6 +2,7 @@ import React,  {useState, useEffect, useRef} from 'react';
 import useToggle from './hooks/useToggle';
 import { getColor } from './utils';
 import ControlBar from './ControlBar';
+import { v4 as uuidv4 } from 'uuid';
 
 function Message(props){
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -104,7 +105,8 @@ function Message(props){
             <p>Message Test</p>
             <div>
                 {letters.map(letter => {
-                    return <span style={{display: 'inline-block', margin: '1rem', fontSize: `${props.width * .33 * .1}px`, transform: `rotate(${letter.tilt})`, color: `${letter.color}`}}>{letter.letter}</span>
+                    let letterKey = uuidv4();
+                    return <span key={letterKey} style={{display: 'inline-block', margin: '1rem', fontSize: `${props.width * .33 * .1}px`, transform: `rotate(${letter.tilt})`, color: `${letter.color}`}}>{letter.letter}</span>
                 })}
             </div>
             {/* <button onClick={isOrganized ? unalignLetters : () => straightenLetters(0)}>{isOrganized ? 'Unalign' : 'Straighten'}</button> */}

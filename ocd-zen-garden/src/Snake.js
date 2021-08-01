@@ -4,6 +4,7 @@ import { getColor } from './utils';
 import ControlBar from './ControlBar';
 import { Howl, Howler } from 'howler';
 import Test from './assets/test2.mp3';
+import { v4 as uuidv4 } from 'uuid';
 
 const audioClips = [
     {sound: Test, label: 'test'}
@@ -31,7 +32,6 @@ function Snake(props) {
             }
         } else {
             firstUpdate.current = false;
-            console.log('firstUpdate changed')
         }     
     }, [nextIndex]);
 
@@ -87,9 +87,12 @@ function Snake(props) {
     return (
         <div style={{width: '100%', border: '1px solid black'}}>
             <p>Snake Test</p>
-            {boxes.map(box => (
-                <div style={{boxSizing: 'border-box', border: '1.5px solid black', width: `${props.width * .33 * .085}px`, height: `${props.width * .33 * .085}px`, padding: 0, marginTop: '0', marginBottom: '0', marginLeft: `${box.marginLeft}`, backgroundColor: `${box.color}` }}></div>
-            ))}
+            {boxes.map(box => {
+                let boxKey = uuidv4();
+                return (
+                    <div key={boxKey} style={{boxSizing: 'border-box', border: '1.5px solid black', width: `${props.width * .33 * .085}px`, height: `${props.width * .33 * .085}px`, padding: 0, marginTop: '0', marginBottom: '0', marginLeft: `${box.marginLeft}`, backgroundColor: `${box.color}` }}></div>
+                )
+            })}
             {/* <button onClick={isOrganized ? scatterBoxes : () => organizeBoxes(0)}>{isOrganized ? 'Scatter' : 'Organize'}</button> */}
             <ControlBar isOrganized={isOrganized} setSpeed={handleSetSpeed} organizedFunction={scatterBoxes} unorganizedFunction={() => organizeBoxes(1)} unorgButton='Scatter' orgButton='Organize' />
         </div>
