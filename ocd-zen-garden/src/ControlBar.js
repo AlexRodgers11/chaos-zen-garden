@@ -31,7 +31,7 @@ function ControlBar(props) {
                 </select>
             </span>
             <span>
-                <button onClick={props.isOrganized ? props.organizedFunction : props.unorganizedFunction}>{props.isOrganized ? props.unorgButton : props.orgButton}</button>
+                <button disabled={props.isOrganizing} onClick={props.isOrganized ? props.organizedFunction : props.unorganizedFunction}>{props.isOrganized ? props.unorgButton : props.orgButton}</button>
             </span>
         </div>
     )

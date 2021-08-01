@@ -8,6 +8,7 @@ import Whoosh from './assets/whoosh.wav';
 
 function Dots(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
+    const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [nextIndex, setNextIndex] = useState({id: 0, dir: 'vertical'});
     const [numRows, setNumRows] = useState(5);
     const [speed, setSpeed] = useState(1000);
@@ -127,6 +128,9 @@ function Dots(props) {
     }
 
     const organizeDots = (idx, dir) => {
+        if(idx === 0 && dir === 'horizontal') {
+            toggleIsOrganizing();
+        }
         let newDots;
         let newDir = dir === 'horizontal' ? 'vertical' : 'horizontal';
         let newIdx = dir === 'horizontal' ? idx : idx + 1
@@ -150,7 +154,10 @@ function Dots(props) {
         soundPlay(Whoosh);
         setDots(newDots);
         setNextIndex({id: newIdx, dir: newDir});
-        if(idx + 1 === dots.length && dir === 'horizontal') setTimeout(() => toggleIsOrganized(), 1000)
+        if(idx + 1 === dots.length && dir === 'horizontal') setTimeout(() => {
+            toggleIsOrganized();
+            toggleIsOrganizing();
+        }, 1000)
     }
 
     const scatterDots = () => {
@@ -158,7 +165,8 @@ function Dots(props) {
             return {...dot, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`}
         });
         setDots(newDots);
-        toggleIsOrganized()
+        toggleIsOrganized();
+        toggleIsOrganizing();
     }
 
     return (
@@ -175,7 +183,7 @@ function Dots(props) {
                     </p>
                 })}
                 {/* <button onClick={isOrganized ? scatterDots : () => organizeDots(0, 'horizontal')}>{isOrganized ? 'Scatter' : 'Organize'}</button> */}
-                <ControlBar isOrganized={isOrganized} setSpeed={handleSetSpeed} organizedFunction={scatterDots} unorganizedFunction={() => organizeDots(0, 'horizontal')} unorgButton='Scatter' orgButton='Organize' />
+                <ControlBar isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} organizedFunction={scatterDots} unorganizedFunction={() => organizeDots(0, 'horizontal')} unorgButton='Scatter' orgButton='Organize' />
             </div>
         </div>
     )

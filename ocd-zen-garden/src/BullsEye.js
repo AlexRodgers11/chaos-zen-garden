@@ -11,7 +11,10 @@ function BullsEye(props) {
     };    
 
     const [isOrganized, toggleIsOrganized] = useToggle(false);
+    const [isOrganizing, toggleIsOrganizing] = useToggle(false);
+    // const [orgIndex, setOrgIndex] = useState(props.numRings + 1);
     const [orgIndex, setOrgIndex] = useState(props.numRings + 1);
+
     const [marginLeft, setMarginLeft] = useState(props.id > 1 ? getMargin() : '0');
     const [marginTop, setMarginTop] = useState(props.id > 1 ? getMargin() : '0');
     const [speed, setSpeed] = useState(1000);
@@ -37,6 +40,7 @@ function BullsEye(props) {
                     }
                     else if(orgIndex === 2) {
                         toggleIsOrganized();
+                        toggleIsOrganizing();
                     }
                 }, speed)
             }
@@ -72,11 +76,14 @@ function BullsEye(props) {
     }, [props.palette])
 
     const organizeRings = () => {
+        if(orgIndex === props.numRings + 1) {
+            toggleIsOrganizing();
+        }
         setOrgIndex(orgIndex - 1);
     }
 
     const scatterRings = () => {
-        setOrgIndex(props.numRings);
+        setOrgIndex(props.numRings + 1);
         setTimeout(() => {
             toggleIsOrganized();
         }, 0)
@@ -96,7 +103,7 @@ function BullsEye(props) {
                 
             </div>
             {/* {props.id === 1 ? <button onClick={isOrganized ? scatterRings : organizeRings} >{isOrganized ? 'Scatter' : 'Organize'}</button> : null} */}
-            {props.id === 1 ? <ControlBar isOrganized={isOrganized} setSpeed={handleSetSpeed} organizedFunction={scatterRings} unorganizedFunction={organizeRings} unorgButton='Scatter' orgButton='Organize' /> : null}
+            {props.id === 1 ? <ControlBar isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} organizedFunction={scatterRings} unorganizedFunction={organizeRings} unorgButton='Scatter' orgButton='Organize' /> : null}
         </div>
         
     )

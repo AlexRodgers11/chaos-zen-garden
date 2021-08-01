@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 function Dominoes(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
+    const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [nextIdx, setNextIdx] = useState();
     const [numLines, setNumLines] = useState(10);
@@ -70,6 +71,9 @@ function Dominoes(props) {
     }, [props.palette])
 
     const straightenLines = idx => {
+        if(idx === 0) {
+            toggleIsOrganizing();
+        }
         let newLines = lines.map(line => {
             if(lines[idx].id === line.id) {
                 return {...line, tilt: '0deg'}
@@ -82,7 +86,8 @@ function Dominoes(props) {
         setNextIdx(idx + 1);
         if(idx + 1 === lines.length) {
             setTimeout(() => {
-                toggleIsOrganized()
+                toggleIsOrganized();
+                toggleIsOrganizing();
             }, speed);
         }
     }
@@ -109,7 +114,7 @@ function Dominoes(props) {
                 })}
             </div>
             {/* <button onClick={isOrganized ? tiltLines : () => straightenLines(0)}>{isOrganized ? 'Tilt' : 'Straighten'}</button> */}
-            <ControlBar isOrganized={isOrganized} setSpeed={handleSetSpeed} organizedFunction={tiltLines} unorganizedFunction={() => straightenLines(0)} unorgButton='Tilt' orgButton='Straighten' />
+            <ControlBar isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} organizedFunction={tiltLines} unorganizedFunction={() => straightenLines(0)} unorgButton='Tilt' orgButton='Straighten' />
         </div>
     )
 }

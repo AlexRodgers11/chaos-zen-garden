@@ -8,6 +8,7 @@ import Ding from './assets/ding.wav';
 
 function Message(props){
     const [isOrganized, toggleIsOrganized] = useToggle(false);
+    const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [nextIndex, setNextIndex] = useState(0);
     // const [letters, setLetters] = useState(['s', 'e', 'r', 'e', 'n', 'i', 't', 'y']);
     const [speed, setSpeed] = useState(1000);
@@ -108,6 +109,9 @@ function Message(props){
     // }
 
     const straightenLetters = (idx) => {
+        if(idx === 0) {
+            toggleIsOrganizing();
+        }
         let newLetters = letters.map(letter => {
             if(letter.id === letters[idx].id) {
                 return {...letter, tilt: `0deg`}
@@ -128,6 +132,7 @@ function Message(props){
         } else {
             setTimeout(() => {
                 toggleIsOrganized();
+                toggleIsOrganizing();
             }, speed)
         }
     }
@@ -176,7 +181,7 @@ function Message(props){
                 })}
             </div>
             {/* <button onClick={isOrganized ? unalignLetters : () => straightenLetters(0)}>{isOrganized ? 'Unalign' : 'Straighten'}</button> */}
-            <ControlBar isOrganized={isOrganized} text="Enter your own text" textValue={message} changeText={handleChangeText} setSpeed={handleSetSpeed} organizedFunction={unalignLetters} unorganizedFunction={() => straightenLetters(0)} unorgButton='Unalign' orgButton='Straighten' />
+            <ControlBar isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} changeText={handleChangeText} setSpeed={handleSetSpeed} organizedFunction={unalignLetters} unorganizedFunction={() => straightenLetters(0)} unorgButton='Unalign' orgButton='Straighten' />
         </div>
     )
 }
