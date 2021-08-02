@@ -166,7 +166,6 @@ function Dots(props) {
         });
         setDots(newDots);
         toggleIsOrganized();
-        toggleIsOrganizing();
     }
 
     return (
