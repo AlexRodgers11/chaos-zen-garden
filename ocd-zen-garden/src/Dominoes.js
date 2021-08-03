@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState} from 'react';
 import Dots from './Dots';
 import useToggle from './hooks/useToggle';
-import { getColor } from './utils';
+import { getColor, getSound } from './utils';
 import ControlBar from './ControlBar';
 import { Howl } from 'howler';
-import Click from './assets/click.wav';
+// import Click from './assets/click.wav';
 import { v4 as uuidv4 } from 'uuid';
 
 function Dominoes(props) {
@@ -14,15 +14,24 @@ function Dominoes(props) {
     const [nextIdx, setNextIdx] = useState();
     const [numLines, setNumLines] = useState(10);
     const [speed, setSpeed] = useState(1000);
+    const [sound, setSound] = useState(getSound('click'));
 
-    const soundPlay = src => {
+    // const soundPlay = src => {
+    //     const sound = new Howl({
+    //         src: src,
+    //         sprite: {
+    //             click: [1050, 1000]
+    //         }
+    //     });
+    //     sound.play('click');
+    // }
+
+    const soundPlay = soundObj => {
         const sound = new Howl({
-            src: src,
-            sprite: {
-                click: [1050, 1000]
-            }
+            src: soundObj.src,
+            sprite: soundObj.sprite
         });
-        sound.play('click');
+        sound.play(soundObj.spriteName);
     }
     
     const generateTilt = () => {
@@ -81,7 +90,7 @@ function Dominoes(props) {
                 return line;
             }
         });
-        soundPlay(Click);
+        soundPlay(sound);
         setLines(newLines);
         setNextIdx(idx + 1);
         if(idx + 1 === lines.length) {
@@ -104,6 +113,10 @@ function Dominoes(props) {
         setSpeed(time);
     }
 
+    const handleSetSound = sound => {
+        setSound(getSound(sound));
+    }
+
     return (
         <div style={{border: '1px solid black'}}>
             Dominoes Test
@@ -114,7 +127,7 @@ function Dominoes(props) {
                 })}
             </div>
             {/* <button onClick={isOrganized ? tiltLines : () => straightenLines(0)}>{isOrganized ? 'Tilt' : 'Straighten'}</button> */}
-            <ControlBar isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} organizedFunction={tiltLines} unorganizedFunction={() => straightenLines(0)} unorgButton='Tilt' orgButton='Straighten' />
+            <ControlBar isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='click' organizedFunction={tiltLines} unorganizedFunction={() => straightenLines(0)} unorgButton='Tilt' orgButton='Straighten' />
         </div>
     )
 }

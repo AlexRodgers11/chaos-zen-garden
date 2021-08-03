@@ -1,3 +1,9 @@
+import Ding from './assets/ding.wav';
+import Whoop from './assets/whoop.wav';
+import Whoosh from './assets/whoosh.wav';
+import Click from './assets/click.wav';
+import Blip from './assets/blip.wav';
+
 const colors = {
     baseColors: {
         base: {
@@ -112,5 +118,22 @@ const getColor = (idx, palette) => {
     }
 }
 
+const getSound = sound => {
+    switch(sound) {
+        case 'ding':
+            return {src: Ding, sprite: {ding: [0, 350]}, spriteName: 'ding'};
+        case 'whoosh':
+            return {src: Whoosh, sprite: {whoosh: [3500, 450]}, spriteName: 'whoosh'}
+        case 'whoop':
+            return {src: Whoop, sprite: {whoop: [0, 400]}, spriteName: 'whoop'};
+        case 'click':
+            return {src: Click, sprite: {click: [1050, 1000]}, spriteName: 'click'};
+        case 'blip':
+            return {src: Blip, sprite: {click: [0, 1000]}, spriteName: 'click'};
+        default:
+            return {src: Click, sprite: {click: [1050, 1000]}, spriteName: 'click'};
+    }
+}
 
-export { getColor, palettes }
+
+export { getColor, palettes, getSound }

@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import useToggle from './hooks/useToggle';
-import { getColor } from './utils';
+import { getColor, getSound } from './utils';
 import ControlBar from './ControlBar';
 // import { Howl, Howler } from 'howler';
 import { Howl } from 'howler';
 // import Test from './assets/test2.mp3';
-import Blip from './assets/blip.wav';
+// import Blip from './assets/blip.wav';
 import { v4 as uuidv4 } from 'uuid';
 
 // const audioClips = [
@@ -19,10 +19,19 @@ function Snake(props) {
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [boxes, setBoxes] = useState([{id: 1, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(1, 'baseColors')}, {id: 2, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(2, 'baseColors')}, {id: 3, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(3, 'baseColors')}, {id: 4, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(4, 'baseColors')}, {id: 5, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(5, 'baseColors')}, {id: 6, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(6, 'baseColors')}, {id: 7, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(7, 'baseColors')}]);
     const [speed, setSpeed] = useState(1000);
+    const [sound, setSound] = useState(getSound('blip'));
 
-    const soundPlay = src => {
-        const sound = new Howl({src});
-        sound.play();
+    // const soundPlay = src => {
+    //     const sound = new Howl({src});
+    //     sound.play();
+    // }
+
+    const soundPlay = soundObj => {
+        const sound = new Howl({
+            src: soundObj.src,
+            sprite: soundObj.sprite
+        });
+        sound.play(soundObj.spriteName);
     }
 
     const firstUpdate = useRef(true);
@@ -70,7 +79,7 @@ function Snake(props) {
                 }
             });
         }
-        soundPlay(Blip);
+        soundPlay(sound);
         setBoxes(newBoxes);
         setNextIndex(idx + 1);
         console.log('setNextIndex just ran')
@@ -93,6 +102,10 @@ function Snake(props) {
         setSpeed(time);
     }
 
+    const handleSetSound = sound => {
+        setSound(getSound(sound));
+    }
+
     return (
         <div style={{width: '100%', border: '1px solid black'}}>
             <p>Snake Test</p>
@@ -103,7 +116,7 @@ function Snake(props) {
                 )
             })}
             {/* <button onClick={isOrganized ? scatterBoxes : () => organizeBoxes(0)}>{isOrganized ? 'Scatter' : 'Organize'}</button> */}
-            <ControlBar isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} organizedFunction={scatterBoxes} unorganizedFunction={() => organizeBoxes(0)} unorgButton='Scatter' orgButton='Organize' />
+            <ControlBar isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='blip' organizedFunction={scatterBoxes} unorganizedFunction={() => organizeBoxes(0)} unorgButton='Scatter' orgButton='Organize' />
         </div>
     )
 }

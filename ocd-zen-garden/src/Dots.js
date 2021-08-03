@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import useToggle from './hooks/useToggle';
-import { getColor } from './utils';
+import { getColor, getSound } from './utils';
 import ControlBar from './ControlBar';
 import { Howl } from 'howler';
 import { v4 as uuidv4 } from 'uuid';
-import Whoosh from './assets/whoosh.wav';
+// import Whoosh from './assets/whoosh.wav';
 
 function Dots(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -12,17 +12,26 @@ function Dots(props) {
     const [nextIndex, setNextIndex] = useState({id: 0, dir: 'vertical'});
     const [numRows, setNumRows] = useState(5);
     const [speed, setSpeed] = useState(1000);
+    const [sound, setSound] = useState(getSound('whoosh'));
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [colorUpdating] = useToggle(false);
 
-    const soundPlay = src => {
+    // const soundPlay = src => {
+    //     const sound = new Howl({
+    //         src: src,
+    //         sprite: {
+    //             whoosh: [3500, 450]
+    //         }
+    //     });
+    //     sound.play('whoosh');
+    // }
+
+    const soundPlay = soundObj => {
         const sound = new Howl({
-            src: src,
-            sprite: {
-                whoosh: [3500, 450]
-            }
+            src: soundObj.src,
+            sprite: soundObj.sprite
         });
-        sound.play('whoosh');
+        sound.play(soundObj.spriteName);
     }
 
     const createStartingDotArray = () => {
@@ -114,6 +123,10 @@ function Dots(props) {
         setSpeed(time);
     }
 
+    const handleSetSound = sound => {
+        setSound(getSound(sound));
+    }
+
     const displayDots = () => {
         let dotLines = []
         let newLine = []
@@ -151,7 +164,7 @@ function Dots(props) {
                 }
             });
         };
-        soundPlay(Whoosh);
+        soundPlay(sound);
         setDots(newDots);
         setNextIndex({id: newIdx, dir: newDir});
         if(idx + 1 === dots.length && dir === 'horizontal') setTimeout(() => {
@@ -182,7 +195,7 @@ function Dots(props) {
                     </p>
                 })}
                 {/* <button onClick={isOrganized ? scatterDots : () => organizeDots(0, 'horizontal')}>{isOrganized ? 'Scatter' : 'Organize'}</button> */}
-                <ControlBar isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} organizedFunction={scatterDots} unorganizedFunction={() => organizeDots(0, 'horizontal')} unorgButton='Scatter' orgButton='Organize' />
+                <ControlBar isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='whoosh' organizedFunction={scatterDots} unorganizedFunction={() => organizeDots(0, 'horizontal')} unorgButton='Scatter' orgButton='Organize' />
             </div>
         </div>
     )

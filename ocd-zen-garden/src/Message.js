@@ -1,10 +1,10 @@
 import React,  {useState, useEffect, useRef} from 'react';
 import useToggle from './hooks/useToggle';
-import { getColor } from './utils';
+import { getColor, getSound } from './utils';
 import ControlBar from './ControlBar';
 import { v4 as uuidv4 } from 'uuid';
 import { Howl } from 'howler';
-import Ding from './assets/ding.wav';
+// import Ding from './assets/ding.wav';
 
 function Message(props){
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -12,16 +12,25 @@ function Message(props){
     const [nextIndex, setNextIndex] = useState(0);
     // const [letters, setLetters] = useState(['s', 'e', 'r', 'e', 'n', 'i', 't', 'y']);
     const [speed, setSpeed] = useState(1000);
+    const [sound, setSound] = useState(getSound('ding'));
     const [colorPalette, setColorPalette] = useState(props.palette);
     
-    const soundPlay = src => {
+    // const soundPlay = src => {
+    //     const sound = new Howl({
+    //         src: src,
+    //         sprite: {
+    //             ding: [0, 350]
+    //         }
+    //     });
+    //     sound.play('ding');
+    // }
+
+    const soundPlay = soundObj => {
         const sound = new Howl({
-            src: src,
-            sprite: {
-                ding: [0, 350]
-            }
+            src: soundObj.src,
+            sprite: soundObj.sprite
         });
-        sound.play('ding');
+        sound.play(soundObj.spriteName);
     }
 
     const generateTilt = () => {
@@ -117,7 +126,7 @@ function Message(props){
                 return {...letter, tilt: `0deg`}
             } else return letter;
         });
-        soundPlay(Ding);
+        soundPlay(sound);
         setLetters(newLetters);
         if(idx + 1 !== letters.length) {
             if(nextIndex === letters.length) {
@@ -171,6 +180,10 @@ function Message(props){
         setSpeed(time);
     }
 
+    const handleSetSound = sound => {
+        setSound(getSound(sound));
+    }
+
     return (
         <div style={{border: '1px solid black', height: `${props.width * .33}px`}}>
             <p>Message Test</p>
@@ -181,7 +194,7 @@ function Message(props){
                 })}
             </div>
             {/* <button onClick={isOrganized ? unalignLetters : () => straightenLetters(0)}>{isOrganized ? 'Unalign' : 'Straighten'}</button> */}
-            <ControlBar isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} changeText={handleChangeText} setSpeed={handleSetSpeed} organizedFunction={unalignLetters} unorganizedFunction={() => straightenLetters(0)} unorgButton='Unalign' orgButton='Straighten' />
+            <ControlBar isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} soundValue='ding' changeText={handleChangeText} setSpeed={handleSetSpeed} setSound={handleSetSound} organizedFunction={unalignLetters} unorganizedFunction={() => straightenLetters(0)} unorgButton='Unalign' orgButton='Straighten' />
         </div>
     )
 }

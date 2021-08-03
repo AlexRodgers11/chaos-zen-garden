@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 function ControlBar(props) {
     const [speed, setSpeed] = useState(1000);
     const [text, setText] = useState(props.textValue || null);
+    const [sound, setSound] = useState(props.soundValue || null);
     
     const handleSpeedChange = evt => {
         setSpeed(evt.target.value);
@@ -12,6 +13,11 @@ function ControlBar(props) {
     const handleChangeText = evt => {
         setText(evt.target.value);
         props.changeText(evt.target.value);
+    }
+
+    const handleSoundChange = evt => {
+        setSound(evt.target.value);
+        props.setSound(evt.target.value);
     }
 
     return (
@@ -28,6 +34,13 @@ function ControlBar(props) {
                     <option value={800}>1.25x</option>
                     <option value={500}>2x</option>
                     <option value={200}>5x</option>
+                </select>
+                <select value={sound} onChange={handleSoundChange}>
+                    <option value='blip'>Blip</option>
+                    <option value='ding'>Ding</option>
+                    <option value='whoop'>Whoop</option>
+                    <option value='whoosh'>Whoosh</option>
+                    <option value='click'>Click</option>
                 </select>
             </span>
             <span>
