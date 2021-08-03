@@ -22,7 +22,7 @@ function ControlBar(props) {
 
     return (
         <div>
-            {props.text ? <p><label htmlFor="textInput">{props.text}</label><input type="text" onChange={handleChangeText} value={text}/></p> : null}
+            {props.text ? <p><label htmlFor="textInput">{props.text}</label><input type="text" disabled={props.isOrganizing} onChange={handleChangeText} value={text}/></p> : null}
             <span>
                 <button>Add</button>
                 <button>Change Colors</button>
