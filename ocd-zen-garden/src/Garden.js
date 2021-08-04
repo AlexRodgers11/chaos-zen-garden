@@ -26,7 +26,7 @@ function Garden(){
             <BullsEye width={width} id={1} numRings={10} sound={getSound('whoop')} className="BullsEye" orgIndex={11} palette={colorPalette}/>
             <Message width={width} className="Message" palette={colorPalette}/>
             <Dominoes width={width} className="Dominoes" palette={colorPalette} />
-            <Barcode />
+            <Barcode width={width} className="Barcode" palette={colorPalette}/>
             <select onChange={handleChangePalette} value={colorPalette}>
                 {palettes.map(palette => {
                     let paletteKey = uuidv4();
