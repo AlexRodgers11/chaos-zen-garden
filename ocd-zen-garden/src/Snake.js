@@ -31,7 +31,8 @@ function Snake(props) {
         for(let i = 1; i <= num; i++) {
             boxes.push({
                 id: i,
-                marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`,
+                // marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`,
+                marginLeft: `${.33 * .415 + Math.random() * .33 * .085}`,
                 color: getColor(i, colorPalette)
             })
         }
@@ -82,7 +83,7 @@ function Snake(props) {
         let newBoxes;
         if(idx + 1 === boxes.length){
             newBoxes = boxes.map(box => {
-                return {...box, marginLeft: `${props.width * .33 * .4575}px`} 
+                return {...box, marginLeft: `${.33 * .4575}`} 
             });
         } else {
             newBoxes = boxes.map(box => {
@@ -105,7 +106,7 @@ function Snake(props) {
 
     const scatterBoxes = () => {
         let newBoxes = boxes.map(box => {
-            let randomNum = `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`;
+            let randomNum = `${.33 * .415 + Math.random() * .33 * .085}`;
             return {...box, marginLeft: randomNum};
         })
         setBoxes(newBoxes);
@@ -126,7 +127,8 @@ function Snake(props) {
             {boxes.map(box => {
                 let boxKey = uuidv4();
                 return (
-                    <div key={boxKey} style={{boxSizing: 'border-box', border: '1.5px solid black', width: `${props.width * .33 * .085}px`, height: `${props.width * .33 * .085}px`, padding: 0, marginTop: '0', marginBottom: '0', marginLeft: `${box.marginLeft}`, backgroundColor: `${box.color}` }}></div>
+                    // <div key={boxKey} style={{boxSizing: 'border-box', border: '1.5px solid black', width: `${props.width * .33 * .085}px`, height: `${props.width * .33 * .085}px`, padding: 0, marginTop: '0', marginBottom: '0', marginLeft: `${box.marginLeft}`, backgroundColor: `${box.color}` }}></div>
+                    <div key={boxKey} style={{boxSizing: 'border-box', border: '1.5px solid black', width: `${props.width * .33 * .085}px`, height: `${props.width * .33 * .085}px`, padding: 0, marginTop: '0', marginBottom: '0', marginLeft: `${box.marginLeft * props.width}px`, backgroundColor: `${box.color}` }}></div>
                 )
             })}
             {/* <button onClick={isOrganized ? scatterBoxes : () => organizeBoxes(0)}>{isOrganized ? 'Scatter' : 'Organize'}</button> */}
