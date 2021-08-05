@@ -14,25 +14,50 @@ function Barcode(props) {
     const [sound, setSound] = useState(getSound('blip'));
     const [speed, setSpeed] = useState(1000);
 
+    // const createStartingStripeArray = num => {
+    //     let totalHeight = .33 * .4 * props.width * (1 / num)
+    //     let stripeArr = [];
+    //     for(let i = 1; i < num + 1; i++) {
+    //         let randomNum;
+    //         if(totalHeight > (i + 1) * ((1 / num)  * .33 * .4 * props.width)) {
+    //             randomNum = Math.random() * 1 / (num ** 1.05) * .33 * .4 * props.width * -1
+    //         } else if(totalHeight > (i - 1) * ((1 / num)  * .33 * .4 * props.width)) {
+    //             randomNum = Math.random() * 1 / (num ** 1.05) * .33 * .4 * props.width;
+    //         } else {
+    //             let posNeg = Math.random() > .4 ? -1 : 1;
+    //             randomNum = posNeg * Math.random() * 1 / (num ** 1.05) * .33 * .4 * props.width;
+    //         }
+    //         totalHeight += .33 * .4 * props.width * (1 / num) + randomNum;
+    //         stripeArr.push({
+    //             id: i,
+    //             color: (getColor(i, props.palette)),
+    //             // height: `${.33 * .5 * props.width * (1 / num) + (posNeg * Math.random() * 1 / (num ** 1.5) * .33 * .6 * props.width)}px`
+    //             height: `${.33 * .4 * props.width * (1 / num) + randomNum}px`,
+    //             stripeKey: uuidv4()
+    //         })
+    //     }
+    //     return stripeArr
+    // }
+
     const createStartingStripeArray = num => {
-        let totalHeight = .33 * .4 * props.width * (1 / num)
+        let totalHeight = .33 * .4 * (1 / num)
         let stripeArr = [];
         for(let i = 1; i < num + 1; i++) {
             let randomNum;
-            if(totalHeight > (i + 1) * ((1 / num)  * .33 * .4 * props.width)) {
-                randomNum = Math.random() * 1 / (num ** 1.05) * .33 * .4 * props.width * -1
-            } else if(totalHeight > (i - 1) * ((1 / num)  * .33 * .4 * props.width)) {
-                randomNum = Math.random() * 1 / (num ** 1.05) * .33 * .4 * props.width;
+            if(totalHeight > (i + 1) * ((1 / num)  * .33 * .4)) {
+                randomNum = Math.random() * 1 / (num ** 1.05) * .33 * .4 * -1
+            } else if(totalHeight > (i - 1) * ((1 / num)  * .33 * .4)) {
+                randomNum = Math.random() * 1 / (num ** 1.05) * .33 * .4;
             } else {
                 let posNeg = Math.random() > .4 ? -1 : 1;
-                randomNum = posNeg * Math.random() * 1 / (num ** 1.05) * .33 * .4 * props.width;
+                randomNum = posNeg * Math.random() * 1 / (num ** 1.05) * .33 * .4;
             }
-            totalHeight += .33 * .4 * props.width * (1 / num) + randomNum;
+            totalHeight += .33 * .4 * (1 / num) + randomNum;
             stripeArr.push({
                 id: i,
                 color: (getColor(i, props.palette)),
                 // height: `${.33 * .5 * props.width * (1 / num) + (posNeg * Math.random() * 1 / (num ** 1.5) * .33 * .6 * props.width)}px`
-                height: `${.33 * .4 * props.width * (1 / num) + randomNum}px`,
+                height: `${.33 * .4 * (1 / num) + randomNum}`,
                 stripeKey: uuidv4()
             })
         }
@@ -51,7 +76,7 @@ function Barcode(props) {
         if(idx === 0) toggleIsOrganizing();
         let newStripes = stripes.map(stripe => {
             if(stripe.id === stripes[idx].id) {
-                return {...stripe, height: `${(1 / numStripes)  * .33 * .4 * props.width}px`}
+                return {...stripe, height: `${(1 / numStripes)  * .33 * .4}`}
             } else {
                 return stripe;
             }
@@ -114,7 +139,9 @@ function Barcode(props) {
             <p>Barcode Test</p>
             <div style={{position: 'relative', width: `${.33 * props.width}px`, height: `${.7 * .33 * props.width}px`}}>
                 {stripes.map(stripe => {
-                    return <div key={stripe.stripeKey} style={{margin: '0 auto', width: `${.33 * .4 * props.width}px`, height: stripe.height, backgroundColor: stripe.color, border: '1px solid black'}}></div>
+                    // return <div key={stripe.stripeKey} style={{margin: '0 auto', width: `${.33 * .4 * props.width}px`, height: stripe.height, backgroundColor: stripe.color, border: '1px solid black'}}></div>
+                    // return <div key={stripe.stripeKey} style={{margin: '0 auto', width: `${.33 * .4 * props.width}px`, height: `${stripe.height * props.width * 10}px`, backgroundColor: stripe.color, border: '1px solid black'}}></div>
+                    return <div key={stripe.stripeKey} style={{margin: '0 auto', width: `${.33 * .4 * props.width}px`, height: `${stripe.height * props.width}px`, backgroundColor: stripe.color, border: '1px solid black'}}></div>
                 })}
                 <ControlBar isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='blip' organizedFunction={unbalanceStripes} unorganizedFunction={() => balanceStripes(0)} unorgButton='Unbalance' orgButton='Balance' />
             </div>
