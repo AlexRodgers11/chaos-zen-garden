@@ -8,6 +8,7 @@ import BullsEye from './BullsEye';
 import Message from './Message';
 import Dominoes from './Dominoes';
 import Barcode from './Barcode';
+import Squares from './Squares';
 import './Garden.css';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -27,6 +28,7 @@ function Garden(){
             <Message width={width} className="Message" palette={colorPalette}/>
             <Dominoes width={width} className="Dominoes" palette={colorPalette} />
             <Barcode width={width} className="Barcode" palette={colorPalette}/>
+            <Squares width={width} className="Squares" palette={colorPalette} />
             <select onChange={handleChangePalette} value={colorPalette}>
                 {palettes.map(palette => {
                     let paletteKey = uuidv4();
