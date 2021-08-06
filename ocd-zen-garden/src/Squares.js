@@ -7,14 +7,45 @@ import { Howl } from 'howler';
 function Squares(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
+    const [numRows, setNumRows] = useState(5);
     const [nextIndex, setNextIndex] = useState({id: 0, dir: 'topLeft'});
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('ding'));
 
-    const createStartingSquaresArray = num => {
+    // const createStartingSquaresArray = num => {
+    //     let squares = [];
+    //     for(let i = 1; i < num; i++) {
+    //         squares.push({
+    //             id: i, 
+    //             color: getColor(i, colorPalette),
+    //             topLeft: Math.random() * 15,
+    //             topRight: Math.random() * 15,
+    //             bottomLeft: Math.random() * 15,
+    //             bottomRight: Math.random() * 15,
+    //         })
+    //     }
+    //     return squares
+    // }
+
+    // const createStartingSquaresArray = numLines => {
+    //     let squares = [];
+    //     for(let i = 1; i < numLines ** 2; i++) {
+    //         squares.push({
+    //             id: i, 
+    //             color: getColor(i, colorPalette),
+    //             topLeft: Math.random() * 15,
+    //             topRight: Math.random() * 15,
+    //             bottomLeft: Math.random() * 15,
+    //             bottomRight: Math.random() * 15,
+    //         })
+    //     }
+    //     return squares
+    // }
+
+    const createStartingSquaresArray = () => {
         let squares = [];
-        for(let i = 1; i < num; i++) {
+        for(let i = 1; i < numRows ** 2 + 1; i++) {
             squares.push({
                 id: i, 
                 color: getColor(i, colorPalette),
@@ -24,7 +55,9 @@ function Squares(props) {
                 bottomRight: Math.random() * 15,
             })
         }
+        console.log(squares.length)
         return squares
+        
     }
 
     const getNextDir = dir => {
@@ -40,7 +73,7 @@ function Squares(props) {
         }
     }
 
-    const [squares, setSquares] = useState(createStartingSquaresArray(7));
+    const [squares, setSquares] = useState(createStartingSquaresArray());
 
     const firstUpdate = useRef(true);
     useEffect(() => {
@@ -108,13 +141,31 @@ function Squares(props) {
         setSound(getSound(sound));
     }
 
+    const displaySquares = () => {
+        let squareLines = []
+        let newLine = []
+        for(let k = 0; k < numRows**2; k++){
+            newLine.push(squares[k]);
+            if(newLine.length === numRows){
+                squareLines.push(newLine);
+                newLine = []
+            }
+        }
+        return squareLines;
+    }
+
     return (
         <div>
             <p>Squares Test</p>
             <div>
-                {squares.map(square => {
-                    return <div style={{display: 'inline-block', backgroundColor:`${square.color}`, border: '1px solid black', borderRadius: `${square.topLeft}% ${square.topRight}% ${square.bottomRight}% ${square.bottomLeft}%`, width: `${props.width * .33 * (1 / 9)}px`, height: `${props.width * .33 * (1 / 9)}px`, margin: `${props.width * .33 * (1 / 81)}px`}}></div>
+                {displaySquares().map(squareLine => {
+                    return <div>{squareLine.map(square => {
+                        return <div style={{display: 'inline-block', backgroundColor:`${square.color}`, border: '1px solid black', borderRadius: `${square.topLeft}% ${square.topRight}% ${square.bottomRight}% ${square.bottomLeft}%`, width: `${props.width * .33 * (1 / 9)}px`, height: `${props.width * .33 * (1 / 9)}px`, margin: `${props.width * .33 * (1 / 81)}px`}}></div>
+                    })}</div>
                 })}
+                {/* {squares.map(square => {
+                    return <div style={{display: 'inline-block', backgroundColor:`${square.color}`, border: '1px solid black', borderRadius: `${square.topLeft}% ${square.topRight}% ${square.bottomRight}% ${square.bottomLeft}%`, width: `${props.width * .33 * (1 / 9)}px`, height: `${props.width * .33 * (1 / 9)}px`, margin: `${props.width * .33 * (1 / 81)}px`}}></div>
+                })} */}
                 <ControlBar isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='ding' organizedFunction={dull} unorganizedFunction={() => sharpen(0, 'topLeft')} unorgButton='Dull' orgButton='Sharpen'/>
             </div>
         </div>
