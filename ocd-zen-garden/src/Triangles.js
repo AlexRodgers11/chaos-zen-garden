@@ -120,7 +120,7 @@ function Triangles(props) {
     }
 
     return (
-        <div>
+        <div style={{width: '100%', border: '1px solid black'}}>
             <p>Triangle Test</p>
             <div>
                 {displayTriangles().map(triangleLine => {

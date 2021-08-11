@@ -55,7 +55,6 @@ function Squares(props) {
                 bottomRight: Math.random() * 15,
             })
         }
-        console.log(squares.length)
         return squares
         
     }
@@ -155,7 +154,7 @@ function Squares(props) {
     }
 
     return (
-        <div>
+        <div style={{width: '100%', border: '1px solid black'}}>
             <p>Squares Test</p>
             <div>
                 {displaySquares().map(squareLine => {
