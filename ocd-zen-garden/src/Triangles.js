@@ -7,7 +7,7 @@ import { Howl } from 'howler';
 function Triangles(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
-    const [numRows, setNumRows] = useState(4);
+    const [numRows, setNumRows] = useState(7);
     const [nextIndex, setNextIndex] = useState(0);
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [speed, setSpeed] = useState(1000);
@@ -15,7 +15,7 @@ function Triangles(props) {
 
     const createStartingTrianglesArray = () => {
         let triangles = [];
-        let bottom = props.width * .33 / (numRows * 1.65)
+        let bottom = props.width * .33 / (numRows * 1.80)
         for(let i = 1; i < numRows ** 2 + 1; i++) {
             let random = Math.random() * .45 * bottom * .5 + (.55 * bottom *.5);
             let remainder = bottom - random;
@@ -36,9 +36,9 @@ function Triangles(props) {
     const firstUpdate = useRef(true);
     useEffect(() => {
         if(!firstUpdate.current) {
-            if(nextIndex.id < triangles.length || nextIndex.dir !== 'topLeft'){
+            if(nextIndex.id < triangles.length){
                 setTimeout(() => {
-                    center(nextIndex.id, nextIndex.dir);
+                    center(nextIndex.id);
                 }, speed);
             } else {
                 toggleIsOrganizing();
@@ -69,23 +69,30 @@ function Triangles(props) {
         sound.play(soundObj.spriteName);
     }
 
-    const center = (idx, dir) => {
-        if(idx === 0 && dir === 'topLeft') toggleIsOrganizing();
+    const center = (idx) => {
+        if(idx === 0) toggleIsOrganizing();
         let newTriangles = triangles.map(triangle => {
             if(triangle.id === triangles[idx].id) {
-                return {...triangle, [dir]: 0}
+                return {...triangle, left: triangle.bottom / 2, right: triangle.bottom / 2}
             } else {
                 return triangle;
             }
         });
         soundPlay(sound);
         setTriangles(newTriangles);
-        // setNextIndex({id: dir === 'bottomRight' ? idx + 1 : idx, dir: getNextDir(dir)})        
+        setNextIndex({id: idx + 1})        
     }
 
     const uncenter = () => {
         let newTriangles = triangles.map(triangle => {
-            return {...triangle, topLeft: Math.random() * 15, topRight: Math.random() * 15, bottomLeft: Math.random() * 15, bottomRight: Math.random() * 15}
+            let random = Math.random() * .45 * triangle.bottom * .5 + (.55 * triangle.bottom *.5);
+            let remainder = triangle.bottom - random;
+            let side = Math.random() > .5 ? 'right' : 'left';
+            return {
+                ...triangle,
+                left: side === 'left' ? random : remainder,
+                right: side === 'right' ? random : remainder
+            }
         })
         setTriangles(newTriangles);
         toggleIsOrganized();
@@ -121,7 +128,7 @@ function Triangles(props) {
                         return <div style={{display: 'inline-block', borderBottom: `${triangle.bottom}px solid ${triangle.color}`, borderLeft: `${triangle.left}px solid transparent`, borderRight: `${triangle.right}px solid transparent`, height: '0', width: '0', margin: `${props.width * .33 * (1 / 81)}px`}}></div>
                     })}</div>
                 })}
-                <ControlBar isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='ding' organizedFunction={uncenter} unorganizedFunction={() => center(0, 'topLeft')} unorgButton='Center' orgButton='Uncenter'/>
+                <ControlBar isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='ding' organizedFunction={uncenter} unorganizedFunction={() => center(0)} unorgButton='Uncenter' orgButton='Center'/>
             </div>
         </div>
     )
