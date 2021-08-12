@@ -124,7 +124,10 @@ function Triangles(props) {
             <p>Triangle Test</p>
             <div>
                 {displayTriangles().map(triangleLine => {
-                    return <div>{triangleLine.map(triangle => {
+                    // return <div>{triangleLine.map(triangle => {
+                    return <div style={{height: `${props.width * .33 / (numRows * 1.4)}px`, width: `${props.width * .33}px`}}>{triangleLine.map(triangle => {
+                    // return <div style={{height: `${80}px`, width: `${props.width * .33}px`}}>{triangleLine.map(triangle => {
+                        // return <div style={{display: 'inline-block', padding: '0', width: `${triangle.bottom + 2}px`, height: `${triangle.bottom * Math.sqrt(3)/2}px`}}><div style={{display: 'inline-block', borderBottom: `${triangle.bottom}px solid ${triangle.color}`, borderLeft: `${triangle.left}px solid transparent`, borderRight: `${triangle.right}px solid transparent`, height: '0', width: '0', margin: `${props.width * .33 * (1 / 81)}px`}}></div></div>
                         return <div style={{display: 'inline-block', borderBottom: `${triangle.bottom}px solid ${triangle.color}`, borderLeft: `${triangle.left}px solid transparent`, borderRight: `${triangle.right}px solid transparent`, height: '0', width: '0', margin: `${props.width * .33 * (1 / 81)}px`}}></div>
                     })}</div>
                 })}
