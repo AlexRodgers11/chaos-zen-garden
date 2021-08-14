@@ -7,12 +7,12 @@ import { Howl } from 'howler';
 function Antlers(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
-    const [numRows, setNumRows] = useState(4);
+    const [numRows, setNumRows] = useState(5);
     const [nextIndex, setNextIndex] = useState(0);
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('ding'));
-
+    
     const createStartingHornsArray = () => {
         let horns = [];
         let width = props.width * .33 / 15
@@ -34,7 +34,7 @@ function Antlers(props) {
         if(!firstUpdate.current) {
             if(nextIndex.id < horns.length){
                 setTimeout(() => {
-                    twist(nextIndex.id);
+                    align(nextIndex.id);
                 }, speed);
             } else {
                 toggleIsOrganizing();
@@ -68,8 +68,8 @@ function Antlers(props) {
     const align = (idx) => {
         if(idx === 0) toggleIsOrganizing();
         let newHorns = horns.map(horn => {
-            if(horn.id === horn[idx].id) {
-                return {...horn, left: horn.bottom / 2, right: horn.bottom / 2}
+            if(horn.id === horns[idx].id) {
+                return {...horn, side: 'top'}
             } else {
                 return horn;
             }
@@ -81,13 +81,9 @@ function Antlers(props) {
 
     const twist = () => {
         let newHorns = horns.map(horn => {
-            // let random = Math.random() * .45 * horn.bottom * .5 + (.55 * horn.bottom *.5);
-            // let remainder = horn.bottom - random;
-            // let side = Math.random() > .5 ? 'right' : 'left';
             return {
                 ...horn,
-                // left: side === 'left' ? random : remainder,
-                // right: side === 'right' ? random : remainder
+                side: Math.random() > .5 ? 'top' : 'bottom'
             }
         })
         setHorns(newHorns);
@@ -122,29 +118,10 @@ function Antlers(props) {
                 {displayHorns().map((hornLine, lineIdx) => {
                     return (
                         <div className="outer" style={{padding: '0'}}>
-                            {/* <div style={{marginBottom: '0', height: '30px'}}>
-                                {hornLine.map(horn => {
-                                    return (
-                                        <div style={{display:'inline-block', borderBottom: '2px solid black', borderRight: `${horn.side === 'top' ? `1px solid ${horn.color}` : 'none'}`, width: '10px', height: '30px', marginBottom: '0'}}></div>
-                                    )
-                                })}
-                            </div>
-                            <div style={{marginTop: '0', height: '30px'}}>
-                                {hornLine.map(horn => {
-                                    return (
-                                        // <div style={{display:'inline-block', borderRight: '2px solid black', width: '10px', height: '30px', marginTop: '0'}}></div>
-                                        <div style={{display:'inline-block', borderRight: `${horn.side === 'bottom' ? `1px solid ${horn.color}` : 'none'}`, width: '10px', height: '30px', marginTop: '0'}}></div>
-                                    )
-                                })}
-                            </div>
-                            <br /> */}
                             <div style={{margin: '0', height: '31px'}}>
                                 {hornLine.map(horn => {
                                     return (
-                                        // <div style={{display:'inline-block', borderBottom: '2px solid black', borderRight: `${horn.side === 'top' ? `1px solid ${horn.color}` : 'none'}`, width: '10px', height: '30px', marginBottom: '0'}}></div>
-                                        // <><div style={{display:'inline-block', borderBottom: '2px solid black', borderRight: `${horn.side === 'top' ? `1px solid ${horn.color}` : 'none'}`, width: '10px', height: '30px', marginBottom: '0'}}></div><div style={{display:'inline-block', borderBottom: '2px solid black', width: '10px', height: '30px', marginBottom: '0'}}></div></>
-                                        // <><div style={{display:'inline-block', backgroundColor: `${horn.side === 'top' ? horn.color : 'none'}`, borderBottom: '1px solid black', borderRight: `${horn.side === 'top' ? '1px solid black' : '1px solid transparent'}`,  borderLeft: `${horn.side === 'top' ? '1px solid black' : '1px solid transparent'}`,  borderTop: `${horn.side === 'top' ? '1px solid black' : '1px solid transparent'}`, width: '10px', height: '30px', marginBottom: '0'}}></div><div style={{display:'inline-block', borderBottom: '1px solid black', width: '10px', height: '30px', marginBottom: '0'}}></div></>
-                                        <><div style={{display:'inline-block', backgroundColor: `${horn.side === 'top' ? horn.color : 'none'}`, borderRight: `${horn.side === 'top' ? '1px solid black' : '1px solid transparent'}`,  borderLeft: `${horn.side === 'top' ? '1px solid black' : '1px solid transparent'}`,  borderTop: `${horn.side === 'top' ? '1px solid black' : '1px solid transparent'}`, width: '10px', height: '30px', marginBottom: '0'}}></div><div style={{display:'inline-block', width: '10px', height: '30px', marginBottom: '0'}}></div></>
+                                        <><div style={{display:'inline-block', backgroundColor: `${horn.side === 'top' ? horn.color : 'transparent'}`, borderRight: `${horn.side === 'top' ? '1px solid black' : '1px solid transparent'}`,  borderLeft: `${horn.side === 'top' ? '1px solid black' : '1px solid transparent'}`,  borderTop: `${horn.side === 'top' ? '1px solid black' : '1px solid transparent'}`, width: '10px', height: '30px', marginBottom: '0'}}></div><div style={{display:'inline-block', width: '10px', height: '30px', marginBottom: '0'}}></div></>
                                     )
                                 })}
                             </div>
@@ -152,9 +129,7 @@ function Antlers(props) {
                             <div style={{margin: '0', height: '31px'}}>
                                 {hornLine.map(horn => {
                                     return (
-                                        // <div style={{display:'inline-block', borderRight: `${horn.side === 'bottom' ? `1px solid ${horn.color}` : 'none'}`, width: '10px', height: '30px', marginTop: '0'}}></div>
-                                        // <><div style={{display:'inline-block', borderRight: '2px solid black', borderRight: `${horn.side === 'bottom' ? `1px solid ${horn.color}` : '1px solid transparent'}`, width: '10px', height: '30px', marginBottom: '0'}}></div><div style={{display:'inline-block', width: '10px', height: '30px', marginBottom: '0'}}></div></>
-                                        <><div style={{display:'inline-block', backgroundColor: `${horn.side === 'bottom' ? horn.color : 'none'}`, borderRight: `${horn.side === 'bottom' ? '1px solid black' : '1px solid transparent'}`,  borderLeft: `${horn.side === 'bottom' ? '1px solid black' : '1px solid transparent'}`,  borderBottom: `${horn.side === 'bottom' ? '1px solid black' : '1px solid transparent'}`, width: '10px', height: '30px', marginBottom: '0'}}></div><div style={{display:'inline-block', width: '10px', height: '30px', marginBottom: '0'}}></div></>
+                                        <><div style={{display:'inline-block', backgroundColor: `${horn.side === 'bottom' ? horn.color : 'transparent'}`, borderRight: `${horn.side === 'bottom' ? '1px solid black' : '1px solid transparent'}`,  borderLeft: `${horn.side === 'bottom' ? '1px solid black' : '1px solid transparent'}`,  borderBottom: `${horn.side === 'bottom' ? '1px solid black' : '1px solid transparent'}`, width: '10px', height: '30px', marginBottom: '0'}}></div><div style={{display:'inline-block', width: '10px', height: '30px', marginBottom: '0'}}></div></>
 
                                     )
                                 })}
