@@ -7,7 +7,7 @@ import { Howl } from 'howler';
 function Antlers(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
-    const [numRows, setNumRows] = useState(5);
+    const [numRows, setNumRows] = useState(3);
     const [nextIndex, setNextIndex] = useState(0);
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [speed, setSpeed] = useState(1000);
@@ -15,12 +15,10 @@ function Antlers(props) {
     
     const createStartingHornsArray = () => {
         let horns = [];
-        let width = props.width * .33 / 15
-        for(let i = 1; i <= numRows * 10 + 1; i++) {
+        for(let i = 1; i <= numRows ** 2 * 2 + 1; i++) {
             horns.push({
                 id: i, 
                 color: getColor(i, colorPalette),
-                width: width,
                 side: Math.random() > .5 ? 'top' : 'bottom'
             })
         }
@@ -101,9 +99,9 @@ function Antlers(props) {
     const displayHorns = () => {
         let hornLines = []
         let newLine = []
-        for(let k = 0; k < numRows * 10; k++){
+        for(let k = 0; k < numRows ** 2 * 2; k++){
             newLine.push(horns[k]);
-            if(newLine.length === 10){
+            if(newLine.length === numRows * 2){
                 hornLines.push(newLine);
                 newLine = []
             }
@@ -117,19 +115,21 @@ function Antlers(props) {
             <div>
                 {displayHorns().map((hornLine, lineIdx) => {
                     return (
-                        <div className="outer" style={{padding: '0'}}>
-                            <div style={{margin: '0', height: '31px'}}>
+                        <div className="outer" style={{padding: '0', height: '70px'}}>
+                            <div style={{margin: '0', height: '30px'}}>
                                 {hornLine.map(horn => {
                                     return (
-                                        <><div style={{display:'inline-block', backgroundColor: `${horn.side === 'top' ? horn.color : 'transparent'}`, borderRight: `${horn.side === 'top' ? '1px solid black' : '1px solid transparent'}`,  borderLeft: `${horn.side === 'top' ? '1px solid black' : '1px solid transparent'}`,  borderTop: `${horn.side === 'top' ? '1px solid black' : '1px solid transparent'}`, width: '10px', height: '30px', marginBottom: '0'}}></div><div style={{display:'inline-block', width: '10px', height: '30px', marginBottom: '0'}}></div></>
+                                        // <><div style={{boxSizing:'border-box', display:'inline-block', backgroundColor: `${horn.side === 'top' ? horn.color : 'transparent'}`, borderRight: `${horn.side === 'top' ? '1px solid black' : '1px solid transparent'}`,  borderLeft: `${horn.side === 'top' ? '1px solid black' : '1px solid transparent'}`,  borderTop: `${horn.side === 'top' ? '1px solid black' : '1px solid transparent'}`, width: '10px', height: '30px', marginBottom: '0'}}></div><div style={{display:'inline-block', width: '10px', height: '30px', marginBottom: '0'}}></div></>
+                                        <><div style={{boxSizing:'border-box', display:'inline-block', backgroundColor: `${horn.side === 'top' ? horn.color : 'transparent'}`, borderRight: `${horn.side === 'top' ? '1px solid black' : '1px solid transparent'}`,  borderLeft: `${horn.side === 'top' ? '1px solid black' : '1px solid transparent'}`,  borderTop: `${horn.side === 'top' ? '1px solid black' : '1px solid transparent'}`, width: `${props.width * .33 * .6 / (numRows * 4)}px`, height: '30px', marginBottom: '0'}}></div><div style={{display:'inline-block', width: `${props.width * .33 * .6 / (numRows * 4)}px`, height: '30px', marginBottom: '0'}}></div></>
                                     )
                                 })}
                             </div>
-                            <hr style={{margin: '0 auto', backgroundColor: 'black', height: '2px', border: 'none', width: '75%'}}/>
-                            <div style={{margin: '0', height: '31px'}}>
+                            <hr style={{margin: `0 ${.2 * props.width * .33 - 0 * (props.width * .33 * .6 / (numRows * 4))}px`, backgroundColor: 'black', height: '2px', border: 'none', width: `${props.width * .33 * .6 - ((props.width * .33 * .6 / (numRows * 4)))}px`}}/>
+                            <div style={{margin: '0', height: '30px'}}>
                                 {hornLine.map(horn => {
                                     return (
-                                        <><div style={{display:'inline-block', backgroundColor: `${horn.side === 'bottom' ? horn.color : 'transparent'}`, borderRight: `${horn.side === 'bottom' ? '1px solid black' : '1px solid transparent'}`,  borderLeft: `${horn.side === 'bottom' ? '1px solid black' : '1px solid transparent'}`,  borderBottom: `${horn.side === 'bottom' ? '1px solid black' : '1px solid transparent'}`, width: '10px', height: '30px', marginBottom: '0'}}></div><div style={{display:'inline-block', width: '10px', height: '30px', marginBottom: '0'}}></div></>
+                                        // <><div style={{boxSizing:'border-box', display:'inline-block', backgroundColor: `${horn.side === 'bottom' ? horn.color : 'transparent'}`, borderRight: `${horn.side === 'bottom' ? '1px solid black' : '1px solid transparent'}`,  borderLeft: `${horn.side === 'bottom' ? '1px solid black' : '1px solid transparent'}`,  borderBottom: `${horn.side === 'bottom' ? '1px solid black' : '1px solid transparent'}`, width: '10px', height: '30px', marginBottom: '0'}}></div><div style={{display:'inline-block', width: '10px', height: '30px', marginBottom: '0'}}></div></>
+                                        <><div style={{boxSizing:'border-box', display:'inline-block', backgroundColor: `${horn.side === 'bottom' ? horn.color : 'transparent'}`, borderRight: `${horn.side === 'bottom' ? '1px solid black' : '1px solid transparent'}`,  borderLeft: `${horn.side === 'bottom' ? '1px solid black' : '1px solid transparent'}`,  borderBottom: `${horn.side === 'bottom' ? '1px solid black' : '1px solid transparent'}`, width: `${props.width * .33 * .6 / (numRows * 4)}px`, height: '30px', marginBottom: '0'}}></div><div style={{display:'inline-block', width: `${props.width * .33 * .6 / (numRows * 4)}px`, height: '30px', marginBottom: '0'}}></div></>
 
                                     )
                                 })}
