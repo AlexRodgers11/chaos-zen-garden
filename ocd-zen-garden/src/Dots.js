@@ -34,9 +34,24 @@ function Dots(props) {
         sound.play(soundObj.spriteName);
     }
 
-    const createStartingDotArray = () => {
+    // const createStartingDotArray = () => {
+    //     let startingDotArray = [];
+    //     for(let i = 0; i < numRows**2; i++) {
+    //         startingDotArray.push({
+    //             id: i + 1, 
+    //             // marginLeft: `${props.width * .33 * Math.random() * .05}`,
+    //             // marginTop: `${props.width * .33 * Math.random() * .05}`,
+    //             marginLeft: `${.33 * Math.random() * .05}`,
+    //             marginTop: `${.33 * Math.random() * .05}`,
+    //             color: (getColor(i + 1, colorPalette))
+    //         })
+    //     }
+    //     return startingDotArray;
+    // }
+
+    const createStartingDotArray = num => {
         let startingDotArray = [];
-        for(let i = 0; i < numRows**2; i++) {
+        for(let i = 0; i < num**2; i++) {
             startingDotArray.push({
                 id: i + 1, 
                 // marginLeft: `${props.width * .33 * Math.random() * .05}`,
@@ -50,7 +65,7 @@ function Dots(props) {
     }
     
 
-    const [dots, setDots] = useState(createStartingDotArray());
+    const [dots, setDots] = useState(createStartingDotArray(numRows));
 
     
 
@@ -107,6 +122,20 @@ function Dots(props) {
         }
         
     }, [props.palette]);
+    
+    // const numberFirstUpdate = useRef(true);
+    // useEffect(() => {
+    //     if(!numberFirstUpdate.current) {
+
+    //     } else {
+    //         numberFirstUpdate.current = false;
+    //     }
+    // })
+
+    const handleSetNumRows = num => {
+        setNumRows(Number(num));
+        setDots(createStartingDotArray(Number(num)))
+    }
 
     // const displayDots = () => {
     //     let dotLines = []
@@ -188,7 +217,7 @@ function Dots(props) {
 
     return (
         <div style={{width: '100%', border: '1px solid black'}}>
-            <p>Dots Test</p>
+            <p>Dots {numRows}</p>
             <div style={{margin: '0 auto'}}>
                 {displayDots().map(dotLine => {
                     let dotLineKey =uuidv4();
@@ -201,7 +230,7 @@ function Dots(props) {
                     </p>
                 })}
                 {/* <button onClick={isOrganized ? scatterDots : () => organizeDots(0, 'horizontal')}>{isOrganized ? 'Scatter' : 'Organize'}</button> */}
-                <ControlBar isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='whoosh' organizedFunction={scatterDots} unorganizedFunction={() => organizeDots(0, 'horizontal')} unorgButton='Scatter' orgButton='Organize' />
+                <ControlBar minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='whoosh' organizedFunction={scatterDots} unorganizedFunction={() => organizeDots(0, 'horizontal')} unorgButton='Scatter' orgButton='Organize' />
             </div>
         </div>
     )

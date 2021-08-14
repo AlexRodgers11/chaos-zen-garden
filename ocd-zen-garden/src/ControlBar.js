@@ -4,7 +4,8 @@ function ControlBar(props) {
     const [speed, setSpeed] = useState(1000);
     const [text, setText] = useState(props.textValue || null);
     const [sound, setSound] = useState(props.soundValue || null);
-    
+    const [number, setNumber] = useState(props.number);
+     
     const handleSpeedChange = evt => {
         setSpeed(evt.target.value);
         props.setSpeed(evt.target.value);
@@ -19,6 +20,20 @@ function ControlBar(props) {
         setSound(evt.target.value);
         props.setSound(evt.target.value);
     }
+    
+    const handleNumberChange = evt => {
+        setNumber(evt.target.value);
+        console.log('test')
+        props.setNumber(evt.target.value);
+    }
+
+    const displayNumberOptions = (min = 3, max = 10) => {
+        let numArr = [];
+        for(let i = min; i <= max; i++) {
+            numArr.push(i);
+        }
+        return numArr;
+    }
 
     return (
         <div>
@@ -26,8 +41,8 @@ function ControlBar(props) {
             <span>
                 <button>Add</button>
                 <button>Change Colors</button>
-                {/* <button>Change Speed</button> */}
-                <select value={speed} onChange={handleSpeedChange}>
+                {/* <label forName="speed">Speed</label> */}
+                <select id="speed" value={speed} onChange={handleSpeedChange}>
                     <option value={4000}>.25x</option>
                     <option value={2000}>.5x</option>
                     <option value={1000}>1x</option>
@@ -35,13 +50,19 @@ function ControlBar(props) {
                     <option value={500}>2x</option>
                     <option value={200}>5x</option>
                 </select>
-                <select value={sound} onChange={handleSoundChange}>
+                {/* <label forName="sound">Sound</label> */}
+                <select id="sound" value={sound} onChange={handleSoundChange}>
                     <option value='blip'>Blip</option>
                     <option value='ding'>Ding</option>
                     <option value='whoop'>Whoop</option>
                     <option value='whoosh'>Whoosh</option>
                     <option value='click'>Click</option>
                 </select>
+                {props.number ? <select value={props.number} onChange={handleNumberChange}>
+                    {displayNumberOptions(props.minNum, props.maxNum).map(num => {
+                        return <option value={num}>{num}</option>
+                    })}
+                </select> : null}
             </span>
             <span>
                 <button disabled={props.isOrganizing} onClick={props.isOrganized ? props.organizedFunction : props.unorganizedFunction}>{props.isOrganized ? props.unorgButton : props.orgButton}</button>
