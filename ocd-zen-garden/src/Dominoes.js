@@ -36,7 +36,7 @@ function Dominoes(props) {
     
     const generateTilt = () => {
         let x = Math.floor(Math.random() * 2) === 0 ? -1 : 1;
-        let tilt = x * Math.random() * 4;
+        let tilt = x * Math.random() * 2.25;//may be better to do high enough to overlap like pickup sticks
         return `${tilt}deg`;
     }
 

@@ -35,7 +35,7 @@ function Message(props){
 
     const generateTilt = () => {
         let x = Math.floor(Math.random() * 2) === 0 ? -1 : 1;
-        let tilt = x * Math.random() * 55;
+        let tilt = x * Math.random() * 25;
         return `${tilt}deg`
         
     }
