@@ -13,10 +13,10 @@ function Triangles(props) {
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('ding'));
 
-    const createStartingTrianglesArray = () => {
+    const createStartingTrianglesArray = num => {
         let triangles = [];
-        let bottom = props.width * .33 / (numRows * 1.80)
-        for(let i = 1; i < numRows ** 2 + 1; i++) {
+        let bottom = props.width * .33 / (num * 1.80)
+        for(let i = 1; i < num ** 2 + 1; i++) {
             let random = Math.random() * .45 * bottom * .5 + (.55 * bottom *.5);
             let remainder = bottom - random;
             let side = Math.random() > .5 ? 'right' : 'left'
@@ -31,7 +31,7 @@ function Triangles(props) {
         return triangles
     }
 
-    const [triangles, setTriangles] = useState(createStartingTrianglesArray());
+    const [triangles, setTriangles] = useState(createStartingTrianglesArray(numRows));
 
     const firstUpdate = useRef(true);
     useEffect(() => {
@@ -106,6 +106,11 @@ function Triangles(props) {
         setSound(getSound(sound));
     }
 
+    const handleSetNumRows = num => {
+        setNumRows(Number(num));
+        setTriangles(createStartingTrianglesArray(Number(num)))
+    }
+
     const displayTriangles = () => {
         let triangleLines = []
         let newLine = []
@@ -132,7 +137,7 @@ function Triangles(props) {
                         // return <div style={{display: 'inline-block', borderBottom: `24px solid black`, borderLeft: `24px solid transparent`, borderRight: `24px solid transparent`, height: '0', width: '0', margin: `${props.width * .33 * (1 / 81)}px`}}><div style={{position: 'relative', display: 'inline-block', borderBottom: `22px solid ${triangle.color}`, borderLeft: `22px solid transparent`, borderRight: `22px solid transparent`, height: '0', width: '0', right:`${22}px`, top: '1px'}}></div></div>
                     })}</div>
                 })}
-                <ControlBar isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='ding' organizedFunction={uncenter} unorganizedFunction={() => center(0)} unorgButton='Uncenter' orgButton='Center'/>
+                <ControlBar minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='ding' organizedFunction={uncenter} unorganizedFunction={() => center(0)} unorgButton='Uncenter' orgButton='Center'/>
             </div>
         </div>
     )

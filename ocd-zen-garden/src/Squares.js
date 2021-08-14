@@ -43,9 +43,9 @@ function Squares(props) {
     //     return squares
     // }
 
-    const createStartingSquaresArray = () => {
+    const createStartingSquaresArray = num => {
         let squares = [];
-        for(let i = 1; i < numRows ** 2 + 1; i++) {
+        for(let i = 1; i < num ** 2 + 1; i++) {
             squares.push({
                 id: i, 
                 color: getColor(i, colorPalette),
@@ -72,7 +72,7 @@ function Squares(props) {
         }
     }
 
-    const [squares, setSquares] = useState(createStartingSquaresArray());
+    const [squares, setSquares] = useState(createStartingSquaresArray(numRows));
 
     const firstUpdate = useRef(true);
     useEffect(() => {
@@ -139,6 +139,10 @@ function Squares(props) {
     const handleSetSound = sound => {
         setSound(getSound(sound));
     }
+    const handleSetNumRows = num => {
+        setNumRows(Number(num));
+        setSquares(createStartingSquaresArray(Number(num)))
+    }
 
     const displaySquares = () => {
         let squareLines = []
@@ -165,7 +169,7 @@ function Squares(props) {
                 {/* {squares.map(square => {
                     return <div style={{display: 'inline-block', backgroundColor:`${square.color}`, border: '1px solid black', borderRadius: `${square.topLeft}% ${square.topRight}% ${square.bottomRight}% ${square.bottomLeft}%`, width: `${props.width * .33 * (1 / 9)}px`, height: `${props.width * .33 * (1 / 9)}px`, margin: `${props.width * .33 * (1 / 81)}px`}}></div>
                 })} */}
-                <ControlBar isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='ding' organizedFunction={dull} unorganizedFunction={() => sharpen(0, 'topLeft')} unorgButton='Dull' orgButton='Sharpen'/>
+                <ControlBar minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='ding' organizedFunction={dull} unorganizedFunction={() => sharpen(0, 'topLeft')} unorgButton='Dull' orgButton='Sharpen'/>
             </div>
         </div>
     )

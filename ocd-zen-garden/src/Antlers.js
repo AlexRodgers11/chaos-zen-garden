@@ -7,15 +7,15 @@ import { Howl } from 'howler';
 function Antlers(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
-    const [numRows, setNumRows] = useState(3);
+    const [numRows, setNumRows] = useState(5);
     const [nextIndex, setNextIndex] = useState(0);
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('ding'));
     
-    const createStartingHornsArray = () => {
+    const createStartingHornsArray = num => {
         let horns = [];
-        for(let i = 1; i <= numRows ** 2 * 2 + 1; i++) {
+        for(let i = 1; i <= num ** 2 * 2 + 1; i++) {
             horns.push({
                 id: i, 
                 color: getColor(i, colorPalette),
@@ -25,7 +25,7 @@ function Antlers(props) {
         return horns
     }
 
-    const [horns, setHorns] = useState(createStartingHornsArray());
+    const [horns, setHorns] = useState(createStartingHornsArray(numRows));
 
     const firstUpdate = useRef(true);
     useEffect(() => {
@@ -112,6 +112,11 @@ function Antlers(props) {
         setSound(getSound(sound));
     }
 
+    const handleSetNumRows = num => {
+        setNumRows(Number(num));
+        setHorns(createStartingHornsArray(Number(num)))
+    }
+
     const displayHorns = () => {
         let hornLines = []
         let newLine = []
@@ -157,7 +162,7 @@ function Antlers(props) {
                     )
                 })}
 
-                <ControlBar isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='ding' organizedFunction={twist} unorganizedFunction={() => align(0)} unorgButton='Twist' orgButton='Align'/>
+                <ControlBar minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='ding' organizedFunction={twist} unorganizedFunction={() => align(0)} unorgButton='Twist' orgButton='Align'/>
             </div>
         </div>
     )
