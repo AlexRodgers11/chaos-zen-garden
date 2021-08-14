@@ -16,7 +16,7 @@ function Antlers(props) {
     const createStartingHornsArray = () => {
         let horns = [];
         let width = props.width * .33 / 15
-        for(let i = 1; i <= numRows * 20 + 1; i++) {
+        for(let i = 1; i <= numRows * 10 + 1; i++) {
             horns.push({
                 id: i, 
                 color: getColor(i, colorPalette),
@@ -105,9 +105,9 @@ function Antlers(props) {
     const displayHorns = () => {
         let hornLines = []
         let newLine = []
-        for(let k = 0; k < numRows * 20; k++){
+        for(let k = 0; k < numRows * 10; k++){
             newLine.push(horns[k]);
-            if(newLine.length === 20){
+            if(newLine.length === 10){
                 hornLines.push(newLine);
                 newLine = []
             }
@@ -122,7 +122,7 @@ function Antlers(props) {
                 {displayHorns().map((hornLine, lineIdx) => {
                     return (
                         <div className="outer" style={{padding: '0'}}>
-                            <div style={{marginBottom: '0', height: '30px'}}>
+                            {/* <div style={{marginBottom: '0', height: '30px'}}>
                                 {hornLine.map(horn => {
                                     return (
                                         <div style={{display:'inline-block', borderBottom: '2px solid black', borderRight: `${horn.side === 'top' ? `1px solid ${horn.color}` : 'none'}`, width: '10px', height: '30px', marginBottom: '0'}}></div>
@@ -137,9 +137,30 @@ function Antlers(props) {
                                     )
                                 })}
                             </div>
+                            <br /> */}
+                            <div style={{margin: '0', height: '31px'}}>
+                                {hornLine.map(horn => {
+                                    return (
+                                        // <div style={{display:'inline-block', borderBottom: '2px solid black', borderRight: `${horn.side === 'top' ? `1px solid ${horn.color}` : 'none'}`, width: '10px', height: '30px', marginBottom: '0'}}></div>
+                                        // <><div style={{display:'inline-block', borderBottom: '2px solid black', borderRight: `${horn.side === 'top' ? `1px solid ${horn.color}` : 'none'}`, width: '10px', height: '30px', marginBottom: '0'}}></div><div style={{display:'inline-block', borderBottom: '2px solid black', width: '10px', height: '30px', marginBottom: '0'}}></div></>
+                                        // <><div style={{display:'inline-block', backgroundColor: `${horn.side === 'top' ? horn.color : 'none'}`, borderBottom: '1px solid black', borderRight: `${horn.side === 'top' ? '1px solid black' : '1px solid transparent'}`,  borderLeft: `${horn.side === 'top' ? '1px solid black' : '1px solid transparent'}`,  borderTop: `${horn.side === 'top' ? '1px solid black' : '1px solid transparent'}`, width: '10px', height: '30px', marginBottom: '0'}}></div><div style={{display:'inline-block', borderBottom: '1px solid black', width: '10px', height: '30px', marginBottom: '0'}}></div></>
+                                        <><div style={{display:'inline-block', backgroundColor: `${horn.side === 'top' ? horn.color : 'none'}`, borderRight: `${horn.side === 'top' ? '1px solid black' : '1px solid transparent'}`,  borderLeft: `${horn.side === 'top' ? '1px solid black' : '1px solid transparent'}`,  borderTop: `${horn.side === 'top' ? '1px solid black' : '1px solid transparent'}`, width: '10px', height: '30px', marginBottom: '0'}}></div><div style={{display:'inline-block', width: '10px', height: '30px', marginBottom: '0'}}></div></>
+                                    )
+                                })}
+                            </div>
+                            <hr style={{margin: '0 auto', backgroundColor: 'black', height: '2px', border: 'none', width: '75%'}}/>
+                            <div style={{margin: '0', height: '31px'}}>
+                                {hornLine.map(horn => {
+                                    return (
+                                        // <div style={{display:'inline-block', borderRight: `${horn.side === 'bottom' ? `1px solid ${horn.color}` : 'none'}`, width: '10px', height: '30px', marginTop: '0'}}></div>
+                                        // <><div style={{display:'inline-block', borderRight: '2px solid black', borderRight: `${horn.side === 'bottom' ? `1px solid ${horn.color}` : '1px solid transparent'}`, width: '10px', height: '30px', marginBottom: '0'}}></div><div style={{display:'inline-block', width: '10px', height: '30px', marginBottom: '0'}}></div></>
+                                        <><div style={{display:'inline-block', backgroundColor: `${horn.side === 'bottom' ? horn.color : 'none'}`, borderRight: `${horn.side === 'bottom' ? '1px solid black' : '1px solid transparent'}`,  borderLeft: `${horn.side === 'bottom' ? '1px solid black' : '1px solid transparent'}`,  borderBottom: `${horn.side === 'bottom' ? '1px solid black' : '1px solid transparent'}`, width: '10px', height: '30px', marginBottom: '0'}}></div><div style={{display:'inline-block', width: '10px', height: '30px', marginBottom: '0'}}></div></>
+
+                                    )
+                                })}
+                            </div>
                             <br />
-                            {/* <div style={{border: '1px solid black', width: '10px', height: '30px', marginBottom: '0'}}></div>
-                            <div style={{border: '1px solid blue', width: '10px', height: '30px', marginBottom: '0'}}></div> */}
+
                             
                         </div>
                     )
