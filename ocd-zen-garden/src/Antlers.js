@@ -132,7 +132,6 @@ function Antlers(props) {
 
     return (
         <div style={{width: '100%', border: '1px solid black'}}>
-            <p>Antlers Test</p>
             <div>
                 {displayHorns().map((hornLine, lineIdx) => {
                     return (

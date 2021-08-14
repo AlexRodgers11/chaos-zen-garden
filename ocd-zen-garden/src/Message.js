@@ -186,7 +186,6 @@ function Message(props){
 
     return (
         <div style={{border: '1px solid black', height: `${props.width * .33}px`}}>
-            <p>Message Test</p>
             <div>
                 {letters.map(letter => {
                     let letterKey = uuidv4();

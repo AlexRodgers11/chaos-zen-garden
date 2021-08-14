@@ -217,7 +217,6 @@ function Dots(props) {
 
     return (
         <div style={{width: '100%', border: '1px solid black'}}>
-            <p>Dots {numRows}</p>
             <div style={{margin: '0 auto'}}>
                 {displayDots().map(dotLine => {
                     let dotLineKey =uuidv4();

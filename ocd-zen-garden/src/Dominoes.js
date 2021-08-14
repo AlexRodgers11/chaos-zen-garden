@@ -119,7 +119,6 @@ function Dominoes(props) {
 
     return (
         <div style={{border: '1px solid black'}}>
-            Dominoes Test
             <div>
                 {lines.map(line => {
                     let lineKey = uuidv4();

@@ -159,7 +159,6 @@ function Squares(props) {
 
     return (
         <div style={{width: '100%', border: '1px solid black'}}>
-            <p>Squares Test</p>
             <div>
                 {displaySquares().map(squareLine => {
                     return <div>{squareLine.map(square => {

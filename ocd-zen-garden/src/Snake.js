@@ -123,7 +123,6 @@ function Snake(props) {
 
     return (
         <div style={{width: '100%', border: '1px solid black'}}>
-            <p>Snake Test</p>
             {boxes.map(box => {
                 let boxKey = uuidv4();
                 return (
