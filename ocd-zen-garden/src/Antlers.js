@@ -30,9 +30,9 @@ function Antlers(props) {
     const firstUpdate = useRef(true);
     useEffect(() => {
         if(!firstUpdate.current) {
-            if(nextIndex.id < horns.length){
+            if(nextIndex < horns.length){
                 setTimeout(() => {
-                    align(nextIndex.id);
+                    align(nextIndex);
                 }, speed);
             } else {
                 toggleIsOrganizing();
@@ -64,17 +64,33 @@ function Antlers(props) {
     }
 
     const align = (idx) => {
-        if(idx === 0) toggleIsOrganizing();
+        let currentIdx = idx;
+        if(idx === 0) {
+            toggleIsOrganizing();
+            if(horns[0].side !== 'bottom') {
+                while(horns[currentIdx].side !== 'bottom') {
+                    currentIdx++
+                }
+            }
+        } 
+
         let newHorns = horns.map(horn => {
-            if(horn.id === horns[idx].id) {
+            if(horn.id === horns[currentIdx].id) {
                 return {...horn, side: 'top'}
             } else {
                 return horn;
             }
         });
-        soundPlay(sound);
+        let nextBottomIndex;
+        for(let i = currentIdx + 1; i < horns.length; i++) {
+            if (horns[i].side === 'bottom') {
+                nextBottomIndex = i;
+                break;
+            }
+        }
+        soundPlay(sound)
         setHorns(newHorns);
-        setNextIndex({id: idx + 1})        
+        setNextIndex(nextBottomIndex);      
     }
 
     const twist = () => {
