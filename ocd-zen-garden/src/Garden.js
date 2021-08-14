@@ -9,7 +9,8 @@ import Message from './Message';
 import Dominoes from './Dominoes';
 import Barcode from './Barcode';
 import Squares from './Squares';
-import Triangles from './Triangles'
+import Triangles from './Triangles';
+import Antlers from './Antlers';
 import './Garden.css';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -31,6 +32,7 @@ function Garden(){
             <Barcode width={width} className="Barcode" palette={colorPalette}/>
             <Squares width={width} className="Squares" palette={colorPalette} />
             <Triangles width ={width} className="Triangles" palette={colorPalette} />
+            <Antlers width ={width} className="Antlers" palette={colorPalette}/>
             <select onChange={handleChangePalette} value={colorPalette}>
                 {palettes.map(palette => {
                     let paletteKey = uuidv4();
