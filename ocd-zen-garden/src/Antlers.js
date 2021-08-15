@@ -15,7 +15,7 @@ function Antlers(props) {
     
     const createStartingHornsArray = num => {
         let horns = [];
-        for(let i = 1; i <= num ** 2 * 2 + 1; i++) {
+        for(let i = 1; i <= num ** 2 * 2; i++) {
             horns.push({
                 id: i, 
                 color: getColor(i, colorPalette),
@@ -30,14 +30,23 @@ function Antlers(props) {
     const firstUpdate = useRef(true);
     useEffect(() => {
         if(!firstUpdate.current) {
-            if(nextIndex < horns.length){
-                setTimeout(() => {
+            setTimeout(() => {
+                if(nextIndex < horns.length){
                     align(nextIndex);
-                }, speed);
-            } else {
-                toggleIsOrganizing();
-                toggleIsOrganized();
-            }
+                    
+                } else {
+                    toggleIsOrganizing();
+                    toggleIsOrganized();
+                }
+            }, speed)
+            // if(nextIndex < horns.length){
+            //     setTimeout(() => {
+            //         align(nextIndex);
+            //     }, speed);
+            // } else {
+            //     toggleIsOrganizing();
+            //     toggleIsOrganized();
+            // }
         } else {firstUpdate.current = false}
     }, [nextIndex])
     
@@ -87,7 +96,7 @@ function Antlers(props) {
                 }
             }
         } 
-
+        console.log(`currentIdx; ${currentIdx}`)
         let newHorns = horns.map(horn => {
             if(horn.id === horns[currentIdx].id) {
                 return {...horn, side: 'top'}
@@ -95,19 +104,20 @@ function Antlers(props) {
                 return horn;
             }
         });
-        let nextBottomIndex;
+        let nextBottomIndex = horns.length;
         for(let i = currentIdx + 1; i < horns.length; i++) {
             if (horns[i].side === 'bottom') {
                 nextBottomIndex = i;
                 break;
             }
         }
+        // if(nextBottomIndex) soundPlay(sound)
         soundPlay(sound)
         setHorns(newHorns);
         setNextIndex(nextBottomIndex);      
     }
 
-    const twist = () => {
+    const flip = () => {
         let newHorns = horns.map(horn => {
             return {
                 ...horn,
@@ -180,7 +190,7 @@ function Antlers(props) {
                     )
                 })}
 
-                <ControlBar palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='ding' organizedFunction={twist} unorganizedFunction={() => align(0)} unorgButton='Twist' orgButton='Align'/>
+                <ControlBar palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='ding' organizedFunction={flip} unorganizedFunction={() => align(0)} unorgButton='Flip' orgButton='Align'/>
             </div>
         </div>
     )
