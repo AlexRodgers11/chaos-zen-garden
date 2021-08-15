@@ -160,7 +160,7 @@ function Antlers(props) {
     }
 
     return (
-        <div style={{width: '100%', border: '1px solid black'}}>
+        <div style={{width: '100%', border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div>
                 {displayHorns().map((hornLine, lineIdx) => {
                     return (

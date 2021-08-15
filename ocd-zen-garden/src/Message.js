@@ -204,7 +204,7 @@ function Message(props){
     }
 
     return (
-        <div style={{border: '1px solid black', height: `${props.width * .33}px`}}>
+        <div style={{border: '1px solid black', height: `${props.width * .33}px`, backgroundColor: getColor('base', colorPalette)}}>
             <div>
                 {letters.map(letter => {
                     let letterKey = uuidv4();

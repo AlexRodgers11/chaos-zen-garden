@@ -177,7 +177,7 @@ function Squares(props) {
     }
 
     return (
-        <div style={{width: '100%', border: '1px solid black'}}>
+        <div style={{width: '100%', border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div>
                 {displaySquares().map(squareLine => {
                     return <div>{squareLine.map(square => {

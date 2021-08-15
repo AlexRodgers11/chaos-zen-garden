@@ -141,7 +141,7 @@ function Snake(props) {
     }
 
     return (
-        <div style={{width: '100%', border: '1px solid black'}}>
+        <div style={{width: '100%', border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             {boxes.map(box => {
                 let boxKey = uuidv4();
                 return (

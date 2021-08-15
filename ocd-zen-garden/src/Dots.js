@@ -236,7 +236,7 @@ function Dots(props) {
     }
 
     return (
-        <div style={{width: '100%', border: '1px solid black'}}>
+        <div style={{width: '100%', border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div style={{margin: '0 auto'}}>
                 {displayDots().map(dotLine => {
                     let dotLineKey =uuidv4();

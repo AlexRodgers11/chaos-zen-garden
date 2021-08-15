@@ -137,7 +137,7 @@ function Dominoes(props) {
     }
 
     return (
-        <div style={{border: '1px solid black'}}>
+        <div style={{border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div>
                 {lines.map(line => {
                     let lineKey = uuidv4();
