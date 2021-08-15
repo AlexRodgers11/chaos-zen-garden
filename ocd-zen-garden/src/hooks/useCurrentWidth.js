@@ -5,11 +5,23 @@ const getWidth = () => window.innerWidth || document.documentElement.clientWidth
 const useCurrentWidth = () => {
     let [width, setWidth] = useState(getWidth());
 
+    // useEffect(() => {
+    //     let timeoutId = null;
+    //     const resizeListener = () => {
+    //         clearTimeout(timeoutId);
+    //         timeoutId = setTimeout(() => setWidth(getWidth()), 0);
+    //     };
+    //     window.addEventListener('resize', resizeListener);
+
+    //     return () => {
+    //         window.removeEventListener('resize', resizeListener);
+    //     }
+    // }, []);
+
     useEffect(() => {
         let timeoutId = null;
         const resizeListener = () => {
-            clearTimeout(timeoutId);
-            timeoutId = setTimeout(() => setWidth(getWidth()), 150);
+            setWidth(getWidth())
         };
         window.addEventListener('resize', resizeListener);
 
