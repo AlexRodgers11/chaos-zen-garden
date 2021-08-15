@@ -96,11 +96,25 @@ function Squares(props) {
             });
             setColorPalette(props.palette);
             setSquares(newSquares);
+            colorsDoNotUpdate.current = true;
         } else {
             colorsFirstUpdate.current = false;
         }
         
     }, [props.palette]);
+
+    const colorsDoNotUpdate = useRef(true)
+    useEffect(() => {
+        if(!colorsDoNotUpdate.current) {
+            let newSquares = squares.map(square => {
+                return {...square, color: getColor(square.id, colorPalette)}
+            });
+            setSquares(newSquares);
+        } else {
+            colorsDoNotUpdate.current = false;
+        }
+        
+    }, [colorPalette]);
 
     const soundPlay = soundObj => {
         const sound = new Howl({
@@ -144,6 +158,11 @@ function Squares(props) {
         setSquares(createStartingSquaresArray(Number(num)))
     }
 
+    const handleSetColorPalette = palette => {
+        colorsDoNotUpdate.current = false;
+        setColorPalette(palette);
+    }
+
     const displaySquares = () => {
         let squareLines = []
         let newLine = []
@@ -168,7 +187,7 @@ function Squares(props) {
                 {/* {squares.map(square => {
                     return <div style={{display: 'inline-block', backgroundColor:`${square.color}`, border: '1px solid black', borderRadius: `${square.topLeft}% ${square.topRight}% ${square.bottomRight}% ${square.bottomLeft}%`, width: `${props.width * .33 * (1 / 9)}px`, height: `${props.width * .33 * (1 / 9)}px`, margin: `${props.width * .33 * (1 / 81)}px`}}></div>
                 })} */}
-                <ControlBar minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='ding' organizedFunction={dull} unorganizedFunction={() => sharpen(0, 'topLeft')} unorgButton='Dull' orgButton='Sharpen'/>
+                <ControlBar palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='ding' organizedFunction={dull} unorganizedFunction={() => sharpen(0, 'topLeft')} unorgButton='Dull' orgButton='Sharpen'/>
             </div>
         </div>
     )

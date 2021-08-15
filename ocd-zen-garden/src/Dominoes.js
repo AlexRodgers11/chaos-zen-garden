@@ -74,10 +74,24 @@ function Dominoes(props) {
             });
             setLines(newLines);
             setColorPalette(props.palette);
+            colorsDoNotUpdate.current = true;
         } else {
-            firstUpdate.current = false;
+            colorsFirstUpdate.current = false;
         }
-    }, [props.palette])
+    }, [props.palette]);
+
+    const colorsDoNotUpdate = useRef(true)
+    useEffect(() => {
+        if(!colorsDoNotUpdate.current) {
+            let newLines = lines.map(line => {
+                return {...line, color: getColor(line.id, colorPalette)}
+            });
+            setLines(newLines);
+        } else {
+            colorsDoNotUpdate.current = false;
+        }
+        
+    }, [colorPalette]);
 
     const straightenLines = idx => {
         if(idx === 0) {
@@ -117,6 +131,11 @@ function Dominoes(props) {
         setSound(getSound(sound));
     }
 
+    const handleSetColorPalette = palette => {
+        colorsDoNotUpdate.current = false;
+        setColorPalette(palette);
+    }
+
     return (
         <div style={{border: '1px solid black'}}>
             <div>
@@ -126,7 +145,7 @@ function Dominoes(props) {
                 })}
             </div>
             {/* <button onClick={isOrganized ? tiltLines : () => straightenLines(0)}>{isOrganized ? 'Tilt' : 'Straighten'}</button> */}
-            <ControlBar isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='click' organizedFunction={tiltLines} unorganizedFunction={() => straightenLines(0)} unorgButton='Tilt' orgButton='Straighten' />
+            <ControlBar palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='click' organizedFunction={tiltLines} unorganizedFunction={() => straightenLines(0)} unorgButton='Tilt' orgButton='Straighten' />
         </div>
     )
 }

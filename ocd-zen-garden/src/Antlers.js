@@ -49,11 +49,25 @@ function Antlers(props) {
             });
             setColorPalette(props.palette);
             setHorns(newHorns);
+            colorsDoNotUpdate.current = true;
         } else {
             colorsFirstUpdate.current = false;
         }
         
     }, [props.palette]);
+
+    const colorsDoNotUpdate = useRef(true)
+    useEffect(() => {
+        if(!colorsDoNotUpdate.current) {
+            let newHorns = horns.map(horn => {
+                return {...horn, color: getColor(horn.id, colorPalette)}
+            });
+            setHorns(newHorns);
+        } else {
+            colorsDoNotUpdate.current = false;
+        }
+        
+    }, [colorPalette]);
 
     const soundPlay = soundObj => {
         const sound = new Howl({
@@ -117,6 +131,11 @@ function Antlers(props) {
         setHorns(createStartingHornsArray(Number(num)))
     }
 
+    const handleSetColorPalette = palette => {
+        colorsDoNotUpdate.current = false;
+        setColorPalette(palette);
+    }
+
     const displayHorns = () => {
         let hornLines = []
         let newLine = []
@@ -161,7 +180,7 @@ function Antlers(props) {
                     )
                 })}
 
-                <ControlBar minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='ding' organizedFunction={twist} unorganizedFunction={() => align(0)} unorgButton='Twist' orgButton='Align'/>
+                <ControlBar palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='ding' organizedFunction={twist} unorganizedFunction={() => align(0)} unorgButton='Twist' orgButton='Align'/>
             </div>
         </div>
     )

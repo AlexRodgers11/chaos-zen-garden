@@ -55,11 +55,25 @@ function Triangles(props) {
             });
             setColorPalette(props.palette);
             setTriangles(newTriangles);
+            colorsDoNotUpdate.current = true;
         } else {
             colorsFirstUpdate.current = false;
         }
         
     }, [props.palette]);
+
+    const colorsDoNotUpdate = useRef(true)
+    useEffect(() => {
+        if(!colorsDoNotUpdate.current) {
+            let newTriangles = triangles.map(triangle => {
+                return {...triangle, color: getColor(triangle.id, colorPalette)}
+            });
+            setTriangles(newTriangles);
+        } else {
+            colorsDoNotUpdate.current = false;
+        }
+        
+    }, [colorPalette]);
 
     const soundPlay = soundObj => {
         const sound = new Howl({
@@ -111,6 +125,11 @@ function Triangles(props) {
         setTriangles(createStartingTrianglesArray(Number(num)))
     }
 
+    const handleSetColorPalette = palette => {
+        colorsDoNotUpdate.current = false;
+        setColorPalette(palette);
+    }
+
     const displayTriangles = () => {
         let triangleLines = []
         let newLine = []
@@ -136,7 +155,7 @@ function Triangles(props) {
                         // return <div style={{display: 'inline-block', borderBottom: `24px solid black`, borderLeft: `24px solid transparent`, borderRight: `24px solid transparent`, height: '0', width: '0', margin: `${props.width * .33 * (1 / 81)}px`}}><div style={{position: 'relative', display: 'inline-block', borderBottom: `22px solid ${triangle.color}`, borderLeft: `22px solid transparent`, borderRight: `22px solid transparent`, height: '0', width: '0', right:`${22}px`, top: '1px'}}></div></div>
                     })}</div>
                 })}
-                <ControlBar minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='ding' organizedFunction={uncenter} unorganizedFunction={() => center(0)} unorgButton='Uncenter' orgButton='Center'/>
+                <ControlBar palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='ding' organizedFunction={uncenter} unorganizedFunction={() => center(0)} unorgButton='Uncenter' orgButton='Center'/>
             </div>
         </div>
     )

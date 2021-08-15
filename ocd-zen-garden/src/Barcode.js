@@ -120,10 +120,24 @@ function Barcode(props) {
             });
             setStripes(newStripes);
             setColorPalette(props.palette);
+            colorsDoNotUpdate.current = true;
         } else {
             colorFirstUpdate.current = false;
         }
     }, [props.palette]);
+
+    const colorsDoNotUpdate = useRef(true)
+    useEffect(() => {
+        if(!colorsDoNotUpdate.current) {
+            let newStripes = stripes.map(stripe => {
+                return {...stripe, color: getColor(stripe.id, colorPalette)}
+            });
+            setStripes(newStripes);
+        } else {
+            colorsDoNotUpdate.current = false;
+        }
+        
+    }, [colorPalette]);
     
     const handleSetSound = sound => {
         setSound(getSound(sound))
@@ -131,6 +145,11 @@ function Barcode(props) {
 
     const handleSetSpeed = speed => {
         setSpeed(speed);
+    }
+
+    const handleSetColorPalette = palette => {
+        colorsDoNotUpdate.current = false;
+        setColorPalette(palette);
     }
 
     const [stripes, setStripes] = useState(createStartingStripeArray(numStripes))
@@ -142,7 +161,7 @@ function Barcode(props) {
                     // return <div key={stripe.stripeKey} style={{margin: '0 auto', width: `${.33 * .4 * props.width}px`, height: `${stripe.height * props.width * 10}px`, backgroundColor: stripe.color, border: '1px solid black'}}></div>
                     return <div key={stripe.stripeKey} style={{margin: '0 auto', width: `${.33 * .4 * props.width}px`, height: `${stripe.height * props.width}px`, backgroundColor: stripe.color, border: '1px solid black'}}></div>
                 })}
-                <ControlBar isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='blip' organizedFunction={unbalanceStripes} unorganizedFunction={() => balanceStripes(0)} unorgButton='Unbalance' orgButton='Balance' />
+                <ControlBar palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='blip' organizedFunction={unbalanceStripes} unorganizedFunction={() => balanceStripes(0)} unorgButton='Unbalance' orgButton='Balance' />
             </div>
         </div>
     )

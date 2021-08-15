@@ -109,19 +109,34 @@ function Dots(props) {
     // }, [dots])
     }, [nextIndex])
     
-    const colorsFirstUpdate = useRef(true)
+    const colorsPropFirstUpdate = useRef(true)
     useEffect(() => {
-        if(!colorsFirstUpdate.current) {
+        if(!colorsPropFirstUpdate.current) {
             let newDots = dots.map(dot => {
                 return {...dot, color: getColor(dot.id, props.palette)}
             });
             setColorPalette(props.palette);
             setDots(newDots);
+            colorsDoNotUpdate.current = true;
         } else {
-            colorsFirstUpdate.current = false;
+            colorsPropFirstUpdate.current = false;
         }
         
     }, [props.palette]);
+
+    const colorsDoNotUpdate = useRef(true)
+    useEffect(() => {
+        if(!colorsDoNotUpdate.current) {
+            console.log('palette rerun')
+            let newDots = dots.map(dot => {
+                return {...dot, color: getColor(dot.id, colorPalette)}
+            });
+            setDots(newDots);
+        } else {
+            colorsDoNotUpdate.current = false;
+        }
+        
+    }, [colorPalette]);
     
     // const numberFirstUpdate = useRef(true);
     // useEffect(() => {
@@ -156,6 +171,11 @@ function Dots(props) {
 
     const handleSetSound = sound => {
         setSound(getSound(sound));
+    }
+
+    const handleSetColorPalette = palette => {
+        colorsDoNotUpdate.current = false;
+        setColorPalette(palette);
     }
 
     const displayDots = () => {
@@ -229,7 +249,7 @@ function Dots(props) {
                     </p>
                 })}
                 {/* <button onClick={isOrganized ? scatterDots : () => organizeDots(0, 'horizontal')}>{isOrganized ? 'Scatter' : 'Organize'}</button> */}
-                <ControlBar minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='whoosh' organizedFunction={scatterDots} unorganizedFunction={() => organizeDots(0, 'horizontal')} unorgButton='Scatter' orgButton='Organize' />
+                <ControlBar palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='whoosh' organizedFunction={scatterDots} unorganizedFunction={() => organizeDots(0, 'horizontal')} unorgButton='Scatter' orgButton='Organize' />
             </div>
         </div>
     )

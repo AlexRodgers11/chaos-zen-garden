@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { palettes } from './utils';
 
 function ControlBar(props) {
     const [speed, setSpeed] = useState(1000);
     const [text, setText] = useState(props.textValue || null);
     const [sound, setSound] = useState(props.soundValue || null);
     const [number, setNumber] = useState(props.number);
+    const [palette, setPalette] = useState(props.palette || 'baseColors');
      
     const handleSpeedChange = evt => {
         setSpeed(evt.target.value);
@@ -23,8 +25,12 @@ function ControlBar(props) {
     
     const handleNumberChange = evt => {
         setNumber(evt.target.value);
-        console.log('test')
         props.setNumber(evt.target.value);
+    }
+
+    const handlePaletteChange = evt => {
+        setPalette(evt.target.value);
+        props.setPalette(evt.target.value);
     }
 
     const displayNumberOptions = (min = 3, max = 10) => {
@@ -40,7 +46,11 @@ function ControlBar(props) {
             {props.text ? <p><label htmlFor="textInput">{props.text}</label><input type="text" disabled={props.isOrganizing} onChange={handleChangeText} value={text}/></p> : null}
             <span>
                 <button>Add</button>
-                <button>Change Colors</button>
+                <select id="palette" value={props.palette} onChange={handlePaletteChange}>
+                    {palettes.map(palette => {
+                        return <option value={palette}>{palette}</option>
+                    })}
+                </select>
                 {/* <label forName="speed">Speed</label> */}
                 <select id="speed" value={speed} onChange={handleSpeedChange}>
                     <option value={4000}>.25x</option>

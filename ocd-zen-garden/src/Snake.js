@@ -70,10 +70,24 @@ function Snake(props) {
             });
             setColorPalette(props.palette);
             setBoxes(newBoxes);
+            colorsDoNotUpdate.current = true;
         } else {
             colorFirstUpdate.current = false;
         }
     }, [props.palette]);
+
+    const colorsDoNotUpdate = useRef(true)
+    useEffect(() => {
+        if(!colorsDoNotUpdate.current) {
+            let newBoxes = boxes.map(box => {
+                return {...box, color: getColor(box.id, colorPalette)}
+            });
+            setBoxes(newBoxes);
+        } else {
+            colorsDoNotUpdate.current = false;
+        }
+        
+    }, [colorPalette]);
 
 
     const organizeBoxes = (idx) => {
@@ -121,6 +135,11 @@ function Snake(props) {
         setSound(getSound(sound));
     }
 
+    const handleSetColorPalette = palette => {
+        colorsDoNotUpdate.current = false;
+        setColorPalette(palette);
+    }
+
     return (
         <div style={{width: '100%', border: '1px solid black'}}>
             {boxes.map(box => {
@@ -131,7 +150,7 @@ function Snake(props) {
                 )
             })}
             {/* <button onClick={isOrganized ? scatterBoxes : () => organizeBoxes(0)}>{isOrganized ? 'Scatter' : 'Organize'}</button> */}
-            <ControlBar isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='blip' organizedFunction={scatterBoxes} unorganizedFunction={() => organizeBoxes(0)} unorgButton='Scatter' orgButton='Organize' />
+            <ControlBar palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='blip' organizedFunction={scatterBoxes} unorganizedFunction={() => organizeBoxes(0)} unorgButton='Scatter' orgButton='Organize' />
         </div>
     )
 }

@@ -154,10 +154,24 @@ function Message(props){
             });
             setLetters(newLetters);
             setColorPalette(props.palette);
+            colorsDoNotUpdate.current = true;
         } else {
             colorFirstUpdate.current = false;
         }
     }, [props.palette]);
+
+    const colorsDoNotUpdate = useRef(true)
+    useEffect(() => {
+        if(!colorsDoNotUpdate.current) {
+            let newLetters = letters.map(letter => {
+                return {...letter, color: getColor(letter.id, colorPalette)}
+            });
+            setLetters(newLetters);
+        } else {
+            colorsDoNotUpdate.current = false;
+        }
+        
+    }, [colorPalette]);
 
     const handleChangeText = text => {
         if(isOrganized) {
@@ -184,6 +198,11 @@ function Message(props){
         setSound(getSound(sound));
     }
 
+    const handleSetColorPalette = palette => {
+        colorsDoNotUpdate.current = false;
+        setColorPalette(palette);
+    }
+
     return (
         <div style={{border: '1px solid black', height: `${props.width * .33}px`}}>
             <div>
@@ -193,7 +212,7 @@ function Message(props){
                 })}
             </div>
             {/* <button onClick={isOrganized ? unalignLetters : () => straightenLetters(0)}>{isOrganized ? 'Unalign' : 'Straighten'}</button> */}
-            <ControlBar isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} soundValue='ding' changeText={handleChangeText} setSpeed={handleSetSpeed} setSound={handleSetSound} organizedFunction={unalignLetters} unorganizedFunction={() => straightenLetters(0)} unorgButton='Unalign' orgButton='Straighten' />
+            <ControlBar palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} soundValue='ding' changeText={handleChangeText} setSpeed={handleSetSpeed} setSound={handleSetSound} organizedFunction={unalignLetters} unorganizedFunction={() => straightenLetters(0)} unorgButton='Unalign' orgButton='Straighten' />
         </div>
     )
 }
