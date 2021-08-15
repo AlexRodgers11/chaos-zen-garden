@@ -154,7 +154,7 @@ function Barcode(props) {
 
     const [stripes, setStripes] = useState(createStartingStripeArray(numStripes))
     return (
-        <div style={{border: '1px solid black', width: '100%', backgroundColor: getColor('base', colorPalette)}}>
+        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width / 3}px`, height: `${props.width / 3}px`, border: '1px solid black', width: '100%', backgroundColor: getColor('base', colorPalette)}}>
             <div style={{position: 'relative', width: `${.33 * props.width}px`, height: `${.7 * .33 * props.width}px`}}>
                 {stripes.map(stripe => {
                     // return <div key={stripe.stripeKey} style={{margin: '0 auto', width: `${.33 * .4 * props.width}px`, height: stripe.height, backgroundColor: stripe.color, border: '1px solid black'}}></div>

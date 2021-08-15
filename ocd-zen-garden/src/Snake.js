@@ -141,7 +141,8 @@ function Snake(props) {
     }
 
     return (
-        <div style={{width: '100%', border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
+        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width / 3}px`, height: `${props.width / 3}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
+            <div>
             {boxes.map(box => {
                 let boxKey = uuidv4();
                 return (
@@ -151,6 +152,7 @@ function Snake(props) {
             })}
             {/* <button onClick={isOrganized ? scatterBoxes : () => organizeBoxes(0)}>{isOrganized ? 'Scatter' : 'Organize'}</button> */}
             <ControlBar palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='blip' organizedFunction={scatterBoxes} unorganizedFunction={() => organizeBoxes(0)} unorgButton='Scatter' orgButton='Organize' />
+            </div>
         </div>
     )
 }

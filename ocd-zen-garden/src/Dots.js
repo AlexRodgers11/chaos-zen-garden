@@ -236,8 +236,9 @@ function Dots(props) {
     }
 
     return (
-        <div style={{width: '100%', border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
-            <div style={{margin: '0 auto'}}>
+        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width / 3}px`, height: `${props.width / 3}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
+            {/* <div style={{margin: '0 auto'}}> */}
+            <div>
                 {displayDots().map(dotLine => {
                     let dotLineKey =uuidv4();
                     return <p key={dotLineKey} style={{marginBlockEnd: 0, marginBlockStart: 0, padding: 0, marginBottom: 0, marginTop: 0}}>
