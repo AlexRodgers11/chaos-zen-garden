@@ -7,6 +7,7 @@ import { Howl } from 'howler';
 
 function BullsEye(props) {
     const getMargin = () => {
+        console.log('getMargin ran')
         return `${Math.abs(Math.random() * (((props.width * .33 * .55 -2)/ props.numRings)))}px`
     };    
 
@@ -134,7 +135,7 @@ function BullsEye(props) {
                 
             </div>
             {/* {props.id === 1 ? <button onClick={isOrganized ? scatterRings : organizeRings} >{isOrganized ? 'Scatter' : 'Organize'}</button> : null} */}
-            {props.id === 1 ? <ControlBar palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='whoop' organizedFunction={scatterRings} unorganizedFunction={organizeRings} unorgButton='Scatter' orgButton='Organize' /> : null}
+            {props.id === 1 ? <ControlBar palette={colorPalette} setPalette={handleSetColorPalette} setNumber={props.setNumRings} minNum={4} maxNum={15} number={props.numRings} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='whoop' organizedFunction={scatterRings} unorganizedFunction={organizeRings} unorgButton='Scatter' orgButton='Organize' /> : null}
             </div>
         </div>
         

@@ -20,6 +20,7 @@ function Snake(props) {
     // const [boxes, setBoxes] = useState([{id: 1, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(1, 'baseColors')}, {id: 2, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(2, 'baseColors')}, {id: 3, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(3, 'baseColors')}, {id: 4, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(4, 'baseColors')}, {id: 5, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(5, 'baseColors')}, {id: 6, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(6, 'baseColors')}, {id: 7, marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`, color: getColor(7, 'baseColors')}]);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('blip'));
+    const [numBoxes, setNumBoxes] = useState(7)
 
     // const soundPlay = src => {
     //     const sound = new Howl({src});
@@ -39,7 +40,7 @@ function Snake(props) {
         return boxes;
     }
 
-    const [boxes, setBoxes] = useState(createStartingBoxArray(7));
+    const [boxes, setBoxes] = useState(createStartingBoxArray(numBoxes));
 
     const soundPlay = soundObj => {
         const sound = new Howl({
@@ -140,6 +141,11 @@ function Snake(props) {
         setColorPalette(palette);
     }
 
+    const handleSetNumBoxes = num => {
+        setNumBoxes(Number(num));
+        setBoxes(createStartingBoxArray(Number(num)))
+    }
+
     return (
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width / 3}px`, height: `${props.width / 3}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div>
@@ -151,7 +157,7 @@ function Snake(props) {
                 )
             })}
             {/* <button onClick={isOrganized ? scatterBoxes : () => organizeBoxes(0)}>{isOrganized ? 'Scatter' : 'Organize'}</button> */}
-            <ControlBar palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='blip' organizedFunction={scatterBoxes} unorganizedFunction={() => organizeBoxes(0)} unorgButton='Scatter' orgButton='Organize' />
+            <ControlBar palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={15} number={numBoxes} setNumber={handleSetNumBoxes} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='blip' organizedFunction={scatterBoxes} unorganizedFunction={() => organizeBoxes(0)} unorgButton='Scatter' orgButton='Organize' />
             </div>
         </div>
     )

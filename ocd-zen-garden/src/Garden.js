@@ -17,16 +17,21 @@ import { v4 as uuidv4 } from 'uuid';
 function Garden(){
     let width = useCurrentWidth();
     const [colorPalette, setColorPalette] = useState(palettes[0]);
+    const [numRings, setNumRings] = useState(10)
 
     const handleChangePalette = evt => {
         setColorPalette(evt.target.value);
+    }
+
+    const handleSetNumRings = num => {
+        setNumRings(num)
     }
 
     return(
         <div style={{backgroundColor: getColor('base', colorPalette)}} className="Garden">
             <Snake width={width} className="Snake" palette={colorPalette} />
             <Dots width={width} className="Dots" palette={colorPalette}/>
-            <BullsEye width={width} id={1} numRings={10} sound={getSound('whoop')} className="BullsEye" orgIndex={11} palette={colorPalette}/>
+            <BullsEye width={width} id={1} setNumRings={handleSetNumRings} numRings={numRings} sound={getSound('whoop')} className="BullsEye" orgIndex={numRings + 1} palette={colorPalette}/>
             <Message width={width} className="Message" palette={colorPalette}/>
             <Dominoes width={width} className="Dominoes" palette={colorPalette} />
             <Barcode width={width} className="Barcode" palette={colorPalette}/>
