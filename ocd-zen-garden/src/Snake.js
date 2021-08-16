@@ -21,6 +21,7 @@ function Snake(props) {
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('blip'));
     const [numBoxes, setNumBoxes] = useState(7)
+    const [numSnakes, setNumSnakes] = useState(1)
 
     // const soundPlay = src => {
     //     const sound = new Howl({src});
@@ -33,7 +34,8 @@ function Snake(props) {
             boxes.push({
                 id: i,
                 // marginLeft: `${props.width * .33 * .415 + Math.floor(Math.random() * props.width * .33 * .085)}px`,
-                marginLeft: `${.33 * .415 + Math.random() * .33 * .085}`,
+                // marginLeft: `${.33 * .415 + Math.random() * .33 * .085}`,
+                left: `${Math.random() * .5 * 100}`,
                 color: getColor(i, colorPalette)
             })
         }
@@ -98,12 +100,14 @@ function Snake(props) {
         let newBoxes;
         if(idx + 1 === boxes.length){
             newBoxes = boxes.map(box => {
-                return {...box, marginLeft: `${.33 * .4575}`} 
+                // return {...box, marginLeft: `${.33 * .4575}`} 
+                return {...box, left: '25'} 
             });
         } else {
             newBoxes = boxes.map(box => {
                 if(box.id <= boxes[idx].id){
-                    return {...box, marginLeft: `${boxes[idx+1].marginLeft}`}
+                    // return {...box, marginLeft: `${boxes[idx+1].marginLeft}`}
+                    return {...box, left: `${boxes[idx+1].left}`}
                 } else {
                     return box
                 }
@@ -121,8 +125,9 @@ function Snake(props) {
 
     const scatterBoxes = () => {
         let newBoxes = boxes.map(box => {
-            let randomNum = `${.33 * .415 + Math.random() * .33 * .085}`;
-            return {...box, marginLeft: randomNum};
+            let randomNum = `${Math.random() * .5 * 100}`;
+            // return {...box, marginLeft: randomNum};
+            return {...box, left: randomNum};
         })
         setBoxes(newBoxes);
         toggleIsOrganized();
@@ -149,15 +154,18 @@ function Snake(props) {
     return (
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width / 3}px`, height: `${props.width / 3}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div>
+            <div id="test" style={{margin: '0 auto', height:`${props.width / 3  * .75}`, width:`${props.width / 3 * 2 * .75 / numBoxes}px`}}>
             {boxes.map(box => {
                 let boxKey = uuidv4();
                 return (
                     // <div key={boxKey} style={{boxSizing: 'border-box', border: '1.5px solid black', width: `${props.width * .33 * .085}px`, height: `${props.width * .33 * .085}px`, padding: 0, marginTop: '0', marginBottom: '0', marginLeft: `${box.marginLeft}`, backgroundColor: `${box.color}` }}></div>
-                    <div key={boxKey} style={{boxSizing: 'border-box', border: '1.5px solid black', width: `${props.width * .33 * .085}px`, height: `${props.width * .33 * .085}px`, padding: 0, marginTop: '0', marginBottom: '0', marginLeft: `${box.marginLeft * props.width}px`, backgroundColor: `${box.color}` }}></div>
+                    // <div key={boxKey} style={{boxSizing: 'border-box', border: '1.5px solid black', width: `${props.width * .33 * .085}px`, height: `${props.width * .33 * .085}px`, padding: 0, marginTop: '0', marginBottom: '0', marginLeft: `${box.marginLeft * props.width}px`, backgroundColor: `${box.color}` }}></div>
+                    <div key={boxKey} style={{position: 'relative', boxSizing: 'border-box', border: '1.5px solid black', width: `${props.width / 3  * .75 / numBoxes}px`, height: `${props.width / 3  * .75 / numBoxes}px`, padding: 0, marginTop: '0', marginBottom: '0', left:`${box.left}%`, backgroundColor: `${box.color}` }}></div>
                 )
             })}
             {/* <button onClick={isOrganized ? scatterBoxes : () => organizeBoxes(0)}>{isOrganized ? 'Scatter' : 'Organize'}</button> */}
-            <ControlBar palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={15} number={numBoxes} setNumber={handleSetNumBoxes} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='blip' organizedFunction={scatterBoxes} unorganizedFunction={() => organizeBoxes(0)} unorgButton='Scatter' orgButton='Organize' />
+            </div>
+            <ControlBar palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={30} number={numBoxes} setNumber={handleSetNumBoxes} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='blip' organizedFunction={scatterBoxes} unorganizedFunction={() => organizeBoxes(0)} unorgButton='Scatter' orgButton='Organize' />
             </div>
         </div>
     )
