@@ -181,7 +181,7 @@ function Squares(props) {
             <div>
                 {displaySquares().map(squareLine => {
                     return <div>{squareLine.map(square => {
-                        return <div style={{display: 'inline-block', backgroundColor:`${square.color}`, border: '1px solid black', borderRadius: `${square.topLeft}% ${square.topRight}% ${square.bottomRight}% ${square.bottomLeft}%`, width: `${props.width * .33 * (1 / 9)}px`, height: `${props.width * .33 * (1 / 9)}px`, margin: `${props.width * .33 * (1 / 81)}px`}}></div>
+                        return <div style={{display: 'inline-block', backgroundColor:`${square.color}`, border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: `${square.topLeft}% ${square.topRight}% ${square.bottomRight}% ${square.bottomLeft}%`, width: `${props.width * .33 * (1 / 9)}px`, height: `${props.width * .33 * (1 / 9)}px`, margin: `${props.width * .33 * (1 / 81)}px`}}></div>
                     })}</div>
                 })}
                 {/* {squares.map(square => {

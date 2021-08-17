@@ -10,6 +10,10 @@ const colors = {
             name: 'darkGrey',
             color: '#404857'
         },
+        border: {
+            name: 'black',
+            color: '#000000'
+        },
         1: {
             name: 'salmon',
             color:'#ff0048'
@@ -41,6 +45,10 @@ const colors = {
             name: 'black', 
             color: '#011627'
         }, 
+        border: {
+            name: 'mediumGray',
+            color: '#9c9a9a'
+        },
         1: {
             name: 'babyPowder',
             color: '#FDFFFC'
@@ -71,6 +79,14 @@ const colors = {
             name: 'black', 
             color: '#000000'
         }, 
+        // border: {
+        //     name: 'mediumGray',
+        //     color: '#4a4a4a'
+        // },
+        border: {
+            name: 'white',
+            color: '#FFFFFF'
+        },
         1: {
             name: '',
             color: '#fffc00'
@@ -103,6 +119,8 @@ const palettes = ['baseColors', 'testColors1', 'electric'];
 const getColor = (idx, palette) => {
     if(idx === 'base') {
         return colors[palette].base.color;
+    } else if(idx === 'border') {
+        return colors[palette].border.color;
     } else if(idx % 6 === 1 || idx === 1) {
         return colors[palette][1].color
     } else if(idx % 6 === 2 || idx === 2) {
