@@ -157,6 +157,14 @@ function Barcode(props) {
         setColorPalette(palette);
     }
 
+    const handleToggleWindow = () => {
+        if(props.fullWindow) {
+            props.toggleWindow(null)
+        } else {
+            props.toggleWindow('barcode');
+        }
+    }
+
     const [stripes, setStripes] = useState(createStartingStripeArray(numStripes))
     return (
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width / 3}px`, height: `${props.width / 3}px`, border: '1px solid black', width: '100%', backgroundColor: getColor('base', colorPalette)}}>
@@ -166,7 +174,7 @@ function Barcode(props) {
                     // return <div key={stripe.stripeKey} style={{margin: '0 auto', width: `${.33 * .4 * props.width}px`, height: `${stripe.height * props.width * 10}px`, backgroundColor: stripe.color, border: '1px solid black'}}></div>
                     return <div key={stripe.stripeKey} style={{margin: '0 auto', width: `${.33 * .4 * props.width}px`, height: `${stripe.height * props.width}px`, backgroundColor: stripe.color, border: `1px solid ${getColor('border', colorPalette)}`}}></div>
                 })}
-                <ControlBar palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumStripes} minNum={5} maxNum={25} number={numStripes} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='blip' organizedFunction={unbalanceStripes} unorganizedFunction={() => balanceStripes(0)} unorgButton='Unbalance' orgButton='Balance' />
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumStripes} minNum={5} maxNum={25} number={numStripes} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='blip' organizedFunction={unbalanceStripes} unorganizedFunction={() => balanceStripes(0)} unorgButton='Unbalance' orgButton='Balance' />
             </div>
         </div>
     )
