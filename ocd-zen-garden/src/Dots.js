@@ -56,8 +56,8 @@ function Dots(props) {
                 id: i + 1, 
                 // marginLeft: `${props.width * .33 * Math.random() * .05}`,
                 // marginTop: `${props.width * .33 * Math.random() * .05}`,
-                marginLeft: `${.33 * Math.random() * .05}`,
-                marginTop: `${.33 * Math.random() * .05}`,
+                marginLeft: `${Math.random() * .05}`,
+                marginTop: `${Math.random() * .05}`,
                 color: (getColor(i + 1, colorPalette))
             })
         }
@@ -66,36 +66,6 @@ function Dots(props) {
     
 
     const [dots, setDots] = useState(createStartingDotArray(numRows));
-
-    
-
-    // const [dots, setDots] = useState([
-    //     {id: 1, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(1)}, 
-    //     {id: 2, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(2)}, 
-    //     {id: 3, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(3)}, 
-    //     {id: 4, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(4)}, 
-    //     {id: 5, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(5)}, 
-    //     {id: 6, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(6)}, 
-    //     {id: 7, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(7)}, 
-    //     {id: 8, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(8)}, 
-    //     {id: 9, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(9)}, 
-    //     {id: 10, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(10)}, 
-    //     {id: 11, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(11)}, 
-    //     {id: 12, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(12)}, 
-    //     {id: 13, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(13)}, 
-    //     {id: 14, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(14)}, 
-    //     {id: 15, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(15)}, 
-    //     {id: 16, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(16)}, 
-    //     {id: 17, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(17)}, 
-    //     {id: 18, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(18)}, 
-    //     {id: 19, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(19)}, 
-    //     {id: 20, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(20)}, 
-    //     {id: 21, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(21)}, 
-    //     {id: 22, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(22)}, 
-    //     {id: 23, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(23)}, 
-    //     {id: 24, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(14)}, 
-    //     {id: 25, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`, color: getColor(25)}]);
-
 
     const firstUpdate = useRef(true);
     useEffect(() => {
@@ -202,7 +172,7 @@ function Dots(props) {
             newDots = dots.map(dot => {
                 if(dot.id === dots[idx].id){
                     // return {...dot, marginLeft: `${props.width * .33 * .025 - .5}`}
-                    return {...dot, marginLeft: `${.33 * .025}`}
+                    return {...dot, marginLeft: `${.025}`}
                 } else {
                     return dot
                 }
@@ -211,7 +181,7 @@ function Dots(props) {
             newDots = dots.map(dot => {
                 if(dot.id === dots[idx].id){
                     // return {...dot, marginTop: `${props.width * .33 * .025 - .5}`}
-                    return {...dot, marginTop: `${.33 * .025}`}
+                    return {...dot, marginTop: `${.025}`}
                 } else {
                     return dot
                 }
@@ -229,7 +199,7 @@ function Dots(props) {
     const scatterDots = () => {
         let newDots = dots.map(dot => {
             // return {...dot, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`}
-            return {...dot, marginLeft: `${.33 * Math.random() * .05}`, marginTop: `${.33 * Math.random() * .05}`}
+            return {...dot, marginLeft: `${Math.random() * .05}`, marginTop: `${Math.random() * .05}`}
         });
         setDots(newDots);
         toggleIsOrganized();
@@ -244,7 +214,7 @@ function Dots(props) {
     }
 
     return (
-        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width / 3}px`, height: `${props.width / 3}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
+        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width}px`, height: `${props.width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             {/* <div style={{margin: '0 auto'}}> */}
             <div>
                 {displayDots().map(dotLine => {
@@ -253,7 +223,7 @@ function Dots(props) {
                         {dotLine.map(dot => {
                             let dotKey = uuidv4();
                             // return <span key={dotKey} style={{display: 'inline-block', textAlign: 'left', padding: '0px', width: `${props.width * .33 * .10}px`, height: `${props.width * .33 * .10}px`, marginBottom: '0'}}><span style={{display: 'block', border: '1px solid black', borderRadius: '50%', width: `${props.width * .33 * .05}px`, height: `${props.width * .33 * .05}px`, marginLeft: `${dot.marginLeft}px`, marginTop: `${dot.marginTop}px`, backgroundColor: `${dot.color}`}}></span></span>
-                            return <span key={dotKey} style={{display: 'inline-block', textAlign: 'left', padding: '0px', width: `${props.width * .33 * .10}px`, height: `${props.width * .33 * .10}px`, marginBottom: '0'}}><span style={{display: 'block', border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: '50%', width: `${props.width * .33 * .05}px`, height: `${props.width * .33 * .05}px`, marginLeft: `${dot.marginLeft * props.width - .5}px`, marginTop: `${dot.marginTop * props.width - .5}px`, backgroundColor: `${dot.color}`}}></span></span>
+                            return <span key={dotKey} style={{display: 'inline-block', textAlign: 'left', padding: '0px', width: `${props.width* .10}px`, height: `${props.width* .10}px`, marginBottom: '0'}}><span style={{display: 'block', border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: '50%', width: `${props.width * .05}px`, height: `${props.width * .05}px`, marginLeft: `${dot.marginLeft * props.width - .5}px`, marginTop: `${dot.marginTop * props.width - .5}px`, backgroundColor: `${dot.color}`}}></span></span>
                         })}
                     </p>
                 })}

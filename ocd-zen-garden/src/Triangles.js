@@ -15,7 +15,7 @@ function Triangles(props) {
 
     const createStartingTrianglesArray = num => {
         let triangles = [];
-        let bottom = props.width * .33 / (num * 1.80)
+        let bottom = props.width / (num * 1.80)
         for(let i = 1; i < num ** 2 + 1; i++) {
             let random = Math.random() * .45 * bottom * .5 + (.55 * bottom *.5);
             let remainder = bottom - random;
@@ -152,14 +152,14 @@ function Triangles(props) {
     }
 
     return (
-        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width / 3}px`, height: `${props.width / 3}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
+        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width}px`, height: `${props.width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div>
                 {displayTriangles().map(triangleLine => {
                     // return <div>{triangleLine.map(triangle => {
-                    return <div style={{height: `${props.width / 3 / (numRows * 1.4)}px`, width: `${props.width * .33}px`}}>{triangleLine.map(triangle => {
+                    return <div style={{height: `${props.width / (numRows * 1.4)}px`, width: `${props.width}px`}}>{triangleLine.map(triangle => {
                     // return <div style={{height: `${80}px`, width: `${props.width * .33}px`}}>{triangleLine.map(triangle => {
                         // return <div style={{display: 'inline-block', padding: '0', width: `${triangle.bottom + 2}px`, height: `${triangle.bottom * Math.sqrt(3)/2}px`}}><div style={{display: 'inline-block', borderBottom: `${triangle.bottom}px solid ${triangle.color}`, borderLeft: `${triangle.left}px solid transparent`, borderRight: `${triangle.right}px solid transparent`, height: '0', width: '0', margin: `${props.width * .33 * (1 / 81)}px`}}></div></div>
-                        return <div style={{display: 'inline-block', borderBottom: `${triangle.bottom + 1.5}px solid ${getColor('border', colorPalette)}`, borderLeft: `${triangle.left + 1.5}px solid transparent`, borderRight: `${triangle.right + 1.5}px solid transparent`, height: '0', width: '0', margin: `${props.width * .33 * (1 / 81)}px`}}><div style={{position: 'relative', display: 'inline-block', borderBottom: `${triangle.bottom}px solid ${triangle.color}`, borderLeft: `${triangle.left}px solid transparent`, borderRight: `${triangle.right}px solid transparent`, height: '0', width: '0', right:`${triangle.left}px`, top:'.75px'}}></div></div>
+                        return <div style={{display: 'inline-block', borderBottom: `${triangle.bottom + 1.5}px solid ${getColor('border', colorPalette)}`, borderLeft: `${triangle.left + 1.5}px solid transparent`, borderRight: `${triangle.right + 1.5}px solid transparent`, height: '0', width: '0', margin: `${props.width * (1 / 81)}px`}}><div style={{position: 'relative', display: 'inline-block', borderBottom: `${triangle.bottom}px solid ${triangle.color}`, borderLeft: `${triangle.left}px solid transparent`, borderRight: `${triangle.right}px solid transparent`, height: '0', width: '0', right:`${triangle.left}px`, top:'.75px'}}></div></div>
                         // return <div style={{display: 'inline-block', borderBottom: `24px solid black`, borderLeft: `24px solid transparent`, borderRight: `24px solid transparent`, height: '0', width: '0', margin: `${props.width * .33 * (1 / 81)}px`}}><div style={{position: 'relative', display: 'inline-block', borderBottom: `22px solid ${triangle.color}`, borderLeft: `22px solid transparent`, borderRight: `22px solid transparent`, height: '0', width: '0', right:`${22}px`, top: '1px'}}></div></div>
                     })}</div>
                 })}
