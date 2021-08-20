@@ -26,7 +26,7 @@ function Garden(){
     }
 
     const handleSetNumRings = num => {
-        setNumRings(num)
+        setNumRings(Number(num))
     }
 
     const handleToggleWindow = fullWindowPiece => {
