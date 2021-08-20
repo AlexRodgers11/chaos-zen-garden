@@ -60,7 +60,15 @@ function Garden(){
     }
 
     if(!fullSelectedPiece) {
-        let gardenPieceWidth = width / 3;
+        let gardenPieceWidth;
+        if(width >= 900) {
+            gardenPieceWidth = width / 3;
+        } else if (width < 900 && width > 600) {
+            gardenPieceWidth = width / 2;
+        } else {
+            gardenPieceWidth = width;
+        }
+
         return (
             <div className="Garden">
                 <Snake width={gardenPieceWidth} className="Snake" palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>

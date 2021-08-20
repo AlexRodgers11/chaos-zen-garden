@@ -2,53 +2,109 @@
     background-color: #404857;
 } */
 
-.Garden {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr, 1fr, 1fr
+@media (min-width: 800px) {
+    .Garden {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr, 1fr, 1fr
+    }
+    
+    .Snake {
+        grid-column: 1;
+        grid-row: 1
+    }
+    
+    .Dots {
+        grid-column: 2;
+        grid-row: 1
+    }
+    
+    .BullsEye {
+        grid-column: 3;
+        grid-row: 1
+    }
+    
+    .Message { 
+        grid-column: 1;
+        grid-row: 2
+    }
+    
+    .Dominoes {
+        grid-column: 2;
+        grid-row: 2
+    }
+    
+    .Barcode {
+        grid-column: 3;
+        grid-row: 2
+    }
+    
+    .Squares {
+        grid-column: 1;
+        grid-row: 3
+    }
+    
+    .Triangles {
+        grid-column: 2;
+        grid-row: 3
+    }
+    
+    .Antlers {
+        grid-column: 3;
+        grid-row: 3
+    }
 }
 
-.Snake {
-    grid-column: 1;
-    grid-row: 1
+@media (min-width: 600px ) and (max-width: 900px){
+    .Garden {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr, 1fr, 1fr, 1fr, 1fr, 
+    }
+    
+    .Snake {
+        grid-column: 1;
+        grid-row: 1
+    }
+    
+    .Dots {
+        grid-column: 2;
+        grid-row: 1
+    }
+    
+    .BullsEye {
+        grid-column: 1;
+        grid-row: 2
+    }
+    
+    .Message { 
+        grid-column: 2;
+        grid-row: 2
+    }
+    
+    .Dominoes {
+        grid-column: 1;
+        grid-row: 3
+    }
+    
+    .Barcode {
+        grid-column: 2;
+        grid-row: 3
+    }
+    
+    .Squares {
+        grid-column: 1;
+        grid-row: 4
+    }
+    
+    .Triangles {
+        grid-column: 2;
+        grid-row: 4
+    }
+    
+    .Antlers {
+        grid-column: 1;
+        grid-row: 5
+    }
 }
 
-.Dots {
-    grid-column: 2;
-    grid-row: 1
-}
-
-.BullsEye {
-    grid-column: 3;
-    grid-row: 1
-}
-
-.Message { 
-    grid-column: 1;
-    grid-row: 2
-}
-
-.Dominoes {
-    grid-column: 2;
-    grid-row: 2
-}
-
-.Barcode {
-    grid-column: 3;
-    grid-row: 2
-}
-
-.Squares {
-    grid-column: 1;
-    grid-row: 3
-}
-
-.Triangles {
-    grid-column: 2;
-    grid-row: 3
-}
-
-.Antlers {
-    grid-column: 3;
-    grid-row: 3
-}
