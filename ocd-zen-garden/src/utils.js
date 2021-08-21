@@ -6,6 +6,7 @@ import Blip from './assets/blip.wav';
 
 const colors = {
     baseColors: {
+        colorCount: 6,
         base: {
             name: 'darkGrey',
             color: '#404857'
@@ -41,6 +42,7 @@ const colors = {
         }
     },
     testColors1: {
+        colorCount: 6,
         base: {
             name: 'black', 
             color: '#011627'
@@ -75,6 +77,7 @@ const colors = {
         }       
     },
     electric: {
+        colorCount: 6,
         base: {
             name: 'black', 
             color: '#000000'
@@ -111,28 +114,164 @@ const colors = {
             name: '',
             color: '#ff073a'
         }       
+    }, 
+    zebra: {
+        colorCount: 2,
+        base: {
+            name: 'white',
+            color: '#FFFFFF'
+        },
+        border: {
+            name: 'black',
+            color: '#000000'
+        },
+        1: {
+            name: 'black',
+            color: '#000000'
+        },
+        2: {
+            name: 'white',
+            color: '#FFFFFF'
+        }
+    },
+    christmas: {
+        colorCount: 2,
+        base: {
+            name: 'white',
+            color: '#FFFFFF'// possibly try to do candy-cane gradient
+        },
+        border: {
+            name: 'gold',
+            color: '#CC9901'
+        },
+        1: {
+            name: 'red',
+            color: '#B70D00'
+        },
+        2: {
+            name: 'green',
+            color: '#005C01'
+        }
+    },
+    rose: {
+        colorCount: 3,
+        base: {
+            name: '',
+            color: '#4E4E50'
+        },
+        border: {
+            name: '',
+            color: '#1A1A1D'
+        },
+        1: {
+            name: '',
+            color: '#C3073F'
+        },
+        2: {
+            name: '',
+            color: '#950740'
+        },
+        3: {
+            name: '',
+            color: '#6F2232'
+        }
+    },
+    sea: {
+        colorCount: 3,
+        base: {
+            name: '',
+            color: '#0B0C10'
+        },
+        border: {
+            name: '',
+            color: '#C5C6C7'
+        },
+        1: {
+            name: '',
+            color: '#45A29E'
+        },
+        2: {
+            name: '',
+            color: '#66FCF1'
+        },
+        3: {
+            name: '',
+            color: '#1F2833'
+        }
+    },
+    talisman: {
+        colorCount: 3,
+        base: {
+            name: '',
+            color: '#272727'
+        },
+        border: {
+            name: '',
+            color: '#747474'
+        },
+        1: {
+            name: '',
+            color: '#FF652F'
+        },
+        2: {
+            name: '',
+            color: '#FFE400'
+        },
+        3: {
+            name: '',
+            color: '#14A76C'
+        }
     }
+    
+
 }
 
-const palettes = ['baseColors', 'testColors1', 'electric'];
+const palettes = ['baseColors', 'testColors1', 'electric', 'zebra', 'christmas', 'rose', 'sea', 'talisman'];
 
 const getColor = (idx, palette) => {
-    if(idx === 'base') {
-        return colors[palette].base.color;
-    } else if(idx === 'border') {
-        return colors[palette].border.color;
-    } else if(idx % 6 === 1 || idx === 1) {
-        return colors[palette][1].color
-    } else if(idx % 6 === 2 || idx === 2) {
-        return colors[palette][2].color
-    } else if(idx % 6 === 3 || idx === 3) {
-        return colors[palette][3].color
-    } else if (idx % 6 === 4 || idx === 4) {
-        return colors[palette][4].color
-    } else if (idx % 6 === 5 || idx === 5) {
-        return colors[palette][5].color
-    } else if (idx % 6 === 0 || idx === 6) {
-        return colors[palette][6].color
+    // console.log(Object.keys(colors[palette]))
+    // Object.keys(colors[palette])[Object.keys(colors[palette]).length]
+    
+    if(colors[palette].colorCount === 6) {
+        if(idx === 'base') {
+            return colors[palette].base.color;
+        } else if(idx === 'border') {
+            return colors[palette].border.color;
+        } else if(idx % 6 === 1 || idx === 1) {
+            return colors[palette][1].color
+        } else if(idx % 6 === 2 || idx === 2) {
+            return colors[palette][2].color
+        } else if(idx % 6 === 3 || idx === 3) {
+            return colors[palette][3].color
+        } else if (idx % 6 === 4 || idx === 4) {
+            return colors[palette][4].color
+        } else if (idx % 6 === 5 || idx === 5) {
+            return colors[palette][5].color
+        } else if (idx % 6 === 0 || idx === 6) {
+            return colors[palette][6].color
+        }
+    } else if(colors[palette].colorCount === 2) {
+        if(idx === 'base') {
+            return colors[palette].base.color;
+        } else if(idx === 'border') {
+            return colors[palette].border.color;
+        } else if(idx % 2 === 1 || idx === 1) {
+            return colors[palette][1].color
+        } else if(idx % 2 === 0 || idx === 2) {
+            return colors[palette][2].color
+        }
+    } else if(colors[palette].colorCount === 3) {
+        if(idx === 'base') {
+            return colors[palette].base.color;
+        } else if(idx === 'border') {
+            return colors[palette].border.color;
+        } else if(idx % 3 === 1 || idx === 1) {
+            return colors[palette][1].color
+        } else if(idx % 3 === 2 || idx === 2) {
+            return colors[palette][2].color
+        } else if(idx % 3 === 0 || idx === 3) {
+            return colors[palette][3].color
+        }
     }
 }
 
