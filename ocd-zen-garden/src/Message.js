@@ -67,7 +67,7 @@ function Message(props){
             if(letters[a].letter !== ' ') {
                 letters[a].id = index;
                 letters[a].tilt = generateTilt();
-                letters[a].color =  getColor(index, 'baseColors');
+                letters[a].color =  getColor(index, colorPalette);
                 index++;
             } else {
                 letters[a].id = null;
