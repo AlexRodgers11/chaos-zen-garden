@@ -7,8 +7,10 @@ import { Howl } from 'howler';
 
 function BullsEye(props) {
     const getMargin = () => {
-        console.log('getMargin ran')
-        return `${Math.abs(Math.random() * (((props.width * .55 -2)/ props.numRings)))}px`
+        // console.log('getMargin ran')
+        // return `${Math.abs(Math.random() * (((props.width * .55 -2)/ props.numRings)))}px`
+        // return .1 + Math.random() * .8;
+        return Math.random()
     };    
 
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -21,6 +23,8 @@ function BullsEye(props) {
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(props.sound);
     const [colorPalette, setColorPalette] = useState(props.palette);
+    const [numRings, setNumRings] = useState(props.numRings);
+    const [userJustChangedNumber, toggleUserJustChangedNumber] = useToggle(props.id === 1 ? false : props.userJustChangedNumber);
 
     // const soundPlay = src => {
     //     const sound = new Howl({
@@ -42,7 +46,7 @@ function BullsEye(props) {
 
     let firstUpdate = useRef(true);
     useEffect(() => {
-        if(!firstUpdate.current && !isOrganized) {
+        if((!firstUpdate.current && !isOrganized) && !userJustChangedNumber) {
             if(props.id === 1) {
                 setTimeout(() => {
                     if(orgIndex > 2) {
@@ -59,14 +63,33 @@ function BullsEye(props) {
         }
     }, [orgIndex]);
 
+
+    let numRingsFirstUpdate = useRef(true);
     useEffect(() => {
-        if(props.orgIndex === props.id && !isOrganized) {
+        if(!numRingsFirstUpdate.current) {
+            setNumRings(props.numRings);
+            if(isOrganized) {
+                setMarginLeft(1 / 2);
+                setMarginTop(1 / 2);
+            } else {
+                setMarginLeft(getMargin());
+                setMarginTop(getMargin());
+            }
+        } else {
+            numRingsFirstUpdate.current = false;
+        }
+    }, [props.numRings]);
+
+    useEffect(() => {
+        if((props.orgIndex === props.id && !isOrganized)) {
+            console.log('orgIndex if ran')
             if(orgIndex !== props.numRings) {
                 soundPlay(sound);
             }
-            setMarginLeft(`${((props.width * .55 / props.numRings)) /2 -1}px`);
-            setMarginTop(`${((props.width * .55 / props.numRings)) /2 -1}px`);
+            setMarginLeft(1 / 2);
+            setMarginTop(1 / 2);
         } else if (props.isOrganized){
+            console.log('orgIndex else ran')
             setMarginLeft(getMargin());
             setMarginTop(getMargin());
         }
@@ -99,8 +122,10 @@ function BullsEye(props) {
     }, [props.sound])
 
     const organizeRings = () => {
+        if(userJustChangedNumber) toggleUserJustChangedNumber();
         if(orgIndex === props.numRings + 1) {
             toggleIsOrganizing();
+            
         }
         setOrgIndex(orgIndex - 1);
     }
@@ -132,18 +157,29 @@ function BullsEye(props) {
         }
     }
 
+    const handleSetNumRings = num => {
+        let number = Number(num)
+        props.setNumRings(number);
+        if(props.id === 1) setOrgIndex(number + 1)
+        if(!userJustChangedNumber) toggleUserJustChangedNumber();
+        if(isOrganized) toggleIsOrganized();
+    }
+
     return (
         <div style={props.id === 1 ? {display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width}px`, height: `${props.width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)} : null}>
             {/* <div style={props.id > 1 ? {position: 'relative', backgroundColor: getColor(props.id, props.palette), marginLeft: marginLeft, marginTop: marginTop, border: '1px solid black', borderRadius: '50%', width: `${props.width * .33 * .55 - ((props.width * .33 * .55 / props.numRings) * (props.id - 1)) - 1}px`, height: `${props.width * .33 * .55 - ((props.width * .33 * .55 / props.numRings) * (props.id - 1)) - 1}px`} : {position: 'relative', margin: '0 auto', backgroundColor: getColor(props.id, props.palette), border: '1px solid black', borderRadius: '50%', width: `${props.width * .33 * .55}px`, height: `${props.width * .33 * .55}px`}}> */}
             <div>
-            <div style={props.id > 1 ? {position: 'relative', backgroundColor: getColor(props.id, colorPalette), marginLeft: marginLeft, marginTop: marginTop, border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: '50%', width: `${props.width * .55 - ((props.width * .55 / props.numRings) * (props.id - 1)) - 1}px`, height: `${props.width * .55 - ((props.width * .55 / props.numRings) * (props.id - 1)) - 1}px`} : {position: 'relative', margin: '0 auto', backgroundColor: getColor(props.id, colorPalette), border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: '50%', width: `${props.width * .55}px`, height: `${props.width * .55}px`}}>
-                {
-                    props.id < props.numRings ? <BullsEye palette={colorPalette} sound={sound} orgIndex={props.id === 1 ? orgIndex : props.orgIndex} isOrganized={props.id === 1 ? isOrganized : props.isOrganized} numRings={props.numRings} id={props.id + 1} width={props.width} style={{position: 'relative', marginLeft: marginLeft, marginTop: marginTop, border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: '50%', width: `${props.width * .55 - ((props.width * .55 / props.numRings) * (props.id)) - 1}px`, height: `${props.width * .55 - ((props.width * .55 / props.numRings) * (props.id)) - 1}px`}} /> : null
+            {/* <div style={props.id > 1 ? {position: 'relative', backgroundColor: getColor(props.id, colorPalette), marginLeft: marginLeft, marginTop: marginTop, border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: '50%', width: `${props.width * .55 - ((props.width * .55 / props.numRings) * (props.id - 1)) - 1}px`, height: `${props.width * .55 - ((props.width * .55 / props.numRings) * (props.id - 1)) - 1}px`} : {position: 'relative', margin: '0 auto', backgroundColor: getColor(props.id, colorPalette), border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: '50%', width: `${props.width * .55}px`, height: `${props.width * .55}px`}}> */}
+            {/* <div style={props.id > 1 ? {position: 'relative', backgroundColor: getColor(props.id, colorPalette), left: `${(.2 + marginLeft * props.width * .6 / props.numRings)}px`, top: `${(.2 + marginTop * props.width * .6 / props.numRings) - 2}px`, border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: '50%', width: `${props.width * .6 - ((props.width * .6 / props.numRings) * (props.id - 1)) - 1}px`, height: `${props.width * .6 - ((props.width * .6 / props.numRings) * (props.id - 1)) - 1}px`} : {position: 'relative', margin: '0 auto', backgroundColor: getColor(props.id, colorPalette), border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: '50%', width: `${props.width * .60}px`, height: `${props.width * .60}px`}}> ///////////////////////////// */}
+            <div style={props.id > 1 ? {position: 'relative', backgroundColor: getColor(props.id, colorPalette), left: `${(marginLeft * props.width * .6 / props.numRings) - 1}px`, top: `${(marginTop * props.width * .6 / props.numRings) - 1}px`, border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: '50%', width: `${props.width * .6 - ((props.width * .6 / props.numRings) * (props.id - 1)) - 1}px`, height: `${props.width * .6 - ((props.width * .6 / props.numRings) * (props.id - 1)) - 1}px`} : {position: 'relative', margin: '0 auto', backgroundColor: getColor(props.id, colorPalette), border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: '50%', width: `${props.width * .60}px`, height: `${props.width * .60}px`}}>
+                {                                                                                                         //-.2 
+                    // props.id < props.numRings ? <BullsEye palette={colorPalette} sound={sound} orgIndex={props.id === 1 ? orgIndex : props.orgIndex} isOrganized={props.id === 1 ? isOrganized : props.isOrganized} numRings={props.numRings} id={props.id + 1} width={props.width} style={{position: 'relative', marginLeft: marginLeft, marginTop: marginTop, border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: '50%', width: `${props.width * .55 - ((props.width * .55 / props.numRings) * (props.id)) - 1}px`, height: `${props.width * .55 - ((props.width * .55 / props.numRings) * (props.id)) - 1}px`}} /> : null
+                    props.id < props.numRings ? <BullsEye userJustChangedNumber={props.id === 1 ? userJustChangedNumber : props.userJustChangedNumber} palette={colorPalette} sound={sound} orgIndex={props.id === 1 ? orgIndex : props.orgIndex} isOrganized={props.id === 1 ? isOrganized : props.isOrganized} numRings={props.numRings} id={props.id + 1} width={props.width}  /> : null
                 }
                 
             </div>
             {/* {props.id === 1 ? <button onClick={isOrganized ? scatterRings : organizeRings} >{isOrganized ? 'Scatter' : 'Organize'}</button> : null} */}
-            {props.id === 1 ? <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={props.setNumRings} minNum={4} maxNum={15} number={props.numRings} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='whoop' organizedFunction={scatterRings} unorganizedFunction={organizeRings} unorgButton='Scatter' orgButton='Organize' /> : null}
+            {props.id === 1 ? <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumRings} minNum={4} maxNum={15} number={props.numRings} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='whoop' organizedFunction={scatterRings} unorganizedFunction={organizeRings} unorgButton='Scatter' orgButton='Organize' /> : null}
             </div>
         </div>
         
