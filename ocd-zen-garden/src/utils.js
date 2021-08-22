@@ -5,7 +5,7 @@ import Click from './assets/click.wav';
 import Blip from './assets/blip.wav';
 
 const colors = {
-    baseColors: {
+    'Carnival': {
         colorCount: 6,
         base: {
             name: 'darkGrey',
@@ -41,42 +41,42 @@ const colors = {
     
         }
     },
-    testColors1: {
-        colorCount: 6,
-        base: {
-            name: 'black', 
-            color: '#011627'
-        }, 
-        border: {
-            name: 'mediumGray',
-            color: '#9c9a9a'
-        },
-        1: {
-            name: 'babyPowder',
-            color: '#FDFFFC'
-        },
-        2: {
-            name: 'tiffanyBlue',
-            color: '#2EC4B6'
-        },
-        3: {
-            name: 'roseMadder',
-            color: '#E71D36'
-        },
-        4: {
-            name: 'orangePeel',
-            color: '#FF9F1C'
-        },
-        5: {
-            name: 'lavenderFloral',
-            color: '#9D8DF1'
-        },
-        6: {
-            name: 'tyrianPurple',
-            color: '#561643'
-        }       
-    },
-    electric: {
+    // testColors1: {
+    //     colorCount: 6,
+    //     base: {
+    //         name: 'black', 
+    //         color: '#011627'
+    //     }, 
+    //     border: {
+    //         name: 'mediumGray',
+    //         color: '#9c9a9a'
+    //     },
+    //     1: {
+    //         name: 'babyPowder',
+    //         color: '#FDFFFC'
+    //     },
+    //     2: {
+    //         name: 'tiffanyBlue',
+    //         color: '#2EC4B6'
+    //     },
+    //     3: {
+    //         name: 'roseMadder',
+    //         color: '#E71D36'
+    //     },
+    //     4: {
+    //         name: 'orangePeel',
+    //         color: '#FF9F1C'
+    //     },
+    //     5: {
+    //         name: 'lavenderFloral',
+    //         color: '#9D8DF1'
+    //     },
+    //     6: {
+    //         name: 'tyrianPurple',
+    //         color: '#561643'
+    //     }       
+    // },
+    'Electric': {
         colorCount: 6,
         base: {
             name: 'black', 
@@ -115,7 +115,7 @@ const colors = {
             color: '#ff073a'
         }       
     }, 
-    zebra: {
+    'Zebra': {
         colorCount: 2,
         base: {
             name: 'white',
@@ -134,7 +134,7 @@ const colors = {
             color: '#FFFFFF'
         }
     },
-    christmas: {
+    'Christmas': {
         colorCount: 2,
         base: {
             name: 'white',
@@ -153,7 +153,7 @@ const colors = {
             color: '#005C01'
         }
     },
-    rose: {
+    'Rose': {
         colorCount: 3,
         base: {
             name: '',
@@ -176,7 +176,7 @@ const colors = {
             color: '#6F2232'
         }
     },
-    sea: {
+    'Sea': {
         colorCount: 3,
         base: {
             name: '',
@@ -199,7 +199,7 @@ const colors = {
             color: '#1F2833'
         }
     },
-    harvest: {
+    'Harvest': {
         colorCount: 3,
         base: {
             name: '',
@@ -220,6 +220,52 @@ const colors = {
         3: {
             name: '',
             color: '#14A76C'
+        }
+    },
+    'Forest': {
+        colorCount: 3,
+        base: {
+            name: '',
+            color: '#4E4E50'
+        },
+        border: {
+            name: '',
+            color: '#1A1A1D'
+        },
+        1: {
+            name: '',
+            color: '#004b23'
+        },
+        2: {
+            name: '',
+            color: '#1fff1f'
+        },
+        3: {
+            name: '',
+            color: '#157145'
+        }
+    },
+    'Flag': {
+        colorCount: 3,
+        base: {
+            name: '',
+            color: '#bababa'
+        },
+        border: {
+            name: '',
+            color: '#000000'
+        },
+        1: {
+            name: '',
+            color: '#B31942'
+        },
+        2: {
+            name: '',
+            color: '#FFFFFF'
+        },
+        3: {
+            name: '',
+            color: '#0A3161'
         }
     }
     
