@@ -257,7 +257,9 @@ const colors = {
         colorCount: 3,
         base: {
             name: '',
-            color: '#bababa'
+            // color: '#bababa'
+            // color: '#6b6b6b'
+            color: '#b2b2d9'
         },
         border: {
             name: '',
