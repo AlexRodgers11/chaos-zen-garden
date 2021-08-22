@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { palettes } from './utils';
+import { palettes, sounds } from './utils';
 
 function ControlBar(props) {
     const [speed, setSpeed] = useState(1000);
@@ -62,11 +62,9 @@ function ControlBar(props) {
                 </select>
                 {/* <label forName="sound">Sound</label> */}
                 <select id="sound" value={sound} onChange={handleSoundChange}>
-                    <option value='blip'>Blip</option>
-                    <option value='ding'>Ding</option>
-                    <option value='whoop'>Whoop</option>
-                    <option value='whoosh'>Whoosh</option>
-                    <option value='click'>Click</option>
+                    {sounds.map(sound => {
+                        return <option value={sound}>{sound}</option>
+                    })}
                 </select>
                 {props.number ? <select value={props.number} onChange={handleNumberChange}>
                     {displayNumberOptions(props.minNum, props.maxNum).map(num => {

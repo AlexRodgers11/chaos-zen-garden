@@ -1,8 +1,16 @@
-import Ding from './assets/ding.wav';
-import Whoop from './assets/whoop.wav';
+import Ding from './assets/ding.mp3';
+import Whoop from './assets/whoop.mp3';
 import Whoosh from './assets/whoosh.wav';
-import Click from './assets/click.wav';
-import Blip from './assets/blip.wav';
+import Click from './assets/click.mp3';
+import Blip from './assets/blip.mp3';
+// import Zip from './assets/zip.mp3';
+import Robot from './assets/robot.mp3';
+import Slam from './assets/slam.mp3';
+import Laser from './assets/laser.mp3';//need to clean up ending (clacking)
+// import Smack from './assets/smack.mp3';
+import Chirp from './assets/chirp.mp3';
+import Sparkle from './assets/sparkle.mp3';
+import Swish from './assets/swish.mp3';
 
 const colors = {
     'Carnival': {
@@ -321,20 +329,39 @@ const getColor = (idx, palette) => {
 
 const getSound = sound => {
     switch(sound) {
-        case 'ding':
+        case 'Ding':
             return {src: Ding, sprite: {ding: [0, 350]}, spriteName: 'ding'};
-        case 'whoosh':
+        case 'Whoosh':
             return {src: Whoosh, sprite: {whoosh: [3500, 450]}, spriteName: 'whoosh'}
-        case 'whoop':
+        case 'Whoop':
             return {src: Whoop, sprite: {whoop: [0, 400]}, spriteName: 'whoop'};
-        case 'click':
-            return {src: Click, sprite: {click: [1050, 1000]}, spriteName: 'click'};
-        case 'blip':
-            return {src: Blip, sprite: {click: [0, 1000]}, spriteName: 'click'};
+        case 'Click':
+            return {src: Click, sprite: {click: [0, 1000]}, spriteName: 'click'};
+        case 'Blip':
+            return {src: Blip, sprite: {blip: [0, 1000]}, spriteName: 'blip'};
+        // case 'Zip':
+        //     return {src: Zip, sprite: {zip: [0, 1000]}, spriteName: 'zip'};
+        case 'Robot':
+            return {src: Robot, sprite: {robot: [0, 1000]}, spriteName: 'robot'};
+        case 'Slam':
+            return {src: Slam, sprite: {slam: [0, 1000]}, spriteName: 'slam'};
+        case 'Laser':
+            return {src: Laser, sprite: {laser: [0, 1000]}, spriteName: 'laser'};
+        case 'Chirp':
+            return {src: Chirp, sprite: {chirp: [0, 1000]}, spriteName: 'chirp'};
+        // case 'Smack':
+        //     return {src: Smack, sprite: {smack: [0, 1000]}, spriteName: 'smack'};
+        case 'Sparkle':
+            return {src: Sparkle, sprite: {sparkle: [0, 1000]}, spriteName: 'sparkle'};
+        case 'Swish':
+            return {src: Swish, sprite: {swish: [0, 1000]}, spriteName: 'swish'};
         default:
             return {src: Click, sprite: {click: [1050, 1000]}, spriteName: 'click'};
     }
 }
 
+// const sounds = ['Ding', 'Whoosh', 'Whoop', 'Click', 'Blip', 'Zip', 'Robot', 'Slam', 'Laser', 'Smack', 'Sparkle', 'Swish']
+const sounds = ['Ding', 'Whoosh', 'Whoop', 'Click', 'Blip', 'Robot', 'Slam', 'Laser', 'Chirp', 'Sparkle', 'Swish']
 
-export { getColor, palettes, getSound }
+
+export { getColor, palettes, getSound, sounds }
