@@ -149,7 +149,7 @@ function Snake(props) {
     }
 
     return (
-        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width}px`, height: `${props.width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
+        <div style={{margin: props.fullWindow ? '0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width}px`, height: `${props.width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div>
             <div id="test" style={{margin: '0 auto', height:`${props.width * .75}`, width:`${props.width * 2 * .75 / numBoxes}px`}}>
             {boxes.map(box => {
