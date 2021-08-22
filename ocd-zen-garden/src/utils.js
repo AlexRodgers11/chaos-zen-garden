@@ -199,7 +199,7 @@ const colors = {
             color: '#1F2833'
         }
     },
-    talisman: {
+    harvest: {
         colorCount: 3,
         base: {
             name: '',
