@@ -12,7 +12,7 @@ function Dots(props) {
     const [nextIndex, setNextIndex] = useState({id: 0, dir: 'vertical'});
     const [numRows, setNumRows] = useState(5);
     const [speed, setSpeed] = useState(1000);
-    const [sound, setSound] = useState(getSound('whoosh'));
+    const [sound, setSound] = useState(getSound('Swish'));
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [colorUpdating] = useToggle(false);
 
@@ -173,7 +173,7 @@ function Dots(props) {
                         })}
                     </p>
                 })}
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='whoosh' organizedFunction={scatterDots} unorganizedFunction={() => organizeDots(0, 'horizontal')} unorgButton='Scatter' orgButton='Organize' />
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Swish' organizedFunction={scatterDots} unorganizedFunction={() => organizeDots(0, 'horizontal')} unorgButton='Scatter' orgButton='Organize' />
             </div>
         </div>
     )
