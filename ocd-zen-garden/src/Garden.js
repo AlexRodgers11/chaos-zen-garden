@@ -18,7 +18,6 @@ function Garden(){
     let width = useCurrentWidth();
     const [colorPalette, setColorPalette] = useState(palettes[0]);
     const [numRings, setNumRings] = useState(10)
-    // const [fullWindowOpen, toggleFullWindowOpen] = useToggle(false);
     const [fullSelectedPiece, setFullSelectedPiece] = useState(null);
 
     const handleChangePalette = evt => {

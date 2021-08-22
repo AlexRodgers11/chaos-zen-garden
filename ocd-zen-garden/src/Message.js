@@ -10,20 +10,9 @@ function Message(props){
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [nextIndex, setNextIndex] = useState(0);
-    // const [letters, setLetters] = useState(['s', 'e', 'r', 'e', 'n', 'i', 't', 'y']);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('ding'));
     const [colorPalette, setColorPalette] = useState(props.palette);
-    
-    // const soundPlay = src => {
-    //     const sound = new Howl({
-    //         src: src,
-    //         sprite: {
-    //             ding: [0, 350]
-    //         }
-    //     });
-    //     sound.play('ding');
-    // }
 
     const soundPlay = soundObj => {
         const sound = new Howl({
@@ -42,24 +31,10 @@ function Message(props){
 
     const [message, setMessage] = useState('Plus Ultra');
 
-    // const getLetters = string => {
-    //     return string.split('').map((letter, idx) => {
-    //         return {
-    //             id: idx, 
-    //             letter: letter,
-    //             tilt: generateTilt(),
-    //             color: (getColor(idx, 'baseColors'))
-    //         }
-    //     })
-    // }
-
     const getLetters = string => {
         let letters = string.split('').map((letter) => {
             return {
-                // id: idx, 
-                letter: letter,
-                // tilt: generateTilt(),
-                // color: (getColor(idx, 'baseColors'))
+                letter: letter
             }
         });
         let index = 1;
@@ -78,7 +53,6 @@ function Message(props){
         return letters;
     }
 
-    // const [letters, setLetters] = useState([{id: 1, letter: 's', tilt: generateTilt(), color: getColor(1, 'baseColors')}, {id: 2, letter: 'e', tilt: generateTilt(), color: getColor(2, 'baseColors')}, {id: 3, letter: 'r', tilt: generateTilt(), color: getColor(3, 'baseColors')}, {id: 4, letter: 'e', tilt: generateTilt(), color: getColor(4, 'baseColors')}, {id: 5, letter: 'n', tilt: generateTilt(), color: getColor(5, 'baseColors')}, {id: 6, letter: 'i', tilt: generateTilt(), color: getColor(6, 'baseColors')}, {id: 7, letter: 't', tilt: generateTilt(), color: getColor(7, 'baseColors')}, {id: 8, letter: 'y', tilt: generateTilt(), color: getColor(8, 'baseColors')}]);
     const [letters, setLetters] = useState(getLetters(message));
 
     let firstUpdate = useRef(true);
@@ -94,29 +68,6 @@ function Message(props){
         }
     }, [nextIndex]);
     
-    // const straightenLetters = (idx) => {
-    //     let newLetters = letters.map(letter => {
-    //         if(letter.id === letters[idx].id) {
-    //             return {...letter, tilt: `0deg`}
-    //         } else return letter;
-    //     });
-    //     // if(letters[nextIndex].letter !== ' ') {
-    //     //     setNextIndex(idx + 1);
-    //     // } else {
-    //     //     setNextIndex(idx + 2);
-    //     //     console.log('found a space');
-    //     // }
-    //     soundPlay(Ding);
-    //     setLetters(newLetters);
-    //     setNextIndex(idx + 1);
-    //     // setNextIndex(idx + 1);
-    //     if(idx + 1 === letters.length) {
-    //         setTimeout(() => {
-    //             toggleIsOrganized();
-    //         }, speed)
-    //     }
-    // }
-
     const straightenLetters = (idx) => {
         if(idx === 0) {
             toggleIsOrganizing();
@@ -221,8 +172,6 @@ function Message(props){
                 <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} soundValue='ding' changeText={handleChangeText} setSpeed={handleSetSpeed} setSound={handleSetSound} organizedFunction={unalignLetters} unorganizedFunction={() => straightenLetters(0)} unorgButton='Unalign' orgButton='Straighten' />
 
             </div>
-            {/* <button onClick={isOrganized ? unalignLetters : () => straightenLetters(0)}>{isOrganized ? 'Unalign' : 'Straighten'}</button> */}
-            {/* <ControlBar palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} soundValue='ding' changeText={handleChangeText} setSpeed={handleSetSpeed} setSound={handleSetSound} organizedFunction={unalignLetters} unorganizedFunction={() => straightenLetters(0)} unorgButton='Unalign' orgButton='Straighten' /> */}
         </div>
     )
 }

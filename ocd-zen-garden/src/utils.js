@@ -228,10 +228,7 @@ const colors = {
 
 const palettes = ['baseColors', 'testColors1', 'electric', 'zebra', 'christmas', 'rose', 'sea', 'talisman'];
 
-const getColor = (idx, palette) => {
-    // console.log(Object.keys(colors[palette]))
-    // Object.keys(colors[palette])[Object.keys(colors[palette]).length]
-    
+const getColor = (idx, palette) => {    
     if(colors[palette].colorCount === 6) {
         if(idx === 'base') {
             return colors[palette].base.color;

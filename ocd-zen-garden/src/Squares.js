@@ -13,36 +13,6 @@ function Squares(props) {
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('ding'));
 
-    // const createStartingSquaresArray = num => {
-    //     let squares = [];
-    //     for(let i = 1; i < num; i++) {
-    //         squares.push({
-    //             id: i, 
-    //             color: getColor(i, colorPalette),
-    //             topLeft: Math.random() * 15,
-    //             topRight: Math.random() * 15,
-    //             bottomLeft: Math.random() * 15,
-    //             bottomRight: Math.random() * 15,
-    //         })
-    //     }
-    //     return squares
-    // }
-
-    // const createStartingSquaresArray = numLines => {
-    //     let squares = [];
-    //     for(let i = 1; i < numLines ** 2; i++) {
-    //         squares.push({
-    //             id: i, 
-    //             color: getColor(i, colorPalette),
-    //             topLeft: Math.random() * 15,
-    //             topRight: Math.random() * 15,
-    //             bottomLeft: Math.random() * 15,
-    //             bottomRight: Math.random() * 15,
-    //         })
-    //     }
-    //     return squares
-    // }
-
     const createStartingSquaresArray = num => {
         let squares = [];
         for(let i = 1; i < num ** 2 + 1; i++) {
@@ -192,9 +162,7 @@ function Squares(props) {
                         return <div style={{display: 'inline-block', backgroundColor:`${square.color}`, border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: `${square.topLeft}% ${square.topRight}% ${square.bottomRight}% ${square.bottomLeft}%`, width: `${props.width * (1 / 9)}px`, height: `${props.width * (1 / 9)}px`, margin: `${props.width * (1 / 81)}px`}}></div>
                     })}</div>
                 })}
-                {/* {squares.map(square => {
-                    return <div style={{display: 'inline-block', backgroundColor:`${square.color}`, border: '1px solid black', borderRadius: `${square.topLeft}% ${square.topRight}% ${square.bottomRight}% ${square.bottomLeft}%`, width: `${props.width * .33 * (1 / 9)}px`, height: `${props.width * .33 * (1 / 9)}px`, margin: `${props.width * .33 * (1 / 81)}px`}}></div>
-                })} */}
+
                 <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='ding' organizedFunction={dull} unorganizedFunction={() => sharpen(0, 'topLeft')} unorgButton='Dull' orgButton='Sharpen'/>
             </div>
         </div>

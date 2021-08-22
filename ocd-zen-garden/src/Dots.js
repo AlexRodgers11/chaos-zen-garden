@@ -16,16 +16,6 @@ function Dots(props) {
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [colorUpdating] = useToggle(false);
 
-    // const soundPlay = src => {
-    //     const sound = new Howl({
-    //         src: src,
-    //         sprite: {
-    //             whoosh: [3500, 450]
-    //         }
-    //     });
-    //     sound.play('whoosh');
-    // }
-
     const soundPlay = soundObj => {
         const sound = new Howl({
             src: soundObj.src,
@@ -34,28 +24,11 @@ function Dots(props) {
         sound.play(soundObj.spriteName);
     }
 
-    // const createStartingDotArray = () => {
-    //     let startingDotArray = [];
-    //     for(let i = 0; i < numRows**2; i++) {
-    //         startingDotArray.push({
-    //             id: i + 1, 
-    //             // marginLeft: `${props.width * .33 * Math.random() * .05}`,
-    //             // marginTop: `${props.width * .33 * Math.random() * .05}`,
-    //             marginLeft: `${.33 * Math.random() * .05}`,
-    //             marginTop: `${.33 * Math.random() * .05}`,
-    //             color: (getColor(i + 1, colorPalette))
-    //         })
-    //     }
-    //     return startingDotArray;
-    // }
-
     const createStartingDotArray = num => {
         let startingDotArray = [];
         for(let i = 0; i < num**2; i++) {
             startingDotArray.push({
                 id: i + 1, 
-                // marginLeft: `${props.width * .33 * Math.random() * .05}`,
-                // marginTop: `${props.width * .33 * Math.random() * .05}`,
                 marginLeft: `${Math.random() * .05}`,
                 marginTop: `${Math.random() * .05}`,
                 color: (getColor(i + 1, colorPalette))
@@ -76,7 +49,6 @@ function Dots(props) {
                 }, speed * .3);
             }
         } else {firstUpdate.current = false}
-    // }, [dots])
     }, [nextIndex])
     
     const colorsPropFirstUpdate = useRef(true)
@@ -108,32 +80,11 @@ function Dots(props) {
         
     }, [colorPalette]);
     
-    // const numberFirstUpdate = useRef(true);
-    // useEffect(() => {
-    //     if(!numberFirstUpdate.current) {
-
-    //     } else {
-    //         numberFirstUpdate.current = false;
-    //     }
-    // })
 
     const handleSetNumRows = num => {
         setNumRows(Number(num));
         setDots(createStartingDotArray(Number(num)))
     }
-
-    // const displayDots = () => {
-    //     let dotLines = []
-    //     let newLine = []
-    //     for(let k = 0; k < dots.length; k++){
-    //         newLine.push(dots[k]);
-    //         if(newLine.length === 5){
-    //             dotLines.push(newLine);
-    //             newLine = []
-    //         }
-    //     }
-    //     return dotLines;
-    // }
 
     const handleSetSpeed = time => {
         setSpeed(time);
@@ -171,7 +122,6 @@ function Dots(props) {
         if(dir === 'horizontal') {
             newDots = dots.map(dot => {
                 if(dot.id === dots[idx].id){
-                    // return {...dot, marginLeft: `${props.width * .33 * .025 - .5}`}
                     return {...dot, marginLeft: `${.025}`}
                 } else {
                     return dot
@@ -180,7 +130,6 @@ function Dots(props) {
         } else {
             newDots = dots.map(dot => {
                 if(dot.id === dots[idx].id){
-                    // return {...dot, marginTop: `${props.width * .33 * .025 - .5}`}
                     return {...dot, marginTop: `${.025}`}
                 } else {
                     return dot
@@ -198,7 +147,6 @@ function Dots(props) {
 
     const scatterDots = () => {
         let newDots = dots.map(dot => {
-            // return {...dot, marginLeft: `${props.width * .33 * Math.random() * .05}`, marginTop: `${props.width * .33 * Math.random() * .05}`}
             return {...dot, marginLeft: `${Math.random() * .05}`, marginTop: `${Math.random() * .05}`}
         });
         setDots(newDots);
@@ -215,19 +163,16 @@ function Dots(props) {
 
     return (
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width}px`, height: `${props.width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
-            {/* <div style={{margin: '0 auto'}}> */}
             <div>
                 {displayDots().map(dotLine => {
                     let dotLineKey =uuidv4();
                     return <p key={dotLineKey} style={{marginBlockEnd: 0, marginBlockStart: 0, padding: 0, marginBottom: 0, marginTop: 0}}>
                         {dotLine.map(dot => {
                             let dotKey = uuidv4();
-                            // return <span key={dotKey} style={{display: 'inline-block', textAlign: 'left', padding: '0px', width: `${props.width * .33 * .10}px`, height: `${props.width * .33 * .10}px`, marginBottom: '0'}}><span style={{display: 'block', border: '1px solid black', borderRadius: '50%', width: `${props.width * .33 * .05}px`, height: `${props.width * .33 * .05}px`, marginLeft: `${dot.marginLeft}px`, marginTop: `${dot.marginTop}px`, backgroundColor: `${dot.color}`}}></span></span>
                             return <span key={dotKey} style={{display: 'inline-block', textAlign: 'left', padding: '0px', width: `${props.width* .10}px`, height: `${props.width* .10}px`, marginBottom: '0'}}><span style={{display: 'block', border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: '50%', width: `${props.width * .05}px`, height: `${props.width * .05}px`, marginLeft: `${dot.marginLeft * props.width - .5}px`, marginTop: `${dot.marginTop * props.width - .5}px`, backgroundColor: `${dot.color}`}}></span></span>
                         })}
                     </p>
                 })}
-                {/* <button onClick={isOrganized ? scatterDots : () => organizeDots(0, 'horizontal')}>{isOrganized ? 'Scatter' : 'Organize'}</button> */}
                 <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='whoosh' organizedFunction={scatterDots} unorganizedFunction={() => organizeDots(0, 'horizontal')} unorgButton='Scatter' orgButton='Organize' />
             </div>
         </div>

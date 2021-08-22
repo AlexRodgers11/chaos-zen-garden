@@ -16,16 +16,6 @@ function Dominoes(props) {
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('click'));
 
-    // const soundPlay = src => {
-    //     const sound = new Howl({
-    //         src: src,
-    //         sprite: {
-    //             click: [1050, 1000]
-    //         }
-    //     });
-    //     sound.play('click');
-    // }
-
     const soundPlay = soundObj => {
         const sound = new Howl({
             src: soundObj.src,
@@ -53,7 +43,6 @@ function Dominoes(props) {
     }
 
     const [lines, setLines] = useState(createStartingLinesArray(numLines));
-    // const [lines, setLines] = useState([{id: 1, tilt: generateTilt(), color: getColor(1)}, {id: 2, tilt: generateTilt(), color: getColor(2)}, {id: 3, tilt: generateTilt(), color: getColor(3)}, {id: 4, tilt: generateTilt(), color: getColor(4)}, {id: 5, tilt: generateTilt(), color: getColor(5)}, {id: 6, tilt: generateTilt(), color: getColor(6)}, {id: 7, tilt: generateTilt(), color: getColor(7)}, {id: 8, tilt: generateTilt(), color: getColor(8)}, {id: 9, tilt: generateTilt(), color: getColor(9)}, {id: 10, tilt: generateTilt(), color: getColor(10)}, {id: 11, tilt: generateTilt(), color: getColor(11)}, {id: 12, tilt: generateTilt(), color: getColor(12)}, {id: 13, tilt: generateTilt(), color: getColor(13)}, {id: 14, tilt: generateTilt(), color: getColor(14)}, {id: 15, tilt: generateTilt(), color: getColor(15)}]);
 
     const firstUpdate = useRef(true);
     useEffect(() => {
@@ -154,14 +143,11 @@ function Dominoes(props) {
             <div>
                 {lines.map(line => {
                     let lineKey = uuidv4();
-                    // return <span key={lineKey} style={{display: 'inline-block', width: '3px', border: `.75px solid ${getColor('border', colorPalette)}`, height: .55 * props.width, margin: .02 * props.width, transform: `rotate(${line.tilt})`, backgroundColor: `${line.color}` }}></span>
                     return <span key={lineKey} style={{display: 'inline-block', width: `${props.width * .65 / ((numLines * 3) + 1.5)}px`, border: `.75px solid ${getColor('border', colorPalette)}`, height: .55 * props.width, margin: `${props.width * .65 * 1.35 / ((numLines * 3) + 1.5)}px`, transform: `rotate(${line.tilt})`, backgroundColor: `${line.color}` }}></span>
                 })}
                 <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumLines} minNum={5} maxNum={25} number={numLines} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='click' organizedFunction={tiltLines} unorganizedFunction={() => straightenLines(0)} unorgButton='Tilt' orgButton='Straighten' />
 
             </div>
-            {/* <button onClick={isOrganized ? tiltLines : () => straightenLines(0)}>{isOrganized ? 'Tilt' : 'Straighten'}</button> */}
-            {/* <ControlBar palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='click' organizedFunction={tiltLines} unorganizedFunction={() => straightenLines(0)} unorgButton='Tilt' orgButton='Straighten' /> */}
         </div>
     )
 }
