@@ -46,7 +46,7 @@ function Dots(props) {
             if(nextIndex.id < dots.length || nextIndex.dir === 'vertical'){
                 setTimeout(() => {
                     organizeDots(nextIndex.id, nextIndex.dir);
-                }, speed * .3);
+                }, speed * .75);
             }
         } else {firstUpdate.current = false}
     }, [nextIndex])
