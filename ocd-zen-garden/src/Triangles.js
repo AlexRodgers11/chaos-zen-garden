@@ -158,7 +158,7 @@ function Triangles(props) {
                         return <div style={{display: 'inline-block', borderBottom: `${bottom + 1.5}px solid ${getColor('border', colorPalette)}`, borderLeft: `${triangle.left * bottom + 1.5}px solid transparent`, borderRight: `${triangle.right * bottom + 1.5}px solid transparent`, height: '0', width: '0', margin: `${props.width * (1 / 81)}px`}}><div style={{position: 'relative', display: 'inline-block', borderBottom: `${bottom}px solid ${triangle.color}`, borderLeft: `${triangle.left * bottom}px solid transparent`, borderRight: `${triangle.right * bottom}px solid transparent`, height: '0', width: '0', right:`${triangle.left * bottom}px`, top:'.75px'}}></div></div>
                     })}</div>
                 })}
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={12} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Chirp' organizedFunction={uncenter} unorganizedFunction={() => center(0)} unorgButton='Uncenter' orgButton='Center'/>
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={12} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Chirp' organizedFunction={uncenter} unorganizedFunction={() => center(0)} unorgButton='Uncenter' orgButton='Center'/>
             </div>
         </div>
     )

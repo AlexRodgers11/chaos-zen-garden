@@ -35,7 +35,14 @@ function Garden(){
 
 
     const displayFullSize = gardenPiece => {
-        let gardenPieceWidth = width * .5
+        // let gardenPieceWidth = width * .5
+        let gardenPieceWidth;
+        let disableFullWindow = false;
+        if(width >= 900) {
+            gardenPieceWidth = width * .5;
+        } else if (width < 900 && width > 600) {
+            gardenPieceWidth = width
+        } 
         switch(gardenPiece) {
             case 'snake':
                 return <Snake width={gardenPieceWidth} className="Snake" palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} />
@@ -60,25 +67,27 @@ function Garden(){
 
     if(!fullSelectedPiece) {
         let gardenPieceWidth;
+        let disableFullWindow = false;
         if(width >= 900) {
             gardenPieceWidth = width / 3;
         } else if (width < 900 && width > 600) {
             gardenPieceWidth = width / 2;
         } else {
             gardenPieceWidth = width;
+            disableFullWindow = true;
         }
 
         return (
             <div className="Garden">
-                <Snake width={gardenPieceWidth} className="Snake" palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
-                <Dots width={gardenPieceWidth} className="Dots" palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
-                <BullsEye width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} numRings={numRings} sound="Whoop" className="BullsEye" orgIndex={numRings + 1} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
-                <Message width={gardenPieceWidth} className="Message" palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
-                <Dominoes width={gardenPieceWidth} className="Dominoes" palette={colorPalette}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
-                <Barcode width={gardenPieceWidth} className="Barcode" palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
-                <Squares width={gardenPieceWidth} className="Squares" palette={colorPalette}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
-                <Triangles width={gardenPieceWidth} className="Triangles" palette={colorPalette}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
-                <Antlers width={gardenPieceWidth} className="Antlers" palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                <Snake width={gardenPieceWidth} className="Snake" disableFullWindow={disableFullWindow} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                <Dots width={gardenPieceWidth} className="Dots" disableFullWindow={disableFullWindow} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                <BullsEye width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} numRings={numRings} sound="Whoop" className="BullsEye" disableFullWindow={disableFullWindow} orgIndex={numRings + 1} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                <Message width={gardenPieceWidth} className="Message" disableFullWindow={disableFullWindow} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                <Dominoes width={gardenPieceWidth} className="Dominoes" disableFullWindow={disableFullWindow} palette={colorPalette}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                <Barcode width={gardenPieceWidth} className="Barcode" disableFullWindow={disableFullWindow} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                <Squares width={gardenPieceWidth} className="Squares" disableFullWindow={disableFullWindow} palette={colorPalette}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                <Triangles width={gardenPieceWidth} className="Triangles" disableFullWindow={disableFullWindow} palette={colorPalette}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                <Antlers width={gardenPieceWidth} className="Antlers" disableFullWindow={disableFullWindow} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
                 <select onChange={handleChangePalette} value={colorPalette}>
                     {palettes.map(palette => {
                         let paletteKey = uuidv4();

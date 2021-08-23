@@ -75,9 +75,14 @@ function ControlBar(props) {
             <span>
                 <button disabled={props.isOrganizing} onClick={props.isOrganized ? props.organizedFunction : props.unorganizedFunction}>{props.isOrganized ? props.unorgButton : props.orgButton}</button>
             </span>
-            <span>
-                <button onClick={props.toggleWindow}>{props.fullWindow ? 'Back to Garden' : 'Full Window'}</button>
-            </span>
+            {!props.disableFullWindow ? 
+                <span>
+                    <button onClick={props.toggleWindow}>{props.fullWindow ? 'Back to Garden' : 'Full Window'}</button>
+                </span>
+                :
+                null
+            }
+            
         </div>
     )
 }
