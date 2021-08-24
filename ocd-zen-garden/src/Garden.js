@@ -1,5 +1,6 @@
 import React, { useState} from 'react';
 import useToggle from './hooks/useToggle';
+import Header from './Header';
 import useCurrentWidth from './hooks/useCurrentWidth';
 import { getColor, palettes, getSound } from './utils';
 import Snake from './Snake';
@@ -20,8 +21,8 @@ function Garden(){
     const [numRings, setNumRings] = useState(10)
     const [fullSelectedPiece, setFullSelectedPiece] = useState(null);
 
-    const handleChangePalette = evt => {
-        setColorPalette(evt.target.value);
+    const handleChangePalette = palette => {
+        setColorPalette(palette);
     }
 
     const handleSetNumRings = num => {
@@ -45,23 +46,23 @@ function Garden(){
         } 
         switch(gardenPiece) {
             case 'snake':
-                return <Snake width={gardenPieceWidth} className="Snake" palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} />
+                return <><Header changePalette={handleChangePalette}/><Snake width={gardenPieceWidth} className="Snake" palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} /></>
             case 'dots':
-                return <Dots width={gardenPieceWidth} className="Dots" palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} />
+                return <><Header changePalette={handleChangePalette}/><Dots width={gardenPieceWidth} className="Dots" palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} /></>
             case 'bullseye':
-                return <BullsEye width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} numRings={numRings} sound="Whoop" className="BullsEye" orgIndex={numRings + 1} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} />
+                return <><Header changePalette={handleChangePalette}/><BullsEye width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} numRings={numRings} sound="Whoop" className="BullsEye" orgIndex={numRings + 1} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} /></>
             case 'message':
-                return <Message width={gardenPieceWidth} className="Message" palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                return <><Header changePalette={handleChangePalette}/><Message width={gardenPieceWidth} className="Message" palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
             case 'dominoes':
-                return <Dominoes width={gardenPieceWidth} className="Dominoes" palette={colorPalette}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                return <><Header changePalette={handleChangePalette}/><Dominoes width={gardenPieceWidth} className="Dominoes" palette={colorPalette}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
             case 'barcode': 
-                return <Barcode width={gardenPieceWidth} className="Barcode" palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                return <><Header changePalette={handleChangePalette}/><Barcode width={gardenPieceWidth} className="Barcode" palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
             case 'squares':
-                return <Squares width={gardenPieceWidth} className="Squares" palette={colorPalette}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                return <><Header changePalette={handleChangePalette}/><Squares width={gardenPieceWidth} className="Squares" palette={colorPalette}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
             case 'triangles':
-                return <Triangles width={gardenPieceWidth} className="Triangles" palette={colorPalette}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                return <><Header changePalette={handleChangePalette}/><Triangles width={gardenPieceWidth} className="Triangles" palette={colorPalette}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
             case 'antlers':
-                return <Antlers width={gardenPieceWidth} className="Antlers" palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                return <><Header changePalette={handleChangePalette}/><Antlers width={gardenPieceWidth} className="Antlers" palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
         }
     }
 
@@ -78,6 +79,8 @@ function Garden(){
         }
 
         return (
+            <>
+            <Header changePalette={handleChangePalette}/>
             <div className="Garden">
                 <Snake width={gardenPieceWidth} className="Snake" disableFullWindow={disableFullWindow} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
                 <Dots width={gardenPieceWidth} className="Dots" disableFullWindow={disableFullWindow} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
@@ -88,13 +91,8 @@ function Garden(){
                 <Squares width={gardenPieceWidth} className="Squares" disableFullWindow={disableFullWindow} palette={colorPalette}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
                 <Triangles width={gardenPieceWidth} className="Triangles" disableFullWindow={disableFullWindow} palette={colorPalette}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
                 <Antlers width={gardenPieceWidth} className="Antlers" disableFullWindow={disableFullWindow} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
-                <select onChange={handleChangePalette} value={colorPalette}>
-                    {palettes.map(palette => {
-                        let paletteKey = uuidv4();
-                        return <option key={paletteKey} value={palette}>{palette}</option>
-                    })}
-                </select>
             </div>
+            </>
         )
     } else {
         return displayFullSize(fullSelectedPiece);
