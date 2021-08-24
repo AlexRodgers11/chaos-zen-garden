@@ -1,11 +1,17 @@
+.Garden {
+    display: grid;
+    position: relative;
+    top: 45px
+}
+
+
 @media (min-width: 800px) {
     .Garden {
-        display: grid;
         grid-template-columns: 1fr 1fr 1fr;
-        grid-template-rows: 1fr, 1fr, 1fr
+        grid-template-rows: 1fr, 1fr, 1fr;
     }
     
-    .Snake {
+    /* .Snake {
         grid-column: 1;
         grid-row: 1
     }
@@ -48,12 +54,11 @@
     .Antlers {
         grid-column: 3;
         grid-row: 3
-    }
+    } */
 }
 
 @media (min-width: 600px ) and (max-width: 900px){
     .Garden {
-        display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr, 1fr, 1fr, 1fr, 1fr, 
     }
