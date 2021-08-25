@@ -30,7 +30,7 @@ function Barcode(props) {
             totalHeight += .4 * (1 / num) + randomNum;
             stripeArr.push({
                 id: i,
-                color: (getColor(i, props.palette)),
+                color: (getColor(i, colorPalette)),
                 height: `${.4 * (1 / num) + randomNum}`,
                 stripeKey: uuidv4()
             })
