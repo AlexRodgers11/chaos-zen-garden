@@ -139,10 +139,15 @@ function Barcode(props) {
     const [stripes, setStripes] = useState(createStartingStripeArray(numStripes))
     return (
         <div style={{margin: props.fullWindow ? '0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width}px`, height: `${props.width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
-            <div style={{position: 'relative', width: `${props.width}px`, height: `${.7 * props.width}px`}}>
-                {stripes.map(stripe => {
-                    return <div key={stripe.stripeKey} style={{margin: '0 auto', width: `${.4 * props.width}px`, height: `${stripe.height * props.width}px`, backgroundColor: stripe.color, border: `1px solid ${getColor('border', colorPalette)}`}}></div>
-                })}
+            {/* <div style={{position: 'relative', width: `${props.width}px`, height: `${.7 * props.width}px`}}> */}
+            <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%'}}>
+                <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', height: '100%'}}>
+                    <div>
+                        {stripes.map(stripe => {
+                            return <div key={stripe.stripeKey} style={{margin: '0 auto', width: `${.4 * props.width}px`, height: `${stripe.height * props.width}px`, backgroundColor: stripe.color, border: `1px solid ${getColor('border', colorPalette)}`}}></div>
+                        })}
+                    </div>
+                </div>
                 <ControlBar toggleWindow={handleToggleWindow} disableFullWindow={props.disableFullWindow} fullWindow={props.fullWindow} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumStripes} minNum={5} maxNum={25} number={numStripes} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Blip' organizedFunction={unbalanceStripes} unorganizedFunction={() => balanceStripes(0)} unorgButton='Unbalance' orgButton='Balance' />
             </div>
         </div>

@@ -140,11 +140,15 @@ function Dominoes(props) {
 
     return (
         <div style={{margin: props.fullWindow ? '0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width}px`, height: `${props.width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
-            <div>
-                {lines.map(line => {
-                    let lineKey = uuidv4();
-                    return <span key={lineKey} style={{display: 'inline-block', width: `${props.width * .65 / ((numLines * 3) + 1.5)}px`, border: `.75px solid ${getColor('border', colorPalette)}`, height: .55 * props.width, margin: `${props.width * .65 * 1.35 / ((numLines * 3) + 1.5)}px`, transform: `rotate(${line.tilt})`, backgroundColor: `${line.color}` }}></span>
-                })}
+            <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%'}}>
+                <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', height: '100%'}}>
+                    <div>
+                        {lines.map(line => {
+                            let lineKey = uuidv4();
+                            return <span key={lineKey} style={{display: 'inline-block', width: `${props.width * .65 / ((numLines * 3) + 1.5)}px`, border: `.75px solid ${getColor('border', colorPalette)}`, height: .55 * props.width, margin: `${props.width * .65 * 1.35 / ((numLines * 3) + 1.5)}px`, transform: `rotate(${line.tilt})`, backgroundColor: `${line.color}` }}></span>
+                        })}
+                    </div>
+                </div>
                 <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumLines} minNum={5} maxNum={25} number={numLines} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Click' organizedFunction={tiltLines} unorganizedFunction={() => straightenLines(0)} unorgButton='Tilt' orgButton='Straighten' />
 
             </div>
