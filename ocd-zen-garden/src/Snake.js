@@ -27,7 +27,7 @@ function Snake(props) {
         for(let i = 1; i <= num; i++) {
             boxes.push({
                 id: i,
-                left: `${Math.random() * .5 * 100}`,
+                left: `${Math.random() * .45 * 100}`,
                 color: getColor(i, colorPalette)
             })
         }
@@ -115,7 +115,7 @@ function Snake(props) {
 
     const scatterBoxes = () => {
         let newBoxes = boxes.map(box => {
-            let randomNum = `${Math.random() * .5 * 100}`;
+            let randomNum = `${Math.random() * .45 * 100}`;
             return {...box, left: randomNum};
         })
         setBoxes(newBoxes);
@@ -153,7 +153,7 @@ function Snake(props) {
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', width: '100%'}}>
                 {/* <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', width: '100%'}}> */}
                 <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', height: '100%'}}>
-                    <div id="test" style={{margin: '0 auto', height:`${props.width * .75}`, width:`${props.width * 2 * .75 / numBoxes}px`}}>
+                    <div id="test" style={{margin: '0 auto', height:`${props.width * .75}`, width:`${(props.width * 2 * .75 / numBoxes) + 2}px`}}>
                         {boxes.map(box => {
                             let boxKey = uuidv4();
                             return (
