@@ -45,44 +45,47 @@ function ControlBar(props) {
 
     return (
         <>
-        <div>
+        <div style={{marginBottom: '0.5em'}}>
             <span>
-                <button disabled={props.isOrganizing} onClick={props.isOrganized ? props.organizedFunction : props.unorganizedFunction}>{props.isOrganized ? props.unorgButton : props.orgButton}</button>
+                <button style={{padding: '.35em .55em'}} disabled={props.isOrganizing} onClick={props.isOrganized ? props.organizedFunction : props.unorganizedFunction}>{props.isOrganized ? props.unorgButton : props.orgButton}</button>
             </span>
         </div>
+
         <div style={{display: 'flex', justifyContent: 'space-between'}}>
-            <div>
-                <button onClick={toggleHidden}>{'->'}</button>
+            <div >
+                <button style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} onClick={toggleHidden}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1.7em" height="1.7em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-align-justify"><line x1="21" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="21" y1="18" x2="3" y2="18"/></svg>
+                </button>
                 <div style={{display: !hidden ? 'inline-block' : 'none'}}>
                     {props.text ? <p><label htmlFor="textInput">{props.text}</label><input type="text" disabled={props.isOrganizing} onChange={handleChangeText} value={text}/></p> : null}
-                    <span>
-                        <button>Add</button>
-                        <select id="palette" value={props.palette} onChange={handlePaletteChange}>
-                            {palettes.map(palette => {
-                                return <option value={palette}>{palette}</option>
-                            })}
-                        </select>
-                        {/* <label forName="speed">Speed</label> */}
-                        <select id="speed" value={speed} onChange={handleSpeedChange}>
-                            <option value={4000}>.25x</option>
-                            <option value={2000}>.5x</option>
-                            <option value={1000}>1x</option>
-                            <option value={800}>1.25x</option>
-                            <option value={500}>2x</option>
-                            <option value={200}>5x</option>
-                        </select>
-                        {/* <label forName="sound">Sound</label> */}
-                        <select id="sound" value={sound} onChange={handleSoundChange}>
-                            {sounds.map(sound => {
-                                return <option value={sound}>{sound}</option>
-                            })}
-                        </select>
-                        {props.number ? <select value={props.number} onChange={handleNumberChange}>
-                            {displayNumberOptions(props.minNum, props.maxNum).map(num => {
-                                return <option value={num}>{num}</option>
-                            })}
-                        </select> : null}
-                    </span>
+                {/* <div> */}
+                    <button>Add</button>
+                    <select id="palette" value={props.palette} onChange={handlePaletteChange}>
+                        {palettes.map(palette => {
+                            return <option value={palette}>{palette}</option>
+                        })}
+                    </select>
+                    {/* <label forName="speed">Speed</label> */}
+                    <select id="speed" value={speed} onChange={handleSpeedChange}>
+                        <option value={4000}>.25x</option>
+                        <option value={2000}>.5x</option>
+                        <option value={1000}>1x</option>
+                        <option value={800}>1.25x</option>
+                        <option value={500}>2x</option>
+                        <option value={200}>5x</option>
+                    </select>
+                    {/* <label forName="sound">Sound</label> */}
+                    <select id="sound" value={sound} onChange={handleSoundChange}>
+                        {sounds.map(sound => {
+                            return <option value={sound}>{sound}</option>
+                        })}
+                    </select>
+                    {props.number ? <select value={props.number} onChange={handleNumberChange}>
+                        {displayNumberOptions(props.minNum, props.maxNum).map(num => {
+                            return <option value={num}>{num}</option>
+                        })}
+                    </select> : null}
+                {/* </div> */}
                     {/* <span>
                         <button disabled={props.isOrganizing} onClick={props.isOrganized ? props.organizedFunction : props.unorganizedFunction}>{props.isOrganized ? props.unorgButton : props.orgButton}</button>
                     </span>
@@ -103,7 +106,8 @@ function ControlBar(props) {
                 </span> */}
                 {!props.disableFullWindow ? 
                     <span>
-                        <button onClick={props.toggleWindow}>{props.fullWindow ? 'Back to Garden' : 'Full Window'}</button>
+                        {/* <button onClick={props.toggleWindow}>{props.fullWindow ? 'Back to Garden' : 'Full Window'}</button> */}
+                        <button style={{display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} onClick={props.toggleWindow}>{props.fullWindow ? <svg xmlns="http://www.w3.org/2000/svg" width="1.7em" height="1.7em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minimize-2"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="3" y1="21" x2="10" y2="14"/></svg> : <svg xmlns="http://www.w3.org/2000/svg" width="1.7em" height="1.7em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-maximize-2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>}</button>
                     </span>
                     :
                     null
