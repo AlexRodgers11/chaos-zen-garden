@@ -32,6 +32,7 @@ function ControlBar(props) {
     //     props.setSpeed(evt.target.value);
     // }
     const handleSpeedChange = speed => {
+        console.log('handleSpeedChange ran')
         handleToggleDropdown('speed');
         setSpeed(speed);
         props.setSpeed(speed);
@@ -42,19 +43,22 @@ function ControlBar(props) {
         props.changeText(evt.target.value);
     }
 
-    const handleSoundChange = evt => {
-        setSound(evt.target.value);
-        props.setSound(evt.target.value);
+    const handleSoundChange = sound => {
+        handleToggleDropdown('sound')
+        setSound(sound);
+        props.setSound(sound);
     }
     
-    const handleNumberChange = evt => {
-        setNumber(evt.target.value);
-        props.setNumber(evt.target.value);
+    const handleNumberChange = number => {
+        handleToggleDropdown('number');
+        setNumber(number);
+        props.setNumber(number);
     }
 
-    const handlePaletteChange = evt => {
-        setPalette(evt.target.value);
-        props.setPalette(evt.target.value);
+    const handlePaletteChange = palette => {
+        handleToggleDropdown('palette');
+        setPalette(palette);
+        props.setPalette(palette);
     }
 
     const displayNumberOptions = (min = 3, max = 10) => {
@@ -65,9 +69,9 @@ function ControlBar(props) {
         return numArr;
     }
 
-    const handleCloseDropdown = evt => {
-        setShowDropdown({[evt.target.id]: false});
-    }
+    // const handleCloseDropdown = evt => {
+    //     setShowDropdown({[evt.target.id]: false});
+    // }
 
     // const handleShowDropdown = evt => {
     //     // console.log(evt)
@@ -76,7 +80,7 @@ function ControlBar(props) {
     // }
 
     const handleToggleDropdown = group => {
-        setShowDropdown({[group]: !showDropdown[group]});
+        setShowDropdown({...showDropdown, [group]: !showDropdown[group]});
     }
 
     return (
@@ -94,52 +98,68 @@ function ControlBar(props) {
                 </button>
                 <div style={{display: !hidden ? 'inline-block' : 'none'}}>
                     <button><SiAddthis size='1.5em' /></button>
-                    <button><IoIosColorPalette size='1.5em' /></button>
-                    <select id="palette" value={props.palette} onChange={handlePaletteChange}>
+                    <div class={`dropdown ${showDropdown.palette ? 'dropdown-active' : ''}`}>
+                        <button id="speed" onClick={() => handleToggleDropdown('palette')}><IoIosColorPalette size='1.5em' /></button>
+                        {/* <div onMouseLeave={() => handleToggleDropdown('palette')} className='dropdown-content'> */}
+                        <div className='dropdown-content'>
+                            {palettes.map(palette => {
+                                return <p onClick={() => handlePaletteChange(palette)}>{palette}</p>
+                            })}
+                        </div>
+                    </div>
+                    
+                    {/* <select id="palette" value={props.palette} onChange={handlePaletteChange}>
                         {palettes.map(palette => {
                             return <option value={palette}>{palette}</option>
                         })}
-                    </select>
-                    {/* <button><GiTortoise size='1.5em' /><GiRabbit size='1.5em' /></button>
-                    <select id="speed" value={speed} onChange={handleSpeedChange}>
-                        <option value={4000}>.25x</option>
-                        <option value={2000}>.5x</option>
-                        <option value={1000}>1x</option>
-                        <option value={800}>1.25x</option>
-                        <option value={500}>2x</option>
-                        <option value={200}>5x</option>
                     </select> */}
                     <div class={`dropdown ${showDropdown.speed ? 'dropdown-active' : ''}`}>
                         <button id="speed" onClick={() => handleToggleDropdown('speed')}><GiTortoise size='1.5em' /><GiRabbit size='1.5em' /></button>
-                        {/* <button id="speed" onClick={() => handleShowDropdown('speed')}><GiTortoise size='1.5em' /></button> */}
-                        {/* <button id="speed" onClick={handleShowDropdown}>X</button> */}
-                        {/* <div display={showDropdown.speed ? 'block' : 'none'} class="dropdown-content"> */}
-                        {/* <div hidden={showDropdown.speed ? false : true} className={`dropdown-content ${showDropdown.speed ? 'dropdown-active' : null}`}> */}
+                        {/* <div onMouseLeave={() => handleToggleDropdown('speed')} className='dropdown-content'> */}
                         <div className='dropdown-content'>
-                            {/* <select id="speed" value={speed} onChange={handleSpeedChange}> */}
                             <p onClick={() => handleSpeedChange(4000)}>.25x</p>
                             <p onClick={() => handleSpeedChange(2000)}>.5x</p>
                             <p onClick={() => handleSpeedChange(1000)}>1x</p>
                             <p onClick={() => handleSpeedChange(800)}>1.25x</p>
                             <p onClick={() => handleSpeedChange(500)}>2x</p>
                             <p onClick={() => handleSpeedChange(200)}>5x</p>
-                            {/* </select> */}
                         </div>
                     </div>
                     
+                    <div class={`dropdown ${showDropdown.sound ? 'dropdown-active' : ''}`}>
+                        <button id="sound" onClick={() => handleToggleDropdown('sound')}><GoBell size='1.5em' /></button>
+                        <div className='dropdown-content'>
+                            {sounds.map(sound => {
+                                return <p onClick={() => handleSoundChange(sound)} >{sound}</p>
+                            })}
+                        </div>
+                    </div>
                     
-                    <button><GoBell size='1.5em' /></button>
-                    <select id="sound" value={sound} onChange={handleSoundChange}>
+                    {/* <select id="sound" value={sound} onChange={handleSoundChange}>
                         {sounds.map(sound => {
                             return <option value={sound}>{sound}</option>
                         })}
-                    </select>
-                    <button><ImSortNumbericDesc size='1.5em' /></button>
-                    {props.number ? <select value={props.number} onChange={handleNumberChange}>
+                    </select> */}
+
+                    {props.number ? 
+                        <div class={`dropdown ${showDropdown.number ? 'dropdown-active' : ''}`}>
+                            <button id="number" onClick={() => handleToggleDropdown('number')}><ImSortNumbericDesc size='1.5em' /></button>
+                            <div className='dropdown-content'>
+                                {displayNumberOptions(props.minNum, props.maxNum).map(num => {
+                                    return <p onClick={() => handleNumberChange(num)}>{num}</p>
+                                })}
+                            </div>
+                        </div>
+        
+                        : null
+                    }
+                    
+                    
+                    {/* {props.number ? <select value={props.number} onChange={handleNumberChange}>
                         {displayNumberOptions(props.minNum, props.maxNum).map(num => {
                             return <option value={num}>{num}</option>
                         })}
-                    </select> : null}
+                    </select> : null} */}
                     
                 </div>
                 
