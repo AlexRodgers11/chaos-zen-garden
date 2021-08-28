@@ -3,11 +3,12 @@ import useToggle from './hooks/useToggle';
 import { palettes, sounds } from './utils';
 import { FaExpandAlt, FaVolumeMute, FaVolumeUp } from 'react-icons/fa/';
 import { GrContract } from 'react-icons/gr/';
-import { GiHamburgerMenu, GiRabbit, GiTortoise } from 'react-icons/gi/';
+import { GiConsoleController, GiHamburgerMenu, GiRabbit, GiTortoise } from 'react-icons/gi/';
 import { IoIosColorPalette, IoSpeedometerSharp } from 'react-icons/io/';
 import { GoBell } from 'react-icons/go/';
 import { SiAddthis } from 'react-icons/si';
 import { ImSortNumbericDesc } from 'react-icons/im';
+import './ControlBar.css';
 
 
 function ControlBar(props) {
@@ -17,10 +18,23 @@ function ControlBar(props) {
     const [number, setNumber] = useState(props.number);
     const [palette, setPalette] = useState(props.palette || 'baseColors');
     const [hidden, toggleHidden] = useToggle(true);
+    const [showDropdown, setShowDropdown] = useState(
+        {
+            palette: false,
+            speed: false,
+            sound: false,
+            number: false
+        }
+    )
      
-    const handleSpeedChange = evt => {
-        setSpeed(evt.target.value);
-        props.setSpeed(evt.target.value);
+    // const handleSpeedChange = evt => {
+    //     setSpeed(evt.target.value);
+    //     props.setSpeed(evt.target.value);
+    // }
+    const handleSpeedChange = speed => {
+        handleToggleDropdown('speed');
+        setSpeed(speed);
+        props.setSpeed(speed);
     }
 
     const handleChangeText = evt => {
@@ -51,6 +65,20 @@ function ControlBar(props) {
         return numArr;
     }
 
+    const handleCloseDropdown = evt => {
+        setShowDropdown({[evt.target.id]: false});
+    }
+
+    // const handleShowDropdown = evt => {
+    //     // console.log(evt)
+    //     setShowDropdown({[evt.target.parentElement.id]: true});
+    //     // setShowDropdown({[evt.target.id]: true});
+    // }
+
+    const handleToggleDropdown = group => {
+        setShowDropdown({[group]: !showDropdown[group]});
+    }
+
     return (
         <>
         <div style={{marginBottom: '0.5em'}}>
@@ -61,15 +89,10 @@ function ControlBar(props) {
 
         <div style={{display: 'flex', justifyContent: 'space-between'}}>
             <div >
-                {/* <button style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} onClick={toggleHidden}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="1.7em" height="1.7em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-align-justify"><line x1="21" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="21" y1="18" x2="3" y2="18"/></svg>
-                </button> */}
                 <button style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} onClick={toggleHidden}>
                     <GiHamburgerMenu size='1.5em'/>
                 </button>
                 <div style={{display: !hidden ? 'inline-block' : 'none'}}>
-                    {props.text ? <p><label htmlFor="textInput">{props.text}</label><input type="text" disabled={props.isOrganizing} onChange={handleChangeText} value={text}/></p> : null}
-                {/* <div> */}
                     <button><SiAddthis size='1.5em' /></button>
                     <button><IoIosColorPalette size='1.5em' /></button>
                     <select id="palette" value={props.palette} onChange={handlePaletteChange}>
@@ -77,8 +100,7 @@ function ControlBar(props) {
                             return <option value={palette}>{palette}</option>
                         })}
                     </select>
-                    {/* <label forName="speed">Speed</label> */}
-                    <button><GiTortoise size='1.5em' /><GiRabbit size='1.5em' /></button>
+                    {/* <button><GiTortoise size='1.5em' /><GiRabbit size='1.5em' /></button>
                     <select id="speed" value={speed} onChange={handleSpeedChange}>
                         <option value={4000}>.25x</option>
                         <option value={2000}>.5x</option>
@@ -86,8 +108,26 @@ function ControlBar(props) {
                         <option value={800}>1.25x</option>
                         <option value={500}>2x</option>
                         <option value={200}>5x</option>
-                    </select>
-                    {/* <label forName="sound">Sound</label> */}
+                    </select> */}
+                    <div class={`dropdown ${showDropdown.speed ? 'dropdown-active' : ''}`}>
+                        <button id="speed" onClick={() => handleToggleDropdown('speed')}><GiTortoise size='1.5em' /><GiRabbit size='1.5em' /></button>
+                        {/* <button id="speed" onClick={() => handleShowDropdown('speed')}><GiTortoise size='1.5em' /></button> */}
+                        {/* <button id="speed" onClick={handleShowDropdown}>X</button> */}
+                        {/* <div display={showDropdown.speed ? 'block' : 'none'} class="dropdown-content"> */}
+                        {/* <div hidden={showDropdown.speed ? false : true} className={`dropdown-content ${showDropdown.speed ? 'dropdown-active' : null}`}> */}
+                        <div className='dropdown-content'>
+                            {/* <select id="speed" value={speed} onChange={handleSpeedChange}> */}
+                            <p onClick={() => handleSpeedChange(4000)}>.25x</p>
+                            <p onClick={() => handleSpeedChange(2000)}>.5x</p>
+                            <p onClick={() => handleSpeedChange(1000)}>1x</p>
+                            <p onClick={() => handleSpeedChange(800)}>1.25x</p>
+                            <p onClick={() => handleSpeedChange(500)}>2x</p>
+                            <p onClick={() => handleSpeedChange(200)}>5x</p>
+                            {/* </select> */}
+                        </div>
+                    </div>
+                    
+                    
                     <button><GoBell size='1.5em' /></button>
                     <select id="sound" value={sound} onChange={handleSoundChange}>
                         {sounds.map(sound => {
@@ -100,29 +140,14 @@ function ControlBar(props) {
                             return <option value={num}>{num}</option>
                         })}
                     </select> : null}
-                {/* </div> */}
-                    {/* <span>
-                        <button disabled={props.isOrganizing} onClick={props.isOrganized ? props.organizedFunction : props.unorganizedFunction}>{props.isOrganized ? props.unorgButton : props.orgButton}</button>
-                    </span>
-                    {!props.disableFullWindow ? 
-                        <span>
-                            <button onClick={props.toggleWindow}>{props.fullWindow ? 'Back to Garden' : 'Full Window'}</button>
-                        </span>
-                        :
-                        null
-                    } */}
                     
                 </div>
                 
             </div>
             <div>
-                {/* <span>
-                    <button disabled={props.isOrganizing} onClick={props.isOrganized ? props.organizedFunction : props.unorganizedFunction}>{props.isOrganized ? props.unorgButton : props.orgButton}</button>
-                </span> */}
+
                 {!props.disableFullWindow ? 
                     <span>
-                        {/* <button onClick={props.toggleWindow}>{props.fullWindow ? 'Back to Garden' : 'Full Window'}</button> */}
-                        {/* <button style={{display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} onClick={props.toggleWindow}>{props.fullWindow ? <svg xmlns="http://www.w3.org/2000/svg" width="1.7em" height="1.7em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minimize-2"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="3" y1="21" x2="10" y2="14"/></svg> : <svg xmlns="http://www.w3.org/2000/svg" width="1.7em" height="1.7em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-maximize-2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>}</button> */}
                         <button style={{display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} onClick={props.toggleWindow}>{props.fullWindow ? <GrContract size='1.5em' /> : <FaExpandAlt size='1.5em' />}</button>
                     </span>
                     :
