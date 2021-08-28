@@ -70,14 +70,12 @@ function BullsEye(props) {
 
     useEffect(() => {
         if((props.orgIndex === props.id && !isOrganized)) {
-            console.log('orgIndex if ran')
             if(orgIndex !== props.numRings) {
                 soundPlay(sound);
             }
             setMarginLeft(1 / 2);
             setMarginTop(1 / 2);
         } else if (props.isOrganized){
-            console.log('orgIndex else ran')
             setMarginLeft(getMargin());
             setMarginTop(getMargin());
         }

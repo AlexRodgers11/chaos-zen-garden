@@ -106,7 +106,6 @@ function Snake(props) {
         soundPlay(sound);
         setBoxes(newBoxes);
         setNextIndex(idx + 1);
-        console.log('setNextIndex just ran')
         if(idx + 1 === boxes.length) setTimeout(() => {
             toggleIsOrganized();
             toggleIsOrganizing();

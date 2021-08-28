@@ -88,7 +88,6 @@ function Antlers(props) {
                 }
             }
         } 
-        console.log(`currentIdx; ${currentIdx}`)
         let newHorns = horns.map(horn => {
             if(horn.id === horns[currentIdx].id) {
                 return {...horn, side: 'top'}
