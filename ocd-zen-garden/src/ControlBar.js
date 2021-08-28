@@ -97,9 +97,9 @@ function ControlBar(props) {
                     <GiHamburgerMenu size='1.5em'/>
                 </button>
                 <div style={{display: !hidden ? 'inline-block' : 'none'}}>
-                    <button><SiAddthis size='1.5em' /></button>
+                    <button style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} ><SiAddthis size='1.5em' /></button>
                     <div onMouseLeave={showDropdown.palette ? () => handleToggleDropdown('palette') : null} class={`dropdown ${showDropdown.palette ? 'dropdown-active' : ''}`}>
-                        <button id="speed" onClick={() => handleToggleDropdown('palette')}><IoIosColorPalette size='1.5em' /></button>
+                        <button style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} id="speed" onClick={() => handleToggleDropdown('palette')}><IoIosColorPalette size='1.5em' /></button>
                         {/* <div onMouseLeave={() => handleToggleDropdown('palette')} className='dropdown-content'> */}
                         <div className='dropdown-content'>
                             {palettes.map(palette => {
@@ -114,7 +114,7 @@ function ControlBar(props) {
                         })}
                     </select> */}
                     <div onMouseLeave={showDropdown.speed ? () => handleToggleDropdown('speed') : null} class={`dropdown ${showDropdown.speed ? 'dropdown-active' : ''}`}>
-                        <button id="speed" onClick={() => handleToggleDropdown('speed')}><GiTortoise size='1.5em' /><GiRabbit size='1.5em' /></button>
+                        <button style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} id="speed" onClick={() => handleToggleDropdown('speed')}><GiTortoise size='1.5em' /><GiRabbit size='1.5em' /></button>
                         {/* <div onMouseLeave={() => handleToggleDropdown('speed')} className='dropdown-content'> */}
                         <div className='dropdown-content'>
                             <p onClick={() => handleSpeedChange(4000)}>.25x</p>
@@ -127,7 +127,7 @@ function ControlBar(props) {
                     </div>
                     
                     <div onMouseLeave={showDropdown.sound ? () => handleToggleDropdown('sound') : null} class={`dropdown ${showDropdown.sound ? 'dropdown-active' : ''}`}>
-                        <button id="sound" onClick={() => handleToggleDropdown('sound')}><GoBell size='1.5em' /></button>
+                        <button style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} id="sound" onClick={() => handleToggleDropdown('sound')}><GoBell size='1.5em' /></button>
                         <div className='dropdown-content'>
                             {sounds.map(sound => {
                                 return <p onClick={() => handleSoundChange(sound)} >{sound}</p>
@@ -143,7 +143,7 @@ function ControlBar(props) {
 
                     {props.number ? 
                         <div onMouseLeave={showDropdown.number ? () => handleToggleDropdown('number') : null} class={`dropdown ${showDropdown.number ? 'dropdown-active' : ''}`}>
-                            <button id="number" onClick={() => handleToggleDropdown('number')}><ImSortNumbericDesc size='1.5em' /></button>
+                            <button style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} id="number" onClick={() => handleToggleDropdown('number')}><ImSortNumbericDesc size='1.5em' /></button>
                             <div className='dropdown-content'>
                                 {displayNumberOptions(props.minNum, props.maxNum).map(num => {
                                     return <p onClick={() => handleNumberChange(num)}>{num}</p>
