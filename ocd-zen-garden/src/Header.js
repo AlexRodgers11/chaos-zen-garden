@@ -3,6 +3,7 @@ import { getColor } from './utils';
 import { palettes } from './utils';
 import { v4 as uuidv4 } from 'uuid';
 import { GiHamburgerMenu } from 'react-icons/gi/';
+import { FaUserCircle } from 'react-icons/fa/';
 import { IoIosColorPalette } from 'react-icons/io/';
 import './Header.css';
 
@@ -55,7 +56,7 @@ function Header(props){
             </div> */}
 
             {/* <div onMouseLeave={showDropdown.palette ? () => handleToggleDropdown('main') : null} className={`dropdown ${showDropdown.main ? 'dropdown-active' : ''}`} style={{display: 'flex', alignItems: 'center', marginRight: '.5rem'}}> */}
-            <div style={{display: 'flex', alignItems: 'center', marginRight: '.5rem'}}>
+            <div style={{display: 'flex', alignItems: 'center', marginRight: '1rem'}}>
                 <div onMouseLeave={showDropdown.palette ? () => handleToggleDropdown('palette') : null} className={`Header_dropdown ${showDropdown.palette ? 'Header_dropdown-active' : ''}`} >
                     <div style={{display: 'flex', alignItems: 'center', marginRight: '.5rem'}}>
                         <IoIosColorPalette id="palette" onClick={() => handleToggleDropdown('palette')} size="2rem" color={getColor(1, colorPalette)}/>
@@ -69,8 +70,8 @@ function Header(props){
                     </div>
                 </div>
                 <div onMouseLeave={showDropdown.main ? () => handleToggleDropdown('main') : null} className={`Header_dropdown ${showDropdown.main ? 'Header_dropdown-active' : ''}`} >
-                    <div style={{display: 'flex', alignItems: 'center', marginRight: '.5rem'}}>
-                        <GiHamburgerMenu id="main" onClick={() => handleToggleDropdown('main')} size="2rem" color={getColor(2, colorPalette)}/>
+                    <div style={{display: 'flex', alignItems: 'center'}}>
+                        <FaUserCircle id="main" onClick={() => handleToggleDropdown('main')} size="1.5rem" color={getColor(2, colorPalette)}/>
                     </div>
 
                     <div className='Header_dropdown-content'>
