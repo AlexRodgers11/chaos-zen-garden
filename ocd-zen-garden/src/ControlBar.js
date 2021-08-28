@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import useToggle from './hooks/useToggle';
-import { palettes, sounds } from './utils';
+import { palettes, sounds, getColor } from './utils';
 import { FaExpandAlt, FaVolumeMute, FaVolumeUp } from 'react-icons/fa/';
 import { GrContract } from 'react-icons/gr/';
 import { GiConsoleController, GiHamburgerMenu, GiRabbit, GiTortoise } from 'react-icons/gi/';
@@ -16,7 +16,7 @@ function ControlBar(props) {
     const [text, setText] = useState(props.textValue || null);
     const [sound, setSound] = useState(props.soundValue || null);
     const [number, setNumber] = useState(props.number);
-    const [palette, setPalette] = useState(props.palette || 'baseColors');
+    const [palette, setPalette] = useState(props.palette);
     const [hidden, toggleHidden] = useToggle(true);
     const [showDropdown, setShowDropdown] = useState(
         {
@@ -26,6 +26,15 @@ function ControlBar(props) {
             number: false
         }
     )
+
+    const colorFirstUpdate = useRef(true);
+    useEffect(() => {
+        if(!colorFirstUpdate.current) {
+            setPalette(props.palette);
+        } else {
+            colorFirstUpdate.current = false;
+        }
+    }, [props.palette]);
      
     // const handleSpeedChange = evt => {
     //     setSpeed(evt.target.value);
@@ -87,19 +96,19 @@ function ControlBar(props) {
         <div className="ControlBar">
         <div style={{marginBottom: '0.5em'}}>
             <span>
-                <button style={{padding: '.35em .55em'}} disabled={props.isOrganizing} onClick={props.isOrganized ? props.organizedFunction : props.unorganizedFunction}>{props.isOrganized ? props.unorgButton : props.orgButton}</button>
+                <button style={{backgroundColor: '#303030', padding: '.35em .55em', color: getColor(1, palette), fontWeight: '800'}} disabled={props.isOrganizing} onClick={props.isOrganized ? props.organizedFunction : props.unorganizedFunction}>{props.isOrganized ? props.unorgButton : props.orgButton}</button>
             </span>
         </div>
 
         <div style={{display: 'flex', justifyContent: 'space-between'}}>
             <div >
-                <button style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} onClick={toggleHidden}>
+                <button style={{color: getColor(1, palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} onClick={toggleHidden}>
                     <GiHamburgerMenu size='1.5em'/>
                 </button>
                 <div style={{display: !hidden ? 'inline-block' : 'none'}}>
-                    <button style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} ><SiAddthis size='1.5em' /></button>
+                    <button style={{color: getColor(1, palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} ><SiAddthis size='1.5em' /></button>
                     <div onMouseLeave={showDropdown.palette ? () => handleToggleDropdown('palette') : null} className={`ControlBar_dropdown ${showDropdown.palette ? 'ControlBar_dropdown-active' : ''}`}>
-                        <button style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} id="speed" onClick={() => handleToggleDropdown('palette')}><IoIosColorPalette size='1.5em' /></button>
+                        <button style={{color: getColor(1, palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} id="speed" onClick={() => handleToggleDropdown('palette')}><IoIosColorPalette size='1.5em' /></button>
                         {/* <div onMouseLeave={() => handleToggleDropdown('palette')} className='dropdown-content'> */}
                         <div className='ControlBar_dropdown-content'>
                             {palettes.map(palette => {
@@ -114,7 +123,7 @@ function ControlBar(props) {
                         })}
                     </select> */}
                     <div onMouseLeave={showDropdown.speed ? () => handleToggleDropdown('speed') : null} className={`ControlBar_dropdown ${showDropdown.speed ? 'ControlBar_dropdown-active' : ''}`}>
-                        <button style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} id="speed" onClick={() => handleToggleDropdown('speed')}><GiTortoise size='1.5em' /><GiRabbit size='1.5em' /></button>
+                        <button style={{color: getColor(1, palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} id="speed" onClick={() => handleToggleDropdown('speed')}><GiTortoise size='1.5em' /><GiRabbit size='1.5em' /></button>
                         {/* <div onMouseLeave={() => handleToggleDropdown('speed')} className='dropdown-content'> */}
                         <div className='ControlBar_dropdown-content'>
                             <p onClick={() => handleSpeedChange(4000)}>.25x</p>
@@ -127,7 +136,7 @@ function ControlBar(props) {
                     </div>
                     
                     <div onMouseLeave={showDropdown.sound ? () => handleToggleDropdown('sound') : null} className={`ControlBar_dropdown ${showDropdown.sound ? 'ControlBar_dropdown-active' : ''}`}>
-                        <button style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} id="sound" onClick={() => handleToggleDropdown('sound')}><GoBell size='1.5em' /></button>
+                        <button style={{color: getColor(1, palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} id="sound" onClick={() => handleToggleDropdown('sound')}><GoBell size='1.5em' /></button>
                         <div className='ControlBar_dropdown-content'>
                             {sounds.map(sound => {
                                 return <p onClick={() => handleSoundChange(sound)} >{sound}</p>
@@ -143,7 +152,7 @@ function ControlBar(props) {
 
                     {props.number ? 
                         <div onMouseLeave={showDropdown.number ? () => handleToggleDropdown('number') : null} className={`ControlBar_dropdown ${showDropdown.number ? 'ControlBar_dropdown-active' : ''}`}>
-                            <button style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} id="number" onClick={() => handleToggleDropdown('number')}><ImSortNumbericDesc size='1.5em' /></button>
+                            <button style={{color: getColor(1, palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} id="number" onClick={() => handleToggleDropdown('number')}><ImSortNumbericDesc size='1.5em' /></button>
                             <div className='ControlBar_dropdown-content'>
                                 {displayNumberOptions(props.minNum, props.maxNum).map(num => {
                                     return <p onClick={() => handleNumberChange(num)}>{num}</p>
@@ -168,7 +177,7 @@ function ControlBar(props) {
 
                 {!props.disableFullWindow ? 
                     <span>
-                        <button style={{display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} onClick={props.toggleWindow}>{props.fullWindow ? <GrContract size='1.5em' /> : <FaExpandAlt size='1.5em' />}</button>
+                        <button style={{color: getColor(1, palette), backgroundColor: '#303030', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} onClick={props.toggleWindow}>{props.fullWindow ? <GrContract size='1.5em' /> : <FaExpandAlt size='1.5em' />}</button>
                     </span>
                     :
                     null
