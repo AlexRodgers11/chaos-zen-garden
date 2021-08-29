@@ -10,7 +10,7 @@ function Dots(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [nextIndex, setNextIndex] = useState({id: 0, dir: 'vertical'});
-    const [numRows, setNumRows] = useState(5);
+    const [numRows, setNumRows] = useState(6);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Swish'));
     const [colorPalette, setColorPalette] = useState(props.palette);
