@@ -39,8 +39,12 @@ function Garden(){
         // let gardenPieceWidth = width * .5
         let gardenPieceWidth;
         let disableFullWindow = false;
-        if(width >= 900) {
+        if(width >= 1700) {
+            gardenPieceWidth = width * .475;
+        } else if(width >= 1200) {
             gardenPieceWidth = width * .5;
+        } else if(width >= 900) {
+            gardenPieceWidth = width * .75;
         } else if (width < 900 && width > 600) {
             gardenPieceWidth = width
         } 
@@ -69,9 +73,9 @@ function Garden(){
     if(!fullSelectedPiece) {
         let gardenPieceWidth;
         let disableFullWindow = false;
-        if(width >= 900) {
+        if(width >= 1000) {
             gardenPieceWidth = width / 3;
-        } else if (width < 900 && width > 600) {
+        } else if (width < 1000 && width > 600) {
             gardenPieceWidth = width / 2;
         } else {
             gardenPieceWidth = width;
