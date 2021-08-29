@@ -102,20 +102,23 @@ function ControlBar(props) {
         </div>
 
         <div style={{display: 'flex', justifyContent: 'space-between'}}>
-            <div >
+            <div>
                 <button style={{color: getColor(1, palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} onClick={toggleHidden}>
                     <GiHamburgerMenu size='1.5em'/>
                 </button>
                 <div style={{display: !hidden ? 'inline-block' : 'none'}}>
                     <button style={{color: getColor(1, palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} ><SiAddthis size='1.5em' /></button>
-                    <div onMouseLeave={showPopup.palette ? () => handleTogglePopup('palette') : null} className={`ControlBar_popup ${showPopup.palette ? 'ControlBar_popup-active' : ''}`}>
-                        <button style={{color: getColor(1, palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} id="speed" onClick={() => handleTogglePopup('palette')}><IoIosColorPalette size='1.5em' /></button>
+                    <div style={{position: 'relative', zIndex: 7}} onMouseLeave={showPopup.palette ? () => handleTogglePopup('palette') : null} className={`ControlBar_popup ${showPopup.palette ? 'ControlBar_popup-active' : ''}`}>
+                        <button style={{position: 'relative', zIndex: 8, color: getColor(1, palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="speed" onClick={() => handleTogglePopup('palette')}><IoIosColorPalette size='1.5em' /></button>
                         {/* <div onMouseLeave={() => handleToggleDropdown('palette')} className='dropdown-content'> */}
                         {/* <div className={`ControlBar_dropdown-content ${props.fullWindow ? 'ControlBar_dropup-content' : ''}`}> */}
                         <div className='ControlBar_popup-content'>
-                            {palettes.map(palette => {
-                                return <p onClick={() => handlePaletteChange(palette)}>{palette}</p>
-                            })}
+                            <div style={{boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)'}}>
+                                {palettes.map(palette => {
+                                    return <p onClick={() => handlePaletteChange(palette)}>{palette}</p>
+                                })}
+                            </div>
+                            <div style={{height: '1.8em', opacity: .5, backgroundColor: 'black'}}></div>    
                         </div>
                     </div>
                     
@@ -124,25 +127,36 @@ function ControlBar(props) {
                             return <option value={palette}>{palette}</option>
                         })}
                     </select> */}
-                    <div onMouseLeave={showPopup.speed ? () => handleTogglePopup('speed') : null} className={`ControlBar_popup ${showPopup.speed ? 'ControlBar_popup-active' : ''}`}>
-                        <button style={{color: getColor(1, palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} id="speed" onClick={() => handleTogglePopup('speed')}><GiTortoise size='1.5em' /><GiRabbit size='1.5em' /></button>
+                    <div style={{position: 'relative', zIndex: 5}} onMouseLeave={showPopup.speed ? () => handleTogglePopup('speed') : null} className={`ControlBar_popup ${showPopup.speed ? 'ControlBar_popup-active' : ''}`}>
+                        <button style={{position: 'relative', zIndex: 6, color: getColor(1, palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="speed" onClick={() => handleTogglePopup('speed')}><GiTortoise size='1.5em' /><GiRabbit size='1.5em' /></button>
                         {/* <div onMouseLeave={() => handleToggleDropdown('speed')} className='dropdown-content'> */}
                         <div className='ControlBar_popup-content'>
-                            <p onClick={() => handleSpeedChange(4000)}>.25x</p>
-                            <p onClick={() => handleSpeedChange(2000)}>.5x</p>
-                            <p onClick={() => handleSpeedChange(1000)}>1x</p>
-                            <p onClick={() => handleSpeedChange(800)}>1.25x</p>
-                            <p onClick={() => handleSpeedChange(500)}>2x</p>
-                            <p onClick={() => handleSpeedChange(200)}>5x</p>
+                            <div style={{boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)'}}>
+                                <p onClick={() => handleSpeedChange(4000)}>.25x</p>
+                                <p onClick={() => handleSpeedChange(2000)}>.5x</p>
+                                <p onClick={() => handleSpeedChange(1000)}>1x</p>
+                                <p onClick={() => handleSpeedChange(800)}>1.25x</p>
+                                <p onClick={() => handleSpeedChange(500)}>2x</p>
+                                <p onClick={() => handleSpeedChange(200)}>5x</p>
+                            </div>
+                            <div style={{height: '1.8em', opacity: 0.5, backgroundColor: 'black'}}></div>
                         </div>
                     </div>
                     
-                    <div onMouseLeave={showPopup.sound ? () => handleTogglePopup('sound') : null} className={`ControlBar_popup ${showPopup.sound ? 'ControlBar_popup-active' : ''}`}>
-                        <button style={{color: getColor(1, palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} id="sound" onClick={() => handleTogglePopup('sound')}><GoBell size='1.5em' /></button>
+                    <div style={{position: 'relative', zIndex: 3}} onMouseLeave={showPopup.sound ? () => handleTogglePopup('sound') : null} className={`ControlBar_popup ${showPopup.sound ? 'ControlBar_popup-active' : ''}`}>
+                        <button style={{position: 'relative', zIndex: 4, color: getColor(1, palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="sound" onClick={() => handleTogglePopup('sound')}><GoBell size='1.5em' /></button>
                         <div className='ControlBar_popup-content'>
+                            {/* <div style={{paddingBottom: '1.5em'}}>
                             {sounds.map(sound => {
                                 return <p onClick={() => handleSoundChange(sound)} >{sound}</p>
                             })}
+                            </div> */}
+                            <div style={{boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)'}}>
+                                {sounds.map(sound => {
+                                    return <p onClick={() => handleSoundChange(sound)} >{sound}</p>
+                                })}
+                            </div>
+                            <div style={{height: '1.8em', opacity: 0.5, backgroundColor: 'black'}}></div>
                         </div>
                     </div>
                     
@@ -153,13 +167,17 @@ function ControlBar(props) {
                     </select> */}
 
                     {props.number ? 
-                        <div onMouseLeave={showPopup.number ? () => handleTogglePopup('number') : null} className={`ControlBar_popup ${showPopup.number ? 'ControlBar_popup-active' : ''}`}>
-                            <button style={{color: getColor(1, palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} id="number" onClick={() => handleTogglePopup('number')}><ImSortNumbericDesc size='1.5em' /></button>
+                        <div style={{position: 'relative', zIndex: 1}} onMouseLeave={showPopup.number ? () => handleTogglePopup('number') : null} className={`ControlBar_popup ${showPopup.number ? 'ControlBar_popup-active' : ''}`}>
+                            <button style={{position: 'relative', zIndex: 2, color: getColor(1, palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="number" onClick={() => handleTogglePopup('number')}><ImSortNumbericDesc size='1.5em' /></button>
                             <div className='ControlBar_popup-content'>
                             {/* <div className='ControlBar_dropdown-content'> */}
-                                {displayNumberOptions(props.minNum, props.maxNum).map(num => {
-                                    return <p onClick={() => handleNumberChange(num)}>{num}</p>
-                                })}
+                                <div style={{boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)'}}>
+                                    {displayNumberOptions(props.minNum, props.maxNum).map(num => {
+                                        return <p onClick={() => handleNumberChange(num)}>{num}</p>
+                                        // return <p style={{backgroundColor: '#f9f9f9'}} onClick={() => handleNumberChange(num)}>{num}</p>
+                                    })}
+                                </div>
+                                <div style={{height: '1.8em', opacity: 0.5, backgroundColor: 'black', padding: 0}}></div>
                             </div>
                         </div>
         
