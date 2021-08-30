@@ -16,35 +16,36 @@ const colors = {
     'Carnival': {
         colorCount: 6,
         base: {
-            name: 'darkGrey',
             color: '#404857'
         },
         border: {
-            name: 'black',
             color: '#000000'
         },
+        auxBackground: {
+            color: '#303030'
+        },
+        aux1: {
+            color: '#ff0048'
+        },
+        aux2: {
+            color: '#44ff00'
+        },
         1: {
-            name: 'salmon',
             color:'#ff0048'
         },
         2: {
-            name: 'lime',
             color: '#44ff00'
         },
         3: {
-            name: 'blue',
             color: '#3e0eff'
         },
         4: {
-            name: 'orange',
             color: '#ffa30e'
         },
         5: {
-            name: 'pink',
             color: '#ff00fb'
         },
         6: {
-            name: 'yellow',
             color: '#ffff00'
     
         }
@@ -87,194 +88,221 @@ const colors = {
     'Electric': {
         colorCount: 6,
         base: {
-            name: 'black', 
             color: '#000000'
         }, 
-        // border: {
-        //     name: 'mediumGray',
-        //     color: '#4a4a4a'
-        // },
         border: {
-            name: 'white',
             color: '#FFFFFF'
         },
+        auxBackground: {
+            color: '#303030'
+        },
+        aux1: {
+            color: '#fffc00'
+        },
+        aux2: {
+            color: '#ff009f'
+        },
         1: {
-            name: '',
             color: '#fffc00'
         },
         2: {
-            name: '',
             color: '#3f00ff'
         },
         3: {
-            name: '',
             color: '#00FF00'
         },
         4: {
-            name: '',
             color: '#55ffff'
         },
         5: {
-            name: '',
             color: '#ff009f'
         },
         6: {
-            name: '',
             color: '#ff073a'
         }       
     }, 
     'Zebra': {
         colorCount: 2,
         base: {
-            name: 'white',
             color: '#FFFFFF'
         },
         border: {
-            name: 'black',
+            color: '#000000'
+        },
+        auxBackground: {
+            color: '#303030'
+        },
+        aux1: {
+            color: '#FFFFFF'
+        },
+        aux2: {
             color: '#000000'
         },
         1: {
-            name: 'black',
             color: '#000000'
         },
         2: {
-            name: 'white',
             color: '#FFFFFF'
         }
     },
     'Christmas': {
         colorCount: 2,
         base: {
-            name: 'white',
             color: '#FFFFFF'// possibly try to do candy-cane gradient
         },
         border: {
-            name: 'gold',
             color: '#CC9901'
         },
+        auxBackground: {
+            color: '#303030'
+        },
+        aux1: {
+            color: '#B70D00'
+        },
+        aux2: {
+            color: '#005C01'
+        },
         1: {
-            name: 'red',
             color: '#B70D00'
         },
         2: {
-            name: 'green',
             color: '#005C01'
         }
     },
     'Rose': {
         colorCount: 3,
         base: {
-            name: '',
             color: '#4E4E50'
         },
         border: {
-            name: '',
             color: '#1A1A1D'
         },
+        auxBackground: {
+            color: '#303030'
+        },
+        aux1: {
+            color: '#C3073F'
+        },
+        aux2: {
+            color: '#950740'
+        },
         1: {
-            name: '',
             color: '#C3073F'
         },
         2: {
-            name: '',
             color: '#950740'
         },
         3: {
-            name: '',
             color: '#6F2232'
         }
     },
     'Sea': {
         colorCount: 3,
         base: {
-            name: '',
             color: '#0B0C10'
         },
         border: {
-            name: '',
             color: '#C5C6C7'
         },
+        auxBackground: {
+            color: '#303030'
+        },
+        aux1: {
+            color: '#66FCF1'
+        },
+        aux2: {
+            color: '#45A29E'
+        },
         1: {
-            name: '',
             color: '#45A29E'
         },
         2: {
-            name: '',
             color: '#66FCF1'
         },
         3: {
-            name: '',
             color: '#1F2833'
         }
     },
     'Harvest': {
         colorCount: 3,
         base: {
-            name: '',
             color: '#272727'
         },
         border: {
-            name: '',
             color: '#747474'
         },
+        auxBackground: {
+            color: '#303030'
+        },
+        aux1: {
+            color: '#FFE400'
+        },
+        aux2: {
+            color: '#FF652F'
+        },
         1: {
-            name: '',
             color: '#FF652F'
         },
         2: {
-            name: '',
             color: '#FFE400'
         },
         3: {
-            name: '',
             color: '#14A76C'
         }
     },
     'Forest': {
         colorCount: 3,
         base: {
-            name: '',
             color: '#4E4E50'
         },
         border: {
-            name: '',
             color: '#1A1A1D'
         },
+        auxBackground: {
+            color: '#303030'
+        },
+        aux1: {
+            color: '#1fff1f'
+        },
+        aux2: {
+            color: '#157145'
+        },
         1: {
-            name: '',
             color: '#004b23'
         },
         2: {
-            name: '',
             color: '#1fff1f'
         },
         3: {
-            name: '',
             color: '#157145'
         }
     },
     'Flag': {
         colorCount: 3,
         base: {
-            name: '',
             // color: '#bababa'
             // color: '#6b6b6b'
             color: '#b2b2d9'
         },
         border: {
-            name: '',
             color: '#000000'
         },
+        auxBackground: {
+            color: '#303030'
+        },
+        aux1: {
+            color: '#FFFFFF'
+        },
+        aux2: {
+            color: '#B31942'
+        },
         1: {
-            name: '',
             color: '#B31942'
         },
         2: {
-            name: '',
             color: '#FFFFFF'
         },
         3: {
-            name: '',
             color: '#0A3161'
         }
     }
@@ -291,6 +319,12 @@ const getColor = (idx, palette) => {
             return colors[palette].base.color;
         } else if(idx === 'border') {
             return colors[palette].border.color;
+        } else if(idx === 'auxBackground') {
+            return colors[palette].auxBackground.color;
+        } else if(idx === 'aux1') {
+            return colors[palette].aux1.color;
+        } else if(idx === 'aux2') {
+            return colors[palette].aux2.color;
         } else if(idx % 6 === 1 || idx === 1) {
             return colors[palette][1].color
         } else if(idx % 6 === 2 || idx === 2) {
@@ -309,6 +343,12 @@ const getColor = (idx, palette) => {
             return colors[palette].base.color;
         } else if(idx === 'border') {
             return colors[palette].border.color;
+        } else if(idx === 'auxBackground') {
+            return colors[palette].auxBackground.color;
+        } else if(idx === 'aux1') {
+            return colors[palette].aux1.color;
+        } else if(idx === 'aux2') {
+            return colors[palette].aux2.color;
         } else if(idx % 2 === 1 || idx === 1) {
             return colors[palette][1].color
         } else if(idx % 2 === 0 || idx === 2) {
@@ -319,6 +359,12 @@ const getColor = (idx, palette) => {
             return colors[palette].base.color;
         } else if(idx === 'border') {
             return colors[palette].border.color;
+        } else if(idx === 'auxBackground') {
+            return colors[palette].auxBackground.color;
+        } else if(idx === 'aux1') {
+            return colors[palette].aux1.color;
+        } else if(idx === 'aux2') {
+            return colors[palette].aux2.color;
         } else if(idx % 3 === 1 || idx === 1) {
             return colors[palette][1].color
         } else if(idx % 3 === 2 || idx === 2) {

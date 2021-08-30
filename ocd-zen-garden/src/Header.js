@@ -59,7 +59,7 @@ function Header(props){
             <div style={{display: 'flex', alignItems: 'center', marginRight: '1rem'}}>
                 <div onMouseLeave={showDropdown.palette ? () => handleToggleDropdown('palette') : null} className={`Header_dropdown ${showDropdown.palette ? 'Header_dropdown-active' : ''}`} >
                     <div style={{display: 'flex', alignItems: 'center', marginRight: '.5rem'}}>
-                        <IoIosColorPalette id="palette" onClick={() => handleToggleDropdown('palette')} size="2rem" color={getColor(1, colorPalette)}/>
+                        <IoIosColorPalette id="palette" onClick={() => handleToggleDropdown('palette')} size="2rem" color={getColor('aux1', colorPalette)}/>
                     </div>
 
                     <div className='Header_dropdown-content'>
@@ -71,7 +71,7 @@ function Header(props){
                 </div>
                 <div onMouseLeave={showDropdown.main ? () => handleToggleDropdown('main') : null} className={`Header_dropdown ${showDropdown.main ? 'Header_dropdown-active' : ''}`} >
                     <div style={{display: 'flex', alignItems: 'center'}}>
-                        <FaUserCircle id="main" onClick={() => handleToggleDropdown('main')} size="1.5rem" color={getColor(2, colorPalette)}/>
+                        <FaUserCircle id="main" onClick={() => handleToggleDropdown('main')} size="1.5rem" color={getColor('aux2', colorPalette)}/>
                     </div>
 
                     <div className='Header_dropdown-content'>
