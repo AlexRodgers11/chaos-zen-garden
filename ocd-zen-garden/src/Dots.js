@@ -10,7 +10,7 @@ function Dots(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [nextIndex, setNextIndex] = useState({id: 0, dir: 'vertical'});
-    const [numRows, setNumRows] = useState(6);
+    const [numRows, setNumRows] = useState(7);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Swish'));
     const [colorPalette, setColorPalette] = useState(props.palette);
@@ -29,8 +29,10 @@ function Dots(props) {
         for(let i = 0; i < num**2; i++) {
             startingDotArray.push({
                 id: i + 1, 
-                marginLeft: `${Math.random() * .05}`,
-                marginTop: `${Math.random() * .05}`,
+                // marginLeft: `${Math.random() * .05}`,
+                // marginTop: `${Math.random() * .05}`,
+                marginLeft: `${Math.random() * .065}`,
+                marginTop: `${Math.random() * .065}`,
                 color: (getColor(i + 1, colorPalette))
             })
         }
@@ -122,7 +124,7 @@ function Dots(props) {
         if(dir === 'horizontal') {
             newDots = dots.map(dot => {
                 if(dot.id === dots[idx].id){
-                    return {...dot, marginLeft: `${.025}`}
+                    return {...dot, marginLeft: `${.0325}`}
                 } else {
                     return dot
                 }
@@ -130,7 +132,7 @@ function Dots(props) {
         } else {
             newDots = dots.map(dot => {
                 if(dot.id === dots[idx].id){
-                    return {...dot, marginTop: `${.025}`}
+                    return {...dot, marginTop: `${.0325}`}
                 } else {
                     return dot
                 }
@@ -147,7 +149,8 @@ function Dots(props) {
 
     const scatterDots = () => {
         let newDots = dots.map(dot => {
-            return {...dot, marginLeft: `${Math.random() * .05}`, marginTop: `${Math.random() * .05}`}
+            // return {...dot, marginLeft: `${Math.random() * .05}`, marginTop: `${Math.random() * .05}`}
+            return {...dot, marginLeft: `${Math.random() * .065}`, marginTop: `${Math.random() * .065}`}
         });
         setDots(newDots);
         toggleIsOrganized();
@@ -172,7 +175,8 @@ function Dots(props) {
                         return <p key={dotLineKey} style={{marginBlockEnd: 0, marginBlockStart: 0, padding: 0, marginBottom: 0, marginTop: 0}}>
                             {dotLine.map(dot => {
                                 let dotKey = uuidv4();
-                                return <span key={dotKey} style={{display: 'inline-block', textAlign: 'left', padding: '0px', width: `${props.width* .10}px`, height: `${props.width* .10}px`, marginBottom: '0'}}><span style={{display: 'block', border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: '50%', width: `${props.width * .05}px`, height: `${props.width * .05}px`, marginLeft: `${dot.marginLeft * props.width - .5}px`, marginTop: `${dot.marginTop * props.width - .5}px`, backgroundColor: `${dot.color}`}}></span></span>
+                                // return <span key={dotKey} style={{display: 'inline-block', textAlign: 'left', padding: '0px', width: `${props.width* .10}px`, height: `${props.width* .10}px`, marginBottom: '0'}}><span style={{display: 'block', border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: '50%', width: `${props.width * .05}px`, height: `${props.width * .05}px`, marginLeft: `${dot.marginLeft * props.width - .5}px`, marginTop: `${dot.marginTop * props.width - .5}px`, backgroundColor: `${dot.color}`}}></span></span>
+                                return <span key={dotKey} style={{display: 'inline-block', textAlign: 'left', padding: '0px', width: `${props.width* .10}px`, height: `${props.width* .10}px`, marginBottom: '0'}}><span style={{display: 'block', border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: '50%', width: `${props.width * .035}px`, height: `${props.width * .035}px`, marginLeft: `${dot.marginLeft * props.width - .5}px`, marginTop: `${dot.marginTop * props.width - .5}px`, backgroundColor: `${dot.color}`}}></span></span>
                             })}
                         </p>
                     })}
