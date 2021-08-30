@@ -172,7 +172,8 @@ const colors = {
     'Rose': {
         colorCount: 3,
         base: {
-            color: '#4E4E50'
+            // color: '#4E4E50'
+            color: '#100b0b'
         },
         border: {
             color: '#1A1A1D'
@@ -226,7 +227,10 @@ const colors = {
     'Harvest': {
         colorCount: 3,
         base: {
-            color: '#272727'
+            // color: '#272727'
+            // color: '#100f0b'
+            color: '#302c21'
+            // color: '#26231a'
         },
         border: {
             color: '#747474'
@@ -253,7 +257,9 @@ const colors = {
     'Forest': {
         colorCount: 3,
         base: {
-            color: '#4E4E50'
+            // color: '#4E4E50'
+            // color: '#0b100b'
+            color: '#00100b'
         },
         border: {
             color: '#1A1A1D'
