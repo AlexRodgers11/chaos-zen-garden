@@ -8,6 +8,7 @@ import { IoIosColorPalette, IoSpeedometerSharp } from 'react-icons/io/';
 import { GoBell } from 'react-icons/go/';
 import { SiAddthis } from 'react-icons/si';
 import { ImSortNumbericDesc, ImShrink2 } from 'react-icons/im';
+import { BsFileText } from 'react-icons/bs';
 
 import './ControlBar.css';
 
@@ -24,7 +25,8 @@ function ControlBar(props) {
             palette: false,
             speed: false,
             sound: false,
-            number: false
+            number: false,
+            text: false
         }
     )
 
@@ -127,8 +129,8 @@ function ControlBar(props) {
                             return <option value={palette}>{palette}</option>
                         })}
                     </select> */}
-                    <div style={{position: 'relative', zIndex: 5}} onMouseLeave={showPopup.speed ? () => handleTogglePopup('speed') : null} className={`ControlBar_popup ${showPopup.speed ? 'ControlBar_popup-active' : ''}`}>
-                        <button style={{position: 'relative', zIndex: 6, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="speed" onClick={() => handleTogglePopup('speed')}><GiTortoise size='1.5em' /><GiRabbit size='1.5em' /></button>
+                    <div style={{position: 'relative', zIndex: 6}} onMouseLeave={showPopup.speed ? () => handleTogglePopup('speed') : null} className={`ControlBar_popup ${showPopup.speed ? 'ControlBar_popup-active' : ''}`}>
+                        <button style={{position: 'relative', zIndex: 7, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="speed" onClick={() => handleTogglePopup('speed')}><GiTortoise size='1.5em' /><GiRabbit size='1.5em' /></button>
                         {/* <div onMouseLeave={() => handleToggleDropdown('speed')} className='dropdown-content'> */}
                         <div className='ControlBar_popup-content'>
                             <div style={{boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)'}}>
@@ -143,8 +145,8 @@ function ControlBar(props) {
                         </div>
                     </div>
                     
-                    <div style={{position: 'relative', zIndex: 3}} onMouseLeave={showPopup.sound ? () => handleTogglePopup('sound') : null} className={`ControlBar_popup ${showPopup.sound ? 'ControlBar_popup-active' : ''}`}>
-                        <button style={{position: 'relative', zIndex: 4, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="sound" onClick={() => handleTogglePopup('sound')}><GoBell size='1.5em' /></button>
+                    <div style={{position: 'relative', zIndex: 4}} onMouseLeave={showPopup.sound ? () => handleTogglePopup('sound') : null} className={`ControlBar_popup ${showPopup.sound ? 'ControlBar_popup-active' : ''}`}>
+                        <button style={{position: 'relative', zIndex: 5, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="sound" onClick={() => handleTogglePopup('sound')}><GoBell size='1.5em' /></button>
                         <div className='ControlBar_popup-content'>
                             {/* <div style={{paddingBottom: '1.5em'}}>
                             {sounds.map(sound => {
@@ -167,8 +169,8 @@ function ControlBar(props) {
                     </select> */}
 
                     {props.number ? 
-                        <div style={{position: 'relative', zIndex: 1}} onMouseLeave={showPopup.number ? () => handleTogglePopup('number') : null} className={`ControlBar_popup ${showPopup.number ? 'ControlBar_popup-active' : ''}`}>
-                            <button style={{position: 'relative', zIndex: 2, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="number" onClick={() => handleTogglePopup('number')}><ImSortNumbericDesc size='1.5em' /></button>
+                        <div style={{position: 'relative', zIndex: 3}} onMouseLeave={showPopup.number ? () => handleTogglePopup('number') : null} className={`ControlBar_popup ${showPopup.number ? 'ControlBar_popup-active' : ''}`}>
+                            <button style={{position: 'relative', zIndex: 4, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="number" onClick={() => handleTogglePopup('number')}><ImSortNumbericDesc size='1.5em' /></button>
                             <div className='ControlBar_popup-content'>
                             {/* <div className='ControlBar_dropdown-content'> */}
                                 <div style={{boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)'}}>
@@ -183,6 +185,24 @@ function ControlBar(props) {
         
                         : null
                     }
+
+                    {props.text ? 
+                        <div style={{position: 'relative', zIndex: 1}} onMouseLeave={showPopup.text ? () => handleTogglePopup('text') : null} className={`ControlBar_popup ${showPopup.text ? 'ControlBar_popup-active' : ''}`}>
+                            <button style={{position: 'relative', zIndex: 2, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="text" onClick={() => handleTogglePopup('text')}><BsFileText size='1.5em' /></button>
+                            <div className='ControlBar_popup-content'>
+                            {/* <div className='ControlBar_dropdown-content'> */}
+                                <div style={{boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)'}}>
+                                    <textarea rows={3} cols={20} onChange={handleChangeText} value={text}/>
+                                    {/* <p>Test</p> */}
+                                </div>
+                                <div style={{height: '1.8em', opacity: 0.5, backgroundColor: 'black', padding: 0}}></div>
+                            </div>
+                        </div>
+        
+                        : null
+                    }
+
+
                     
                     
                     {/* {props.number ? <select value={props.number} onChange={handleNumberChange}>
