@@ -29,7 +29,7 @@ function Message(props){
         
     }
 
-    const [message, setMessage] = useState('Deku is in love with Kachaan');
+    const [message, setMessage] = useState('Plus Ultra, Go Beyond. Everyone is a hero');
 
     // const getLetters = string => {
     //     let letters = string.split('').map((letter) => {
@@ -208,7 +208,7 @@ function Message(props){
                             return <span style={{display: 'inline-block'}}>
                                 {word.map(letter => {
                                     let letterKey = uuidv4();
-                                    return <span key={letterKey} style={{ fontWeight:'500', textShadow: `-1px 1px ${getColor('border', colorPalette)}, 1px 1px 0 ${getColor('border', colorPalette)}, 1px -1px 0 ${getColor('border', colorPalette)}, -1px -1px 0 ${getColor('border', colorPalette)}`, margin: '1rem', fontSize: `${props.width * .105}px`, transform: `rotate(${letter.tilt})`, color: `${letter.color}`}}>{letter.letter}</span>
+                                    return <span key={letterKey} style={{display: 'inline-block', fontWeight:'500', textShadow: `-1px 1px ${getColor('border', colorPalette)}, 1px 1px 0 ${getColor('border', colorPalette)}, 1px -1px 0 ${getColor('border', colorPalette)}, -1px -1px 0 ${getColor('border', colorPalette)}`, margin: '1rem', fontSize: `${props.width * .055}px`, transform: `rotate(${letter.tilt})`, color: `${letter.color}`}}>{letter.letter}</span>
                                 })}
                             </span>
                         })}
