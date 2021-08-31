@@ -31,28 +31,6 @@ function Message(props){
 
     const [message, setMessage] = useState('Plus Ultra, Go Beyond. Everyone is a hero');
 
-    // const getLetters = string => {
-    //     let letters = string.split('').map((letter) => {
-    //         return {
-    //             letter: letter
-    //         }
-    //     });
-    //     let index = 1;
-    //     for(let a = 0; a < letters.length; a++) {
-    //         if(letters[a].letter !== ' ') {
-    //             letters[a].id = index;
-    //             letters[a].tilt = generateTilt();
-    //             letters[a].color =  getColor(index, colorPalette);
-    //             index++;
-    //         } else {
-    //             letters[a].id = null;
-    //             letters[a].tilt = `0px`;
-    //             letters[a].color = null;
-    //         }
-    //     }
-    //     return letters;
-    // }
-
     const getLetters = string => {
         let letters = string.split('').map((letter) => {
             return {
@@ -60,32 +38,22 @@ function Message(props){
             }
         });
         let index = 1;
-
-        let words = [];
-        let start = 0;
         for(let a = 0; a < letters.length; a++) {
             if(letters[a].letter !== ' ') {
                 letters[a].id = index;
                 letters[a].tilt = generateTilt();
                 letters[a].color =  getColor(index, colorPalette);
                 index++;
-                if(a === letters.length - 1) {
-                    words.push(letters.slice(start, a + 1));
-                }
             } else {
-                words.push(letters.slice(start, a + 1));
-                start = a + 1;
                 letters[a].id = null;
                 letters[a].tilt = `0px`;
                 letters[a].color = null;
             }
         }
-        console.log(words);
-        return words;
+        return letters;
     }
 
     const [letters, setLetters] = useState(getLetters(message));
-    const [words, setWords] = useState(getLetters(message))
 
     let firstUpdate = useRef(true);
     useEffect(() => {
@@ -194,6 +162,32 @@ function Message(props){
         }
     }
 
+    const displayWords = letterArr => {
+        let words = [];
+        let start = 0;
+        for(let a = 0; a < letterArr.length; a++) {
+            if(letterArr[a].letter !== ' ') {
+
+                if(a === letterArr.length - 1) {
+                    words.push(letterArr.slice(start, a + 1));
+                }
+            } else {
+                words.push(letterArr.slice(start, a + 1));
+                start = a + 1;
+            }
+        }
+        console.log(words);
+        return words.map(word => {
+            let wordKey = uuidv4();
+            return <span key={wordKey} style={{display: 'inline-block'}}>
+                {word.map(letter => {
+                    let letterKey = uuidv4();
+                    return <span key={letterKey} style={{display: 'inline-block', fontWeight:'500', textShadow: `-1px 1px ${getColor('border', colorPalette)}, 1px 1px 0 ${getColor('border', colorPalette)}, 1px -1px 0 ${getColor('border', colorPalette)}, -1px -1px 0 ${getColor('border', colorPalette)}`, margin: '1rem', fontSize: `${props.width * .055}px`, transform: `rotate(${letter.tilt})`, color: `${letter.color}`}}>{letter.letter}</span>
+                })}
+            </span>
+        })
+    }
+
     return (
         <div style={{margin: props.fullWindow ? '0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width}px`, height: `${props.width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', width: '100%'}}>
@@ -203,7 +197,7 @@ function Message(props){
                             let letterKey = uuidv4();
                             return <span key={letterKey} style={{display: 'inline-block', fontWeight:'500', textShadow: `-1px 1px ${getColor('border', colorPalette)}, 1px 1px 0 ${getColor('border', colorPalette)}, 1px -1px 0 ${getColor('border', colorPalette)}, -1px -1px 0 ${getColor('border', colorPalette)}`, margin: '1rem', fontSize: `${props.width * .105}px`, transform: `rotate(${letter.tilt})`, color: `${letter.color}`}}>{letter.letter}</span>
                         })} */}
-                        {words.map(word => {
+                        {/* {words.map(word => {
                             let wordKey = uuidv4();
                             return <span style={{display: 'inline-block'}}>
                                 {word.map(letter => {
@@ -211,7 +205,8 @@ function Message(props){
                                     return <span key={letterKey} style={{display: 'inline-block', fontWeight:'500', textShadow: `-1px 1px ${getColor('border', colorPalette)}, 1px 1px 0 ${getColor('border', colorPalette)}, 1px -1px 0 ${getColor('border', colorPalette)}, -1px -1px 0 ${getColor('border', colorPalette)}`, margin: '1rem', fontSize: `${props.width * .055}px`, transform: `rotate(${letter.tilt})`, color: `${letter.color}`}}>{letter.letter}</span>
                                 })}
                             </span>
-                        })}
+                        })} */}
+                        {displayWords(letters)}
                     </div>
                 </div>
                 <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} soundValue='Robot' changeText={handleChangeText} setSpeed={handleSetSpeed} setSound={handleSetSound} organizedFunction={unalignLetters} unorganizedFunction={() => straightenLetters(0)} unorgButton='Unalign' orgButton='Straighten' />
