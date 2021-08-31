@@ -29,7 +29,29 @@ function Message(props){
         
     }
 
-    const [message, setMessage] = useState('Plus Ultra');
+    const [message, setMessage] = useState('Deku is in love with Kachaan');
+
+    // const getLetters = string => {
+    //     let letters = string.split('').map((letter) => {
+    //         return {
+    //             letter: letter
+    //         }
+    //     });
+    //     let index = 1;
+    //     for(let a = 0; a < letters.length; a++) {
+    //         if(letters[a].letter !== ' ') {
+    //             letters[a].id = index;
+    //             letters[a].tilt = generateTilt();
+    //             letters[a].color =  getColor(index, colorPalette);
+    //             index++;
+    //         } else {
+    //             letters[a].id = null;
+    //             letters[a].tilt = `0px`;
+    //             letters[a].color = null;
+    //         }
+    //     }
+    //     return letters;
+    // }
 
     const getLetters = string => {
         let letters = string.split('').map((letter) => {
@@ -38,22 +60,32 @@ function Message(props){
             }
         });
         let index = 1;
+
+        let words = [];
+        let start = 0;
         for(let a = 0; a < letters.length; a++) {
             if(letters[a].letter !== ' ') {
                 letters[a].id = index;
                 letters[a].tilt = generateTilt();
                 letters[a].color =  getColor(index, colorPalette);
                 index++;
+                if(a === letters.length - 1) {
+                    words.push(letters.slice(start, a + 1));
+                }
             } else {
+                words.push(letters.slice(start, a + 1));
+                start = a + 1;
                 letters[a].id = null;
                 letters[a].tilt = `0px`;
                 letters[a].color = null;
             }
         }
-        return letters;
+        console.log(words);
+        return words;
     }
 
     const [letters, setLetters] = useState(getLetters(message));
+    const [words, setWords] = useState(getLetters(message))
 
     let firstUpdate = useRef(true);
     useEffect(() => {
@@ -166,10 +198,19 @@ function Message(props){
         <div style={{margin: props.fullWindow ? '0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width}px`, height: `${props.width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', width: '100%'}}>
                 <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', height: '100%'}}>
-                    <div>
-                        {letters.map(letter => {
+                    <div style={{ width: '100%'}}>
+                        {/* {letters.map(letter => {
                             let letterKey = uuidv4();
                             return <span key={letterKey} style={{display: 'inline-block', fontWeight:'500', textShadow: `-1px 1px ${getColor('border', colorPalette)}, 1px 1px 0 ${getColor('border', colorPalette)}, 1px -1px 0 ${getColor('border', colorPalette)}, -1px -1px 0 ${getColor('border', colorPalette)}`, margin: '1rem', fontSize: `${props.width * .105}px`, transform: `rotate(${letter.tilt})`, color: `${letter.color}`}}>{letter.letter}</span>
+                        })} */}
+                        {words.map(word => {
+                            let wordKey = uuidv4();
+                            return <span style={{display: 'inline-block'}}>
+                                {word.map(letter => {
+                                    let letterKey = uuidv4();
+                                    return <span key={letterKey} style={{ fontWeight:'500', textShadow: `-1px 1px ${getColor('border', colorPalette)}, 1px 1px 0 ${getColor('border', colorPalette)}, 1px -1px 0 ${getColor('border', colorPalette)}, -1px -1px 0 ${getColor('border', colorPalette)}`, margin: '1rem', fontSize: `${props.width * .105}px`, transform: `rotate(${letter.tilt})`, color: `${letter.color}`}}>{letter.letter}</span>
+                                })}
+                            </span>
                         })}
                     </div>
                 </div>
