@@ -163,6 +163,13 @@ function Message(props){
     }
 
     const displayWords = letterArr => {
+        let fontSize;
+        if(letterArr.length > 20 && props.width * 3 < 1336) {
+            fontSize = props.width * .03
+        } else {
+            fontSize = props.width *.055
+        }
+
         let words = [];
         let start = 0;
         for(let a = 0; a < letterArr.length; a++) {
@@ -176,13 +183,13 @@ function Message(props){
                 start = a + 1;
             }
         }
-        console.log(words);
         return words.map(word => {
             let wordKey = uuidv4();
             return <span key={wordKey} style={{display: 'inline-block'}}>
                 {word.map(letter => {
                     let letterKey = uuidv4();
-                    return <span key={letterKey} style={{display: 'inline-block', fontWeight:'500', textShadow: `-1px 1px ${getColor('border', colorPalette)}, 1px 1px 0 ${getColor('border', colorPalette)}, 1px -1px 0 ${getColor('border', colorPalette)}, -1px -1px 0 ${getColor('border', colorPalette)}`, margin: '1rem', fontSize: `${props.width * .055}px`, transform: `rotate(${letter.tilt})`, color: `${letter.color}`}}>{letter.letter}</span>
+                    // return <span key={letterKey} style={{display: 'inline-block', fontWeight:'500', textShadow: `-1px 1px ${getColor('border', colorPalette)}, 1px 1px 0 ${getColor('border', colorPalette)}, 1px -1px 0 ${getColor('border', colorPalette)}, -1px -1px 0 ${getColor('border', colorPalette)}`, margin: '1rem', fontSize: `${props.width * .055}px`, transform: `rotate(${letter.tilt})`, color: `${letter.color}`}}>{letter.letter}</span>
+                    return <span key={letterKey} style={{display: 'inline-block', fontWeight:'500', textShadow: `-1px 1px ${getColor('border', colorPalette)}, 1px 1px 0 ${getColor('border', colorPalette)}, 1px -1px 0 ${getColor('border', colorPalette)}, -1px -1px 0 ${getColor('border', colorPalette)}`, margin: '1rem', fontSize: `${fontSize}px`, transform: `rotate(${letter.tilt})`, color: `${letter.color}`}}>{letter.letter}</span>
                 })}
             </span>
         })
