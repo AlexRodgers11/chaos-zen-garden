@@ -25,10 +25,12 @@ const colors = {
             color: '#303030'
         },
         aux1: {
-            color: '#ff0048'
+            // color: '#ff0048'
+            color: '#44ff00'
         },
         aux2: {
-            color: '#44ff00'
+            // color: '#44ff00'
+            color: '#ff0048'
         },
         1: {
             color:'#ff0048'
