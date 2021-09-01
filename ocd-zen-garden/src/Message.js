@@ -29,7 +29,7 @@ function Message(props){
         
     }
 
-    const [message, setMessage] = useState('Plus Ultra, Go Beyond. Everyone is a hero');
+    const [message, setMessage] = useState('Plus Ultra, Go Beyond.');
 
     const getLetters = string => {
         let letters = string.split('').map((letter) => {
@@ -164,10 +164,15 @@ function Message(props){
 
     const displayWords = letterArr => {
         let fontSize;
-        if(letterArr.length > 20 && props.width * 3 < 1336) {
-            fontSize = props.width * .03
+        // if(letterArr.length > 20 && props.width * 3 < 1336) {
+        //     fontSize = props.width * .03
+        // } else {
+        //     fontSize = props.width *.055
+        // }
+        if(letterArr.length > 25) {
+            fontSize = props.width * .035
         } else {
-            fontSize = props.width *.055
+            fontSize = props.width * .06
         }
 
         let words = [];

@@ -192,7 +192,7 @@ function ControlBar(props) {
                             <div className='ControlBar_popup-content'>
                             {/* <div className='ControlBar_dropdown-content'> */}
                                 <div style={{boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)'}}>
-                                    <textarea rows={3} cols={20} onChange={handleChangeText} value={text}/>
+                                    <textarea maxLength="25" rows={3} cols={20} onChange={handleChangeText} value={text}/>
                                     {/* <p>Test</p> */}
                                 </div>
                                 <div style={{height: '1.8em', opacity: 0.5, backgroundColor: 'black', padding: 0}}></div>
