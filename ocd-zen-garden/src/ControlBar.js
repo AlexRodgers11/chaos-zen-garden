@@ -134,12 +134,18 @@ function ControlBar(props) {
                         {/* <div onMouseLeave={() => handleToggleDropdown('speed')} className='dropdown-content'> */}
                         <div className='ControlBar_popup-content'>
                             <div style={{boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)'}}>
-                                <p onClick={() => handleSpeedChange(4000)}>.25x</p>
+                                {/* <p onClick={() => handleSpeedChange(4000)}>.25x</p>
                                 <p onClick={() => handleSpeedChange(2000)}>.5x</p>
                                 <p onClick={() => handleSpeedChange(1000)}>1x</p>
                                 <p onClick={() => handleSpeedChange(800)}>1.25x</p>
                                 <p onClick={() => handleSpeedChange(500)}>2x</p>
+                                <p onClick={() => handleSpeedChange(200)}>5x</p> */}
+                                <p style={{display: 'block'}} onClick={() => handleSpeedChange(1000)}>Normal</p>
+                                <p onClick={() => handleSpeedChange(500)}>Double</p>
+                                <p onClick={() => handleSpeedChange(333)}>Triple</p>
                                 <p onClick={() => handleSpeedChange(200)}>5x</p>
+                                <p onClick={() => handleSpeedChange(100)}>10x</p>
+                                <p onClick={() => handleSpeedChange(50)}>20x</p>
                             </div>
                             <div style={{height: '1.8em', opacity: 0.5, backgroundColor: 'black'}}></div>
                         </div>
