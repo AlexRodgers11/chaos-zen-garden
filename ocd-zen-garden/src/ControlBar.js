@@ -109,9 +109,9 @@ function ControlBar(props) {
                     <GiHamburgerMenu size='1.5em'/>
                 </button>
                 <div style={{display: !hidden ? 'inline-block' : 'none'}}>
-                    <button style={{color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} ><SiAddthis size='1.5em' /></button>
+                    <button disabled={!props.isLoggedIn} style={{color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} ><SiAddthis size='1.5em' /></button>
                     <div style={{position: 'relative', zIndex: 7}} onMouseLeave={showPopup.palette ? () => handleTogglePopup('palette') : null} className={`ControlBar_popup ${showPopup.palette ? 'ControlBar_popup-active' : ''}`}>
-                        <button style={{position: 'relative', zIndex: 8, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="speed" onClick={() => handleTogglePopup('palette')}><IoIosColorPalette size='1.5em' /></button>
+                        <button disabled={props.isOrganizing} style={{position: 'relative', zIndex: 8, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="speed" onClick={() => handleTogglePopup('palette')}><IoIosColorPalette size='1.5em' /></button>
                         {/* <div onMouseLeave={() => handleToggleDropdown('palette')} className='dropdown-content'> */}
                         {/* <div className={`ControlBar_dropdown-content ${props.fullWindow ? 'ControlBar_dropup-content' : ''}`}> */}
                         <div className='ControlBar_popup-content'>
@@ -170,7 +170,7 @@ function ControlBar(props) {
 
                     {props.number ? 
                         <div style={{position: 'relative', zIndex: 3}} onMouseLeave={showPopup.number ? () => handleTogglePopup('number') : null} className={`ControlBar_popup ${showPopup.number ? 'ControlBar_popup-active' : ''}`}>
-                            <button style={{position: 'relative', zIndex: 4, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="number" onClick={() => handleTogglePopup('number')}><ImSortNumbericDesc size='1.5em' /></button>
+                            <button disabled={props.isOrganizing} style={{position: 'relative', zIndex: 4, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="number" onClick={() => handleTogglePopup('number')}><ImSortNumbericDesc size='1.5em' /></button>
                             <div className='ControlBar_popup-content'>
                             {/* <div className='ControlBar_dropdown-content'> */}
                                 <div style={{boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)'}}>
@@ -188,7 +188,7 @@ function ControlBar(props) {
 
                     {props.text ? 
                         <div style={{position: 'relative', zIndex: 1}} onMouseLeave={showPopup.text ? () => handleTogglePopup('text') : null} className={`ControlBar_popup ${showPopup.text ? 'ControlBar_popup-active' : ''}`}>
-                            <button style={{position: 'relative', zIndex: 2, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="text" onClick={() => handleTogglePopup('text')}><BsFileText size='1.5em' /></button>
+                            <button disabled={props.isOrganizing} style={{position: 'relative', zIndex: 2, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="text" onClick={() => handleTogglePopup('text')}><BsFileText size='1.5em' /></button>
                             <div className='ControlBar_popup-content'>
                             {/* <div className='ControlBar_dropdown-content'> */}
                                 <div style={{boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)'}}>
@@ -218,7 +218,7 @@ function ControlBar(props) {
 
                 {!props.disableFullWindow ? 
                     <span>
-                        <button style={{color: getColor('aux1', palette), backgroundColor: '#303030', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} onClick={props.toggleWindow}>{props.fullWindow ? <ImShrink2 size='1.5em' /> : <FaExpandAlt size='1.5em' />}</button>
+                        <button disabled={props.isOrganizing} style={{color: getColor('aux1', palette), backgroundColor: '#303030', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} onClick={props.toggleWindow}>{props.fullWindow ? <ImShrink2 size='1.5em' /> : <FaExpandAlt size='1.5em' />}</button>
                     </span>
                     :
                     null

@@ -75,6 +75,12 @@
     background-color: #c4c4c4;
     cursor: pointer;
   }
+
+  .ControlBar button:disabled {
+    opacity: .8;
+    background-color: 'black';
+    cursor: not-allowed
+  }
   
   /* Show the dropdown menu on hover */
   /* .ControlBar_dropdown:hover .ControlBar_dropdown-content {
