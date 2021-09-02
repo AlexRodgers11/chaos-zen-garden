@@ -4,10 +4,10 @@ import { palettes, sounds, getColor } from './utils';
 import { FaExpandAlt, FaVolumeMute, FaVolumeUp } from 'react-icons/fa/';
 import { GrContract } from 'react-icons/gr/';
 import { GiConsoleController, GiHamburgerMenu, GiRabbit, GiTortoise } from 'react-icons/gi/';
-import { IoIosColorPalette, IoSpeedometerSharp } from 'react-icons/io/';
+import { IoIosColorPalette, IoSpeedometerSharp, } from 'react-icons/io/';
 import { GoBell } from 'react-icons/go/';
 import { SiAddthis } from 'react-icons/si';
-import { ImSortNumbericDesc, ImShrink2 } from 'react-icons/im';
+import { ImSortNumbericDesc, ImShrink2, ImVolumeHigh, ImVolumeMedium, ImVolumeMute } from 'react-icons/im';
 import { BsFileText } from 'react-icons/bs';
 
 import './ControlBar.css';
@@ -26,7 +26,8 @@ function ControlBar(props) {
             speed: false,
             sound: false,
             number: false,
-            text: false
+            text: false,
+            volume: false
         }
     )
 
@@ -110,8 +111,8 @@ function ControlBar(props) {
                 </button>
                 <div style={{display: !hidden ? 'inline-block' : 'none'}}>
                     <button disabled={!props.isLoggedIn} style={{color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} ><SiAddthis size='1.5em' /></button>
-                    <div style={{position: 'relative', zIndex: 7}} onMouseLeave={showPopup.palette ? () => handleTogglePopup('palette') : null} className={`ControlBar_popup ${showPopup.palette ? 'ControlBar_popup-active' : ''}`}>
-                        <button disabled={props.isOrganizing} style={{position: 'relative', zIndex: 8, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="speed" onClick={() => handleTogglePopup('palette')}><IoIosColorPalette size='1.5em' /></button>
+                    <div style={{position: 'relative', zIndex: 11}} onMouseLeave={showPopup.palette ? () => handleTogglePopup('palette') : null} className={`ControlBar_popup ${showPopup.palette ? 'ControlBar_popup-active' : ''}`}>
+                        <button disabled={props.isOrganizing} style={{position: 'relative', zIndex: 12, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="speed" onClick={() => handleTogglePopup('palette')}><IoIosColorPalette size='1.5em' /></button>
                         {/* <div onMouseLeave={() => handleToggleDropdown('palette')} className='dropdown-content'> */}
                         {/* <div className={`ControlBar_dropdown-content ${props.fullWindow ? 'ControlBar_dropup-content' : ''}`}> */}
                         <div className='ControlBar_popup-content'>
@@ -129,8 +130,8 @@ function ControlBar(props) {
                             return <option value={palette}>{palette}</option>
                         })}
                     </select> */}
-                    <div style={{position: 'relative', zIndex: 6}} onMouseLeave={showPopup.speed ? () => handleTogglePopup('speed') : null} className={`ControlBar_popup ${showPopup.speed ? 'ControlBar_popup-active' : ''}`}>
-                        <button style={{position: 'relative', zIndex: 7, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="speed" onClick={() => handleTogglePopup('speed')}><GiTortoise size='1.5em' /><GiRabbit size='1.5em' /></button>
+                    <div style={{position: 'relative', zIndex: 9}} onMouseLeave={showPopup.speed ? () => handleTogglePopup('speed') : null} className={`ControlBar_popup ${showPopup.speed ? 'ControlBar_popup-active' : ''}`}>
+                        <button style={{position: 'relative', zIndex: 10, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="speed" onClick={() => handleTogglePopup('speed')}><GiTortoise size='1.5em' /><GiRabbit size='1.5em' /></button>
                         {/* <div onMouseLeave={() => handleToggleDropdown('speed')} className='dropdown-content'> */}
                         <div className='ControlBar_popup-content'>
                             <div style={{boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)'}}>
@@ -151,8 +152,8 @@ function ControlBar(props) {
                         </div>
                     </div>
                     
-                    <div style={{position: 'relative', zIndex: 4}} onMouseLeave={showPopup.sound ? () => handleTogglePopup('sound') : null} className={`ControlBar_popup ${showPopup.sound ? 'ControlBar_popup-active' : ''}`}>
-                        <button style={{position: 'relative', zIndex: 5, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="sound" onClick={() => handleTogglePopup('sound')}><GoBell size='1.5em' /></button>
+                    <div style={{position: 'relative', zIndex: 7}} onMouseLeave={showPopup.sound ? () => handleTogglePopup('sound') : null} className={`ControlBar_popup ${showPopup.sound ? 'ControlBar_popup-active' : ''}`}>
+                        <button style={{position: 'relative', zIndex: 8, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="sound" onClick={() => handleTogglePopup('sound')}><GoBell size='1.5em' /></button>
                         <div className='ControlBar_popup-content'>
                             {/* <div style={{paddingBottom: '1.5em'}}>
                             {sounds.map(sound => {
@@ -165,6 +166,30 @@ function ControlBar(props) {
                                 })}
                             </div>
                             <div style={{height: '1.8em', opacity: 0.5, backgroundColor: 'black'}}></div>
+                        </div>
+                    </div>
+                    
+                    <div style={{position: 'relative', zIndex: 5}} onMouseLeave={showPopup.volume ? () => handleTogglePopup('volume') : null} className={`ControlBar_popup ${showPopup.volume ? 'ControlBar_popup-active' : ''}`}>
+                        <div style={{display: 'inline-flex', transform: 'rotate(270deg)'}}>
+                        <button style={{position: 'relative', transform: 'rotate(90deg)', zIndex: 6, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="volume" onClick={() => handleTogglePopup('volume')}><ImVolumeHigh size='1.5em' /></button>
+                        <div className='ControlBar_popup-content'>
+                            {/* <div style={{paddingBottom: '1.5em'}}>
+                            {sounds.map(sound => {
+                                return <p onClick={() => handleSoundChange(sound)} >{sound}</p>
+                            })}
+                            </div> */}
+
+                                {/* {sounds.map(sound => {
+                                    return <p onClick={() => handleSoundChange(sound)} >{sound}</p>
+                                })} */}
+                                {/* <input style={{transform: 'rotate(270deg)', textAlign: 'left', position: 'relative', left: 0, bottom: '80px'}} type="range" /> */}
+                                <div style={{display: 'flex', alignItems: 'center'}}>
+                                    <input style={{position: 'relative', left: '2.25em', height: '2em', top: '.175em'}} type="range"/>
+                                </div>
+                                {/* <input  type="range" /> */}
+
+                            {/* <div style={{height: '1.8em', opacity: 0.5, backgroundColor: 'black'}}></div> */}
+                            </div>
                         </div>
                     </div>
                     
