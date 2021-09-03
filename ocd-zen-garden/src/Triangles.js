@@ -76,7 +76,8 @@ function Triangles(props) {
     const soundPlay = soundObj => {
         const sound = new Howl({
             src: soundObj.src,
-            sprite: soundObj.sprite
+            sprite: soundObj.sprite,
+            volume: props.volume * .01
         });
         sound.play(soundObj.spriteName);
     }
@@ -128,6 +129,10 @@ function Triangles(props) {
         setColorPalette(palette);
     }
 
+    const handleChangeVolume = volume => {
+        props.changeVolume(volume);
+    }
+
     const displayTriangles = () => {
         let triangleLines = []
         let newLine = []
@@ -162,7 +167,7 @@ function Triangles(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={12} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Chirp' organizedFunction={uncenter} unorganizedFunction={() => center(0)} unorgButton='Uncenter' orgButton='Center'/>
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={12} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Chirp' organizedFunction={uncenter} unorganizedFunction={() => center(0)} unorgButton='Uncenter' orgButton='Center'/>
             </div>
         </div>
     )

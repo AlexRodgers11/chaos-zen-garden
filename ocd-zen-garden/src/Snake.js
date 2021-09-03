@@ -39,7 +39,8 @@ function Snake(props) {
     const soundPlay = soundObj => {
         const sound = new Howl({
             src: soundObj.src,
-            sprite: soundObj.sprite
+            sprite: soundObj.sprite,
+            volume: props.volume * .01
         });
         sound.play(soundObj.spriteName);
     }
@@ -134,6 +135,10 @@ function Snake(props) {
         setColorPalette(palette);
     }
 
+    const handleChangeVolume = volume => {
+        props.changeVolume(volume);
+    }
+
     const handleSetNumBoxes = num => {
         setNumBoxes(Number(num));
         setBoxes(createStartingBoxArray(Number(num)))
@@ -161,7 +166,7 @@ function Snake(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={30} number={numBoxes} setNumber={handleSetNumBoxes} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Slam' organizedFunction={scatterBoxes} unorganizedFunction={() => organizeBoxes(0)} unorgButton='Scatter' orgButton='Organize' />
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={30} number={numBoxes} setNumber={handleSetNumBoxes} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Slam' organizedFunction={scatterBoxes} unorganizedFunction={() => organizeBoxes(0)} unorgButton='Scatter' orgButton='Organize' />
             </div>
         </div>
     )

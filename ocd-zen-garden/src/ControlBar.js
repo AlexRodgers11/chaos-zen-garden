@@ -20,6 +20,7 @@ function ControlBar(props) {
     const [number, setNumber] = useState(props.number);
     const [palette, setPalette] = useState(props.palette);
     const [hidden, toggleHidden] = useToggle(true);
+    const [volume, setVolume] = useState(props.volume)
     const [showPopup, setShowPopup] = useState(
         {
             palette: false,
@@ -30,6 +31,15 @@ function ControlBar(props) {
             volume: false
         }
     )
+
+    const volumeFirstUpdate = useRef(true);
+    useEffect(() => {
+        if(!volumeFirstUpdate.current) {
+            setVolume(props.volume);
+        } else {
+            volumeFirstUpdate.current = false;
+        }
+    }, [props.volume])
 
     const colorFirstUpdate = useRef(true);
     useEffect(() => {
@@ -72,6 +82,11 @@ function ControlBar(props) {
         handleTogglePopup('palette');
         setPalette(palette);
         props.setPalette(palette);
+    }
+
+    const handleVolumeChange = evt => {
+        props.changeVolume(evt.target.value)
+        setVolume(evt.target.value)
     }
 
     const displayNumberOptions = (min = 3, max = 10) => {
@@ -184,7 +199,7 @@ function ControlBar(props) {
                                 })} */}
                                 {/* <input style={{transform: 'rotate(270deg)', textAlign: 'left', position: 'relative', left: 0, bottom: '80px'}} type="range" /> */}
                                 <div style={{display: 'flex', alignItems: 'center'}}>
-                                    <input style={{position: 'relative', left: '2.25em', height: '2em', top: '.175em'}} type="range"/>
+                                    <input onChange={handleVolumeChange} style={{position: 'relative', left: '2.25em', height: '2em', top: '.175em'}} type="range" min={0} max={100} value={volume}/>
                                 </div>
                                 {/* <input  type="range" /> */}
 

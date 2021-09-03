@@ -17,7 +17,8 @@ function Message(props){
     const soundPlay = soundObj => {
         const sound = new Howl({
             src: soundObj.src,
-            sprite: soundObj.sprite
+            sprite: soundObj.sprite,
+            volume: props.volume * .01
         });
         sound.play(soundObj.spriteName);
     }
@@ -154,6 +155,10 @@ function Message(props){
         setColorPalette(palette);
     }
 
+    const handleChangeVolume = volume => {
+        props.changeVolume(volume);
+    }
+
     const handleToggleWindow = () => {
         if(props.fullWindow) {
             props.toggleWindow(null)
@@ -221,7 +226,7 @@ function Message(props){
                         {displayWords(letters)}
                     </div>
                 </div>
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} soundValue='Robot' changeText={handleChangeText} setSpeed={handleSetSpeed} setSound={handleSetSound} organizedFunction={unalignLetters} unorganizedFunction={() => straightenLetters(0)} unorgButton='Unalign' orgButton='Straighten' />
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} soundValue='Robot' changeText={handleChangeText} setSpeed={handleSetSpeed} setSound={handleSetSound} organizedFunction={unalignLetters} unorganizedFunction={() => straightenLetters(0)} unorgButton='Unalign' orgButton='Straighten' />
 
             </div>
         </div>

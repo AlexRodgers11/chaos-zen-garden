@@ -19,7 +19,8 @@ function Dominoes(props) {
     const soundPlay = soundObj => {
         const sound = new Howl({
             src: soundObj.src,
-            sprite: soundObj.sprite
+            sprite: soundObj.sprite,
+            volume: props.volume * .01
         });
         sound.play(soundObj.spriteName);
     }
@@ -125,6 +126,10 @@ function Dominoes(props) {
         setColorPalette(palette);
     }
 
+    const handleChangeVolume = volume => {
+        props.changeVolume(volume);
+    }
+
     const handleToggleWindow = () => {
         if(props.fullWindow) {
             props.toggleWindow(null)
@@ -149,7 +154,7 @@ function Dominoes(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumLines} minNum={5} maxNum={25} number={numLines} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Click' organizedFunction={tiltLines} unorganizedFunction={() => straightenLines(0)} unorgButton='Tilt' orgButton='Straighten' />
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumLines} minNum={5} maxNum={25} number={numLines} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Click' organizedFunction={tiltLines} unorganizedFunction={() => straightenLines(0)} unorgButton='Tilt' orgButton='Straighten' />
 
             </div>
         </div>

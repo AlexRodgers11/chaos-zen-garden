@@ -73,7 +73,8 @@ function Antlers(props) {
     const soundPlay = soundObj => {
         const sound = new Howl({
             src: soundObj.src,
-            sprite: soundObj.sprite
+            sprite: soundObj.sprite,
+            volume: props.volume * .01
         });
         sound.play(soundObj.spriteName);
     }
@@ -136,6 +137,10 @@ function Antlers(props) {
         setColorPalette(palette);
     }
 
+    const handleChangeVolume = volume => {
+        props.changeVolume(volume);
+    }
+
     const displayHorns = () => {
         let hornLines = []
         let newLine = []
@@ -189,7 +194,7 @@ function Antlers(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Click' organizedFunction={flip} unorganizedFunction={() => align(0)} unorgButton='Flip' orgButton='Align'/>
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} palette={colorPalette} volume={props.volume} changeVolume={handleChangeVolume} setPalette={handleSetColorPalette} minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Click' organizedFunction={flip} unorganizedFunction={() => align(0)} unorgButton='Flip' orgButton='Align'/>
             </div>
         </div>
     )
