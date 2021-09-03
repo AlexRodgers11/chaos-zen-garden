@@ -27,7 +27,8 @@ function BullsEye(props) {
     const soundPlay = soundObj => {
         const sound = new Howl({
             src: soundObj.src,
-            sprite: soundObj.sprite
+            sprite: soundObj.sprite,
+            volume: props.volume * .01
         });
         sound.play(soundObj.spriteName);
     }
@@ -106,7 +107,7 @@ function BullsEye(props) {
             }
         }
     }, [props.sound])
-
+    
     const organizeRings = () => {
         if(userJustChangedNumber) toggleUserJustChangedNumber();
         if(orgIndex === props.numRings + 1) {
@@ -136,7 +137,7 @@ function BullsEye(props) {
     }
 
     const handleChangeVolume = volume => {
-        props.Volume(volume);
+        props.changeVolume(volume);
     }
 
     const handleToggleWindow = () => {
@@ -161,7 +162,7 @@ function BullsEye(props) {
                 <div style={props.id === 1 ? {display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', height: '100%'} : null}>
                     <div style={props.id > 1 ? {position: 'relative', backgroundColor: getColor(props.id, colorPalette), left: `${(marginLeft * props.width * .6 / props.numRings) - 1}px`, top: `${(marginTop * props.width * .6 / props.numRings) - 1}px`, border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: '50%', width: `${props.width * .6 - ((props.width * .6 / props.numRings) * (props.id - 1)) - 1}px`, height: `${props.width * .6 - ((props.width * .6 / props.numRings) * (props.id - 1)) - 1}px`} : {position: 'relative', margin: '0 auto', backgroundColor: getColor(props.id, colorPalette), border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: '50%', width: `${props.width * .60}px`, height: `${props.width * .60}px`}}>
                         {                                                                                                         //-.2 
-                            props.id < props.numRings ? <BullsEye userJustChangedNumber={props.id === 1 ? userJustChangedNumber : props.userJustChangedNumber} palette={colorPalette} sound={sound} orgIndex={props.id === 1 ? orgIndex : props.orgIndex} isOrganized={props.id === 1 ? isOrganized : props.isOrganized} numRings={props.numRings} id={props.id + 1} width={props.width}  /> : null
+                            props.id < props.numRings ? <BullsEye userJustChangedNumber={props.id === 1 ? userJustChangedNumber : props.userJustChangedNumber} volume={props.volume} palette={colorPalette} sound={sound} orgIndex={props.id === 1 ? orgIndex : props.orgIndex} isOrganized={props.id === 1 ? isOrganized : props.isOrganized} numRings={props.numRings} id={props.id + 1} width={props.width}  /> : null
                         }
                         
                     </div>
