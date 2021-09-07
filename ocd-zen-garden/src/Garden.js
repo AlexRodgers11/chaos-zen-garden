@@ -12,6 +12,7 @@ import Barcode from './Barcode';
 import Squares from './Squares';
 import Triangles from './Triangles';
 import Antlers from './Antlers';
+import Pogs from './Pogs';
 import './Garden.css';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -72,6 +73,8 @@ function Garden(){
                 return <><Header changePalette={handleChangePalette}/><Triangles width={gardenPieceWidth} className="Triangles" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
             case 'antlers':
                 return <><Header changePalette={handleChangePalette}/><Antlers width={gardenPieceWidth} className="Antlers" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
+            case 'pogs':
+                return <><Header changePalette={handleChangePalette}/><Pogs width={gardenPieceWidth} className="Coins" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
         }
     }
 
@@ -100,6 +103,7 @@ function Garden(){
                 <Squares width={gardenPieceWidth} className="Squares" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
                 <Triangles width={gardenPieceWidth} className="Triangles" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
                 <Antlers width={gardenPieceWidth} className="Antlers" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                <Pogs width={gardenPieceWidth} className="Coins" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
             </div>
             </>
         )
