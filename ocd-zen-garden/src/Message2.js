@@ -25,8 +25,6 @@ function Message2(props){
 
     const [message, setMessage] = useState('Plus Ultra, Go Beyond.');
 
-    // const fonts = ['Times New Roman', ' Georgia', 'Courier New', 'Brush Script MT', 'Garamond', 'Comic Sans MS', 'Luminari', 'Didot', 'Lucida Console']
-    // const fonts = ["'Allison', cursive", "'Architects Daughter' cursive", "'Diplomata SC' cursive", "'Indie Flower' cursive", "'Lobster' cursive", "'Ma Shan Zheng' cursive", "'Ma Shan Zheng' cursive", "'Mystery Quest' cursive", "'Nosifer' cursive", "'Vibur' cursive"]
     const fonts = ["='Allison', cursive", "'Architects Daughter', cursive", "'Diplomata SC', cursive", "'Indie Flower', cursive", "'Lobster', cursive", "'Ma Shan Zheng', cursive", "'Ma Shan Zheng', cursive", "'Mystery Quest', cursive", "'Nosifer', cursive", "'Vibur', cursive"]
 
     const getLetters = string => {
@@ -57,7 +55,7 @@ function Message2(props){
         if(!firstUpdate.current) {
             if(nextIndex < letters.length){
                 setTimeout(() => {
-                    straightenLetters(nextIndex);
+                    matchLetters(nextIndex);
                 }, speed);
             }
         } else {
@@ -65,7 +63,7 @@ function Message2(props){
         }
     }, [nextIndex]);
     
-    const straightenLetters = (idx) => {
+    const matchLetters = (idx) => {
         if(idx === 1) {
             toggleIsOrganizing();
             while(letters[idx].font === letters[0].font) {
@@ -83,7 +81,6 @@ function Message2(props){
 
         let newLetters = letters.map(letter => {
             if(letter.id === letters[idx].id) {
-                // return {...letter, font: 'Times New Roman'}
                 return {...letter, font: letters[0].font}
             } else return letter;
         });
@@ -98,24 +95,7 @@ function Message2(props){
         } else {
             setNextIndex(nextIdx);
         }
-        
-        // if(idx + 1 !== letters.length) {
-        //     if(nextIndex === letters.length) {
-        //         nextIdx = 0;
-                
-        //     }
-        //     setNextIndex(nextIdx);
-        //     // if(letters[idx + 1].letter !== ' ') {
-        //     //     setNextIndex(idx + 1);
-        //     // } else {
-        //     //     setNextIndex(idx + 2);
-        //     // }
-        // } else {
-        //     setTimeout(() => {
-        //         toggleIsOrganized();
-        //         toggleIsOrganizing();
-        //     }, speed)
-        // }
+
     }
 
     let colorFirstUpdate = useRef(true);
@@ -153,7 +133,7 @@ function Message2(props){
         setLetters(getLetters(text));
     }
 
-    const unalignLetters = () => {
+    const randomizeLetters = () => {
         let newLetters = letters.map(letter => {
             return {...letter, font:fonts[Math.floor(Math.random() * fonts.length)]};
         });
@@ -189,11 +169,6 @@ function Message2(props){
 
     const displayWords = letterArr => {
         let fontSize;
-        // if(letterArr.length > 20 && props.width * 3 < 1336) {
-        //     fontSize = props.width * .03
-        // } else {
-        //     fontSize = props.width *.055
-        // }
         if(letterArr.length > 25) {
             fontSize = props.width * .035
         } else {
@@ -232,8 +207,7 @@ function Message2(props){
                         {displayWords(letters)}
                     </div>
                 </div>
-                {/* <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} soundValue='Robot' changeText={handleChangeText} setSpeed={handleSetSpeed} setSound={handleSetSound} organizedFunction={unalignLetters} unorganizedFunction={() => straightenLetters(0)} unorgButton='Make UnUniform' orgButton='Make Uniform' /> */}
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} soundValue='Sparkle' changeText={handleChangeText} setSpeed={handleSetSpeed} setSound={handleSetSound} organizedFunction={unalignLetters} unorganizedFunction={() => straightenLetters(1)} unorgButton='Randomize' orgButton='Match' />
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} soundValue='Sparkle' changeText={handleChangeText} setSpeed={handleSetSpeed} setSound={handleSetSound} organizedFunction={randomizeLetters} unorganizedFunction={() => matchLetters(1)} unorgButton='Randomize' orgButton='Match' />
 
             </div>
         </div>
