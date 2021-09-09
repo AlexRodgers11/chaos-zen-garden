@@ -16,12 +16,14 @@ import Pogs from './Pogs';
 import Message2 from './Message2';
 import './Garden.css';
 import { v4 as uuidv4 } from 'uuid';
+import { GiJamesBondAperture } from 'react-icons/gi';
 
 function Garden(){
     let width = useCurrentWidth();
     const [colorPalette, setColorPalette] = useState(palettes[0]);
     const [volume, setVolume] = useState(65);
     const [numRings, setNumRings] = useState(10)
+    const [bullsEyeShape, setBullsEyeShape] = useState('circle')
     const [fullSelectedPiece, setFullSelectedPiece] = useState(null);
 
     const handleChangePalette = palette => {
@@ -34,6 +36,10 @@ function Garden(){
 
     const handleSetNumRings = num => {
         setNumRings(Number(num))
+    }
+    
+    const handleSetShape = shape => {
+        setBullsEyeShape(shape)
     }
 
     const handleToggleWindow = fullWindowPiece => {
@@ -61,7 +67,7 @@ function Garden(){
             case 'dots':
                 return <><Header changePalette={handleChangePalette}/><Dots width={gardenPieceWidth} className="Dots" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} /></>
             case 'bullseye':
-                return <><Header changePalette={handleChangePalette}/><BullsEye width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} numRings={numRings} sound="Whoop" className="BullsEye" orgIndex={numRings + 1} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} /></>
+                return <><Header changePalette={handleChangePalette}/><BullsEye width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} numRings={numRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" className="BullsEye" orgIndex={numRings + 1} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} /></>
             case 'message':
                 return <><Header changePalette={handleChangePalette}/><Message width={gardenPieceWidth} className="Message" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
             case 'dominoes':
@@ -99,7 +105,7 @@ function Garden(){
             <div className="Garden">
                 <Snake width={gardenPieceWidth} className="Snake" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
                 <Dots width={gardenPieceWidth} className="Dots" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
-                <BullsEye width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} numRings={numRings} sound="Whoop" className="BullsEye" disableFullWindow={disableFullWindow} orgIndex={numRings + 1} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                <BullsEye width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} numRings={numRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" className="BullsEye" disableFullWindow={disableFullWindow} orgIndex={numRings + 1} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
                 <Message width={gardenPieceWidth} className="Message" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
                 <Dominoes width={gardenPieceWidth} className="Dominoes" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
                 <Barcode width={gardenPieceWidth} className="Barcode" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
