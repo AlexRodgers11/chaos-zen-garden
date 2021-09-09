@@ -14,6 +14,7 @@ function Pogs(props) {
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Robot'));
+    const [shape, setShape] = useState('circle');
 
     const createStartingPogsArray = num => {
         let pogs = [];
@@ -155,6 +156,10 @@ function Pogs(props) {
         props.changeVolume(volume);
     }
 
+    const handleChangeShape = shape => {
+        setShape(shape);
+    }
+
     const displayPogs = () => {
         let pogLines = []
         let newLine = []
@@ -183,12 +188,12 @@ function Pogs(props) {
                     <div>
                         {displayPogs().map(pogLine => {
                             return <div>{pogLine.map(pog => {
-                                return <div style={{display: 'inline-flex', alignItems: 'center', justifyContent:'center', backgroundColor:`${pog.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${props.width * .70 * (1 / (numRows + 2))}px`, height: `${props.width * .70 * (1 / (numRows + 2))}px`, margin: `${(props.width * .70 * (1 / (numRows + 2)) / (numRows + 2))}px`, borderRadius: '50%', transform: `rotate3d(${pog.x},${pog.y},${pog.z},${pog.tilt}deg)`}}><div style={{padding: 'none', margin: 'none', width: '60%', display: 'flex', justifyContent:'center', alignItems: 'center'}}><GiFoxHead size="100%" backgroundColor={colorPalette.border}/></div></div>
+                                return <div style={{display: 'inline-flex', alignItems: 'center', justifyContent:'center', backgroundColor:`${pog.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${props.width * .70 * (1 / (numRows + 2))}px`, height: `${props.width * .70 * (1 / (numRows + 2))}px`, margin: `${(props.width * .70 * (1 / (numRows + 2)) / (numRows + 2))}px`, borderRadius: `${shape === 'circle' ? '50%' : 0}`, transform: `rotate3d(${pog.x},${pog.y},${pog.z},${pog.tilt}deg)`}}><div style={{padding: 'none', margin: 'none', width: '60%', display: 'flex', justifyContent:'center', alignItems: 'center'}}><GiFoxHead size="100%" backgroundColor={colorPalette.border}/></div></div>
                             })}</div>
                         })}
                     </div>
                 </div>
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={twist} unorganizedFunction={() => align(0)} unorgButton='Twist' orgButton='Align'/>
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={twist} unorganizedFunction={() => align(0)} unorgButton='Twist' orgButton='Align'/>
             </div>
         </div>
     )

@@ -20,7 +20,8 @@ function Snake(props) {
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Slam'));
     const [numBoxes, setNumBoxes] = useState(7)
-    const [numSnakes, setNumSnakes] = useState(1)
+    const [numSnakes, setNumSnakes] = useState(1);
+    const [shape, setShape] = useState('square');
 
     const createStartingBoxArray = num => {
         let boxes = [];
@@ -144,6 +145,10 @@ function Snake(props) {
         setBoxes(createStartingBoxArray(Number(num)))
     }
 
+    const handleChangeShape = shape => {
+        setShape(shape);
+    }
+
     const handleToggleWindow = () => {
         if(props.fullWindow) {
             props.toggleWindow(null)
@@ -161,12 +166,12 @@ function Snake(props) {
                         {boxes.map(box => {
                             let boxKey = uuidv4();
                             return (
-                                <div key={boxKey} style={{position: 'relative', boxSizing: 'border-box', border: `1px solid ${getColor('border', colorPalette)}`, width: `${props.width * .75 / numBoxes}px`, height: `${props.width * .75 / numBoxes}px`, padding: 0, marginTop: '0', marginBottom: '0', left:`${box.left}%`, backgroundColor: `${box.color}` }}></div>
+                                <div key={boxKey} style={{position: 'relative', boxSizing: 'border-box', border: `1px solid ${getColor('border', colorPalette)}`, width: `${props.width * .75 / numBoxes}px`, height: `${props.width * .75 / numBoxes}px`, padding: 0, marginTop: '0', marginBottom: '0', left:`${box.left}%`, backgroundColor: `${box.color}`, borderRadius: `${shape === 'circle' ? '50%' : 0}`}}></div>
                             )
                         })}
                     </div>
                 </div>
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={30} number={numBoxes} setNumber={handleSetNumBoxes} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Slam' organizedFunction={scatterBoxes} unorganizedFunction={() => organizeBoxes(0)} unorgButton='Scatter' orgButton='Organize' />
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={30} number={numBoxes} setNumber={handleSetNumBoxes} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Slam' organizedFunction={scatterBoxes} unorganizedFunction={() => organizeBoxes(0)} unorgButton='Scatter' orgButton='Organize' />
             </div>
         </div>
     )

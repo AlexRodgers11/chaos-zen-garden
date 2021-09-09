@@ -4,6 +4,7 @@ import { getColor, getSound } from './utils';
 import ControlBar from './ControlBar';
 import { Howl } from 'howler';
 import { v4 as uuidv4 } from 'uuid';
+import { SiSketch } from 'react-icons/si';
 // import Whoosh from './assets/whoosh.wav';
 
 function Dots(props) {
@@ -15,6 +16,7 @@ function Dots(props) {
     const [sound, setSound] = useState(getSound('Swish'));
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [colorUpdating] = useToggle(false);
+    const [shape, setShape] = useState('circle');
 
     const soundPlay = soundObj => {
         const sound = new Howl({
@@ -106,6 +108,10 @@ function Dots(props) {
         props.changeVolume(volume);
     }
 
+    const handleChangeShape = shape => {
+        setShape(shape);
+    }
+
     const displayDots = () => {
         let dotLines = []
         let newLine = []
@@ -181,13 +187,13 @@ function Dots(props) {
                             {dotLine.map(dot => {
                                 let dotKey = uuidv4();
                                 // return <span key={dotKey} style={{display: 'inline-block', textAlign: 'left', padding: '0px', width: `${props.width* .10}px`, height: `${props.width* .10}px`, marginBottom: '0'}}><span style={{display: 'block', border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: '50%', width: `${props.width * .05}px`, height: `${props.width * .05}px`, marginLeft: `${dot.marginLeft * props.width - .5}px`, marginTop: `${dot.marginTop * props.width - .5}px`, backgroundColor: `${dot.color}`}}></span></span>
-                                return <span key={dotKey} style={{display: 'inline-block', textAlign: 'left', padding: '0px', width: `${props.width* .10}px`, height: `${props.width* .10}px`, marginBottom: '0'}}><span style={{display: 'block', border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: '50%', width: `${props.width * .035}px`, height: `${props.width * .035}px`, marginLeft: `${dot.marginLeft * props.width - .5}px`, marginTop: `${dot.marginTop * props.width - .5}px`, backgroundColor: `${dot.color}`}}></span></span>
+                                return <span key={dotKey} style={{display: 'inline-block', textAlign: 'left', padding: '0px', width: `${props.width* .10}px`, height: `${props.width* .10}px`, marginBottom: '0'}}><span style={{display: 'block', border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: `${shape === 'circle' ? '50%' : 0}`, width: `${props.width * .035}px`, height: `${props.width * .035}px`, marginLeft: `${dot.marginLeft * props.width - .5}px`, marginTop: `${dot.marginTop * props.width - .5}px`, backgroundColor: `${dot.color}`}}></span></span>
                             })}
                         </p>
                     })}
                     </div>
                 </div>
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={7} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Swish' organizedFunction={scatterDots} unorganizedFunction={() => organizeDots(0, 'horizontal')} unorgButton='Scatter' orgButton='Organize' />
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={7} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Swish' organizedFunction={scatterDots} unorganizedFunction={() => organizeDots(0, 'horizontal')} unorgButton='Scatter' orgButton='Organize' />
             </div>
             
         </div>
