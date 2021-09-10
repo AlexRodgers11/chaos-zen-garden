@@ -8,7 +8,7 @@ import { IoIosColorPalette, IoSpeedometerSharp, } from 'react-icons/io/';
 import { GoBell } from 'react-icons/go/';
 import { SiAddthis } from 'react-icons/si';
 import { ImSortNumbericDesc, ImShrink2, ImVolumeHigh, ImVolumeMedium, ImVolumeMute } from 'react-icons/im';
-import { BsFileText } from 'react-icons/bs';
+import { BsFileText, BsLockFill } from 'react-icons/bs';
 
 import './ControlBar.css';
 
@@ -143,6 +143,7 @@ function ControlBar(props) {
                                 {palettes.map(palette => {
                                     return <p onClick={() => handlePaletteChange(palette)}>{palette}</p>
                                 })}
+                                <p style={{display: 'flex', alignItems: 'center'}}>Custom<BsLockFill /></p>
                             </div>
                             <div style={{height: '1.8em', opacity: .5, backgroundColor: 'black'}}></div>    
                         </div>

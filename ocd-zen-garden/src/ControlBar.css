@@ -55,6 +55,7 @@
     display: block;
     margin-block-start: 0;
     margin-block-end: 0;
+    white-space: nowrap;
   }
 
   .ControlBar_popup-content textarea {
@@ -91,6 +92,7 @@
   } */
   .ControlBar_popup-active .ControlBar_popup-content {
     display: block;
+    white-space: 'nowrap';
   }
   
   /* Change the background color of the dropdown button when the dropdown content is shown */
