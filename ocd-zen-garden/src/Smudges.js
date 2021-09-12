@@ -105,16 +105,17 @@ function Smudges(props) {
             return square
         });
         let nextIdx = idx + 1;
-        console.log(nextIdx)
+        
         if(nextIdx < squares.length) {
-            while(!squares[nextIdx].contaminated && nextIdx < squares.length - 1) {
-                nextIdx++
-                if(idx >= squares.length) {
+            while(nextIdx < squares.length) {
+                if(!squares[nextIdx].contaminated) {
+                    nextIdx++
+                } else {
                     break;
                 }
             }
         }
-        
+
         soundPlay(sound);
         setSquares(newSquares);
         if(nextIdx < squares.length) {
