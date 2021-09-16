@@ -16,6 +16,7 @@ import Pogs from './Pogs';
 import Message2 from './Message2';
 import Smudges from './Smudges';
 import Holes from './Holes';
+import Edges from './Edges';
 import './Garden.css';
 import { v4 as uuidv4 } from 'uuid';
 import { GiJamesBondAperture } from 'react-icons/gi';
@@ -89,7 +90,9 @@ function Garden(){
             case 'smudges':
                 return <><Header changePalette={handleChangePalette}/><Smudges width={gardenPieceWidth} className="Smudges" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
             case 'holes':
-                return <><Header changePalette={handleChangePalette}/><Holes width={gardenPieceWidth} className="Smudges" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
+                return <><Header changePalette={handleChangePalette}/><Holes width={gardenPieceWidth} className="Holes" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
+            case 'edges':
+                return <><Header changePalette={handleChangePalette}/><Edges width={gardenPieceWidth} className="Edges" width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" orgIndex={numRings + 1} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
         }
     }
 
@@ -122,6 +125,7 @@ function Garden(){
                 <Message2 width={gardenPieceWidth} className="Message2" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
                 <Smudges width={gardenPieceWidth} className="Smudges" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
                 <Holes width={gardenPieceWidth} className="Holes" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                <Edges width={gardenPieceWidth} className="Edges" width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" orgIndex={numRings + 1} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
             </div>
             </>
         )
