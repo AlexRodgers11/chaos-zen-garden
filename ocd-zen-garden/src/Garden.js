@@ -92,7 +92,7 @@ function Garden(){
             case 'holes':
                 return <><Header changePalette={handleChangePalette}/><Holes width={gardenPieceWidth} className="Holes" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
             case 'edges':
-                return <><Header changePalette={handleChangePalette}/><Edges width={gardenPieceWidth} className="Edges" width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" orgIndex={numRings + 1} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
+                return <><Header changePalette={handleChangePalette}/><Edges width={gardenPieceWidth} className="Edges" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
         }
     }
 
@@ -125,7 +125,7 @@ function Garden(){
                 <Message2 width={gardenPieceWidth} className="Message2" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
                 <Smudges width={gardenPieceWidth} className="Smudges" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
                 <Holes width={gardenPieceWidth} className="Holes" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
-                <Edges width={gardenPieceWidth} className="Edges" width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" orgIndex={numRings + 1} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                <Edges width={gardenPieceWidth} className="Edges" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
             </div>
             </>
         )
