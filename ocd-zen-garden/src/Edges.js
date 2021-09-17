@@ -10,12 +10,33 @@ function Edges(props) {
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [nextIndex, setNextIndex] = useState(0);
     const [speed, setSpeed] = useState(1000);
-    const [sound, setSound] = useState(getSound(props.sound));
+    const [sound, setSound] = useState(getSound('Ding'));
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [numEdges, setNumEdges] = useState(17);
-    const [userJustChangedNumber, toggleUserJustChangedNumber] = useToggle(props.id === 1 ? false : props.userJustChangedNumber);
-    const [shape, setShape] = useState('circle');
+    const [userJustChangedNumber, toggleUserJustChangedNumber] = useToggle(props.id === 1 ? false : props.userJustChangedNumber)
 
+    // const createStartingEdgeArray = num => {
+    //     let edges = [];
+    //     for(let i = 1; i <= num; i++) {
+    //         let edgeTable = {
+    //             0: false,
+    //             1: false,
+    //             2: false,
+    //             3: false
+    //         }
+    //         let randomNum = Math.floor(Math.random() * 4)
+    //         edgeTable[randomNum] = true;
+    //         edges.push({
+    //             // missingEdges: randomEdges[Math.ceil(Math.random() * 4)]
+    //             top: edgeTable[0] ? false: true,
+    //             right: edgeTable[1] ? false : true,
+    //             bottom: edgeTable[2] ? false : true,
+    //             left: edgeTable[3] ? false : true,
+    //         })
+    //     }
+    //     return edges;
+    // }
+    
     const createStartingEdgeArray = num => {
         let edges = [];
         for(let i = 1; i <= num; i++) {
@@ -25,10 +46,29 @@ function Edges(props) {
                 2: false,
                 3: false
             }
-            let randomNum = Math.floor(Math.random() * 4)
+            let randomNum = Math.floor(Math.random() * 4);
             edgeTable[randomNum] = true;
+
+            // let edgeTable = {
+            //     0: false,
+            //     1: false,
+            //     2: false,
+            //     3: false
+            // }
+            // let edgeCount = 0;
+            // while(edgeCount < 2) {
+            //     let randomNum = Math.floor(Math.random() * 4);
+            //     while(edgeTable[randomNum]) {
+            //         randomNum = Math.floor(Math.random() * 4);
+            //     }
+            //     edgeTable[randomNum] = true;
+            //     edgeCount++;
+            // } 
+            
             edges.push({
                 // missingEdges: randomEdges[Math.ceil(Math.random() * 4)]
+                id: i,
+                color: getColor(i, colorPalette),
                 top: edgeTable[0] ? false: true,
                 right: edgeTable[1] ? false : true,
                 bottom: edgeTable[2] ? false : true,
@@ -54,7 +94,7 @@ function Edges(props) {
         if(!firstUpdate.current) {
             if(nextIndex < edges.length){
                 setTimeout(()=>{
-                    align(nextIndex);
+                    complete(nextIndex);
                 }, speed);
             }
         } else {
@@ -65,8 +105,8 @@ function Edges(props) {
     const colorFirstUpdate = useRef(true);
     useEffect(() => {
         if(!colorFirstUpdate.current) {
-            let newEdges = edges.map(box => {
-                return {...box, color: getColor(box.id, props.palette)}
+            let newEdges = edges.map(edge => {
+                return {...edge, color: getColor(edge.id, props.palette)}
             });
             setColorPalette(props.palette);
             setEdges(newEdges);
@@ -79,8 +119,8 @@ function Edges(props) {
     const colorsDoNotUpdate = useRef(true)
     useEffect(() => {
         if(!colorsDoNotUpdate.current) {
-            let newEdges = edges.map(box => {
-                return {...box, color: getColor(box.id, colorPalette)}
+            let newEdges = edges.map(edge => {
+                return {...edge, color: getColor(edge.id, colorPalette)}
             });
             setEdges(newEdges);
         } else {
@@ -90,24 +130,28 @@ function Edges(props) {
     }, [colorPalette]);
 
 
-    const align = (idx) => {
+    const complete = (idx) => {
         if(idx === 0) {
             toggleIsOrganizing();
         }
-        let newEdges;
-        if(idx + 1 === edges.length){
-            newEdges = edges.map(box => {
-                // return {...box, left: '25'} 
-            });
-        } else {
-            newEdges = edges.map(box => {
-                if(box.id <= edges[idx].id){
-                    // return {...box, left: `${edges[idx+1].left}`}
-                } else {
-                    return box
+        let newEdges = edges.map(edge => {
+            if(edge.id === edges[idx].id) {
+                console.log('test');
+                console.log(speed);
+                console.log('_______')
+                return {
+                    ...edge,
+                    top: true,
+                    right: true,
+                    bottom: true,
+                    left: true,
                 }
-            });
-        }
+            } else {
+                return edge;
+            }
+            
+        });
+
         soundPlay(sound);
         setEdges(newEdges);
         setNextIndex(idx + 1);
@@ -117,11 +161,8 @@ function Edges(props) {
         }, speed)
     }
 
-    const spin = () => {
-        let newEdges = edges.map(box => {
-            let randomNum = `${Math.random() * .45 * 100}`;
-            return {...box, left: randomNum};
-        })
+    const remove = () => {
+        let newEdges = createStartingEdgeArray(numEdges);
         setEdges(newEdges);
         toggleIsOrganized();
     }
@@ -148,9 +189,6 @@ function Edges(props) {
         setEdges(createStartingEdgeArray(Number(num)))
     }
 
-    const handleChangeShape = shape => {
-        setShape(shape);
-    }
 
     const handleToggleWindow = () => {
         if(props.fullWindow) {
@@ -160,36 +198,49 @@ function Edges(props) {
         }
     }
 
-    const display = (id, width) => {
+    const display = (id) => {
         if(id <= numEdges) {
             return (
                 // <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', border: `1px solid ${getColor(id, colorPalette)}`, height: `${id === 1 ? '70%' : `${70 - (70 / numEdges)}`}`, width: `${width}px`}}>{display(id + 1, width / 2)}</div>
                 <div style={{
+                    margin: '0 auto',
                     position: 'relative', 
                     display: 'flex', 
                     justifyContent: 'center', 
                     alignItems: 'center', 
-                    borderTop: edges[id - 1].top ? `1px solid ${getColor(id, colorPalette)}` : 'none',
-                    borderRight: edges[id - 1].right ? `1px solid ${getColor(id, colorPalette)}` : 'none',
-                    borderBottom: edges[id - 1].bottom ? `1px solid ${getColor(id, colorPalette)}` : 'none',
-                    borderLeft: edges[id - 1].left ? `1px solid ${getColor(id, colorPalette)}` : 'none',
+                    borderTop: edges[id - 1].top ? `1px solid ${edges[id -1].color}` : 'none',
+                    borderRight: edges[id - 1].right ? `1px solid ${edges[id -1].color}` : 'none',
+                    borderBottom: edges[id - 1].bottom ? `1px solid ${edges[id -1].color}` : 'none',
+                    borderLeft: edges[id - 1].left ? `1px solid ${edges[id -1].color}` : 'none',
                     height: `${id === 1 ? `${.6 * props.width}px` : `${(.6 - (id - 1) * (.6 / numEdges)) * props.width}px`}`, 
                     width: `${id === 1 ? `${.6 * props.width}px` : `${(.6 - (id - 1) * (.6 / numEdges)) * props.width}px`}`}}>
-                        {display(id + 1, width / 2)}
+                        {display(id + 1)}
                     </div>
             )
         }
     }
 
     return (
-        <div style={{'0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width}px`, height: `${props.width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
-            <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', width: '100%'}}>
-                <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%'}}>
-                    {display(1, 350)}
+        <div style={{margin: props.fullWindow ? '0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width}px`, height: `${props.width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
+            <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%'}}>
+                <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', height: '100%'}}>
+                    <div>
+                        {display(1)}
+                    </div>
                 </div>
-            <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} volume={props.volume} changeVolume={handleChangeVolume} shape={shape} shapes={['circle', 'square']} changeShape={props.setShape} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumEdges} minNum={4} maxNum={40} number={numEdges} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Whoop' organizedFunction={spin} unorganizedFunction={align} unorgButton='Scatter' orgButton='Organize' />
+            <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumEdges} minNum={4} maxNum={40} number={numEdges} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={remove} unorganizedFunction={() => complete(0)} unorgButton='Remove' orgButton='Complete' />
+
             </div>
         </div>
+
+        // <div style={{'0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width}px`, height: `${props.width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
+        //     <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', width: '100%'}}>
+        //         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%'}}>
+                    
+        //         </div>
+        //     <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumEdges} minNum={4} maxNum={40} number={numEdges} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={remove} unorganizedFunction={() => complete(0)} unorgButton='Remove' orgButton='Complete' />
+        //     </div>
+        // </div>
         
     )
 }
