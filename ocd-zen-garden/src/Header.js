@@ -24,7 +24,7 @@ function Header(props){
     }
 
     return(
-        <div className="Header" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'fixed', width: '100%', height:'45px', backgroundColor: '#303030', fontFamily: 'Arial Narrow, sans-serif', fontWeight: '600', fontSize: '1.85em', borderBottom: '1.7px solid #000', zIndex: 2}}>
+        <div className="Header" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'fixed', width: '100%', height:'45px', backgroundColor: '#303030', fontFamily: 'Arial Narrow, sans-serif', fontWeight: '600', fontSize: '1.85em', borderBottom: '1.7px solid #000', zIndex: 300}}>
             <div>
                 <span style={{marginLeft: '.5em', color: getColor(1, colorPalette), textShadow:`-1.425px -1.425px 0 #000,1.425px -1.425px 0 #000,-1.425px 1.425px 0 #000,1.425px 1.425px 0 #000`}}>O</span>
                 <span style={{color: getColor(2, colorPalette), textShadow:`-1.425px -1.425px 0 #000,1.425px -1.425px 0 #000,-1.425px 1.425px 0 #000,1.425px 1.425px 0 #000`}}>C</span>
