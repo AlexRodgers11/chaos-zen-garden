@@ -14,6 +14,7 @@ function Crosshair(props) {
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [numRings, setNumRings] = useState(6);
     const [userJustChangedNumber, toggleUserJustChangedNumber] = useToggle(props.id === 1 ? false : props.userJustChangedNumber)
+    const [shape, setShape] = useState('circle');
 
     const createStartingRingArray = num => {
         let rings = [];
@@ -131,7 +132,10 @@ function Crosshair(props) {
         setNumRings(Number(num));
         setRings(createStartingRingArray(Number(num)))
     }
-
+    
+    const handleChangeShape = shape => {
+        setShape(shape);
+    }
 
     const handleToggleWindow = () => {
         if(props.fullWindow) {
@@ -155,7 +159,7 @@ function Crosshair(props) {
                     alignItems: 'center', 
                     backgroundColor: `${getColor('base', colorPalette)}`,
                     border: `2px solid ${rings[id - 1].color}`,
-                    borderRadius: '50%',
+                    borderRadius: shape === 'circle' ? '50%' : '0',
                     transform: `rotate(${rings[id - 1].rotation}deg)`,
                     height: `${ringSize}px`, 
                     width: `${ringSize}px`}}>
@@ -275,7 +279,7 @@ function Crosshair(props) {
                         {display(1)}
                     </div>
                 </div>
-            <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumRings} minNum={4} maxNum={20} number={numRings} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={spin} unorganizedFunction={() => align(0)} unorgButton='Spin' orgButton='Align' />
+            <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumRings} minNum={4} maxNum={20} number={numRings} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={spin} unorganizedFunction={() => align(0)} unorgButton='Spin' orgButton='Align' />
 
             </div>
         </div>
