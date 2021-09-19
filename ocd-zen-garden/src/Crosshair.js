@@ -165,12 +165,12 @@ function Crosshair(props) {
                     width: `${ringSize}px`}}>
                         <div style={{position: 'absolute', zIndex: `${id}`, height: `${ringSize}px`, width: `${ringSize}px`}}>
                             <div style={{position: 'absolute', width: '100%', height: '50%', zIndex: `${id}`}}>
-                                <div style={{position: 'relative', display: 'inline-block', width: `${ringSize * .5 - 1}px`, zIndex: `${id}`, height: `${ringSize * .5 - 1}px`, borderBottom: `${1/2}px solid black`, borderRight: `${1/2}px solid black`}}></div>
-                                <div style={{position: 'relative', display: 'inline-block', width: `${ringSize * .5 - 1}px`, zIndex: `${id}`, height: `${ringSize * .5 - 1}px`, borderBottom: `${1/2}px solid black`, borderLeft: `${1/2}px solid black`}}></div>
+                                <div style={{position: 'relative', display: 'inline-block', width: `${ringSize * .5 - 1}px`, zIndex: `${id}`, height: `${ringSize * .5 - 1}px`, borderBottom: '1px solid black', borderRight: '1px solid black'}}></div>
+                                <div style={{position: 'relative', display: 'inline-block', width: `${ringSize * .5 - 1}px`, zIndex: `${id}`, height: `${ringSize * .5 - 1}px`, borderBottom: '1px solid black', borderLeft: '1px solid black'}}></div>
                             </div>
                             <div style={{position: 'absolute', width: '100%', height: '50%', top: `${ringSize * .5}px`, zIndex: `${id}`}}>
-                                <div style={{position: 'relative', display: 'inline-block', width: `${ringSize * .5 - 1}px`, zIndex: `${id}`, height: `${ringSize * .5 - 1}px`, borderTop: '.1px solid black', borderRight: '.5px solid black'}}></div>
-                                <div style={{position: 'relative', display: 'inline-block', width: `${ringSize * .5 - 1}px`, zIndex: `${id}`, height: `${ringSize * .5 - 1}px`, borderTop: '.1px solid black', borderLeft: '.5px solid black'}}></div>
+                                <div style={{position: 'relative', display: 'inline-block', width: `${ringSize * .5 - 1}px`, zIndex: `${id}`, height: `${ringSize * .5 - 1}px`, borderTop: '1px solid black', borderRight: '1px solid black'}}></div>
+                                <div style={{position: 'relative', display: 'inline-block', width: `${ringSize * .5 - 1}px`, zIndex: `${id}`, height: `${ringSize * .5 - 1}px`, borderTop: '1px solid black', borderLeft: '1px solid black'}}></div>
                             </div>
                         </div>
 
