@@ -7,7 +7,7 @@ import { GiConsoleController, GiHamburgerMenu, GiRabbit, GiTortoise } from 'reac
 import { IoIosColorPalette, IoSpeedometerSharp, } from 'react-icons/io/';
 import { GoBell } from 'react-icons/go/';
 import { SiAddthis } from 'react-icons/si';
-import { ImSortNumbericDesc, ImShrink2, ImVolumeHigh, ImVolumeMedium, ImVolumeMute } from 'react-icons/im';
+import { ImSortNumbericDesc, ImShrink2, ImVolumeHigh, ImVolumeLow, ImVolumeMedium, ImVolumeMute } from 'react-icons/im';
 import { BsFileText, BsLockFill } from 'react-icons/bs';
 
 import './ControlBar.css';
@@ -195,7 +195,9 @@ function ControlBar(props) {
                     
                     <div style={{position: 'relative', zIndex: 7}} onMouseLeave={showPopup.volume ? () => handleTogglePopup('volume') : null} className={`ControlBar_popup ${showPopup.volume ? 'ControlBar_popup-active' : ''}`}>
                         <div style={{display: 'inline-flex', transform: 'rotate(270deg)'}}>
-                        <button style={{position: 'relative', transform: 'rotate(90deg)', zIndex: 8, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="volume" onClick={() => handleTogglePopup('volume')}><ImVolumeHigh size='1.5em' /></button>
+                        <button style={{position: 'relative', transform: 'rotate(90deg)', zIndex: 8, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="volume" onClick={() => handleTogglePopup('volume')}>
+                            {volume > 70 ? <ImVolumeHigh size='1.5em' /> : volume > 30 ? <ImVolumeMedium size='1.5em' /> : volume > 0 ? <ImVolumeLow size='1.5em' /> : <ImVolumeMute size='1.5em' />}
+                        </button>
                         <div className='ControlBar_popup-content'>
                             {/* <div style={{paddingBottom: '1.5em'}}>
                             {sounds.map(sound => {
