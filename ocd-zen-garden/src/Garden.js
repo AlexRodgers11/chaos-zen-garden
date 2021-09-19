@@ -21,6 +21,7 @@ import Crosshair from './Crosshair';
 import './Garden.css';
 import { v4 as uuidv4 } from 'uuid';
 import { GiJamesBondAperture } from 'react-icons/gi';
+import Tallies from './Tallies';
 
 function Garden(){
     let width = useCurrentWidth();
@@ -96,6 +97,8 @@ function Garden(){
                 return <><Header changePalette={handleChangePalette}/><Edges width={gardenPieceWidth} className="Edges" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
             case 'crosshair':
                 return <><Header changePalette={handleChangePalette}/><Crosshair width={gardenPieceWidth} className="Crosshair" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
+            case 'tallies':
+                return <><Header changePalette={handleChangePalette}/><Tallies width={gardenPieceWidth} className="Crosshair" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
         }
     }
 
@@ -130,6 +133,7 @@ function Garden(){
                 <Holes width={gardenPieceWidth} className="Holes" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
                 <Edges width={gardenPieceWidth} className="Edges" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
                 <Crosshair width={gardenPieceWidth} className="Crosshair" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                <Tallies width={gardenPieceWidth} className="Tallies" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
             </div>
             </>
         )
