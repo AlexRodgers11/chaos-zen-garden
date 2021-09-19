@@ -92,11 +92,12 @@ function Tallies(props) {
     }
 
     const complete = (idx, mark) => {
+        console.log(`idx is ${idx} and mark is ${mark}`)
         let currentIdx = idx
         let currentMark = mark;
-        if(idx === 0) {
-            console.log('toggled again for some reason')
+        if(idx === 0 && mark === 2) {
             toggleIsOrganizing();
+            console.log('toggled for first index')
         }
         while(tallies[currentIdx].marks[currentMark]) {
             if(currentMark < 5) {
@@ -106,7 +107,7 @@ function Tallies(props) {
                 currentMark = 2;
             }
         }
-        console.log(`currentIdx: ${currentIdx}; currentMark: ${currentMark}`)
+        // console.log(`currentIdx: ${currentIdx}; currentMark: ${currentMark}`)
         let newTallies = tallies.map(tally => {
             if(tally.id === tallies[idx].id) {
                 return {...tally, marks: {...tallies[currentIdx].marks, [currentMark]: true}}
@@ -125,9 +126,9 @@ function Tallies(props) {
             nextIdx = idx + 1;
         }
         if(nextIdx < tallies.length) {
-            while(tallies[nextIdx].marks[nextMark] && nextIdx < tallies.length) {
-                console.log(tallies[nextIdx].marks[nextMark]);
-                console.log(nextIdx)
+            while(nextIdx < tallies.length && tallies[nextIdx].marks[nextMark]) {
+                // console.log(tallies[nextIdx].marks[nextMark]);
+                // console.log(nextIdx)
                 if(nextMark < 5) {
                     nextMark++
                 } else {
@@ -144,8 +145,8 @@ function Tallies(props) {
 
         soundPlay(sound);
         setTallies(newTallies);
-        console.log(`setting nextIndex.idx to ${nextIdx}`)
-        console.log(`setting nextIndex.mark to ${nextMark}`)
+        // console.log(`setting nextIndex.idx to ${nextIdx}`)
+        // console.log(`setting nextIndex.mark to ${nextMark}`)
         setNextIndex({idx: nextIdx, mark: nextMark});
     }
 
