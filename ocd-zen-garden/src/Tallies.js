@@ -106,10 +106,11 @@ function Tallies(props) {
                 currentIdx++;
                 currentMark = 2;
             }
+            console.log(`currentIdx: ${currentIdx} && currentMark: ${currentMark}`)
         }
         // console.log(`currentIdx: ${currentIdx}; currentMark: ${currentMark}`)
         let newTallies = tallies.map(tally => {
-            if(tally.id === tallies[idx].id) {
+            if(tally.id === tallies[currentIdx].id) {
                 return {...tally, marks: {...tallies[currentIdx].marks, [currentMark]: true}}
             } else {
                 return tally;
@@ -145,8 +146,8 @@ function Tallies(props) {
 
         soundPlay(sound);
         setTallies(newTallies);
-        // console.log(`setting nextIndex.idx to ${nextIdx}`)
-        // console.log(`setting nextIndex.mark to ${nextMark}`)
+        console.log(`setting nextIndex.idx to ${nextIdx}`)
+        console.log(`setting nextIndex.mark to ${nextMark}`)
         setNextIndex({idx: nextIdx, mark: nextMark});
     }
 
