@@ -39,17 +39,13 @@ function Tallies(props) {
     const firstUpdate = useRef(true);
     useEffect(() => {
         if(!firstUpdate.current) {
-            // console.log(nextIndex)
-            // console.log(`nextIdx is ${nextIndex.idx} at ${nextIndex.mark}`)
             if(nextIndex.idx < tallies.length){
                 setTimeout(() => {
                     complete(nextIndex.idx, nextIndex.mark);
                 }, speed);
             } else {
-                console.log('done')
                 toggleIsOrganizing();
                 toggleIsOrganized();
-                console.log('done2')
             }
         } else {firstUpdate.current = false}
     }, [nextIndex])
@@ -92,12 +88,10 @@ function Tallies(props) {
     }
 
     const complete = (idx, mark) => {
-        console.log(`idx is ${idx} and mark is ${mark}`)
         let currentIdx = idx
         let currentMark = mark;
         if(idx === 0 && mark === 2) {
             toggleIsOrganizing();
-            console.log('toggled for first index')
         }
         while(tallies[currentIdx].marks[currentMark]) {
             if(currentMark < 5) {
@@ -106,9 +100,8 @@ function Tallies(props) {
                 currentIdx++;
                 currentMark = 2;
             }
-            console.log(`currentIdx: ${currentIdx} && currentMark: ${currentMark}`)
         }
-        // console.log(`currentIdx: ${currentIdx}; currentMark: ${currentMark}`)
+
         let newTallies = tallies.map(tally => {
             if(tally.id === tallies[currentIdx].id) {
                 return {...tally, marks: {...tallies[currentIdx].marks, [currentMark]: true}}
@@ -128,14 +121,11 @@ function Tallies(props) {
         }
         if(nextIdx < tallies.length) {
             while(nextIdx < tallies.length && tallies[nextIdx].marks[nextMark]) {
-                // console.log(tallies[nextIdx].marks[nextMark]);
-                // console.log(nextIdx)
                 if(nextMark < 5) {
                     nextMark++
                 } else {
                     nextIdx++;
                     nextMark = 2;
-                    // console.log('else reached')
                 }
             }
         }
@@ -146,8 +136,6 @@ function Tallies(props) {
 
         soundPlay(sound);
         setTallies(newTallies);
-        console.log(`setting nextIndex.idx to ${nextIdx}`)
-        console.log(`setting nextIndex.mark to ${nextMark}`)
         setNextIndex({idx: nextIdx, mark: nextMark});
     }
 
@@ -219,15 +207,17 @@ function Tallies(props) {
                     <div>
                         {displayTallies().map(tallyLine => {
                             return <div>{tallyLine.map(tally => {
-                                return <div style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center', backgroundColor:`${tally.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${props.width * .70 * (1 / (numRows + 2))}px`, height: `${props.width * .70 * (1 / (numRows + 2))}px`, margin: `${(props.width * .70 * (1 / (numRows + 2)) / (numRows + 2))}px`}}>
+                                // return <div style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center', backgroundColor:`${tally.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${props.width * .70 * (1 / (numRows + 2))}px`, height: `${props.width * .70 * (1 / (numRows + 2))}px`, margin: `${(props.width * .70 * (1 / (numRows + 2)) / (numRows + 2))}px`}}>
+                                return <div style={{position: 'relative', display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width: `${props.width * .70 * (1 / (numRows + 2))}px`, height: `${props.width * .70 * (1 / (numRows + 2))}px`, margin: `${(props.width * .70 * (1 / (numRows + 2)) / (numRows + 2))}px`}}>
                                     {/* {tally.marks.map(mark => {
                                         return <span mark>t</span>
                                     })} */}
-                                    <span>I</span>
-                                    <span style={{display: tally.marks[2] ? 'inline-block' : 'none'}}>I</span>
-                                    <span style={{display: tally.marks[3] ? 'inline-block' : 'none'}}>I</span>
-                                    <span style={{display: tally.marks[4] ? 'inline-block' : 'none'}}>I</span>
-                                    <span style={{display: tally.marks[5] ? 'inline-block' : 'none'}}>I</span>
+                                    <span style={{height: '100%', width: '12.5%', marginRight: '12.5%', backgroundColor: `${tally.color}`, border: `1px solid ${getColor('border', colorPalette)}`}}></span>
+                                    <span style={{display: tally.marks[2] ? 'inline-block' : 'none', height: '100%', width: '12.5%', marginRight: '12.5%', backgroundColor: `${tally.color}`, border: `1px solid ${getColor('border', colorPalette)}`}}></span>
+                                    <span style={{display: tally.marks[3] ? 'inline-block' : 'none', height: '100%', width: '12.5%', marginRight: '12.5%', backgroundColor: `${tally.color}`, border: `1px solid ${getColor('border', colorPalette)}`}}></span>
+                                    <span style={{display: tally.marks[4] ? 'inline-block' : 'none', height: '100%', width: '12.5%', marginRight: '12.5%', backgroundColor: `${tally.color}`, border: `1px solid ${getColor('border', colorPalette)}`}}></span>
+                                    {/* <span style={{position: 'absolute', zIndex: '2', transform: 'rotate(-45deg)', height: `${2 * props.width * .70 * (1 / (numRows + 2))}px`, display: tally.marks[5] ? 'inline-block' : 'none', height: '100%', width: '12.5%', marginRight: '12.5%', backgroundColor: `${tally.color}`, border: `1px solid ${getColor('border', colorPalette)}`}}></span> */}
+                                    <span style={{position: 'absolute', zIndex: '2', transform: 'rotate(-45deg)', display: tally.marks[5] ? 'inline-block' : 'none', height: '135%', width: '12.5%', marginRight: '12.5%', backgroundColor: `${tally.color}`, border: `1px solid ${getColor('border', colorPalette)}`}}></span>
                                 </div>
                             })}</div>
                         })}
