@@ -7,7 +7,7 @@ import { Howl } from 'howler';
 function Cards(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
-    const [numCards, setNumRows] = useState(10);
+    const [numCards, setNumRows] = useState(5);
     const [nextIndex, setNextIndex] = useState(0);
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [speed, setSpeed] = useState(1000);
@@ -152,16 +152,25 @@ function Cards(props) {
         <div style={{margin: props.fullWindow ? '0 auto' : 0, display: 'flex', justifyContent: 'center', organizeItems: 'center', width: `${props.width}px`, height: `${props.width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%'}}>
                 <div style={{position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%'}}>
-                        {displayCards().map(cardLine => {
+                        {/* {displayCards().map(cardLine => {
                             // return <div style={{margin: '7% 0'}}>{cardLine.map(card => {
                             return <div style={{position: 'relative', margin: '7% 0', paddingLeft: `${((cards.length / 2) - 1) * 10}px`}}>{cardLine.map(card => {
                                 // return <div style={{position: 'relative', zIndex: card.id, right: '10px', display: 'inline-block', backgroundColor:`${card.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${props.width * .70 * (1 / (numCards + 2))}px`, height: `${1.5 * props.width * .70 * (1 / (numCards + 2))}px`, top: card.offset}}></div>
                                 return <div style={{position: 'relative', zIndex: card.id, right: `${card.id - (cards.length / 2) <= 0 ? (card.id - 1) * 10 : (card.id - (cards.length / 2) - 1) * 10}px`, display: 'inline-block', backgroundColor:`${card.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${props.width * .70 * (1 / (numCards + 2))}px`, height: `${1.5 * props.width * .70 * (1 / (numCards + 2))}px`, top: card.offset}}></div>
                                 // return <div style={{position: 'relative', width: `${props.width * .70 * (1 / (numCards + 2)) * numCards - ((numCards - 1) * 10)}px`}}><div style={{position: 'relative', zIndex: card.id, right: `${card.id - (cards.length / 2) <= 0 ? (card.id - 1) * 10 : (card.id - (cards.length / 2) - 1) * 10}px`, display: 'inline-block', backgroundColor:`${card.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${props.width * .70 * (1 / (numCards + 2))}px`, height: `${1.5 * props.width * .70 * (1 / (numCards + 2))}px`, top: card.offset}}></div></div>
                             })}</div>
+                        })} */}
+                        {displayCards().map(cardLine => {
+                            return <div style={{position: 'relative', margin: '7% 0', paddingLeft: `${((cards.length / 2) - 1) * (.8 * props.width * .70 * (1 / (numCards + 2)))}px`}}>{cardLine.map(card => {
+                            // return <div style={{position: 'relative', margin: '7% 0'}}>{cardLine.map(card => {
+                            // return <div style={{position: 'relative', margin: '7% 0', width: `${(numCards + 1) * props.width * .70 * (1 / (numCards + 2))}px`}}>{cardLine.map(card => {
+                                // return <div style={{position: 'relative', zIndex: card.id, right: `${card.id - (cards.length / 2) <= 0 ? (card.id - 1) * 10 : (card.id - (cards.length / 2) - 1) * 10}px`, display: 'inline-block', backgroundColor:`${card.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${props.width * .70 * (1 / (numCards + 2))}px`, height: `${1.5 * props.width * .70 * (1 / (numCards + 2))}px`, top: card.offset}}></div>
+                                return <div style={{position: 'relative', zIndex: card.id,  right: `${card.id - (cards.length / 2) <= 0 ? (card.id - 1) * (.8 * props.width * .70 * (1 / (numCards + 2))) : (card.id - (cards.length / 2) - 1) * (.8 * props.width * .70 * (1 / (numCards + 2)))}px`, display: 'inline-block', backgroundColor:`${card.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${props.width * .70 * (1 / (numCards + 2))}px`, height: `${1.5 * props.width * .70 * (1 / (numCards + 2))}px`, top: card.offset}}></div>
+                                // return <div style={{position: 'relative', textAlign: 'left', zIndex: card.id,  display: 'inline-block', backgroundColor:`${card.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${props.width * .70 * (1 / (numCards + 2))}px`, height: `${1.5 * props.width * .70 * (1 / (numCards + 2))}px`, top: card.offset}}></div>
+                            })}</div>
                         })}
                 </div>
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={numCards} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={scatter} unorganizedFunction={() => organize(0)} unorgButton='Scatter' orgButton='Organize'/>
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={30} number={numCards} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={scatter} unorganizedFunction={() => organize(0)} unorgButton='Scatter' orgButton='Organize'/>
             </div>
         </div>
     )
