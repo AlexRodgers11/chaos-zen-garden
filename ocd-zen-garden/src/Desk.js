@@ -13,7 +13,7 @@ import { GoCalendar } from 'react-icons/go';
 function Desk(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
-    const [numRows, setNumRows] = useState(5);
+    const [numRows, setNumRows] = useState(7);
     const [nextIndex, setNextIndex] = useState(0);
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [speed, setSpeed] = useState(1000);
@@ -21,12 +21,12 @@ function Desk(props) {
 
     const createStartingItemsArray = num => {
         let items = [];
-        for(let i = 1; i < num ** 2 + 1; i++) {
+        for(let i = 1; i < num + 1; i++) {
             let multiplier = Math.random() > .5 ? -1 : 1;
             items.push({
                 id: i, 
                 color: getColor(i, colorPalette),
-                tilt: multiplier * 5 + multiplier * Math.random * 15
+                tilt: multiplier * 2.5 + multiplier * Math.random() * 17.5
             })
         }
         return items;
@@ -100,10 +100,10 @@ function Desk(props) {
         setNextIndex(idx + 1);
     }
 
-    const dull = () => {
+    const shift = () => {
         let newItems = items.map(item => {
             let multiplier = Math.random() > .5 ? -1 : 1;
-            return {...item, tilt: multiplier * 5 + multiplier * Math.random * 15}
+            return {...item, tilt: multiplier * 2.5 + multiplier * Math.random() * 17.5}
         })
         setItems(newItems);
         toggleIsOrganized();
@@ -145,27 +145,27 @@ function Desk(props) {
                     <div style={{width: '70%', height: '70%', border: '3px solid black', backgroundColor: '#303030'}}>
                         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between',width: '100%', height: '40%'}}>
                             <div style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: "35%", height: '85%', color: items[0].color, transform: `rotate(${items[0].tilt}deg)`}}><CgNotes size="100%" /></div>
-                            <div style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: "40%", height: '100%', color: items[1].color}}><GoCalendar size="100%" /></div>
+                            <div style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: "40%", height: '100%', color: items[1].color, transform: `rotate(${items[1].tilt}deg)`}}><GoCalendar size="100%" /></div>
                         </div>
-                        <div style={{width: '100%', height: '10%'}}>
+                        <div style={{width: '100%', height: '10%', transform: `rotate(${items[2].tilt}deg)`}}>
                             <div style={{position: 'relative', zIndex: '2', width: '60%', height: '50%', border: '2px solid black', margin: '0 auto', backgroundColor: items[2].color, boxShadow: '0em .65em 1em 0em rgba(250,250,250,0.9)'}}></div>
                             <div style={{display: 'inline-block', width: '17%', height: '25%', border: '1px solid black', backgroundColor: items[2].color, transform: 'rotate(-39deg)'}}></div>
                             <div style={{display: 'inline-block', width: '17%', height: '25%', border: '1px solid black', backgroundColor: items[2].color, transform: 'rotate(39deg)'}}></div>
                         </div>
                         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between',width: '100%', height: '50%'}}>
                             <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '30%', height: '100%'}}>
-                                <div style={{position: 'relative', left: '10%', display: 'inline-flex', alignItems: 'center', justifyContent: 'start', width: "70%", height: '80%', transform: 'rotate(-45deg)', color: items[3].color}}><TiPencil size="100%" /></div>
-                                <div style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: "70%", height: '80%', transform: 'rotate(-45deg)', color: items[4].color}}><RiBallPenFill size="100%" /></div>
+                                <div style={{position: 'relative', left: '10%', display: 'inline-flex', alignItems: 'center', justifyContent: 'start', width: "70%", height: '80%', transform: 'rotate(-45deg)', color: items[3].color, transform: `rotate(${-45 + items[3].tilt}deg)`}}><TiPencil size="100%" /></div>
+                                <div style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: "70%", height: '80%', transform: 'rotate(-45deg)', color: items[4].color, transform: `rotate(${-45 + items[4].tilt}deg)`}}><RiBallPenFill size="100%" /></div>
                             </div>
-                            <div style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: "40%", height: '70%', color: items[5].color}}><FaRegKeyboard size="100%" /></div>
+                            <div style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: "40%", height: '70%', color: items[5].color, transform: `rotate(${items[5].tilt}deg)`}}><FaRegKeyboard size="100%" /></div>
                             <div style={{width: "30%", height: '40%'}}>
-                                <div style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '70%', height: '100%', border: '1px solid black', backgroundColor: '#444444', color: items[6].color}}>
+                                <div style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '70%', height: '100%', border: '1px solid black', backgroundColor: '#444444', color: items[6].color, transform: `rotate(${items[6].tilt}deg)`}}>
                                     <CgMouse size="70%" /></div>
                                 </div>
                         </div>
                     </div>
                 </div>
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={dull} unorganizedFunction={() => align(0, 'topLeft')} unorgButton='Dull' orgButton='Sharpen'/>
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={shift} unorganizedFunction={() => align(0, 'topLeft')} unorgButton='Dull' orgButton='Sharpen'/>
             </div>
         </div>
     )
