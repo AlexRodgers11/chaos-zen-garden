@@ -13,7 +13,6 @@ import { GoCalendar } from 'react-icons/go';
 function Desk(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
-    const [numRows, setNumRows] = useState(7);
     const [nextIndex, setNextIndex] = useState(0);
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [speed, setSpeed] = useState(1000);
@@ -33,7 +32,7 @@ function Desk(props) {
         
     }
 
-    const [items, setItems] = useState(createStartingItemsArray(numRows));
+    const [items, setItems] = useState(createStartingItemsArray(7));
 
     const firstUpdate = useRef(true);
     useEffect(() => {
@@ -116,10 +115,6 @@ function Desk(props) {
     const handleSetSound = sound => {
         setSound(getSound(sound));
     }
-    const handleSetNumRows = num => {
-        setNumRows(Number(num));
-        setItems(createStartingItemsArray(Number(num)))
-    }
 
     const handleSetColorPalette = palette => {
         colorsDoNotUpdate.current = false;
@@ -165,7 +160,7 @@ function Desk(props) {
                         </div>
                     </div>
                 </div>
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={shift} unorganizedFunction={() => align(0, 'topLeft')} unorgButton='Dull' orgButton='Sharpen'/>
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={shift} unorganizedFunction={() => align(0, 'topLeft')} unorgButton='Dull' orgButton='Sharpen'/>
             </div>
         </div>
     )
