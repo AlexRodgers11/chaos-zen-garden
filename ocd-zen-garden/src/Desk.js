@@ -40,7 +40,7 @@ function Desk(props) {
         if(!firstUpdate.current) {
             if(nextIndex < items.length){
                 setTimeout(() => {
-                    sharpen(nextIndex);
+                    align(nextIndex);
                 }, speed);
             } else {
                 toggleIsOrganizing();
@@ -53,7 +53,7 @@ function Desk(props) {
     useEffect(() => {
         if(!colorsFirstUpdate.current) {
             let newItems = items.map(item => {
-                return {...items, color: getColor(item.id, props.palette)}
+                return {...item, color: getColor(item.id, props.palette)}
             });
             setColorPalette(props.palette);
             setItems(newItems);
@@ -68,7 +68,7 @@ function Desk(props) {
     useEffect(() => {
         if(!colorsDoNotUpdate.current) {
             let newItems = items.map(item => {
-                return {...items, color: getColor(item.id, colorPalette)}
+                return {...item, color: getColor(item.id, colorPalette)}
             });
             setItems(newItems);
         } else {
@@ -86,7 +86,7 @@ function Desk(props) {
         sound.play(soundObj.spriteName);
     }
 
-    const sharpen = (idx) => {
+    const align = (idx) => {
         if(idx === 0) toggleIsOrganizing();
         let newItems = items.map(item => {
             if(item.id === items[idx].id) {
@@ -142,24 +142,30 @@ function Desk(props) {
         <div style={{margin: props.fullWindow ? '0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width}px`, height: `${props.width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%'}}>
                 <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%'}}>
-                    <div style={{width: '70%', height: '70%', border: '3px solid black', backgroundColor: '#7a5037'}}>
-                        
-                        <div style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: "35%", height: '35%', color: items[0].color}}><CgNotes size="100%" /></div>
-                        <div style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: "40%", height: '40%', color: items[1].color}}><GoCalendar size="100%" /></div>
-                        <div style={{width: '100%', height: '5%'}}>
+                    <div style={{width: '70%', height: '70%', border: '3px solid black', backgroundColor: '#303030'}}>
+                        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between',width: '100%', height: '40%'}}>
+                            <div style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: "35%", height: '85%', color: items[0].color, transform: `rotate(${items[0].tilt}deg)`}}><CgNotes size="100%" /></div>
+                            <div style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: "40%", height: '100%', color: items[1].color}}><GoCalendar size="100%" /></div>
+                        </div>
+                        <div style={{width: '100%', height: '10%'}}>
                             <div style={{position: 'relative', zIndex: '2', width: '60%', height: '50%', border: '2px solid black', margin: '0 auto', backgroundColor: items[2].color, boxShadow: '0em .65em 1em 0em rgba(250,250,250,0.9)'}}></div>
                             <div style={{display: 'inline-block', width: '17%', height: '25%', border: '1px solid black', backgroundColor: items[2].color, transform: 'rotate(-39deg)'}}></div>
                             <div style={{display: 'inline-block', width: '17%', height: '25%', border: '1px solid black', backgroundColor: items[2].color, transform: 'rotate(39deg)'}}></div>
                         </div>
-                        <div>
-                            <div style={{position: 'relative', left: '10%', display: 'inline-flex', alignItems: 'center', justifyContent: 'start', width: "20%", height: '20%', transform: 'rotate(-45deg)', color: items[3].color}}><TiPencil size="100%" /></div>
-                            <div style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: "20%", height: '20%', transform: 'rotate(-45deg)'}}><RiBallPenFill size="100%" /></div>
-                            <div style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: "35%", height: '35%'}}><FaRegKeyboard size="100%" /></div>
-                            <div style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: "20%", height: '20%', border: '1px solid black', backgroundColor: '#444444'}}><CgMouse size="70%" /></div>
+                        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between',width: '100%', height: '50%'}}>
+                            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '30%', height: '100%'}}>
+                                <div style={{position: 'relative', left: '10%', display: 'inline-flex', alignItems: 'center', justifyContent: 'start', width: "70%", height: '80%', transform: 'rotate(-45deg)', color: items[3].color}}><TiPencil size="100%" /></div>
+                                <div style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: "70%", height: '80%', transform: 'rotate(-45deg)', color: items[4].color}}><RiBallPenFill size="100%" /></div>
+                            </div>
+                            <div style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: "40%", height: '70%', color: items[5].color}}><FaRegKeyboard size="100%" /></div>
+                            <div style={{width: "30%", height: '40%'}}>
+                                <div style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '70%', height: '100%', border: '1px solid black', backgroundColor: '#444444', color: items[6].color}}>
+                                    <CgMouse size="70%" /></div>
+                                </div>
                         </div>
                     </div>
                 </div>
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={dull} unorganizedFunction={() => sharpen(0, 'topLeft')} unorgButton='Dull' orgButton='Sharpen'/>
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={dull} unorganizedFunction={() => align(0, 'topLeft')} unorgButton='Dull' orgButton='Sharpen'/>
             </div>
         </div>
     )
