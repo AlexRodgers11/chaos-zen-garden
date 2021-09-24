@@ -32,7 +32,7 @@ function Desk(props) {
         
     }
 
-    const [items, setItems] = useState(createStartingItemsArray(7));
+    const [items, setItems] = useState(createStartingItemsArray(8));
 
     const firstUpdate = useRef(true);
     useEffect(() => {
@@ -154,9 +154,10 @@ function Desk(props) {
                             </div>
                             <div style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: "40%", height: '70%', color: items[5].color, transform: `rotate(${items[5].tilt}deg)`}}><FaRegKeyboard size="100%" /></div>
                             <div style={{width: "30%", height: '40%'}}>
-                                <div style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '70%', height: '100%', border: '1px solid black', backgroundColor: '#444444', color: items[6].color, transform: `rotate(${items[6].tilt}deg)`}}>
-                                    <CgMouse size="70%" /></div>
+                                <div style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '70%', height: '100%', border: '1px solid black', backgroundColor: items[6].color, color: items[7].color, transform: `rotate(${items[6].tilt}deg)`}}>
+                                    <div style={{width: '70%', height: '70%', transform: `rotate(${items[7].tilt}deg)`}}><CgMouse size="100%" /></div>
                                 </div>
+                            </div>
                         </div>
                     </div>
                 </div>
