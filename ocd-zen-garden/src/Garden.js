@@ -24,6 +24,7 @@ import Desk from './Desk';
 import Meters from './Meters'
 import Eyes from './Eyes';
 import Opaque from './Opaque';
+import Diamonds from './Diamonds';
 import './Garden.css';
 import { v4 as uuidv4 } from 'uuid';
 import { GiJamesBondAperture } from 'react-icons/gi';
@@ -114,6 +115,8 @@ function Garden(){
                 return <><Header changePalette={handleChangePalette}/><Eyes width={gardenPieceWidth} className="Eyes" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
             case 'opaque':
                 return <><Header changePalette={handleChangePalette}/><Opaque width={gardenPieceWidth} className="Opaque" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
+            case 'diamonds':
+                return <><Header changePalette={handleChangePalette}/><Diamonds width={gardenPieceWidth} className="Diamonds" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
         }
     }
 
@@ -154,6 +157,7 @@ function Garden(){
                 <Meters width={gardenPieceWidth} className="Meters" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
                 <Eyes width={gardenPieceWidth} className="Eyes" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
                 <Opaque width={gardenPieceWidth} className="Opaque" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                <Diamonds width={gardenPieceWidth} className="Diamonds" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
             </div>
             </>
         )
