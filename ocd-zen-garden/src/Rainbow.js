@@ -11,9 +11,9 @@ function Rainbow(props) {
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [nextIdx, setNextIdx] = useState();
-    const [numArcs, setNumArcs] = useState(30);
+    const [numArcs, setNumArcs] = useState(7);
     const [speed, setSpeed] = useState(1000);
-    const [sound, setSound] = useState(getSound('Whoop'));
+    const [sound, setSound] = useState(getSound('Sparkle'));
 
     const soundPlay = soundObj => {
         const sound = new Howl({
@@ -30,6 +30,7 @@ function Rainbow(props) {
             startingArcArray.push({
                 id: i + 1,
                 color: getColor(i + 1, colorPalette),
+                offset: Math.random() * 25 * (i % 2 === 0 ? 1 : -1)
             })
         }
         return startingArcArray;
@@ -39,9 +40,9 @@ function Rainbow(props) {
 
     const firstUpdate = useRef(true);
     useEffect(() => {
-        if(!firstUpdate.current && nextIdx < arcs.length) {
+        if(!firstUpdate.current && nextIdx > 0) {
             setTimeout(() => {
-                unbalance(nextIdx)
+                align(nextIdx)
             }, speed)
         } else {
             firstUpdate.current = false;
@@ -75,21 +76,21 @@ function Rainbow(props) {
         
     }, [colorPalette]);
 
-    const unbalance = idx => {
-        if(idx === 0) {
+    const align = idx => {
+        if(idx === arcs.length - 1) {
             toggleIsOrganizing();
         }
         let newArcs = arcs.map(arc => {
             if(arcs[idx].id === arc.id) {
-                return {...arc, topPercent: 30}
+                return {...arc, offset: 0}
             } else {
                 return arc;
             }
         });
         soundPlay(sound);
         setArcs(newArcs);
-        setNextIdx(idx + 1);
-        if(idx + 1 === arcs.length) {
+        setNextIdx(idx - 1);
+        if(idx - 1 === 0) {
             setTimeout(() => {
                 toggleIsOrganized();
                 toggleIsOrganizing();
@@ -97,9 +98,9 @@ function Rainbow(props) {
         }
     }
 
-    const balance = () => {
+    const shift = () => {
         let newArcs = arcs.map(arc => {
-            return {...arc, topPercent: Math.random() * 100}
+            return {...arc, offset: Math.random() * 25 * ((arc.id - 2) % 2 === 0 ? 1 : -1)}
         })
         setArcs(newArcs);
         toggleIsOrganized();
@@ -136,37 +137,20 @@ function Rainbow(props) {
     }
 
     const displayArcs = (num, width) => {
-        console.log(`num: ${num}, width: ${width}, borderWidth: ${(props.width * .6) / (4 * numArcs)}`);
-        // if(num === arcs.length) {
-        //     return (
-        //         <div style={{
-        //             display: 'flex', 
-        //             alignItems: 'center', 
-        //             justifyContent: 'center', 
-        //             width: `${props.width * widthMultiplier}px`, 
-        //             height: `${props.width * widthMultiplier}px`, 
-        //             border: `${(props.width * .6) / (4 * numArcs)}px solid black`, 
-        //             // border: `${((props.width * .6) / 3) / numArcs}px solid ${arcs[num].color}`, 
-        //             borderRadius: '50%'}}
-        //         >
-        //             {/* {displayArcs(num + 1, widthMultiplier - (2 * ((props.width * .6) / 3) / numArcs))} */}
-        //             {displayArcs(num + 1, widthMultiplier - (props.width * .6) / (4 * numArcs))}
-        //         </div>
-        //     )
-        // } else if(num < arcs.length) {
+        // console.log(`num: ${num}, width: ${width}, borderWidth: ${(props.width * .6) / (4 * numArcs)}`);
         if(num < arcs.length) {
             return (
                 <div style={{
                     display: 'flex', 
+                    position: 'relative',
+                    left: `${num !== 0 ? arcs[num].offset : 0}%`,
                     alignItems: 'center', 
                     justifyContent: 'center', 
                     width: `${width}px`, 
                     height: `${width}px`, 
                     border: `${(props.width * .6) / (4 * numArcs)}px solid ${arcs[num].color}`, 
-                    // border: `${((props.width * .6) / 3) / numArcs}px solid ${arcs[num].color}`, 
                     borderRadius: '50%'}}
                 >
-                    {/* {displayArcs(num + 1, widthMultiplier - (2 * ((props.width * .6) / 3) / numArcs))} */}
                     {displayArcs(num + 1, width - (2 * (props.width * .6) / (4 * numArcs)))}
                 </div>
             )
@@ -248,6 +232,7 @@ function Rainbow(props) {
                             <div style={{position: 'relative', top: `${props.width * .02}px`, width: props.width * (.8 - .02), height: props.width * (.4 - .02), borderTop: `${props.width * .01}px solid blue`, borderLeft: `${props.width * .01}px solid blue`, borderRight: `${props.width * .01}px solid blue`, borderRadius: `${props.width * (.6 - .02)}px ${props.width * (.6 - .02)}px 0 0`}}></div>
                         </div> */}
                         <div className="wrapper" style={{display: 'flex', justifyContent: 'center', width: `100%`, height: `${props.width * .3}px`, overflow: 'hidden' }}>
+                        {/* <div className="wrapper" style={{position: 'relative', display: 'flex', justifyContent: 'center', width: `100%`, height: `${props.width * .3}px`, overflow: 'hidden' }}> */}
                             {/* <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: `${props.width * .6}px`, height: `${props.width * .6 }px`, border: `${props.width * .025}px solid red`, borderRadius: '50%'}}>
                                 <div style={{position: 'relative', right: '75px',width: `${props.width * (.6 - .05)}px`, height: `${props.width * (.6 - .05)}px`, border: `${props.width * .025}px solid orange`, borderRadius: '50%'}}>
                                     <div style={{position: 'relative', left: '5px', width: `${props.width * (.6 - .1)}px`, height: `${props.width * (.6 - .1)}px`, border: `${props.width * .025}px solid yellow`, borderRadius: '50%'}}>
@@ -264,7 +249,7 @@ function Rainbow(props) {
                     
                     {/* </div> */}
                 </div>
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumArcs} minNum={7} maxNum={15} number={numArcs} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Whoop' organizedFunction={balance} unorganizedFunction={() => unbalance(0)} unorgButton='Unbalance' orgButton='Balance' />
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumArcs} minNum={7} maxNum={15} number={numArcs} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Sparkle' organizedFunction={shift} unorganizedFunction={() => align(arcs.length - 1)} unorgButton='Shift' orgButton='Align' />
 
             </div>
         </div>
