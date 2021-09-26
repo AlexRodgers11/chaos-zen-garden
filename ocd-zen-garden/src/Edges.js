@@ -15,28 +15,6 @@ function Edges(props) {
     const [numEdges, setNumEdges] = useState(17);
     const [userJustChangedNumber, toggleUserJustChangedNumber] = useToggle(props.id === 1 ? false : props.userJustChangedNumber)
 
-    // const createStartingEdgeArray = num => {
-    //     let edges = [];
-    //     for(let i = 1; i <= num; i++) {
-    //         let edgeTable = {
-    //             0: false,
-    //             1: false,
-    //             2: false,
-    //             3: false
-    //         }
-    //         let randomNum = Math.floor(Math.random() * 4)
-    //         edgeTable[randomNum] = true;
-    //         edges.push({
-    //             // missingEdges: randomEdges[Math.ceil(Math.random() * 4)]
-    //             top: edgeTable[0] ? false: true,
-    //             right: edgeTable[1] ? false : true,
-    //             bottom: edgeTable[2] ? false : true,
-    //             left: edgeTable[3] ? false : true,
-    //         })
-    //     }
-    //     return edges;
-    // }
-    
     const createStartingEdgeArray = num => {
         let edges = [];
         for(let i = 1; i <= num; i++) {
@@ -48,25 +26,8 @@ function Edges(props) {
             }
             let randomNum = Math.floor(Math.random() * 4);
             edgeTable[randomNum] = true;
-
-            // let edgeTable = {
-            //     0: false,
-            //     1: false,
-            //     2: false,
-            //     3: false
-            // }
-            // let edgeCount = 0;
-            // while(edgeCount < 2) {
-            //     let randomNum = Math.floor(Math.random() * 4);
-            //     while(edgeTable[randomNum]) {
-            //         randomNum = Math.floor(Math.random() * 4);
-            //     }
-            //     edgeTable[randomNum] = true;
-            //     edgeCount++;
-            // } 
             
             edges.push({
-                // missingEdges: randomEdges[Math.ceil(Math.random() * 4)]
                 id: i,
                 color: getColor(i, colorPalette),
                 top: edgeTable[0] ? false: true,
@@ -136,9 +97,6 @@ function Edges(props) {
         }
         let newEdges = edges.map(edge => {
             if(edge.id === edges[idx].id) {
-                console.log('test');
-                console.log(speed);
-                console.log('_______')
                 return {
                     ...edge,
                     top: true,
@@ -201,7 +159,6 @@ function Edges(props) {
     const display = (id) => {
         if(id <= numEdges) {
             return (
-                // <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', border: `1px solid ${getColor(id, colorPalette)}`, height: `${id === 1 ? '70%' : `${70 - (70 / numEdges)}`}`, width: `${width}px`}}>{display(id + 1, width / 2)}</div>
                 <div style={{
                     margin: '0 auto',
                     position: 'relative', 
@@ -232,16 +189,6 @@ function Edges(props) {
 
             </div>
         </div>
-
-        // <div style={{'0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width}px`, height: `${props.width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
-        //     <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', width: '100%'}}>
-        //         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%'}}>
-                    
-        //         </div>
-        //     <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumEdges} minNum={4} maxNum={40} number={numEdges} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={remove} unorganizedFunction={() => complete(0)} unorgButton='Remove' orgButton='Complete' />
-        //     </div>
-        // </div>
-        
     )
 }
 
