@@ -27,6 +27,7 @@ import Opaque from './Opaque';
 import Diamonds from './Diamonds';
 import Rainbow from './Rainbow';
 import './Garden.css';
+import Asterisk from './Asterisk';
 import { v4 as uuidv4 } from 'uuid';
 import { GiJamesBondAperture } from 'react-icons/gi';
 
@@ -120,6 +121,8 @@ function Garden(){
                 return <><Header changePalette={handleChangePalette}/><Diamonds width={gardenPieceWidth} className="Diamonds" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
             case 'rainbow':
                 return <><Header changePalette={handleChangePalette}/><Rainbow width={gardenPieceWidth} className="Rainbow" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
+            case 'asterisk':
+                return <><Header changePalette={handleChangePalette}/><Asterisk width={gardenPieceWidth} className="Asterisk" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
         }
     }
 
@@ -162,6 +165,7 @@ function Garden(){
                 <Opaque width={gardenPieceWidth} className="Opaque" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
                 <Diamonds width={gardenPieceWidth} className="Diamonds" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
                 <Rainbow width={gardenPieceWidth} className="Rainbow" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                <Asterisk width={gardenPieceWidth} className="Asterisk" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
             </div>
             </>
         )
