@@ -1,6 +1,7 @@
 import React, { useState} from 'react';
 import useToggle from './hooks/useToggle';
 import Header from './Header';
+import Modal from './Modal';
 import useCurrentWidth from './hooks/useCurrentWidth';
 import { getColor, palettes, getSound } from './utils';
 import Snake from './Snake';
@@ -30,6 +31,7 @@ import './Garden.css';
 import Asterisk from './Asterisk';
 import { v4 as uuidv4 } from 'uuid';
 import { GiJamesBondAperture } from 'react-icons/gi';
+
 
 function Garden(){
     let width = useCurrentWidth();
@@ -166,6 +168,7 @@ function Garden(){
                 <Diamonds width={gardenPieceWidth} className="Diamonds" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
                 <Rainbow width={gardenPieceWidth} className="Rainbow" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
                 <Asterisk width={gardenPieceWidth} className="Asterisk" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                <Modal hidden={false}><Asterisk width={gardenPieceWidth} className="Asterisk" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></Modal>
             </div>
             </>
         )
