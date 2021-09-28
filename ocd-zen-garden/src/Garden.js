@@ -40,6 +40,8 @@ function Garden(){
     const [numRings, setNumRings] = useState(10)
     const [bullsEyeShape, setBullsEyeShape] = useState('circle')
     const [fullSelectedPiece, setFullSelectedPiece] = useState(null);
+    const [hideModal, toggleHideModal] = useToggle(false);
+    const [modalContent, setModalContent] = useState('epilepsy-warning');
 
     const handleChangePalette = palette => {
         setColorPalette(palette);
@@ -127,6 +129,21 @@ function Garden(){
                 return <><Header changePalette={handleChangePalette}/><Asterisk width={gardenPieceWidth} className="Asterisk" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
         }
     }
+    const displayModalContent = content => {
+        switch(content) {
+            case 'epilepsy-warning':
+                return (<div>
+                    <p>WARNING: PHOTOSENSITIVITY/EPILEPSY SEIZURES</p>
+                    <p>If you, or anyone in your family has an epileptic condition or has had seizures of any kind, consult your physician before using this website. IMMEDIATELY DISCONTINUE use and consult your physician before resuming use of this website.</p>
+                </div>)
+            case 'monochrome': 
+                return (<div>Monochrome</div>)
+            case 'custom-colors':
+                return (<div>CustomColors</div>)
+            case 'new-user':
+                return (<div>New User</div>)
+        }
+    }
 
     if(!fullSelectedPiece) {
         let gardenPieceWidth;
@@ -168,7 +185,9 @@ function Garden(){
                 <Diamonds width={gardenPieceWidth} className="Diamonds" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
                 <Rainbow width={gardenPieceWidth} className="Rainbow" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
                 <Asterisk width={gardenPieceWidth} className="Asterisk" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
-                <Modal hidden={false}><Asterisk width={gardenPieceWidth} className="Asterisk" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></Modal>
+                <Modal toggleHideModal={toggleHideModal} hidden={hideModal}>
+                    {displayModalContent(modalContent)}
+                </Modal>
             </div>
             </>
         )

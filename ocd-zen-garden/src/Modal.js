@@ -3,7 +3,9 @@ import useToggle from './hooks/useToggle';
 
 // function Modal(props, {children}) {
 function Modal(props) {
-    const [hidden, toggleHidden] = useToggle(props.hidden);
+    const handleToggleHideModal = () => {
+        props.toggleHideModal()
+    }
 
     return (
         <div style={{
@@ -11,7 +13,7 @@ function Modal(props) {
             textAlign: 'center',
             width: '100%',
             height: '100vh',
-            display: `${hidden ? 'none' : 'flex'}`,
+            display: `${props.hidden ? 'none' : 'flex'}`,
             alignItems: 'center',
             justifyContent: 'center',
             backgroundColor: 'rgba(0, 0, 0, .90)',
@@ -25,7 +27,7 @@ function Modal(props) {
             }}>
                 <div style={{display: 'flex', width: '100%', height: '5%', justifyContent: 'end'}}>
                     {/* <button onClick={toggleHidden}>Close</button>                     */}
-                    <button onClick={toggleHidden}>Close</button>                    
+                    <button onClick={handleToggleHideModal}>Close</button>                    
                 </div>
                 <div style={{zIndex: 1500, width: '50%', height: '50%', backgroundColor: 'blue'}}>
                     {props.children}
