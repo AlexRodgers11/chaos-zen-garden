@@ -143,8 +143,8 @@ function ControlBar(props) {
                                 {palettes.map(palette => {
                                     return <p onClick={() => handlePaletteChange(palette)}>{palette}</p>
                                 })}
-                                <p style={{alignItems: 'center'}}>Monochrome</p>
-                                <p><p style={{display: 'flex', alignItems: 'center'}}>Custom<BsLockFill /></p></p>
+                                <p style={{alignItems: 'center'}} onClick={() => {props.setModalContent('monochrome')}}>Monochrome</p>
+                                <p><p style={{display: 'flex', alignItems: 'center'}} onClick={() => {props.setModalContent('custom-palette')}} >Custom<BsLockFill /></p></p>
                             </div>
                             <div style={{height: '1.8em', opacity: .5, backgroundColor: 'black'}}></div>    
                         </div>
