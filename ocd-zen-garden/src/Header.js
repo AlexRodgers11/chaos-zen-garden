@@ -23,6 +23,10 @@ function Header(props){
         setShowDropdown({...showDropdown, [group]: !showDropdown[group]});
     }
 
+    const handleSetModalContent = () => {
+        props.setModalContent('new-user');
+    }
+
     return(
         <div className="Header" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'fixed', width: '100%', height:'45px', backgroundColor: '#303030', fontFamily: 'Arial Narrow, sans-serif', fontWeight: '600', fontSize: '1.85em', borderBottom: '1.7px solid #000', zIndex: 300}}>
             <div>
@@ -75,7 +79,7 @@ function Header(props){
                     </div>
 
                     <div className='Header_dropdown-content'>
-                        <p>Create Account</p>
+                        <p onClick={handleSetModalContent}>Create Account</p>
                         <p>Log In</p>
 
                     </div>

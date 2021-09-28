@@ -162,7 +162,7 @@ function Garden(){
 
         return (
             <>
-            <Header changePalette={handleChangePalette}/>
+            <Header changePalette={handleChangePalette} setModalContent={handleSetModalContent}/>
             <div className="Garden">
                 <Snake width={gardenPieceWidth} className="Snake" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
                 <Dots width={gardenPieceWidth} className="Dots" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
