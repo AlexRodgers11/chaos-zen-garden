@@ -18,7 +18,7 @@ function Modal(props) {
             justifyContent: 'center',
             backgroundColor: 'rgba(0, 0, 0, .90)',
             zIndex: 1000
-        }}>
+        }} onClick={handleToggleHideModal}>
             <div style={{
                 width: '40%',
                 height: '80%',
@@ -26,10 +26,9 @@ function Modal(props) {
                 backgroundColor: 'yellow'
             }}>
                 <div style={{display: 'flex', width: '100%', height: '5%', justifyContent: 'end'}}>
-                    {/* <button onClick={toggleHidden}>Close</button>                     */}
-                    <button onClick={handleToggleHideModal}>Close</button>                    
+                    <button style={{cursor: 'pointer'}} onClick={handleToggleHideModal}>Close</button>                    
                 </div>
-                <div style={{zIndex: 1500, width: '50%', height: '50%', backgroundColor: 'blue'}}>
+                <div style={{width: '50%', height: '50%', backgroundColor: 'blue'}}>
                     {props.children}
                 </div>
             </div>

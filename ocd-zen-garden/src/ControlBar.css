@@ -77,6 +77,10 @@
     cursor: pointer;
   }
 
+  .ControlBar_popup-content input:hover {
+    cursor: pointer;
+  }
+
   .ControlBar button:disabled {
     opacity: .8;
     background-color: 'black';
