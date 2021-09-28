@@ -2,6 +2,7 @@ import React, { useState} from 'react';
 import useToggle from './hooks/useToggle';
 import Header from './Header';
 import Modal from './Modal';
+import NewUserForm from './NewUserForm';
 import useCurrentWidth from './hooks/useCurrentWidth';
 import { getColor, palettes, getSound } from './utils';
 import Snake from './Snake';
@@ -144,7 +145,7 @@ function Garden(){
             case 'custom-palette':
                 return (<div>CustomPalette</div>)
             case 'new-user':
-                return (<div>New User</div>)
+                return (<NewUserForm />)
         }
     }
 
