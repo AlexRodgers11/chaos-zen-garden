@@ -23,8 +23,8 @@ function Header(props){
         setShowDropdown({...showDropdown, [group]: !showDropdown[group]});
     }
 
-    const handleSetModalContent = () => {
-        props.setModalContent('new-user');
+    const handleSetModalContent = evt => {
+        props.setModalContent(evt.target.id);
     }
 
     return(
@@ -79,8 +79,8 @@ function Header(props){
                     </div>
 
                     <div className='Header_dropdown-content'>
-                        <p onClick={handleSetModalContent}>Create Account</p>
-                        <p>Log In</p>
+                        <p id="new-user" onClick={handleSetModalContent}>Create Account</p>
+                        <p id="login" onClick={handleSetModalContent}>Log In</p>
 
                     </div>
                 </div>
