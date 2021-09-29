@@ -16,14 +16,16 @@ function Modal(props) {
             display: `${props.hidden ? 'none' : 'flex'}`,
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: 'rgba(0, 0, 0, .90)',
-            zIndex: 1000
-        }} onClick={handleToggleHideModal}>
+            
+        }}>
+            <div style={{width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, .90)', zIndex: '10000'}} onClick={handleToggleHideModal}></div>
             <div style={{
+                position: 'fixed',
                 width: '40%',
                 height: '80%',
                 border: '1px solid black',
-                backgroundColor: 'yellow'
+                backgroundColor: 'yellow',
+                zIndex: '10001'
             }}>
                 <div style={{display: 'flex', width: '100%', height: '5%', justifyContent: 'end'}}>
                     <button style={{cursor: 'pointer'}} onClick={handleToggleHideModal}>Close</button>                    
