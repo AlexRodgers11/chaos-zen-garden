@@ -4,6 +4,7 @@ import Header from './Header';
 import Modal from './Modal';
 import NewUserForm from './NewUserForm';
 import LoginForm from './LoginForm';
+import ColorForm from './ColorForm';
 import useCurrentWidth from './hooks/useCurrentWidth';
 import { getColor, palettes, getSound } from './utils';
 import Snake from './Snake';
@@ -142,7 +143,7 @@ function Garden(){
                     <p>If you, or anyone in your family has an epileptic condition or has had seizures of any kind, consult your physician before using this website. IMMEDIATELY DISCONTINUE use and consult your physician before resuming use of this website.</p>
                 </div>)
             case 'monochrome': 
-                return (<div>Monochrome</div>);
+                return (<ColorForm colorCount={1}/>);
             case 'custom-palette':
                 return (<div>CustomPalette</div>);
             case 'new-user':
