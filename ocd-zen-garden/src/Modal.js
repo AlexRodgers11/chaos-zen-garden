@@ -16,7 +16,7 @@ function Modal(props) {
             display: `${props.hidden ? 'none' : 'flex'}`,
             alignItems: 'center',
             justifyContent: 'center',
-            
+            zIndex: '999'
         }}>
             <div style={{width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, .90)', zIndex: '10000'}} onClick={handleToggleHideModal}></div>
             <div style={{
