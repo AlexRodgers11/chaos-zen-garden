@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import useToggle from './hooks/useToggle';
+import { v4 as uuidv4 } from 'uuid';
 import { getColor, getSound } from './utils';
 import ControlBar from './ControlBar';
 import { Howl } from 'howler';
@@ -19,7 +20,8 @@ function Antlers(props) {
             horns.push({
                 id: i, 
                 color: getColor(i, colorPalette),
-                side: Math.random() > .5 ? 'top' : 'bottom'
+                side: Math.random() > .5 ? 'top' : 'bottom',
+                key: uuidv4()
             })
         }
         return horns
@@ -168,12 +170,13 @@ function Antlers(props) {
                 <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', height: '100%'}}>
                     <div>
                         {displayHorns().map((hornLine, lineIdx) => {
+                            let lineKey = uuidv4()
                             return (
-                                <div className="outer" style={{padding: '0', height: `${(Math.floor(props.width * .65 / numRows))}px`}}>
+                                <div key={lineKey} className="outer" style={{padding: '0', height: `${(Math.floor(props.width * .65 / numRows))}px`}}>
                                     <div style={{margin: '0', height: `${(Math.floor(props.width* .65 / numRows) / 2) - 1}px`}}>
                                         {hornLine.map(horn => {
                                             return (
-                                                <><div style={{boxSizing:'border-box', display:'inline-block', backgroundColor: `${horn.side === 'top' ? horn.color : 'transparent'}`, borderRight: `${horn.side === 'top' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`,  borderLeft: `${horn.side === 'top' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`,  borderTop: `${horn.side === 'top' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`, width: `${props.width * .6 / (numRows * 4)}px`, height: `${(Math.floor(props.width * .65 / numRows) / 2) - 1}px`, marginBottom: '0'}}></div><div style={{display:'inline-block', width: `${props.width * .6 / (numRows * 4)}px`, height: `${(Math.floor(props.width * .65 / numRows) / 2) - 1}px`, marginBottom: '0'}}></div></>
+                                                <><div key={horn.key} style={{boxSizing:'border-box', display:'inline-block', backgroundColor: `${horn.side === 'top' ? horn.color : 'transparent'}`, borderRight: `${horn.side === 'top' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`,  borderLeft: `${horn.side === 'top' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`,  borderTop: `${horn.side === 'top' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`, width: `${props.width * .6 / (numRows * 4)}px`, height: `${(Math.floor(props.width * .65 / numRows) / 2) - 1}px`, marginBottom: '0'}}></div><div style={{display:'inline-block', width: `${props.width * .6 / (numRows * 4)}px`, height: `${(Math.floor(props.width * .65 / numRows) / 2) - 1}px`, marginBottom: '0'}}></div></>
                                             )
                                         })}
                                     </div>
@@ -181,7 +184,7 @@ function Antlers(props) {
                                     <div style={{margin: '0', height: `${(Math.floor(props.width * .65 / numRows) / 2) - 1}px`}}>
                                         {hornLine.map(horn => {
                                             return (
-                                                <><div style={{boxSizing:'border-box', display:'inline-block', backgroundColor: `${horn.side === 'bottom' ? horn.color : 'transparent'}`, borderRight: `${horn.side === 'bottom' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`,  borderLeft: `${horn.side === 'bottom' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`,  borderBottom: `${horn.side === 'bottom' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`, width: `${props.width * .6 / (numRows * 4)}px`, height: `${(Math.floor(props.width * .65 / numRows) / 2) - 1}px`, marginBottom: '0'}}></div><div style={{display:'inline-block', width: `${props.width * .6 / (numRows * 4)}px`, height: `${(Math.floor(props.width * .65 / numRows) / 2) - 1}px`, marginBottom: '0'}}></div></>
+                                                <><div key={horn.key} style={{boxSizing:'border-box', display:'inline-block', backgroundColor: `${horn.side === 'bottom' ? horn.color : 'transparent'}`, borderRight: `${horn.side === 'bottom' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`,  borderLeft: `${horn.side === 'bottom' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`,  borderBottom: `${horn.side === 'bottom' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`, width: `${props.width * .6 / (numRows * 4)}px`, height: `${(Math.floor(props.width * .65 / numRows) / 2) - 1}px`, marginBottom: '0'}}></div><div style={{display:'inline-block', width: `${props.width * .6 / (numRows * 4)}px`, height: `${(Math.floor(props.width * .65 / numRows) / 2) - 1}px`, marginBottom: '0'}}></div></>
 
                                             )
                                         })}

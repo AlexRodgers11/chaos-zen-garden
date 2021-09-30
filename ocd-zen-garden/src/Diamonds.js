@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import useToggle from './hooks/useToggle';
+import { v4 as uuidv4 } from 'uuid';
 import { getColor, getSound } from './utils';
 import ControlBar from './ControlBar';
 import { Howl } from 'howler';
@@ -165,8 +166,10 @@ function Diamonds(props) {
                 <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%'}}>
                 <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '60%', height: '60%', transform: 'rotate(45deg)'}}>
                     {displaySquares().map(squareLine => {
-                        return <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{squareLine.map(square => {
-                            return <div style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', backgroundColor:`${square.color}`, width: `${props.width * .60 * (1 / (numRows + 2))}px`, height: `${props.width * .60 * (1 / (numRows + 2))}px`, margin: 'none'}}>
+                        let lineKey = uuidv4()
+                        return <div key={lineKey} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{squareLine.map(square => {
+                            let squareKey = uuidv4()
+                            return <div let key={squareKey} style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', backgroundColor:`${square.color}`, width: `${props.width * .60 * (1 / (numRows + 2))}px`, height: `${props.width * .60 * (1 / (numRows + 2))}px`, margin: 'none'}}>
                                         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: getColor('border', colorPalette), width: `${props.width * square.squareOneSize * (1 / (numRows + 2))}px`, height: `${props.width * square.squareOneSize * (1 / (numRows + 2))}px`, margin: 'none'}}>
                                             <div style={{backgroundColor: square.color, width: `${props.width * square.squareTwoSize * (1 / (numRows + 2))}px`, height: `${props.width * square.squareTwoSize * (1 / (numRows + 2))}px`, margin: 'none'}}></div>
                                         </div>

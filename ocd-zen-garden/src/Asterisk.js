@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import useToggle from './hooks/useToggle';
+import { v4 as uuidv4 } from 'uuid';
 import { getColor, getSound } from './utils';
 import ControlBar from './ControlBar';
 import { Howl } from 'howler';
@@ -150,8 +151,9 @@ function Asterisk(props) {
                 <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%'}}>
                     <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%'}}>
                         {lines.map(line => {
+                            let lineKey = uuidv4()
                             return (
-                                <div style={{zIndex: `${line.id === 1 ? 1 : 0}`,position: 'absolute', width: `${(.65 * props.width) / (3 * numLines)}px`, height: `${.65 * props.width}px`, backgroundColor: line.color, border: `1px solid ${getColor('border', colorPalette)}`, transform: `rotate(${(360 / (numLines * 2)) * (line.id - 1) + line.offset}deg)`}}></div>
+                                <div key={lineKey} style={{zIndex: `${line.id === 1 ? 1 : 0}`,position: 'absolute', width: `${(.65 * props.width) / (3 * numLines)}px`, height: `${.65 * props.width}px`, backgroundColor: line.color, border: `1px solid ${getColor('border', colorPalette)}`, transform: `rotate(${(360 / (numLines * 2)) * (line.id - 1) + line.offset}deg)`}}></div>
                             )
                         })}
                     </div>

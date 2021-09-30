@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import useToggle from './hooks/useToggle';
 import { palettes, sounds, getColor } from './utils';
+import { v4 as uuidv4 } from 'uuid';
 import { FaExpandAlt, FaVolumeMute, FaVolumeUp, FaShapes } from 'react-icons/fa/';
 import { GrContract } from 'react-icons/gr/';
 import { GiConsoleController, GiHamburgerMenu, GiRabbit, GiTortoise } from 'react-icons/gi/';
@@ -141,7 +142,8 @@ function ControlBar(props) {
                         <div className='ControlBar_popup-content'>
                             <div style={{boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)'}}>
                                 {palettes.map(palette => {
-                                    return <p onClick={() => handlePaletteChange(palette)}>{palette}</p>
+                                    let key = uuidv4();
+                                    return <p key={key} onClick={() => handlePaletteChange(palette)}>{palette}</p>
                                 })}
                                 <p style={{alignItems: 'center'}} onClick={() => {props.setModalContent('monochrome')}}>Monochrome</p>
                                 <p><p style={{display: 'flex', alignItems: 'center'}} onClick={() => {props.setModalContent('custom-palette')}} >Custom<BsLockFill /></p></p>
@@ -187,7 +189,8 @@ function ControlBar(props) {
                             </div> */}
                             <div style={{boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)'}}>
                                 {sounds.map(sound => {
-                                    return <p onClick={() => handleSoundChange(sound)} >{sound}</p>
+                                    let key = uuidv4();
+                                    return <p key={key} onClick={() => handleSoundChange(sound)} >{sound}</p>
                                 })}
                             </div>
                             <div style={{height: '1.8em', opacity: 0.5, backgroundColor: 'black'}}></div>
@@ -233,7 +236,8 @@ function ControlBar(props) {
                             {/* <div className='ControlBar_dropdown-content'> */}
                                 <div style={{boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)'}}>
                                     {displayNumberOptions(props.minNum, props.maxNum).map(num => {
-                                        return <p onClick={() => handleNumberChange(num)}>{num}</p>
+                                        let key= uuidv4();
+                                        return <p key={key} onClick={() => handleNumberChange(num)}>{num}</p>
                                         // return <p style={{backgroundColor: '#f9f9f9'}} onClick={() => handleNumberChange(num)}>{num}</p>
                                     })}
                                 </div>
@@ -266,7 +270,8 @@ function ControlBar(props) {
                             <div className='ControlBar_popup-content'>
                                 <div style={{boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)'}}>
                                     {props.shapes.map(shape => {
-                                        return <p onClick={() => handleShapeChange(shape)}>{shape}</p>
+                                        let key=uuidv4();
+                                        return <p key={key} onClick={() => handleShapeChange(shape)}>{shape}</p>
                                     })}
                                 </div>
                                 <div style={{height: '1.8em', opacity: 0.5, backgroundColor: 'black', padding: 0}}></div>

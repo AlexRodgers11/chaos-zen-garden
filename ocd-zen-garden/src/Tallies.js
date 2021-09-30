@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import useToggle from './hooks/useToggle';
+import { v4 as uuidv4 } from 'uuid';
 import { getColor, getSound } from './utils';
 import ControlBar from './ControlBar';
 import { Howl } from 'howler';
@@ -206,9 +207,11 @@ function Tallies(props) {
                 <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', height: '100%'}}>
                     <div>
                         {displayTallies().map(tallyLine => {
-                            return <div>{tallyLine.map(tally => {
+                            let lineKey = uuidv4()
+                            return <div key={lineKey}>{tallyLine.map(tally => {
+                                let tallyKey = uuidv4()
                                 // return <div style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center', backgroundColor:`${tally.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${props.width * .70 * (1 / (numRows + 2))}px`, height: `${props.width * .70 * (1 / (numRows + 2))}px`, margin: `${(props.width * .70 * (1 / (numRows + 2)) / (numRows + 2))}px`}}>
-                                return <div style={{position: 'relative', display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width: `${props.width * .70 * (1 / (numRows + 2))}px`, height: `${props.width * .70 * (1 / (numRows + 2))}px`, margin: `${(props.width * .70 * (1 / (numRows + 2)) / (numRows + 2))}px`}}>
+                                return <div key={tallyKey} style={{position: 'relative', display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width: `${props.width * .70 * (1 / (numRows + 2))}px`, height: `${props.width * .70 * (1 / (numRows + 2))}px`, margin: `${(props.width * .70 * (1 / (numRows + 2)) / (numRows + 2))}px`}}>
                                     {/* {tally.marks.map(mark => {
                                         return <span mark>t</span>
                                     })} */}

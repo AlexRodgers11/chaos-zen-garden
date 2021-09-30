@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 class ColorForm extends Component {
     constructor(props) {
@@ -61,7 +62,7 @@ class ColorForm extends Component {
                         {/* {Array(this.state.colorCount).fill(null).map((color, idx) => { */}
                         {this.state.countArr.map((color, idx) => {
                             return (
-                                <div>
+                                <div key={uuidv4()}>
                                     <label className="form-label" htmlFor={`${idx + 1}`}>Select a color</label>
                                     <input type="color" value={this.state[idx + 1]} className="form-control" id ={`${idx + 1}`} name={`${idx + 1}`} onChange={this.handleChange}/>
                                 </div>
