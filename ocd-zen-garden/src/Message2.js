@@ -17,7 +17,7 @@ function Message2(props){
         const sound = new Howl({
             src: soundObj.src,
             sprite: soundObj.sprite,
-            volume: props.volume * .01
+            volume: props.volume * .01,
         });
         sound.play(soundObj.spriteName);
     }
@@ -40,9 +40,11 @@ function Message2(props){
                 letters[a].color =  getColor(index, colorPalette);
                 letters[a].font = fonts[Math.floor(Math.random() * fonts.length)]
                 index++;
+                letters[a].key = uuidv4()
             } else {
                 letters[a].id = null;
                 letters[a].color = null;
+                letters[a].key = uuidv4()
             }
         }
         return letters;
@@ -192,8 +194,7 @@ function Message2(props){
             let wordKey = uuidv4();
             return <span key={wordKey} style={{display: 'inline-block'}}>
                 {word.map(letter => {
-                    let letterKey = uuidv4();
-                    return <span key={letterKey} style={{display: 'inline-block', fontWeight:'500', textShadow: `-1px 1px ${getColor('border', colorPalette)}, 1px 1px 0 ${getColor('border', colorPalette)}, 1px -1px 0 ${getColor('border', colorPalette)}, -1px -1px 0 ${getColor('border', colorPalette)}`, margin: '1rem', fontFamily: letter.font, fontSize: `${fontSize}px`, color: `${letter.color}`}}>{letter.letter}</span>
+                    return <span key={letter.key} style={{display: 'inline-block', fontWeight:'500', textShadow: `-1px 1px ${getColor('border', colorPalette)}, 1px 1px 0 ${getColor('border', colorPalette)}, 1px -1px 0 ${getColor('border', colorPalette)}, -1px -1px 0 ${getColor('border', colorPalette)}`, margin: '1rem', fontFamily: letter.font, fontSize: `${fontSize}px`, color: `${letter.color}`}}>{letter.letter}</span>
                 })}
             </span>
         })

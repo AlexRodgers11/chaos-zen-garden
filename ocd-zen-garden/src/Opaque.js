@@ -21,7 +21,8 @@ function Opaque(props) {
             squares.push({
                 id: i, 
                 color: getColor(i, colorPalette),
-                opacity: .05 + Math.random() * .9
+                opacity: .05 + Math.random() * .9,
+                key: uuidv4()
             })
         }
         return squares
@@ -166,7 +167,7 @@ function Opaque(props) {
                         let lineKey = uuidv4()
                         return <div key={lineKey} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{squareLine.map(square => {
                             let squareKey = uuidv4()
-                            return <div key={squareKey} style={{display: 'inline-block', alignItems: 'center', justifyContent: 'center', backgroundColor:`${square.color}`, width: `${props.width * .70 * (1 / (numRows + 2))}px`, height: `${props.width * .70 * (1 / (numRows + 2))}px`, margin: 'none', opacity: square.opacity}}></div>
+                            return <div key={square.key} style={{display: 'inline-block', alignItems: 'center', justifyContent: 'center', backgroundColor:`${square.color}`, width: `${props.width * .70 * (1 / (numRows + 2))}px`, height: `${props.width * .70 * (1 / (numRows + 2))}px`, margin: 'none', opacity: square.opacity}}></div>
                         })}</div>
                     })}
                 </div>

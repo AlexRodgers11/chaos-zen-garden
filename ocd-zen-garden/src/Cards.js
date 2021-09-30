@@ -21,7 +21,8 @@ function Cards(props) {
             cards.push({
                 id: i, 
                 color: getColor(i, colorPalette),
-                offset: Math.random() * 20 * (i <= num ? 1 : -1)
+                offset: Math.random() * 20 * (i <= num ? 1 : -1),
+                key: uuidv4()
             })
         }
         return cards
@@ -164,11 +165,10 @@ function Cards(props) {
                         {displayCards().map(cardLine => {
                             let lineKey = uuidv4()
                             return <div key={lineKey} style={{position: 'relative', margin: '7% 0', paddingLeft: `${((cards.length / 2) - 1) * (.8 * props.width * .70 * (1 / (numCards + 2)))}px`}}>{cardLine.map(card => {
-                                let cardKey = uuidv4()
                             // return <div style={{position: 'relative', margin: '7% 0'}}>{cardLine.map(card => {
                             // return <div style={{position: 'relative', margin: '7% 0', width: `${(numCards + 1) * props.width * .70 * (1 / (numCards + 2))}px`}}>{cardLine.map(card => {
                                 // return <div style={{position: 'relative', zIndex: card.id, right: `${card.id - (cards.length / 2) <= 0 ? (card.id - 1) * 10 : (card.id - (cards.length / 2) - 1) * 10}px`, display: 'inline-block', backgroundColor:`${card.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${props.width * .70 * (1 / (numCards + 2))}px`, height: `${1.5 * props.width * .70 * (1 / (numCards + 2))}px`, top: card.offset}}></div>
-                                return <div key={cardKey} style={{position: 'relative', zIndex: card.id,  right: `${card.id - (cards.length / 2) <= 0 ? (card.id - 1) * (.8 * props.width * .70 * (1 / (numCards + 2))) : (card.id - (cards.length / 2) - 1) * (.8 * props.width * .70 * (1 / (numCards + 2)))}px`, display: 'inline-block', backgroundColor:`${card.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${props.width * .70 * (1 / (numCards + 2))}px`, height: `${1.5 * props.width * .70 * (1 / (numCards + 2))}px`, top: card.offset}}></div>
+                                return <div key={card.key} style={{position: 'relative', zIndex: card.id,  right: `${card.id - (cards.length / 2) <= 0 ? (card.id - 1) * (.8 * props.width * .70 * (1 / (numCards + 2))) : (card.id - (cards.length / 2) - 1) * (.8 * props.width * .70 * (1 / (numCards + 2)))}px`, display: 'inline-block', backgroundColor:`${card.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${props.width * .70 * (1 / (numCards + 2))}px`, height: `${1.5 * props.width * .70 * (1 / (numCards + 2))}px`, top: card.offset}}></div>
                                 // return <div style={{position: 'relative', textAlign: 'left', zIndex: card.id,  display: 'inline-block', backgroundColor:`${card.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${props.width * .70 * (1 / (numCards + 2))}px`, height: `${1.5 * props.width * .70 * (1 / (numCards + 2))}px`, top: card.offset}}></div>
                             })}</div>
                         })}

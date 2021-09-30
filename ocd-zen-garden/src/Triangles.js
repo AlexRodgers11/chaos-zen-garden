@@ -24,7 +24,8 @@ function Triangles(props) {
                 id: i, 
                 color: getColor(i, colorPalette),
                 left: side === 'left' ? random : remainder,
-                right: side === 'right' ? random : remainder
+                right: side === 'right' ? random : remainder,
+                key: uuidv4()
             })
         }
         return triangles
@@ -164,8 +165,7 @@ function Triangles(props) {
                             let lineKey = uuidv4()
                             return <div key={lineKey} style={{height: `${props.width / (numRows * 1.4)}px`, width: `${props.width}px`}}>{triangleLine.map(triangle => {
                                 let bottom = props.width / (numRows * 1.80)
-                                let triangleKey = uuidv4()
-                                return <div key={triangleKey} style={{display: 'inline-block', borderBottom: `${bottom + 1.5}px solid ${getColor('border', colorPalette)}`, borderLeft: `${triangle.left * bottom + 1.5}px solid transparent`, borderRight: `${triangle.right * bottom + 1.5}px solid transparent`, height: '0', width: '0', margin: `${props.width * (1 / 81)}px`}}><div style={{position: 'relative', display: 'inline-block', borderBottom: `${bottom}px solid ${triangle.color}`, borderLeft: `${triangle.left * bottom}px solid transparent`, borderRight: `${triangle.right * bottom}px solid transparent`, height: '0', width: '0', right:`${triangle.left * bottom}px`, top:'.75px'}}></div></div>
+                                return <div key={triangle.key} style={{display: 'inline-block', borderBottom: `${bottom + 1.5}px solid ${getColor('border', colorPalette)}`, borderLeft: `${triangle.left * bottom + 1.5}px solid transparent`, borderRight: `${triangle.right * bottom + 1.5}px solid transparent`, height: '0', width: '0', margin: `${props.width * (1 / 81)}px`}}><div style={{position: 'relative', display: 'inline-block', borderBottom: `${bottom}px solid ${triangle.color}`, borderLeft: `${triangle.left * bottom}px solid transparent`, borderRight: `${triangle.right * bottom}px solid transparent`, height: '0', width: '0', right:`${triangle.left * bottom}px`, top:'.75px'}}></div></div>
                             })}</div>
                         })}
                     </div>

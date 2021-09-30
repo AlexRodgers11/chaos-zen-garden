@@ -28,7 +28,8 @@ function Tallies(props) {
                     3: randomNum > 2,
                     4: randomNum > 3,
                     5: randomNum > 4,
-                }
+                },
+                key: uuidv4()
             })
         }
         return tallies
@@ -209,9 +210,8 @@ function Tallies(props) {
                         {displayTallies().map(tallyLine => {
                             let lineKey = uuidv4()
                             return <div key={lineKey}>{tallyLine.map(tally => {
-                                let tallyKey = uuidv4()
                                 // return <div style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center', backgroundColor:`${tally.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${props.width * .70 * (1 / (numRows + 2))}px`, height: `${props.width * .70 * (1 / (numRows + 2))}px`, margin: `${(props.width * .70 * (1 / (numRows + 2)) / (numRows + 2))}px`}}>
-                                return <div key={tallyKey} style={{position: 'relative', display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width: `${props.width * .70 * (1 / (numRows + 2))}px`, height: `${props.width * .70 * (1 / (numRows + 2))}px`, margin: `${(props.width * .70 * (1 / (numRows + 2)) / (numRows + 2))}px`}}>
+                                return <div key={tally.key} style={{position: 'relative', display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width: `${props.width * .70 * (1 / (numRows + 2))}px`, height: `${props.width * .70 * (1 / (numRows + 2))}px`, margin: `${(props.width * .70 * (1 / (numRows + 2)) / (numRows + 2))}px`}}>
                                     {/* {tally.marks.map(mark => {
                                         return <span mark>t</span>
                                     })} */}

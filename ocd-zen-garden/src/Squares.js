@@ -24,6 +24,7 @@ function Squares(props) {
                 topRight: Math.random() * 15,
                 bottomLeft: Math.random() * 15,
                 bottomRight: Math.random() * 15,
+                key: uuidv4()
             })
         }
         return squares
@@ -168,9 +169,8 @@ function Squares(props) {
                         {displaySquares().map(squareLine => {
                             let lineKey = uuidv4()
                             return <div key={lineKey}>{squareLine.map(square => {
-                                let squareKey = uuidv4()
                                 // return <div style={{display: 'inline-block', backgroundColor:`${square.color}`, border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: `${square.topLeft}% ${square.topRight}% ${square.bottomRight}% ${square.bottomLeft}%`, width: `${props.width * (1 / 9)}px`, height: `${props.width * (1 / 9)}px`, margin: `${props.width * (1 / 81)}px`}}></div>
-                                return <div key={squareKey} style={{display: 'inline-block', backgroundColor:`${square.color}`, border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: `${square.topLeft}% ${square.topRight}% ${square.bottomRight}% ${square.bottomLeft}%`, width: `${props.width * .70 * (1 / (numRows + 2))}px`, height: `${props.width * .70 * (1 / (numRows + 2))}px`, margin: `${(props.width * .70 * (1 / (numRows + 2)) / (numRows + 2))}px`}}></div>
+                                return <div key={square.key} style={{display: 'inline-block', backgroundColor:`${square.color}`, border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: `${square.topLeft}% ${square.topRight}% ${square.bottomRight}% ${square.bottomLeft}%`, width: `${props.width * .70 * (1 / (numRows + 2))}px`, height: `${props.width * .70 * (1 / (numRows + 2))}px`, margin: `${(props.width * .70 * (1 / (numRows + 2)) / (numRows + 2))}px`}}></div>
                             })}</div>
                         })}
                     </div>

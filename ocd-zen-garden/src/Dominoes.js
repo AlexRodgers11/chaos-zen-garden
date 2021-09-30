@@ -37,7 +37,8 @@ function Dominoes(props) {
             startingLineArray.push({
                 id: i + 1,
                 tilt: generateTilt(),
-                color: getColor(i + 1, colorPalette)
+                color: getColor(i + 1, colorPalette),
+                key: uuidv4()
             })
         }
         return startingLineArray;
@@ -149,8 +150,7 @@ function Dominoes(props) {
                 <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', height: '100%'}}>
                     <div>
                         {lines.map(line => {
-                            let lineKey = uuidv4();
-                            return <span key={lineKey} style={{display: 'inline-block', width: `${props.width * .65 / ((numLines * 3) + 1.5)}px`, border: `.75px solid ${getColor('border', colorPalette)}`, height: .55 * props.width, margin: `${props.width * .65 * 1.35 / ((numLines * 3) + 1.5)}px`, transform: `rotate(${line.tilt})`, backgroundColor: `${line.color}` }}></span>
+                            return <span key={line.key} style={{display: 'inline-block', width: `${props.width * .65 / ((numLines * 3) + 1.5)}px`, border: `.75px solid ${getColor('border', colorPalette)}`, height: .55 * props.width, margin: `${props.width * .65 * 1.35 / ((numLines * 3) + 1.5)}px`, transform: `rotate(${line.tilt})`, backgroundColor: `${line.color}` }}></span>
                         })}
                     </div>
                 </div>

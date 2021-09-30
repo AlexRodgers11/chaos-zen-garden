@@ -44,11 +44,13 @@ function Message(props){
                 letters[a].id = index;
                 letters[a].tilt = generateTilt();
                 letters[a].color =  getColor(index, colorPalette);
+                letters[a].key = uuidv4();
                 index++;
             } else {
                 letters[a].id = null;
                 letters[a].tilt = `0px`;
                 letters[a].color = null;
+                letters[a].key = uuidv4();
             }
         }
         return letters;
@@ -197,9 +199,8 @@ function Message(props){
             let wordKey = uuidv4();
             return <span key={wordKey} style={{display: 'inline-block'}}>
                 {word.map(letter => {
-                    let letterKey = uuidv4();
                     // return <span key={letterKey} style={{display: 'inline-block', fontWeight:'500', textShadow: `-1px 1px ${getColor('border', colorPalette)}, 1px 1px 0 ${getColor('border', colorPalette)}, 1px -1px 0 ${getColor('border', colorPalette)}, -1px -1px 0 ${getColor('border', colorPalette)}`, margin: '1rem', fontSize: `${props.width * .055}px`, transform: `rotate(${letter.tilt})`, color: `${letter.color}`}}>{letter.letter}</span>
-                    return <span key={letterKey} style={{display: 'inline-block', fontWeight:'500', textShadow: `-1px 1px ${getColor('border', colorPalette)}, 1px 1px 0 ${getColor('border', colorPalette)}, 1px -1px 0 ${getColor('border', colorPalette)}, -1px -1px 0 ${getColor('border', colorPalette)}`, margin: '1rem', fontSize: `${fontSize}px`, transform: `rotate(${letter.tilt})`, color: `${letter.color}`}}>{letter.letter}</span>
+                    return <span key={letter.key} style={{display: 'inline-block', fontWeight:'500', textShadow: `-1px 1px ${getColor('border', colorPalette)}, 1px 1px 0 ${getColor('border', colorPalette)}, 1px -1px 0 ${getColor('border', colorPalette)}, -1px -1px 0 ${getColor('border', colorPalette)}`, margin: '1rem', fontSize: `${fontSize}px`, transform: `rotate(${letter.tilt})`, color: `${letter.color}`}}>{letter.letter}</span>
                 })}
             </span>
         })

@@ -22,7 +22,8 @@ function Holes(props) {
             let horizontalMultiplier = Math.random() >= .5 ? 1 : -1;
             squares.push({
                 id: i, 
-                color: getColor(i, colorPalette)
+                color: getColor(i, colorPalette),
+                key: uuidv4()
             })
         }
         return squares
@@ -43,7 +44,8 @@ function Holes(props) {
                 filled: filled,
                 left: Math.random() * horizontalMultiplier,
                 top: Math.random() * verticalMultiplier,
-                size: 30 + Math.random() * 70
+                size: 30 + Math.random() * 70,
+                key: uuidv4()
             })
         };
         if(punctureCount < 3) {
@@ -214,7 +216,7 @@ function Holes(props) {
         let holeLines = []
         let newLine = []
         for(let k = 0; k < (numRows + Math.ceil(numRows / 3))**2; k++){
-            newLine.push(holes[k]);
+            newLine.push([holes[k]]);
             if(newLine.length === numRows + Math.ceil(numRows / 3)){
                 holeLines.push(newLine);
                 newLine = []
@@ -240,8 +242,7 @@ function Holes(props) {
                         {displayHoles().map(holeLine => {
                             let lineKey = uuidv4()
                             return <div key={lineKey} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{holeLine.map(hole => {
-                                let holeKey = uuidv4()
-                                return <div key={holeKey} style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width: `${(props.width * .70 * (1 / (numRows + 2)) * numRows) / (numRows + Math.ceil(numRows / 3))}px`, height: `${(props.width * .70 * (1 / (numRows + 2)) * numRows) / (numRows + Math.ceil(numRows / 3))}px`, margin: 'none'}}>
+                                return <div key={hole.key} style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width: `${(props.width * .70 * (1 / (numRows + 2)) * numRows) / (numRows + Math.ceil(numRows / 3))}px`, height: `${(props.width * .70 * (1 / (numRows + 2)) * numRows) / (numRows + Math.ceil(numRows / 3))}px`, margin: 'none'}}>
                                     {/* <div style={{position: 'relative', left: `${hole.left * (hole.size - 5)}%`, top: `${hole.top * (hole.size - 5)}%`, display: `${hole.filled ? 'none' : 'inline-block'}`, borderRadius: '50%', backgroundColor: `${getColor('base', colorPalette)}`, width: `${hole.size}%`, height: `${hole.size}%`}}></div> */}
                                     <div style={{position: 'relative', left: `${hole.left * (hole.size - 15)}%`, top: `${hole.top * (hole.size - 15)}%`, display: `${hole.filled ? 'none' : 'inline-block'}`, borderRadius: '50%', backgroundColor: `${getColor('base', colorPalette)}`, width: `${hole.size}%`, height: `${hole.size}%`}}></div>
                                 </div>
@@ -252,8 +253,7 @@ function Holes(props) {
                         {displaySquares().map(squareLine => {
                             let lineKey = uuidv4()
                             return <div key={lineKey} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{squareLine.map(square => {
-                                let squareKey = uuidv4()
-                                return <div key={squareKey} style={{display: 'inline-block', alignItems: 'center', justifyContent: 'center', backgroundColor:`${square.color}`, width: `${props.width * .70 * (1 / (numRows + 2))}px`, height: `${props.width * .70 * (1 / (numRows + 2))}px`, margin: 'none'}}></div>
+                                return <div key={square.key} style={{display: 'inline-block', alignItems: 'center', justifyContent: 'center', backgroundColor:`${square.color}`, width: `${props.width * .70 * (1 / (numRows + 2))}px`, height: `${props.width * .70 * (1 / (numRows + 2))}px`, margin: 'none'}}></div>
                             })}</div>
                         })}
                     </div>

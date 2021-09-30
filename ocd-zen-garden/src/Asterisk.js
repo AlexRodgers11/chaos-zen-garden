@@ -23,7 +23,8 @@ function Asterisk(props) {
             lines.push({
                 id: i,
                 color: getColor(i, colorPalette),
-                offset: Math.random() * (360 / (numLines * 2)) / 1.5 * (Math.random() > .5 ? 1 : -1)
+                offset: Math.random() * (360 / (numLines * 2)) / 1.5 * (Math.random() > .5 ? 1 : -1),
+                key: uuidv4()
             })
         }
         return lines;
@@ -151,9 +152,8 @@ function Asterisk(props) {
                 <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%'}}>
                     <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%'}}>
                         {lines.map(line => {
-                            let lineKey = uuidv4()
                             return (
-                                <div key={lineKey} style={{zIndex: `${line.id === 1 ? 1 : 0}`,position: 'absolute', width: `${(.65 * props.width) / (3 * numLines)}px`, height: `${.65 * props.width}px`, backgroundColor: line.color, border: `1px solid ${getColor('border', colorPalette)}`, transform: `rotate(${(360 / (numLines * 2)) * (line.id - 1) + line.offset}deg)`}}></div>
+                                <div key={line.key} style={{zIndex: `${line.id === 1 ? 1 : 0}`,position: 'absolute', width: `${(.65 * props.width) / (3 * numLines)}px`, height: `${.65 * props.width}px`, backgroundColor: line.color, border: `1px solid ${getColor('border', colorPalette)}`, transform: `rotate(${(360 / (numLines * 2)) * (line.id - 1) + line.offset}deg)`}}></div>
                             )
                         })}
                     </div>

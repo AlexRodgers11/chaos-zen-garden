@@ -23,6 +23,7 @@ function Diamonds(props) {
                 color: getColor(i, colorPalette),
                 squareOneSize: .25 + Math.random() * .3,
                 squareTwoSize: .05 + Math.random() * .15,
+                key: uuidv4()
             })
         }
         return squares
@@ -168,8 +169,7 @@ function Diamonds(props) {
                     {displaySquares().map(squareLine => {
                         let lineKey = uuidv4()
                         return <div key={lineKey} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{squareLine.map(square => {
-                            let squareKey = uuidv4()
-                            return <div let key={squareKey} style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', backgroundColor:`${square.color}`, width: `${props.width * .60 * (1 / (numRows + 2))}px`, height: `${props.width * .60 * (1 / (numRows + 2))}px`, margin: 'none'}}>
+                            return <div let key={square.key} style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', backgroundColor:`${square.color}`, width: `${props.width * .60 * (1 / (numRows + 2))}px`, height: `${props.width * .60 * (1 / (numRows + 2))}px`, margin: 'none'}}>
                                         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: getColor('border', colorPalette), width: `${props.width * square.squareOneSize * (1 / (numRows + 2))}px`, height: `${props.width * square.squareOneSize * (1 / (numRows + 2))}px`, margin: 'none'}}>
                                             <div style={{backgroundColor: square.color, width: `${props.width * square.squareTwoSize * (1 / (numRows + 2))}px`, height: `${props.width * square.squareTwoSize * (1 / (numRows + 2))}px`, margin: 'none'}}></div>
                                         </div>

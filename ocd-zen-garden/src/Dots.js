@@ -32,11 +32,10 @@ function Dots(props) {
         for(let i = 0; i < num**2; i++) {
             startingDotArray.push({
                 id: i + 1, 
-                // marginLeft: `${Math.random() * .05}`,
-                // marginTop: `${Math.random() * .05}`,
                 marginLeft: `${Math.random() * .065}`,
                 marginTop: `${Math.random() * .065}`,
-                color: (getColor(i + 1, colorPalette))
+                color: (getColor(i + 1, colorPalette)),
+                key: uuidv4()
             })
         }
         return startingDotArray;
@@ -185,9 +184,8 @@ function Dots(props) {
                         let dotLineKey =uuidv4();
                         return <p key={dotLineKey} style={{marginBlockEnd: 0, marginBlockStart: 0, padding: 0, marginBottom: 0, marginTop: 0}}>
                             {dotLine.map(dot => {
-                                let dotKey = uuidv4();
                                 // return <span key={dotKey} style={{display: 'inline-block', textAlign: 'left', padding: '0px', width: `${props.width* .10}px`, height: `${props.width* .10}px`, marginBottom: '0'}}><span style={{display: 'block', border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: '50%', width: `${props.width * .05}px`, height: `${props.width * .05}px`, marginLeft: `${dot.marginLeft * props.width - .5}px`, marginTop: `${dot.marginTop * props.width - .5}px`, backgroundColor: `${dot.color}`}}></span></span>
-                                return <span key={dotKey} style={{display: 'inline-block', textAlign: 'left', padding: '0px', width: `${props.width* .10}px`, height: `${props.width* .10}px`, marginBottom: '0'}}><span style={{display: 'block', border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: `${shape === 'circle' ? '50%' : 0}`, width: `${props.width * .035}px`, height: `${props.width * .035}px`, marginLeft: `${dot.marginLeft * props.width - .5}px`, marginTop: `${dot.marginTop * props.width - .5}px`, backgroundColor: `${dot.color}`}}></span></span>
+                                return <span key={dot.key} style={{display: 'inline-block', textAlign: 'left', padding: '0px', width: `${props.width* .10}px`, height: `${props.width* .10}px`, marginBottom: '0'}}><span style={{display: 'block', border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: `${shape === 'circle' ? '50%' : 0}`, width: `${props.width * .035}px`, height: `${props.width * .035}px`, marginLeft: `${dot.marginLeft * props.width - .5}px`, marginTop: `${dot.marginTop * props.width - .5}px`, backgroundColor: `${dot.color}`}}></span></span>
                             })}
                         </p>
                     })}

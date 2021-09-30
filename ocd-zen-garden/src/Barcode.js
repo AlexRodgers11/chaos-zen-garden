@@ -32,7 +32,7 @@ function Barcode(props) {
                 id: i,
                 color: (getColor(i, colorPalette)),
                 height: `${.4 * (1 / num) + randomNum}`,
-                stripeKey: uuidv4()
+                key: uuidv4()
             })
         }
         return stripeArr
@@ -149,7 +149,7 @@ function Barcode(props) {
                 <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', height: '100%'}}>
                     <div>
                         {stripes.map(stripe => {
-                            return <div key={stripe.stripeKey} style={{margin: '0 auto', width: `${.4 * props.width}px`, height: `${stripe.height * props.width}px`, backgroundColor: stripe.color, border: `1px solid ${getColor('border', colorPalette)}`}}></div>
+                            return <div key={stripe.key} style={{margin: '0 auto', width: `${.4 * props.width}px`, height: `${stripe.height * props.width}px`, backgroundColor: stripe.color, border: `1px solid ${getColor('border', colorPalette)}`}}></div>
                         })}
                     </div>
                 </div>
