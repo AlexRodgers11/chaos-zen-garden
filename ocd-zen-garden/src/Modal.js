@@ -30,7 +30,7 @@ function Modal(props) {
                 <div style={{display: 'flex', width: '100%', height: '5%', justifyContent: 'end'}}>
                     <button style={{cursor: 'pointer'}} onClick={handleToggleHideModal}>Close</button>                    
                 </div>
-                <div style={{width: '50%', height: '50%', backgroundColor: 'blue'}}>
+                <div style={{width: '100%', height: '95%', backgroundColor: 'pink'}}>
                     {props.children}
                 </div>
             </div>
