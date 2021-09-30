@@ -145,7 +145,7 @@ function Garden(){
             case 'monochrome': 
                 return (<ColorForm colorCount={1}/>);
             case 'custom-palette':
-                return (<div>CustomPalette</div>);
+                return (<ColorForm colorCount={7}/>);
             case 'new-user':
                 return (<NewUserForm />);
             case 'login':
@@ -193,9 +193,12 @@ function Garden(){
                 <Diamonds width={gardenPieceWidth} className="Diamonds" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
                 <Rainbow width={gardenPieceWidth} className="Rainbow" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
                 <Asterisk width={gardenPieceWidth} className="Asterisk" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
-                <Modal toggleHideModal={toggleHideModal} hidden={hideModal}>
-                    {displayModalContent(modalContent)}
-                </Modal>
+                {!hideModal ? 
+                    <Modal toggleHideModal={toggleHideModal} hidden={hideModal}>
+                        {displayModalContent(modalContent)}
+                    </Modal> 
+                    : null
+                }
             </div>
             </>
         )
