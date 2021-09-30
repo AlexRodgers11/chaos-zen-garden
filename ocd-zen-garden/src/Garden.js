@@ -143,9 +143,9 @@ function Garden(){
                     <p>If you, or anyone in your family has an epileptic condition or has had seizures of any kind, consult your physician before using this website. IMMEDIATELY DISCONTINUE use and consult your physician before resuming use of this website.</p>
                 </div>)
             case 'monochrome': 
-                return (<ColorForm colorCount={1}/>);
+                return (<ColorForm monochrome={true} colorCount={1}/>);
             case 'custom-palette':
-                return (<ColorForm colorCount={7}/>);
+                return (<ColorForm monochrome={false} colorCount={7}/>);
             case 'new-user':
                 return (<NewUserForm />);
             case 'login':

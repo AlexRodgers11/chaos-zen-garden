@@ -39,10 +39,13 @@ class ColorForm extends Component {
                         <label className="form-label" htmlFor="paletteName">Name your Palette!</label>
                         <input type="text" value={this.state.paletteName} className="form-control" id ="paletteName" name="paletteName" onChange={this.handleChange}/>
                     </div>
+                    {!this.props.monochrome ? 
                     <div>
                         <label className="form-label" htmlFor="colorCount">How many colors do you want to include?</label>
                         <input type="number" min="1" max="7" value={this.state.colorCount} className="form-control" id ="colorCount" name="colorCount" onChange={this.handleColorCountChange}/>
                     </div>
+                    :
+                    null}
                         <div>
                             <label className="form-label" htmlFor="base">Select a background color</label>
                             <input type="color" value={this.state.base} className="form-control" id ="base" name="base" onChange={this.handleChange}/>
