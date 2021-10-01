@@ -7,6 +7,7 @@ import { Howl } from 'howler';
 // import Test from './assets/test2.mp3';
 // import Blip from './assets/blip.wav';
 import { v4 as uuidv4 } from 'uuid';
+import { CgEnter } from 'react-icons/cg';
 
 // const audioClips = [
 //     {sound: Test, label: 'test'}
@@ -28,7 +29,7 @@ function Snake(props) {
         for(let i = 1; i <= num; i++) {
             boxes.push({
                 id: i,
-                left: `${Math.random() * .45 * 100}`,
+                left: `${Math.random() * .40 + .05}` * (Math.random() > .5 ? 1 : -1),
                 color: getColor(i, colorPalette),
                 key: uuidv4()
             })
@@ -95,7 +96,7 @@ function Snake(props) {
         let newBoxes;
         if(idx + 1 === boxes.length){
             newBoxes = boxes.map(box => {
-                return {...box, left: '25'} 
+                return {...box, left: 0} 
             });
         } else {
             newBoxes = boxes.map(box => {
@@ -117,8 +118,7 @@ function Snake(props) {
 
     const scatterBoxes = () => {
         let newBoxes = boxes.map(box => {
-            let randomNum = `${Math.random() * .45 * 100}`;
-            return {...box, left: randomNum};
+            return {...box, left: `${Math.random() * .40 + .05}` * (Math.random() > .5 ? 1 : -1)};
         })
         setBoxes(newBoxes);
         toggleIsOrganized();
@@ -162,14 +162,15 @@ function Snake(props) {
         <div style={{margin: props.fullWindow ? '0 auto' : 0, width: `${props.width}px`, height: `${props.width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', width: '100%'}}>
                 {/* <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', width: '100%'}}> */}
-                <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', height: '100%'}}>
-                    <div id="test" style={{margin: '0 auto', height:`${props.width * .75}`, width:`${(props.width * 2 * .75 / numBoxes) + 2}px`}}>
+                <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%'}}>
+                    {/* <div id="test" style={{margin: '0 auto', height:`${props.width * .75}`, width:`${(props.width * 2 * .75 / numBoxes) + 2}px`}}> */}
                         {boxes.map(box => {
                             return (
-                                <div key={box.key} style={{position: 'relative', boxSizing: 'border-box', border: `1px solid ${getColor('border', colorPalette)}`, width: `${props.width * .75 / numBoxes}px`, height: `${props.width * .75 / numBoxes}px`, padding: 0, marginTop: '0', marginBottom: '0', left:`${box.left}%`, backgroundColor: `${box.color}`, borderRadius: `${shape === 'circle' ? '50%' : 0}`}}></div>
+                                // <div key={box.key} style={{position: 'relative', boxSizing: 'border-box', border: `1px solid ${getColor('border', colorPalette)}`, width: `${props.width * .75 / numBoxes}px`, height: `${props.width * .75 / numBoxes}px`, padding: 0, marginTop: '0', marginBottom: '0', left:`${box.left}%`, backgroundColor: `${box.color}`, borderRadius: `${shape === 'circle' ? '50%' : 0}`}}></div>
+                                <div key={box.key} style={{position: 'relative', boxSizing: 'border-box', border: `1px solid ${getColor('border', colorPalette)}`, width: `${props.width * .75 / numBoxes}px`, height: `${props.width * .75 / numBoxes}px`, padding: 0, marginTop: '0', marginBottom: '0', left: `${box.left * props.width * .75 / numBoxes}px`, backgroundColor: `${box.color}`, borderRadius: `${shape === 'circle' ? '50%' : 0}`}}></div>
                             )
                         })}
-                    </div>
+                    {/* </div> */}
                 </div>
                 <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={30} number={numBoxes} setNumber={handleSetNumBoxes} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Slam' organizedFunction={scatterBoxes} unorganizedFunction={() => organizeBoxes(0)} unorgButton='Scatter' orgButton='Organize' />
             </div>
