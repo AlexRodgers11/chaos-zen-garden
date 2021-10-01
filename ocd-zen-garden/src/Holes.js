@@ -45,7 +45,6 @@ function Holes(props) {
                 left: Math.random() * horizontalMultiplier,
                 top: Math.random() * verticalMultiplier,
                 size: 30 + Math.random() * 70,
-                key: uuidv4()
             })
         };
         if(punctureCount < 3) {
@@ -216,7 +215,7 @@ function Holes(props) {
         let holeLines = []
         let newLine = []
         for(let k = 0; k < (numRows + Math.ceil(numRows / 3))**2; k++){
-            newLine.push([holes[k]]);
+            newLine.push(holes[k]);
             if(newLine.length === numRows + Math.ceil(numRows / 3)){
                 holeLines.push(newLine);
                 newLine = []
@@ -240,9 +239,9 @@ function Holes(props) {
                     <div style={{position: 'absolute'}}> 
                     <div style={{position: 'absolute', zIndex: 2, width: '100%', height: '100%'}}>
                         {displayHoles().map(holeLine => {
-                            let lineKey = uuidv4()
-                            return <div key={lineKey} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{holeLine.map(hole => {
-                                return <div key={hole.key} style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width: `${(props.width * .70 * (1 / (numRows + 2)) * numRows) / (numRows + Math.ceil(numRows / 3))}px`, height: `${(props.width * .70 * (1 / (numRows + 2)) * numRows) / (numRows + Math.ceil(numRows / 3))}px`, margin: 'none'}}>
+                            let holeLineKey = uuidv4()
+                            return <div key={holeLineKey} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{holeLine.map(hole => {
+                                return <div style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width: `${(props.width * .70 * (1 / (numRows + 2)) * numRows) / (numRows + Math.ceil(numRows / 3))}px`, height: `${(props.width * .70 * (1 / (numRows + 2)) * numRows) / (numRows + Math.ceil(numRows / 3))}px`, margin: 'none'}}>
                                     {/* <div style={{position: 'relative', left: `${hole.left * (hole.size - 5)}%`, top: `${hole.top * (hole.size - 5)}%`, display: `${hole.filled ? 'none' : 'inline-block'}`, borderRadius: '50%', backgroundColor: `${getColor('base', colorPalette)}`, width: `${hole.size}%`, height: `${hole.size}%`}}></div> */}
                                     <div style={{position: 'relative', left: `${hole.left * (hole.size - 15)}%`, top: `${hole.top * (hole.size - 15)}%`, display: `${hole.filled ? 'none' : 'inline-block'}`, borderRadius: '50%', backgroundColor: `${getColor('base', colorPalette)}`, width: `${hole.size}%`, height: `${hole.size}%`}}></div>
                                 </div>
