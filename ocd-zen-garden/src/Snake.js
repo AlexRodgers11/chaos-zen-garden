@@ -26,23 +26,52 @@ function Snake(props) {
     const createStartingBoxArray = num => {
         let boxes = [];
         for(let i = 1; i <= num; i++) {
+            let random = Math.random() * .45 * 100
             boxes.push({
                 id: i,
-                left: `${Math.random() * .45 * 100}`,
+                // left: `${Math.random() * .45 * 100}`,
+                left: random,
                 color: getColor(i, colorPalette),
-                key: uuidv4()
-            })
+                // volumeMultiplier: (((random / 45) * .55)) + .45,
+                // volumeMultiplier: i < num - 1 ?  : (((random / 45) * .55)) + .45,
+                key: uuidv4(),
+                // volumeMultiplier: 1
+            });
+            
+            //maxLeft = 45
+            //leftFraction = left / 45
+
+            //old max: 1
+            //old min: 0
+            //new max: 1
+            //new min: .35
+            //newVal = ((oldval) * .65)) + .35
         }
+        //look at squishing volume progressively less as the sitewide volume goes down
+        for(let j = 0; j < boxes.length - 1; j++) {
+            boxes[j].volumeMultiplier = (((Math.abs(boxes[j + 1].left - boxes[j].left) / 45) * .8)) + .2;
+            console.log((((Math.abs(boxes[j + 1].left - boxes[j].left) / 45) * .8)) + .2)
+        }
+        boxes[boxes.length - 1].volumeMultiplier = (((boxes[boxes.length - 1].left / 45) * .8)) + .2
+        console.log((((boxes[boxes.length - 1].left / 45) * .8)) + .2)
         return boxes;
     }
 
     const [boxes, setBoxes] = useState(createStartingBoxArray(numBoxes));
 
-    const soundPlay = soundObj => {
+    // const soundPlay = soundObj => {
+    //     const sound = new Howl({
+    //         src: soundObj.src,
+    //         sprite: soundObj.sprite,
+    //         volume: props.volume * .01
+    //     });
+    //     sound.play(soundObj.spriteName);
+    // }
+    const soundPlay = (soundObj, volumeMultiplier) => {
         const sound = new Howl({
             src: soundObj.src,
             sprite: soundObj.sprite,
-            volume: props.volume * .01
+            volume: props.volume * .01 * volumeMultiplier
         });
         sound.play(soundObj.spriteName);
     }
@@ -106,7 +135,16 @@ function Snake(props) {
                 }
             });
         }
-        soundPlay(sound);
+        // if(idx < boxes.length - 1) {
+        //     let difference = boxes[idx + 1].volumeMultiplier - boxes[idx].volumeMultiplier
+        //     soundPlay(sound, difference);
+        // } else {
+        //     soundPlay(sound, boxes[idx].volumeMultiplier)
+        // }
+
+        soundPlay(sound, boxes[idx].volumeMultiplier)
+
+        
         setBoxes(newBoxes);
         setNextIndex(idx + 1);
         if(idx + 1 === boxes.length) setTimeout(() => {
@@ -177,4 +215,4 @@ function Snake(props) {
     )
 }
 
-export default Snake;
+export default React.memo(Snake);
