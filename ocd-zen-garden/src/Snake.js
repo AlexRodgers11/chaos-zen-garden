@@ -33,41 +33,28 @@ function Snake(props) {
 
                 left: `${Math.random() * .40 + .05}` * (Math.random() > .5 ? 1 : -1),
                 color: getColor(i, colorPalette),
-                // volumeMultiplier: (((random / 45) * .55)) + .45,
-                // volumeMultiplier: i < num - 1 ?  : (((random / 45) * .55)) + .45,
                 key: uuidv4(),
-                // volumeMultiplier: 1
             });
-            
-            //maxLeft = 45
-            //leftFraction = left / 45
 
-            //old max: 1
-            //old min: 0
+            //old max: .45
+            //old min: .05
             //new max: 1
             //new min: .35
-            //newVal = ((oldval) * .65)) + .35
+            //newVal = (((oldval - oldmin) * .65) / .4) + .35
+
         }
         //look at squishing volume progressively less as the sitewide volume goes down
         for(let j = 0; j < boxes.length - 1; j++) {
-            boxes[j].volumeMultiplier = (((Math.abs(boxes[j + 1].left - boxes[j].left) / 45) * .8)) + .2;
-            console.log((((Math.abs(boxes[j + 1].left - boxes[j].left) / 45) * .8)) + .2)
+            boxes[j].volumeMultiplier = ((Math.abs(boxes[j + 1].left - boxes[j].left) * .65) / .4) + .35
+
         }
-        boxes[boxes.length - 1].volumeMultiplier = (((boxes[boxes.length - 1].left / 45) * .8)) + .2
+        boxes[boxes.length - 1].volumeMultiplier = ((Math.abs(boxes[boxes.length - 1].left) * .65) / .4) + .35
         console.log((((boxes[boxes.length - 1].left / 45) * .8)) + .2)
         return boxes;
     }
 
     const [boxes, setBoxes] = useState(createStartingBoxArray(numBoxes));
 
-    // const soundPlay = soundObj => {
-    //     const sound = new Howl({
-    //         src: soundObj.src,
-    //         sprite: soundObj.sprite,
-    //         volume: props.volume * .01
-    //     });
-    //     sound.play(soundObj.spriteName);
-    // }
     const soundPlay = (soundObj, volumeMultiplier) => {
         const sound = new Howl({
             src: soundObj.src,
@@ -136,12 +123,6 @@ function Snake(props) {
                 }
             });
         }
-        // if(idx < boxes.length - 1) {
-        //     let difference = boxes[idx + 1].volumeMultiplier - boxes[idx].volumeMultiplier
-        //     soundPlay(sound, difference);
-        // } else {
-        //     soundPlay(sound, boxes[idx].volumeMultiplier)
-        // }
 
         soundPlay(sound, boxes[idx].volumeMultiplier)
 
@@ -158,6 +139,11 @@ function Snake(props) {
         let newBoxes = boxes.map(box => {
             return {...box, left: `${Math.random() * .40 + .05}` * (Math.random() > .5 ? 1 : -1)};
         })
+        for(let j = 0; j < newBoxes.length - 1; j++) {
+            newBoxes[j].volumeMultiplier = ((Math.abs(newBoxes[j + 1].left - newBoxes[j].left) * .65) / .4) + .35
+
+        }
+        newBoxes[newBoxes.length - 1].volumeMultiplier = ((Math.abs(newBoxes[newBoxes.length - 1].left) * .65) / .4) + .35
         setBoxes(newBoxes);
         toggleIsOrganized();
     }
@@ -216,4 +202,4 @@ function Snake(props) {
     )
 }
 
-export default React.memo(Snake);
+export default Snake;
