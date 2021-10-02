@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import useToggle from './hooks/useToggle';
-import { getColor, getSound } from './utils';
+import { getColor, getSound, scaler } from './utils';
 import ControlBar from './ControlBar';
 // import { Howl, Howler } from 'howler';
 import { Howl } from 'howler';
@@ -45,11 +45,11 @@ function Snake(props) {
         }
         //look at squishing volume progressively less as the sitewide volume goes down
         for(let j = 0; j < boxes.length - 1; j++) {
-            boxes[j].volumeMultiplier = (((Math.abs(boxes[j + 1].left - boxes[j].left) - .05) * .65) / .8) + .35
+            boxes[j].volumeMultiplier = scaler(0, .9, .35, 1, Math.abs(boxes[j + 1].left - boxes[j].left))
 
         }
-        boxes[boxes.length - 1].volumeMultiplier = (((Math.abs(boxes[boxes.length - 1].left) - .05) * .65) / .8) + .35
-        console.log((((boxes[boxes.length - 1].left / 45) * .8)) + .2)
+        boxes[boxes.length - 1].volumeMultiplier = scaler(0, .9, .35, 1, Math.abs(boxes[boxes.length - 1].left))
+
         return boxes;
     }
 
@@ -139,11 +139,11 @@ function Snake(props) {
         let newBoxes = boxes.map(box => {
             return {...box, left: `${Math.random() * .40 + .05}` * (Math.random() > .5 ? 1 : -1)};
         })
-        for(let j = 0; j < newBoxes.length - 1; j++) {
-            newBoxes[j].volumeMultiplier = ((Math.abs(newBoxes[j + 1].left - newBoxes[j].left - .05) * .65) / .4) + .35
+        for(let j = 0; j < boxes.length - 1; j++) {
+            boxes[j].volumeMultiplier = scaler(0, .9, .35, 1, Math.abs(boxes[j + 1].left - boxes[j].left))
 
         }
-        newBoxes[newBoxes.length - 1].volumeMultiplier = ((Math.abs(newBoxes[newBoxes.length - 1].left) * .65) / .4) + .35
+        boxes[boxes.length - 1].volumeMultiplier = scaler(0, .9, .35, 1, Math.abs(boxes[boxes.length - 1].left))
         setBoxes(newBoxes);
         toggleIsOrganized();
     }

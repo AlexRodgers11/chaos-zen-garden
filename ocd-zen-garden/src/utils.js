@@ -419,5 +419,9 @@ const getSound = sound => {
 // const sounds = ['Ding', 'Whoosh', 'Whoop', 'Click', 'Blip', 'Zip', 'Robot', 'Slam', 'Laser', 'Smack', 'Sparkle', 'Swish']
 const sounds = ['Ding', 'Whoosh', 'Whoop', 'Click', 'Blip', 'Robot', 'Slam', 'Laser', 'Chirp', 'Sparkle', 'Swish']
 
+const scaler = (min1, max1, min2, max2, val) => {
+    return (((val - min1) * (max2 - min2)) / (max1 - min1)) + min2
+}
 
-export { getColor, palettes, getSound, sounds }
+
+export { getColor, palettes, getSound, sounds, scaler }
