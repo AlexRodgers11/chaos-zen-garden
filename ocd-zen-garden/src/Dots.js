@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import useToggle from './hooks/useToggle';
-import { getColor, getSound } from './utils';
+import { getColor, getSound, scaler } from './utils';
 import ControlBar from './ControlBar';
 import { Howl } from 'howler';
 import { v4 as uuidv4 } from 'uuid';
@@ -18,11 +18,11 @@ function Dots(props) {
     const [colorUpdating] = useToggle(false);
     const [shape, setShape] = useState('circle');
 
-    const soundPlay = soundObj => {
+    const soundPlay = (soundObj, multiplier) => {
         const sound = new Howl({
             src: soundObj.src,
             sprite: soundObj.sprite,
-            volume: props.volume * .01
+            volume: props.volume * .01 * multiplier
         });
         sound.play(soundObj.spriteName);
     }
@@ -30,12 +30,16 @@ function Dots(props) {
     const createStartingDotArray = num => {
         let startingDotArray = [];
         for(let i = 0; i < num**2; i++) {
+            let leftOffset  = (Math.random() * 60 + 5) * (Math.random() > .5 ? -1 : 1);
+            let topOffset = (Math.random() * 60 + 5) * (Math.random() > .5 ? -1 : 1);
             startingDotArray.push({
                 id: i + 1, 
-                marginLeft: `${Math.random() * .065}`,
-                marginTop: `${Math.random() * .065}`,
+                marginLeft: leftOffset,
+                marginTop: topOffset,
                 color: (getColor(i + 1, colorPalette)),
-                key: uuidv4()
+                key: uuidv4(),
+                leftVolumeMultiplier: scaler(5, 65, .15, 1, Math.abs(leftOffset)),
+                topVolumeMultiplier: scaler(5, 65, .15, 1, Math.abs(topOffset))
             })
         }
         return startingDotArray;
@@ -139,6 +143,7 @@ function Dots(props) {
                     return dot
                 }
             });
+            soundPlay(sound, dots[idx].leftVolumeMultiplier);
         } else {
             newDots = dots.map(dot => {
                 if(dot.id === dots[idx].id){
@@ -147,8 +152,9 @@ function Dots(props) {
                     return dot
                 }
             });
+            soundPlay(sound, dots[idx].topVolumeMultiplier);
         };
-        soundPlay(sound);
+        
         setDots(newDots);
         setNextIndex({id: newIdx, dir: newDir});
         if(idx + 1 === dots.length && dir === 'horizontal') setTimeout(() => {
@@ -159,8 +165,15 @@ function Dots(props) {
 
     const scatterDots = () => {
         let newDots = dots.map(dot => {
-            // return {...dot, marginLeft: `${Math.random() * .05}`, marginTop: `${Math.random() * .05}`}
-            return {...dot, marginLeft: `${Math.random() * .065}`, marginTop: `${Math.random() * .065}`}
+            let leftOffset = (Math.random() * 60 + 5) * (Math.random() > .5 ? 1 : -1);
+            let topOffset = (Math.random() * 60 + 5) * (Math.random() > .5 ? 1 : -1);
+            return {
+                ...dot, 
+                marginLeft: leftOffset, 
+                marginTop: topOffset,
+                leftVolumeMultiplier: scaler(5, 65, .15, 1, Math.abs(leftOffset)),
+                topVolumeMultiplier: scaler(5, 65, .15, 1, Math.abs(topOffset))
+            }
         });
         setDots(newDots);
         toggleIsOrganized();
@@ -174,24 +187,30 @@ function Dots(props) {
         }
     }
 
+    //box itself
+    //box that contains the pieces and the controlbar
+    //box that contains just the pieces
+
     return (
-        // <div className="outer" style={{margin: props.fullWindow ? '0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width}px`, height: `${props.width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
-        <div className="piece" style={{margin: props.fullWindow ? '0 auto' : 0, width: `${props.width}px`, height: `${props.width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
+        <div className="piece" style={{margin: props.fullWindow ? '0 auto' : 0, width: `${props.width}px`, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width}px`, height: `${props.width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div className="outer" style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%'}}>
-                <div className="piece-container" style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', height: '100%'}}>
-                    <div className="inner">
-                    {displayDots().map(dotLine => {
-                        let dotLineKey =uuidv4();
-                        return <p key={dotLineKey} style={{marginBlockEnd: 0, marginBlockStart: 0, padding: 0, marginBottom: 0, marginTop: 0}}>
-                            {dotLine.map(dot => {
-                                // return <span key={dotKey} style={{display: 'inline-block', textAlign: 'left', padding: '0px', width: `${props.width* .10}px`, height: `${props.width* .10}px`, marginBottom: '0'}}><span style={{display: 'block', border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: '50%', width: `${props.width * .05}px`, height: `${props.width * .05}px`, marginLeft: `${dot.marginLeft * props.width - .5}px`, marginTop: `${dot.marginTop * props.width - .5}px`, backgroundColor: `${dot.color}`}}></span></span>
-                                return <span key={dot.key} style={{display: 'inline-block', textAlign: 'left', padding: '0px', width: `${props.width* .10}px`, height: `${props.width* .10}px`, marginBottom: '0'}}><span style={{display: 'block', border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: `${shape === 'circle' ? '50%' : 0}`, width: `${props.width * .035}px`, height: `${props.width * .035}px`, marginLeft: `${dot.marginLeft * props.width - .5}px`, marginTop: `${dot.marginTop * props.width - .5}px`, backgroundColor: `${dot.color}`}}></span></span>
+            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%'}}>
+                <div style={{width: `${.75 * props.width}px`, height: `${.75 * props.width}px`}}>
+                        <div className="piece-container" style={{width: '100%', height: '100%'}}>
+                            {displayDots().map(dotLine => {
+                                let dotLineKey =uuidv4();
+                                return <p key={dotLineKey} style={{display: 'flex', marginBlockEnd: 0, marginBlockStart: 0, padding: 0, marginBottom: 0, marginTop: 0, width: '100%', height: `${100 / (numRows)}%`}}>
+                                    {dotLine.map(dot => {
+                                        return (<p key={dot.key} style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center', marginBlockEnd: 0, marginBlockStart: 0, padding: '0px', width: `${100 / (numRows)}%`, height: '100%', marginBottom: '0'}}>
+                                                    <span style={{display: 'inline-block', border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: `${shape === 'circle' ? '50%' : 0}`, width: `${Math.floor(((100 / numRows) / 100) * .3 * props.width * .75)}px`, height: `${Math.floor(((100 / numRows) / 100 ) * .3 * props.width * .75)}px`, marginLeft: `${dot.marginLeft}%`, marginTop: `${dot.marginTop}%`, backgroundColor: `${dot.color}`}}></span>
+                                                </p>)
+                                    })}
+                                </p>
                             })}
-                        </p>
-                    })}
+                        </div>
                     </div>
                 </div>
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={7} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Swish' organizedFunction={scatterDots} unorganizedFunction={() => organizeDots(0, 'horizontal')} unorgButton='Scatter' orgButton='Organize' />
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={25} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Swish' organizedFunction={scatterDots} unorganizedFunction={() => organizeDots(0, 'horizontal')} unorgButton='Scatter' orgButton='Organize' />
             </div>
             
         </div>
