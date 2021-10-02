@@ -45,10 +45,10 @@ function Snake(props) {
         }
         //look at squishing volume progressively less as the sitewide volume goes down
         for(let j = 0; j < boxes.length - 1; j++) {
-            boxes[j].volumeMultiplier = ((Math.abs(boxes[j + 1].left - boxes[j].left) * .65) / .4) + .35
+            boxes[j].volumeMultiplier = (((Math.abs(boxes[j + 1].left - boxes[j].left) - .05) * .65) / .8) + .35
 
         }
-        boxes[boxes.length - 1].volumeMultiplier = ((Math.abs(boxes[boxes.length - 1].left) * .65) / .4) + .35
+        boxes[boxes.length - 1].volumeMultiplier = (((Math.abs(boxes[boxes.length - 1].left) - .05) * .65) / .8) + .35
         console.log((((boxes[boxes.length - 1].left / 45) * .8)) + .2)
         return boxes;
     }
@@ -140,7 +140,7 @@ function Snake(props) {
             return {...box, left: `${Math.random() * .40 + .05}` * (Math.random() > .5 ? 1 : -1)};
         })
         for(let j = 0; j < newBoxes.length - 1; j++) {
-            newBoxes[j].volumeMultiplier = ((Math.abs(newBoxes[j + 1].left - newBoxes[j].left) * .65) / .4) + .35
+            newBoxes[j].volumeMultiplier = ((Math.abs(newBoxes[j + 1].left - newBoxes[j].left - .05) * .65) / .4) + .35
 
         }
         newBoxes[newBoxes.length - 1].volumeMultiplier = ((Math.abs(newBoxes[newBoxes.length - 1].left) * .65) / .4) + .35
