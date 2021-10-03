@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
-import { getColor, getSound } from './utils';
+import { getColor, getSound, scaler } from './utils';
 import ControlBar from './ControlBar';
 import { Howl } from 'howler';
 import { GiSplurt } from 'react-icons/gi';
@@ -21,14 +21,16 @@ function Smudges(props) {
     const createStartingSquaresArray = num => {
         let squares = [];
         for(let i = 1; i < num ** 2 + 1; i++) {
+            let random = 20 + Math.random() * 40;
             squares.push({
                 id: i, 
                 color: getColor(i, colorPalette),
                 left: Math.random(),
                 top: Math.random(),
-                size: 20 + Math.random() * 40,
+                size: random,
                 contaminated: Math.random() > .35 ? true : false,
                 rotation: Math.random(),
+                volumeMultiplier: scaler(20, 60, .35, 1, random),
                 key: uuidv4()
             })
         }
@@ -80,11 +82,11 @@ function Smudges(props) {
         
     }, [colorPalette]);
 
-    const soundPlay = soundObj => {
+    const soundPlay = (soundObj, multiplier) => {
         const sound = new Howl({
             src: soundObj.src,
             sprite: soundObj.sprite,
-            volume: props.volume * .01
+            volume: props.volume * .01 * multiplier
         });
         sound.play(soundObj.spriteName);
     }
@@ -114,7 +116,7 @@ function Smudges(props) {
             }
         }
 
-        soundPlay(sound);
+        soundPlay(sound, squares[idx].volumeMultiplier);
         setSquares(newSquares);
         if(nextIdx < squares.length) {
             setNextIndex(nextIdx);
@@ -128,10 +130,13 @@ function Smudges(props) {
 
     const contaminate = () => {
         let newSquares = squares.map(square => {
+            let random = 20 + Math.random() * 40
             return {...square, 
                 left: Math.random(), 
                 top: Math.random(), size: 20 + Math.random() * 40,
+                size: random,
                 contaminated: Math.random() > .35 ? true : false,
+                volumeMultiplier: scaler(20, 40, 35, 1, random),
                 rotation: Math.random()};
         });
         setSquares(newSquares);
