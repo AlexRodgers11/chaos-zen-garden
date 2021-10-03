@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
-import { getColor, getSound } from './utils';
+import { getColor, getSound, scaler } from './utils';
 import ControlBar from './ControlBar';
 import { Howl } from 'howler';
 
@@ -18,10 +18,12 @@ function Opaque(props) {
     const createStartingSquaresArray = num => {
         let squares = [];
         for(let i = 1; i < num ** 2 + 1; i++) {
+            let random = .05 + Math.random() * .9;
             squares.push({
                 id: i, 
                 color: getColor(i, colorPalette),
-                opacity: .05 + Math.random() * .9,
+                opacity: random,
+                volumeMultiplier: scaler(.05, .95, .35, 1, 1 - random),
                 key: uuidv4()
             })
         }
@@ -73,11 +75,11 @@ function Opaque(props) {
         
     }, [colorPalette]);
 
-    const soundPlay = soundObj => {
+    const soundPlay = (soundObj, multiplier) => {
         const sound = new Howl({
             src: soundObj.src,
             sprite: soundObj.sprite,
-            volume: props.volume * .01
+            volume: props.volume * .01 * multiplier
         });
         sound.play(soundObj.spriteName);
     }
@@ -97,7 +99,7 @@ function Opaque(props) {
         });
 
         
-        soundPlay(sound);
+        soundPlay(sound, squares[idx].volumeMultiplier);
         setSquares(newSquares);
         if(idx < squares.length) {
             setNextIndex(idx + 1);
@@ -111,7 +113,12 @@ function Opaque(props) {
 
     const fade = () => {
         let newSquares = squares.map(square => {
-            return {...square, opacity: .05 + Math.random() * .9}
+            let random = .05 + Math.random() * .9;
+            return {
+                ...square, 
+                opacity: random,
+                volumeMultiplier: scaler(.05, .95, .35, 1, 1- random)
+            }
         });
         setSquares(newSquares)
         toggleIsOrganized();
@@ -167,7 +174,7 @@ function Opaque(props) {
                         let lineKey = uuidv4()
                         return <div key={lineKey} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{squareLine.map(square => {
                             let squareKey = uuidv4()
-                            return <div key={square.key} style={{display: 'inline-block', alignItems: 'center', justifyContent: 'center', backgroundColor:`${square.color}`, width: `${props.width * .70 * (1 / (numRows + 2))}px`, height: `${props.width * .70 * (1 / (numRows + 2))}px`, margin: 'none', opacity: square.opacity}}></div>
+                            return <div key={square.key} style={{display: 'inline-block', alignItems: 'center', justifyContent: 'center', backgroundColor:`${square.color}`, width: `${Math.floor(props.width * .70 * (1 / (numRows + 2)))}px`, height: `${Math.floor(props.width * .70 * (1 / (numRows + 2)))}px`, margin: 'none', opacity: square.opacity}}></div>
                         })}</div>
                     })}
                 </div>

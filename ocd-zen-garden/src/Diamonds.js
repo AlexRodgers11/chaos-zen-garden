@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
-import { getColor, getSound } from './utils';
+import { getColor, getSound, scaler } from './utils';
 import ControlBar from './ControlBar';
 import { Howl } from 'howler';
 
@@ -18,11 +18,14 @@ function Diamonds(props) {
     const createStartingSquaresArray = num => {
         let squares = [];
         for(let i = 1; i < num ** 2 + 1; i++) {
+            let random1 = .25 + Math.random() * .3;
+            let random2 = .05 + Math.random() * .15;
             squares.push({
                 id: i, 
                 color: getColor(i, colorPalette),
-                squareOneSize: .25 + Math.random() * .3,
-                squareTwoSize: .05 + Math.random() * .15,
+                squareOneSize: random1,
+                squareTwoSize: random2,
+                volumeMultiplier: scaler(.0, .3, .35, 1, Math.abs(.4 - random1) + Math.abs(.2 - random2)),
                 key: uuidv4()
             })
         }
@@ -74,11 +77,11 @@ function Diamonds(props) {
         
     }, [colorPalette]);
 
-    const soundPlay = soundObj => {
+    const soundPlay = (soundObj, multiplier) => {
         const sound = new Howl({
             src: soundObj.src,
             sprite: soundObj.sprite,
-            volume: props.volume * .01
+            volume: props.volume * .01 * multiplier
         });
         sound.play(soundObj.spriteName);
     }
@@ -99,7 +102,7 @@ function Diamonds(props) {
         });
 
         
-        soundPlay(sound);
+        soundPlay(sound, squares[idx].volumeMultiplier);
         setSquares(newSquares);
         if(idx < squares.length) {
             setNextIndex(idx + 1);
@@ -113,7 +116,14 @@ function Diamonds(props) {
 
     const unbalance = () => {
         let newSquares = squares.map(square => {
-            return {...square, squareOneSize: .25 + Math.random() * .3, squareTwoSize: .05 + Math.random() * .15}
+            let random1 = .25 + Math.random() * .3;
+            let random2 = .05 + Math.random() * .15;
+            return {
+                ...square, 
+                squareOneSize: random1,
+                squareTwoSize: random2,
+                volumeMultiplier: scaler(.3, .75, .35, 1, Math.abs(.4 - random1) + Math.abs(.2 - random2)),
+            }
         });
         setSquares(newSquares)
         toggleIsOrganized();
@@ -169,9 +179,9 @@ function Diamonds(props) {
                     {displaySquares().map(squareLine => {
                         let lineKey = uuidv4()
                         return <div key={lineKey} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{squareLine.map(square => {
-                            return <div key={square.key} style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', backgroundColor:`${square.color}`, width: `${props.width * .60 * (1 / (numRows + 2))}px`, height: `${props.width * .60 * (1 / (numRows + 2))}px`, margin: 'none'}}>
-                                        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: getColor('border', colorPalette), width: `${props.width * square.squareOneSize * (1 / (numRows + 2))}px`, height: `${props.width * square.squareOneSize * (1 / (numRows + 2))}px`, margin: 'none'}}>
-                                            <div style={{backgroundColor: square.color, width: `${props.width * square.squareTwoSize * (1 / (numRows + 2))}px`, height: `${props.width * square.squareTwoSize * (1 / (numRows + 2))}px`, margin: 'none'}}></div>
+                            return <div key={square.key} style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', backgroundColor:`${square.color}`, width: `${Math.floor(props.width * .60 * (1 / (numRows + 2)))}px`, height: `${Math.floor(props.width * .60 * (1 / (numRows + 2)))}px`, margin: 'none'}}>
+                                        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: getColor('border', colorPalette), width: `${Math.floor(props.width * square.squareOneSize * (1 / (numRows + 2)))}px`, height: `${Math.floor(props.width * square.squareOneSize * (1 / (numRows + 2)))}px`, margin: 'none'}}>
+                                            <div style={{backgroundColor: square.color, width: `${Math.floor(props.width * square.squareTwoSize * (1 / (numRows + 2)))}px`, height: `${Math.floor(props.width * square.squareTwoSize * (1 / (numRows + 2)))}px`, margin: 'none'}}></div>
                                         </div>
                                 </div>
                         })}</div>
