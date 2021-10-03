@@ -1,10 +1,8 @@
 import React, { useEffect, useRef, useState} from 'react';
-import Dots from './Dots';
 import useToggle from './hooks/useToggle';
-import { getColor, getSound } from './utils';
+import { getColor, getSound, scaler } from './utils';
 import ControlBar from './ControlBar';
 import { Howl } from 'howler';
-// import Click from './assets/click.wav';
 import { v4 as uuidv4 } from 'uuid';
 
 function Dominoes(props) {
@@ -16,28 +14,24 @@ function Dominoes(props) {
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Click'));
 
-    const soundPlay = soundObj => {
+    const soundPlay = (soundObj, multiplier) => {
         const sound = new Howl({
             src: soundObj.src,
             sprite: soundObj.sprite,
-            volume: props.volume * .01
+            volume: props.volume * .01 * multiplier
         });
         sound.play(soundObj.spriteName);
-    }
-    
-    const generateTilt = () => {
-        let x = Math.floor(Math.random() * 2) === 0 ? -1 : 1;
-        let tilt = x * Math.random() * 2.25;//may be better to do high enough to overlap like pickup sticks
-        return `${tilt}deg`;
     }
 
     const createStartingLinesArray = num => {
         let startingLineArray = [];
         for(let i = 0; i < num; i++) {
+            let random = (Math.random() * 2 + .25) * (Math.random() > .5 ? 1 : -1);
             startingLineArray.push({
                 id: i + 1,
-                tilt: generateTilt(),
+                tilt: random,
                 color: getColor(i + 1, colorPalette),
+                volumeMultiplier: scaler(.25, 2.25, .2, 1, Math.abs(random)),
                 key: uuidv4()
             })
         }
@@ -90,12 +84,12 @@ function Dominoes(props) {
         }
         let newLines = lines.map(line => {
             if(lines[idx].id === line.id) {
-                return {...line, tilt: '0deg'}
+                return {...line, tilt: 0}
             } else {
                 return line;
             }
         });
-        soundPlay(sound);
+        soundPlay(sound, lines[idx].volumeMultiplier);
         setLines(newLines);
         setNextIdx(idx + 1);
         if(idx + 1 === lines.length) {
@@ -108,7 +102,12 @@ function Dominoes(props) {
 
     const tiltLines = () => {
         let newLines = lines.map(line => {
-            return {...line, tilt: generateTilt()}
+            let random = (Math.random() * 2 + .25) * (Math.random() > .5 ? 1 : -1);
+            return {
+                ...line, 
+                tilt: random,
+                volumeMultiplier: scaler(.25, 2.25, .2, 1, Math.abs(random))
+            }
         })
         setLines(newLines);
         toggleIsOrganized();
@@ -150,7 +149,7 @@ function Dominoes(props) {
                 <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', height: '100%'}}>
                     <div>
                         {lines.map(line => {
-                            return <span key={line.key} style={{display: 'inline-block', width: `${Math.floor(props.width * .65 / ((numLines * 3) + 1.5))}px`, border: `.75px solid ${getColor('border', colorPalette)}`, height: .55 * props.width, margin: `${props.width * .65 * 1.35 / ((numLines * 3) + 1.5)}px`, transform: `rotate(${line.tilt})`, backgroundColor: `${line.color}` }}></span>
+                            return <span key={line.key} style={{display: 'inline-block', width: `${Math.floor(props.width * .65 / ((numLines * 3) + 1.5))}px`, border: `.75px solid ${getColor('border', colorPalette)}`, height: .55 * props.width, margin: `${props.width * .65 * 1.35 / ((numLines * 3) + 1.5)}px`, transform: `rotate(${line.tilt}deg)`, backgroundColor: `${line.color}` }}></span>
                         })}
                     </div>
                 </div>
