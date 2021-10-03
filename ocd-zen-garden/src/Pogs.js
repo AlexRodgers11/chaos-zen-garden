@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
-import { getColor, getSound } from './utils';
+import { getColor, getSound, scaler } from './utils';
 import ControlBar from './ControlBar';
 import { Howl } from 'howler';
 import { BsStarFill } from 'react-icons/bs';
@@ -20,33 +20,24 @@ function Pogs(props) {
     const createStartingPogsArray = num => {
         let pogs = [];
         for(let i = 1; i < num ** 2 + 1; i++) {
-            let posNeg = Math.random() > .5 ? 1 : -1;
+            let x = .7 + Math.random() * .3 * (Math.random() > .5 ? 1 : -1);
+            let y = .7 + Math.random() * .3 * (Math.random() > .5 ? 1 : -1);
+            let tilt = 30 + Math.random() * 45
             pogs.push({
                 id: i, 
                 color: getColor(i, colorPalette),
-                tilt: 30 + Math.random() * 45,
-                x: .7 + Math.random() * .3 * posNeg,
-                y: .7 + Math.random() * .3 * posNeg,
-                z: posNeg,
+                tilt: tilt,
+                x: x,
+                y: y,
+                volumeMultplier1: scaler(.4, 2, .3, 1, x + y),
+                volumeMultplier2: scaler(30, 75, .3, 1, tilt),
+                z: Math.random() > .5 ? 1 : -1,
                 key: uuidv4()
             })
         }
         return pogs
         
     }
-
-    // const getNextDir = dir => {
-    //     switch(dir) {
-    //         case 'topLeft':
-    //             return 'topRight'
-    //         case 'topRight':
-    //             return 'bottomLeft'
-    //         case 'bottomLeft':
-    //             return 'bottomRight'
-    //         case 'bottomRight':
-    //             return 'topLeft'
-    //     }
-    // }
 
     const [pogs, setPogs] = useState(createStartingPogsArray(numRows));
 
@@ -92,11 +83,11 @@ function Pogs(props) {
         
     }, [colorPalette]);
 
-    const soundPlay = soundObj => {
+    const soundPlay = (soundObj, multiplier) => {
         const sound = new Howl({
             src: soundObj.src,
             sprite: soundObj.sprite,
-            volume: props.volume * .01
+            volume: props.volume * .01 * multiplier
         });
         sound.play(soundObj.spriteName);
     }
@@ -112,7 +103,7 @@ function Pogs(props) {
                 return pog;
             }
         });
-        soundPlay(sound);
+        soundPlay(sound, pogs[idx].volumeMultplier1);
         setPogs(newPogs);
         setTimeout(() => {
             let newPogs = pogs.map(pog => {
@@ -122,7 +113,7 @@ function Pogs(props) {
                     return pog;
                 }
             });
-            soundPlay(sound);
+            soundPlay(sound, pogs[idx].volumeMultplier2);
             setPogs(newPogs);
             setNextIndex(idx + 1);
         }, speed)
@@ -191,7 +182,7 @@ function Pogs(props) {
                         {displayPogs().map(pogLine => {
                             let lineKey = uuidv4()
                             return <div key={lineKey}>{pogLine.map(pog => {
-                                return <div key={pog.key} style={{display: 'inline-flex', alignItems: 'center', justifyContent:'center', backgroundColor:`${pog.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${props.width * .70 * (1 / (numRows + 2))}px`, height: `${props.width * .70 * (1 / (numRows + 2))}px`, margin: `${(props.width * .70 * (1 / (numRows + 2)) / (numRows + 2))}px`, borderRadius: `${shape === 'circle' ? '50%' : 0}`, transform: `rotate3d(${pog.x},${pog.y},${pog.z},${pog.tilt}deg)`}}><div style={{padding: 'none', margin: 'none', width: '60%', display: 'flex', justifyContent:'center', alignItems: 'center'}}><GiFoxHead size='100%' backgroundColor={colorPalette.border} fill={colorPalette === 'Zebra' ? pog.id % 2 === 0 ? getColor('aux2', colorPalette) : getColor('aux1', colorPalette) : 'black'}/></div></div>
+                                return <div key={pog.key} style={{display: 'inline-flex', alignItems: 'center', justifyContent:'center', backgroundColor:`${pog.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${Math.floor(props.width * .70 * (1 / (numRows + 1.5)))}px`, height: `${Math.floor(props.width * .70 * (1 / (numRows + 1.5)))}px`, margin: `${Math.floor((props.width * .70 * (1 / (numRows + 1.5)) / (numRows + 1.)))}px`, borderRadius: `${shape === 'circle' ? '50%' : 0}`, transform: `rotate3d(${pog.x},${pog.y},${pog.z},${pog.tilt}deg)`}}><div style={{padding: 'none', margin: 'none', width: '60%', display: 'flex', justifyContent:'center', alignItems: 'center'}}><GiFoxHead size='100%' backgroundColor={colorPalette.border} fill={colorPalette === 'Zebra' ? pog.id % 2 === 0 ? getColor('aux2', colorPalette) : getColor('aux1', colorPalette) : 'black'}/></div></div>
                             })}</div>
                         })}
                     </div>
