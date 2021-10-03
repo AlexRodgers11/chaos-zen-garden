@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { getColor, getSound } from './utils';
+import { getColor, getSound, scaler } from './utils';
 import ControlBar from './ControlBar';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
@@ -28,21 +28,23 @@ function Barcode(props) {
                 randomNum = posNeg * Math.random() * 1 / (num ** 1.05) * .4;
             }
             totalHeight += .4 * (1 / num) + randomNum;
+            let height = .4 * (1 / num) + randomNum;
             stripeArr.push({
                 id: i,
                 color: (getColor(i, colorPalette)),
-                height: `${.4 * (1 / num) + randomNum}`,
+                height: height,
+                volumeMultiplier: scaler(0, 1 / (num ** 1.05) * .4, .2, 1, Math.abs(randomNum)),
                 key: uuidv4()
             })
         }
         return stripeArr
     }
 
-    const soundPlay = soundObj => {
+    const soundPlay = (soundObj, multiplier) => {
         const sound = new Howl({
             src: soundObj.src,
             sprite: soundObj.sprite,
-            volume: props.volume * .01
+            volume: props.volume * .01 * multiplier
         });
         sound.play(soundObj.spriteName);
     }
@@ -56,7 +58,7 @@ function Barcode(props) {
                 return stripe;
             }
         });
-        soundPlay(sound);
+        soundPlay(sound, stripes[idx].volumeMultiplier);
         setStripes(newStripes);
         setNextIdx(idx + 1);
         if(idx + 1 === stripes.length) {
