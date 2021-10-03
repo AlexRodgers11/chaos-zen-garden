@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import useToggle from './hooks/useToggle';
-import { getColor, getSound } from './utils';
+import { getColor, getSound, scaler } from './utils';
 import ControlBar from './ControlBar';
 import { Howl } from 'howler';
 
@@ -19,11 +19,13 @@ function Crosshair(props) {
     const createStartingRingArray = num => {
         let rings = [];
         for(let i = 1; i <= num; i++) {
+            let random = 15 + Math.random() * 345;
             rings.push({
                 // missingEdges: randomEdges[Math.ceil(Math.random() * 4)]
                 id: i,
                 color: getColor(i, colorPalette),
-                rotation: Math.random() * 360
+                rotation: random,
+                volumeMultiplier: scaler(15, 360, .25, 1, random)
             })
         }
         return rings;
@@ -31,11 +33,11 @@ function Crosshair(props) {
 
     const [rings, setRings] = useState(createStartingRingArray(numRings));
 
-    const soundPlay = soundObj => {
+    const soundPlay = (soundObj, multiplier) => {
         const sound = new Howl({
             src: soundObj.src,
             sprite: soundObj.sprite,
-            volume: props.volume * .01
+            volume: props.volume * .01 * multiplier
         });
         sound.play(soundObj.spriteName);
     }
@@ -94,7 +96,7 @@ function Crosshair(props) {
             
         });
 
-        soundPlay(sound);
+        soundPlay(sound, rings[idx].volumeMultiplier);
         setRings(newRings);
         setNextIndex(idx + 1);
         if(idx + 1 === rings.length) setTimeout(() => {
@@ -105,7 +107,12 @@ function Crosshair(props) {
 
     const spin = () => {
         let newRings = rings.map(ring => {
-            return {...ring, rotation: Math.random() * 360}
+            let random = 15 + Math.random() * 345;
+            return {
+                ...ring, 
+                rotation: random,
+                volumeMultiplier: scaler(15, 360, .25, 1, random)
+            }
         })
         setRings(newRings);
         toggleIsOrganized();
