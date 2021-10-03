@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
-import { getColor, getSound } from './utils';
+import { getColor, getSound, scaler } from './utils';
 import ControlBar from './ControlBar';
 import { Howl } from 'howler';
 
@@ -17,13 +17,14 @@ function Eyes(props) {
     const createStartingSquaresArray = num => {
         let squares = [];
         for(let i = 1; i < num ** 2 + 1; i++) {
-            let multiplier1 = Math.random() > .5 ? 1 : -1
-            let multiplier2 = Math.random() > .5 ? 1 : -1
+            let left = 5 + Math.random() * 35;
+            let top = 5 + Math.random() * 35;
             squares.push({
                 id: i, 
                 color: getColor(i, colorPalette),
-                left: Math.random() * 40 * multiplier1,
-                top: Math.random() * 40 * multiplier2,
+                left: left * (Math.random > .5 ? 1 : -1),
+                top: top * (Math.random > .5 ? 1 : -1),
+                volumeMultiplier: scaler(10, 80, .3, 1, left + top),
                 key: uuidv4()
             })
         }
@@ -75,11 +76,11 @@ function Eyes(props) {
         
     }, [colorPalette]);
 
-    const soundPlay = soundObj => {
+    const soundPlay = (soundObj, multiplier) => {
         const sound = new Howl({
             src: soundObj.src,
             sprite: soundObj.sprite,
-            volume: props.volume * .01
+            volume: props.volume * .01 * multiplier
         });
         sound.play(soundObj.spriteName);
     }
@@ -95,7 +96,7 @@ function Eyes(props) {
         });
         let nextIdx = idx + 1;
 
-        soundPlay(sound);
+        soundPlay(sound, squares[idx].volumeMultiplier);
         setSquares(newSquares);
         if(nextIdx < squares.length) {
             setNextIndex(nextIdx);
@@ -109,11 +110,12 @@ function Eyes(props) {
 
     const randomize = () => {
         let newSquares = squares.map(square => {
-            let multiplier1 = Math.random() > .5 ? 1 : -1
-            let multiplier2 = Math.random() > .5 ? 1 : -1
+            let left = 5 + Math.random() * 35;
+            let top = 5 + Math.random() * 35;
             return {...square, 
-                left: Math.random() * 40 * multiplier1,
-                top: Math.random() * 40 * multiplier2,
+                left: left * (Math.random > .5 ? 1 : -1),
+                top: top * (Math.random > .5 ? 1 : -1),
+                volumeMultiplier: scaler(10, 80, .3, 1, left + top),
             };
         });
         setSquares(newSquares);
@@ -171,12 +173,12 @@ function Eyes(props) {
                             let lineKey = uuidv4()
                             return <div key={lineKey} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{squareLine.map(square => {
                                 let squareKey = uuidv4()
-                                return <div key={square.key} style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', backgroundColor:`${square.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${props.width * .70 * (1 / (numRows + 2))}px`, height: `${props.width * .70 * (1 / (numRows + 2))}px`, margin: `${(props.width * .70 * (1 / (numRows + 2)) / (numRows + 2))}px`}}><div style={{position: 'relative', height: '20%', width: '20%', left: `${square.left}%`, top: `${square.top}%`, border: `1px solid ${getColor('border', colorPalette)}`, backgroundColor: '#303030'}}></div></div>
+                                return <div key={square.key} style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', backgroundColor:`${square.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${Math.floor(props.width * .70 * (1 / (numRows + 2)))}px`, height: `${Math.floor(props.width * .70 * (1 / (numRows + 2)))}px`, margin: `${Math.floor((props.width * .70 * (1 / (numRows + 2)) / (numRows + 2)))}px`}}><div style={{position: 'relative', height: '20%', width: '20%', left: `${square.left}%`, top: `${square.top}%`, border: `1px solid ${getColor('border', colorPalette)}`, backgroundColor: '#303030'}}></div></div>
                             })}</div>
                         })}
                     </div>
                 </div>
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Sparkle' organizedFunction={randomize} unorganizedFunction={() => center(0)} unorgButton='Randomize' orgButton='Center'/>
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={20} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Sparkle' organizedFunction={randomize} unorganizedFunction={() => center(0)} unorgButton='Randomize' orgButton='Center'/>
             </div>
         </div>
     )
