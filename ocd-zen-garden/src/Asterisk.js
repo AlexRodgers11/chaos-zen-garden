@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
-import { getColor, getSound } from './utils';
+import { getColor, getSound, scaler } from './utils';
 import ControlBar from './ControlBar';
 import { Howl } from 'howler';
 
@@ -20,10 +20,12 @@ function Asterisk(props) {
     const createStartingLineArray = num => {
         let lines = [];
         for(let i = 1; i <= num; i++) {
+            let random = Math.random() * (360 / (numLines * 2)) / 1.5;
             lines.push({
                 id: i,
                 color: getColor(i, colorPalette),
-                offset: Math.random() * (360 / (numLines * 2)) / 1.5 * (Math.random() > .5 ? 1 : -1),
+                offset: random * (Math.random() > .5 ? 1 : -1),
+                volumeMultiplier: scaler(0, (360 / (numLines * 2)) / 1.5, .15, 1, random),
                 key: uuidv4()
             })
         }
@@ -32,11 +34,11 @@ function Asterisk(props) {
 
     const [lines, setLines] = useState(createStartingLineArray(numLines));
 
-    const soundPlay = soundObj => {
+    const soundPlay = (soundObj, multiplier) => {
         const sound = new Howl({
             src: soundObj.src,
             sprite: soundObj.sprite,
-            volume: props.volume * .01
+            volume: props.volume * .01 * multiplier
         });
         sound.play(soundObj.spriteName);
     }
@@ -94,7 +96,7 @@ function Asterisk(props) {
             
         });
 
-        soundPlay(sound);
+        soundPlay(sound, lines[idx].volumeMultiplier);
         setLines(newLines);
         setNextIndex(idx + 1);
         if(idx + 1 === lines.length) setTimeout(() => {
@@ -105,7 +107,12 @@ function Asterisk(props) {
 
     const shift = () => {
         let newLines = lines.map(line => {
-            return {...line, offset: Math.random() * (360 / (numLines * 2)) / 1.5 * (Math.random() > .5 ? 1 : -1)}
+            let random = Math.random() * (360 / (numLines * 2)) / 1.5;
+            return {
+                ...line, 
+                offset: random * (Math.random() > .5 ? 1 : -1),
+                volumeMultiplier: scaler(0, (360 / (numLines * 2)) / 1.5, .15, 1, random),
+            }
         })
         setLines(newLines);
         toggleIsOrganized();
@@ -132,10 +139,6 @@ function Asterisk(props) {
         setNumLines(Number(num));
         setLines(createStartingLineArray(Number(num)))
     }
-    
-    const handleChangeShape = shape => {
-        setShape(shape);
-    }
 
     const handleToggleWindow = () => {
         if(props.fullWindow) {
@@ -153,7 +156,7 @@ function Asterisk(props) {
                     <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%'}}>
                         {lines.map(line => {
                             return (
-                                <div key={line.key} style={{zIndex: `${line.id === 1 ? 1 : 0}`,position: 'absolute', width: `${(.65 * props.width) / (3 * numLines)}px`, height: `${.65 * props.width}px`, backgroundColor: line.color, border: `1px solid ${getColor('border', colorPalette)}`, transform: `rotate(${(360 / (numLines * 2)) * (line.id - 1) + line.offset}deg)`}}></div>
+                                <div key={line.key} style={{zIndex: `${line.id === 1 ? 1 : 0}`,position: 'absolute', width: `${Math.floor((.65 * props.width) / (3 * numLines))}px`, height: `${Math.floor(.65 * props.width)}px`, backgroundColor: line.color, border: `1px solid ${getColor('border', colorPalette)}`, transform: `rotate(${(360 / (numLines * 2)) * (line.id - 1) + line.offset}deg)`}}></div>
                             )
                         })}
                     </div>

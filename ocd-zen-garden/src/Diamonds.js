@@ -122,7 +122,7 @@ function Diamonds(props) {
                 ...square, 
                 squareOneSize: random1,
                 squareTwoSize: random2,
-                volumeMultiplier: scaler(.3, .75, .35, 1, Math.abs(.4 - random1) + Math.abs(.2 - random2)),
+                volumeMultiplier: scaler(.0, .3, .35, 1, Math.abs(.4 - random1) + Math.abs(.2 - random2)),
             }
         });
         setSquares(newSquares)
