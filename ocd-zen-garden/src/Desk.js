@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import useToggle from './hooks/useToggle';
-import { getColor, getSound } from './utils';
+import { getColor, getSound, scaler } from './utils';
 import ControlBar from './ControlBar';
 import { Howl } from 'howler';
 import { FaRegKeyboard } from 'react-icons/fa';
@@ -21,11 +21,12 @@ function Desk(props) {
     const createStartingItemsArray = num => {
         let items = [];
         for(let i = 1; i < num + 1; i++) {
-            let multiplier = Math.random() > .5 ? -1 : 1;
+            let random = 2.5 + Math.random() * 17.5;
             items.push({
                 id: i, 
                 color: getColor(i, colorPalette),
-                tilt: multiplier * 2.5 + multiplier * Math.random() * 17.5
+                tilt: random * (Math.random() > .5 ? 1 : -1),
+                volumeMultiplier: scaler(2.5, 20, .2, 1, random)
             })
         }
         return items;
@@ -76,11 +77,11 @@ function Desk(props) {
         
     }, [colorPalette]);
 
-    const soundPlay = soundObj => {
+    const soundPlay = (soundObj, multiplier) => {
         const sound = new Howl({
             src: soundObj.src,
             sprite: soundObj.sprite,
-            volume: props.volume * .01
+            volume: props.volume * .01 * multiplier
         });
         sound.play(soundObj.spriteName);
     }
@@ -94,15 +95,19 @@ function Desk(props) {
                 return item;
             }
         });
-        soundPlay(sound);
+        soundPlay(sound, items[idx].volumeMultiplier);
         setItems(newItems);
         setNextIndex(idx + 1);
     }
 
     const shift = () => {
         let newItems = items.map(item => {
-            let multiplier = Math.random() > .5 ? -1 : 1;
-            return {...item, tilt: multiplier * 2.5 + multiplier * Math.random() * 17.5}
+            let random = 2.5 + Math.random() * 17.5;
+            return {
+                ...item, 
+                tilt: random * (Math.random() > .5 ? 1 : -1),
+                volumeMultiplier: scaler(2.5, 20, .2, 1, random)
+            }
         })
         setItems(newItems);
         toggleIsOrganized();
