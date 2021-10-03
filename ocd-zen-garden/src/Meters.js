@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState} from 'react';
 import useToggle from './hooks/useToggle';
-import { getColor, getSound } from './utils';
+import { getColor, getSound, scaler } from './utils';
 import ControlBar from './ControlBar';
 import { Howl } from 'howler';
 import { v4 as uuidv4 } from 'uuid';
@@ -14,11 +14,11 @@ function Meters(props) {
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Whoop'));
 
-    const soundPlay = soundObj => {
+    const soundPlay = (soundObj, multiplier) => {
         const sound = new Howl({
             src: soundObj.src,
             sprite: soundObj.sprite,
-            volume: props.volume * .01
+            volume: props.volume * .01 * multiplier
         });
         sound.play(soundObj.spriteName);
     }
@@ -26,11 +26,12 @@ function Meters(props) {
     const createStartingLinesArray = num => {
         let startingLineArray = [];
         for(let i = 0; i < num; i++) {
+            let random = 5 + Math.random() * 95;
             startingLineArray.push({
                 id: i + 1,
-                topPercent: Math.random() * 100,
                 color: getColor(i + 1, colorPalette),
-                color2: getColor(i + 2, colorPalette),
+                topPercent: random,
+                volumeMultiplier: scaler(5, 100, .25, 1, random),
                 key: uuidv4()
             })
         }
@@ -43,7 +44,7 @@ function Meters(props) {
     useEffect(() => {
         if(!firstUpdate.current && nextIdx < lines.length) {
             setTimeout(() => {
-                unbalance(nextIdx)
+                balance(nextIdx)
             }, speed)
         } else {
             firstUpdate.current = false;
@@ -54,7 +55,7 @@ function Meters(props) {
     useEffect(() => {
         if(!firstUpdate.current) {
             let newLines = lines.map(line => {
-                return {...line, color: getColor(line.id, props.palette), color2: getColor(line.id + 1, colorPalette)}
+                return {...line, color: getColor(line.id, props.palette)}
             });
             setLines(newLines);
             setColorPalette(props.palette);
@@ -68,7 +69,7 @@ function Meters(props) {
     useEffect(() => {
         if(!colorsDoNotUpdate.current) {
             let newLines = lines.map(line => {
-                return {...line, color: getColor(line.id, colorPalette), color2: getColor(line.id + 1, colorPalette)}
+                return {...line, color: getColor(line.id, colorPalette)}
             });
             setLines(newLines);
         } else {
@@ -77,7 +78,7 @@ function Meters(props) {
         
     }, [colorPalette]);
 
-    const unbalance = idx => {
+    const balance = idx => {
         if(idx === 0) {
             toggleIsOrganizing();
         }
@@ -88,7 +89,7 @@ function Meters(props) {
                 return line;
             }
         });
-        soundPlay(sound);
+        soundPlay(sound, lines[idx].volumeMultiplier);
         setLines(newLines);
         setNextIdx(idx + 1);
         if(idx + 1 === lines.length) {
@@ -99,9 +100,14 @@ function Meters(props) {
         }
     }
 
-    const balance = () => {
+    const unbalance = () => {
         let newLines = lines.map(line => {
-            return {...line, topPercent: Math.random() * 100}
+            let random = 5 + Math.random() * 95;
+            return {
+                ...line, 
+                topPercent: random,
+                volumeMultiplier: scaler(5, 100, .25, 1, random),
+            }
         })
         setLines(newLines);
         toggleIsOrganized();
@@ -143,11 +149,11 @@ function Meters(props) {
                 <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', height: '100%'}}>
                     <div>
                         {lines.map(line => {
-                            return <div key={line.key} style={{display: 'inline-block', width: `${props.width * .65 / ((numLines * 3) + 1.5)}px`, border: `.75px solid ${getColor('border', colorPalette)}`, height: .55 * props.width, margin: `${props.width * .65 * 1.35 / ((numLines * 3) + 1.5)}px`, backgroundColor: `${line.color}`}}><div style={{width: '100%', height: `${line.topPercent}%`, backgroundColor: '#303030', borderBottom: `1px solid ${getColor('border', colorPalette)}`}}></div></div>
+                            return <div key={line.key} style={{display: 'inline-block', width: `${Math.floor(props.width * .65 / ((numLines * 3) + 1.5))}px`, border: `.75px solid ${getColor('border', colorPalette)}`, height: .55 * props.width, margin: `${Math.floor(props.width * .65 * 1.35 / ((numLines * 3) + 1.5))}px`, backgroundColor: `${line.color}`}}><div style={{width: '100%', height: `${line.topPercent}%`, backgroundColor: '#303030', borderBottom: `1px solid ${getColor('border', colorPalette)}`}}></div></div>
                         })}
                     </div>
                 </div>
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumLines} minNum={7} maxNum={15} number={numLines} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Whoop' organizedFunction={balance} unorganizedFunction={() => unbalance(0)} unorgButton='Unbalance' orgButton='Balance' />
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumLines} minNum={7} maxNum={35} number={numLines} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Whoop' organizedFunction={unbalance} unorganizedFunction={() => balance(0)} unorgButton='Unbalance' orgButton='Balance' />
 
             </div>
         </div>
