@@ -1,6 +1,6 @@
 import React,  {useState, useEffect, useRef} from 'react';
 import useToggle from './hooks/useToggle';
-import { getColor, getSound } from './utils';
+import { getColor, getSound, scaler } from './utils';
 import ControlBar from './ControlBar';
 import { v4 as uuidv4 } from 'uuid';
 import { Howl } from 'howler';
@@ -14,20 +14,13 @@ function Message(props){
     const [sound, setSound] = useState(getSound('Robot'));
     const [colorPalette, setColorPalette] = useState(props.palette);
 
-    const soundPlay = soundObj => {
+    const soundPlay = (soundObj, multiplier) => {
         const sound = new Howl({
             src: soundObj.src,
             sprite: soundObj.sprite,
-            volume: props.volume * .01
+            volume: props.volume * .01 * multiplier
         });
         sound.play(soundObj.spriteName);
-    }
-
-    const generateTilt = () => {
-        let x = Math.floor(Math.random() * 2) === 0 ? -1 : 1;
-        let tilt = x * Math.random() * 25;
-        return `${tilt}deg`
-        
     }
 
     const [message, setMessage] = useState('Plus Ultra, Go Beyond.');
@@ -40,11 +33,13 @@ function Message(props){
         });
         let index = 1;
         for(let a = 0; a < letters.length; a++) {
+            let random = (Math.random() * 20 + 5) * (Math.random() > .5 ? 1 : -1);
             if(letters[a].letter !== ' ') {
                 letters[a].id = index;
-                letters[a].tilt = generateTilt();
+                letters[a].tilt = random
                 letters[a].color =  getColor(index, colorPalette);
                 letters[a].key = uuidv4();
+                letters[a].volumeMultiplier = scaler(5, 25, .3, 1, Math.abs(random));
                 index++;
             } else {
                 letters[a].id = null;
@@ -77,10 +72,10 @@ function Message(props){
         }
         let newLetters = letters.map(letter => {
             if(letter.id === letters[idx].id) {
-                return {...letter, tilt: `0deg`}
+                return {...letter, tilt: 0}
             } else return letter;
         });
-        soundPlay(sound);
+        soundPlay(sound, letters[idx].volumeMultiplier);
         setLetters(newLetters);
         if(idx + 1 !== letters.length) {
             if(nextIndex === letters.length) {
@@ -137,7 +132,16 @@ function Message(props){
 
     const unalignLetters = () => {
         let newLetters = letters.map(letter => {
-            return {...letter, tilt: generateTilt()};
+            let random = (Math.random() * 20 + 5) * (Math.random() > .5 ? 1 : -1);
+            if(letter.id) {
+                return {
+                    ...letter, 
+                    tilt: random,
+                    volumeMultiplier: scaler(5, 25, .3, 1, Math.abs(random))
+                };
+            } else {
+                return letter;
+            }
         });
         setLetters(newLetters);
         toggleIsOrganized();
@@ -171,11 +175,6 @@ function Message(props){
 
     const displayWords = letterArr => {
         let fontSize;
-        // if(letterArr.length > 20 && props.width * 3 < 1336) {
-        //     fontSize = props.width * .03
-        // } else {
-        //     fontSize = props.width *.055
-        // }
         if(letterArr.length > 25) {
             fontSize = props.width * .035
         } else {
@@ -199,8 +198,7 @@ function Message(props){
             let wordKey = uuidv4();
             return <span key={wordKey} style={{display: 'inline-block'}}>
                 {word.map(letter => {
-                    // return <span key={letterKey} style={{display: 'inline-block', fontWeight:'500', textShadow: `-1px 1px ${getColor('border', colorPalette)}, 1px 1px 0 ${getColor('border', colorPalette)}, 1px -1px 0 ${getColor('border', colorPalette)}, -1px -1px 0 ${getColor('border', colorPalette)}`, margin: '1rem', fontSize: `${props.width * .055}px`, transform: `rotate(${letter.tilt})`, color: `${letter.color}`}}>{letter.letter}</span>
-                    return <span key={letter.key} style={{display: 'inline-block', fontWeight:'500', textShadow: `-1px 1px ${getColor('border', colorPalette)}, 1px 1px 0 ${getColor('border', colorPalette)}, 1px -1px 0 ${getColor('border', colorPalette)}, -1px -1px 0 ${getColor('border', colorPalette)}`, margin: '1rem', fontSize: `${fontSize}px`, transform: `rotate(${letter.tilt})`, color: `${letter.color}`}}>{letter.letter}</span>
+                    return <span key={letter.key} style={{display: 'inline-block', fontWeight:'500', textShadow: `-1px 1px ${getColor('border', colorPalette)}, 1px 1px 0 ${getColor('border', colorPalette)}, 1px -1px 0 ${getColor('border', colorPalette)}, -1px -1px 0 ${getColor('border', colorPalette)}`, margin: '1rem', fontSize: `${fontSize}px`, transform: `rotate(${letter.tilt}deg)`, color: `${letter.color}`}}>{letter.letter}</span>
                 })}
             </span>
         })
@@ -211,24 +209,10 @@ function Message(props){
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', width: '100%'}}>
                 <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', height: '100%'}}>
                     <div style={{ width: '100%'}}>
-                        {/* {letters.map(letter => {
-                            let letterKey = uuidv4();
-                            return <span key={letterKey} style={{display: 'inline-block', fontWeight:'500', textShadow: `-1px 1px ${getColor('border', colorPalette)}, 1px 1px 0 ${getColor('border', colorPalette)}, 1px -1px 0 ${getColor('border', colorPalette)}, -1px -1px 0 ${getColor('border', colorPalette)}`, margin: '1rem', fontSize: `${props.width * .105}px`, transform: `rotate(${letter.tilt})`, color: `${letter.color}`}}>{letter.letter}</span>
-                        })} */}
-                        {/* {words.map(word => {
-                            let wordKey = uuidv4();
-                            return <span style={{display: 'inline-block'}}>
-                                {word.map(letter => {
-                                    let letterKey = uuidv4();
-                                    return <span key={letterKey} style={{display: 'inline-block', fontWeight:'500', textShadow: `-1px 1px ${getColor('border', colorPalette)}, 1px 1px 0 ${getColor('border', colorPalette)}, 1px -1px 0 ${getColor('border', colorPalette)}, -1px -1px 0 ${getColor('border', colorPalette)}`, margin: '1rem', fontSize: `${props.width * .055}px`, transform: `rotate(${letter.tilt})`, color: `${letter.color}`}}>{letter.letter}</span>
-                                })}
-                            </span>
-                        })} */}
                         {displayWords(letters)}
                     </div>
                 </div>
                 <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} soundValue='Robot' changeText={handleChangeText} setSpeed={handleSetSpeed} setSound={handleSetSound} organizedFunction={unalignLetters} unorganizedFunction={() => straightenLetters(0)} unorgButton='Unalign' orgButton='Straighten' />
-
             </div>
         </div>
     )
