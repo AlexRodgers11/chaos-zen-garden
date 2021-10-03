@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
-import { getColor, getSound } from './utils';
+import { getColor, getSound, scaler } from './utils';
 import ControlBar from './ControlBar';
 import { Howl } from 'howler';
 
@@ -20,10 +20,10 @@ function Squares(props) {
             squares.push({
                 id: i, 
                 color: getColor(i, colorPalette),
-                topLeft: Math.random() * 15,
-                topRight: Math.random() * 15,
-                bottomLeft: Math.random() * 15,
-                bottomRight: Math.random() * 15,
+                topLeft: Math.random() * 10 + 5,
+                topRight: Math.random() * 10 + 5,
+                bottomLeft: Math.random() * 10 + 5,
+                bottomRight: Math.random() * 10 + 5,
                 key: uuidv4()
             })
         }
@@ -88,11 +88,11 @@ function Squares(props) {
         
     }, [colorPalette]);
 
-    const soundPlay = soundObj => {
+    const soundPlay = (soundObj, multiplier) => {
         const sound = new Howl({
             src: soundObj.src,
             sprite: soundObj.sprite,
-            volume: props.volume * .01
+            volume: props.volume * .01 * multiplier
         });
         sound.play(soundObj.spriteName);
     }
@@ -106,7 +106,17 @@ function Squares(props) {
                 return square;
             }
         });
-        soundPlay(sound);
+        switch(dir) {
+            case 'topLeft':
+                soundPlay(sound, scaler(5, 15, .75, 1, squares[idx].topLeft));
+            case 'topRight':
+                soundPlay(sound, scaler(5, 15, .75, 1, squares[idx].topRight));
+            case 'bottomLeft':
+                soundPlay(sound, scaler(5, 15, .75, 1, squares[idx].bottomLeft));
+            case 'bottomRight':
+                soundPlay(sound, scaler(5, 15, .75, 1, squares[idx].bottomRight));
+        }
+        
         setSquares(newSquares);
         setNextIndex({id: dir === 'bottomRight' ? idx + 1 : idx, dir: getNextDir(dir)})        
     }
