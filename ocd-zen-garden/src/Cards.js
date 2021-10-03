@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
-import { getColor, getSound } from './utils';
+import { getColor, getSound, scaler } from './utils';
 import ControlBar from './ControlBar';
 import { Howl } from 'howler';
 
@@ -17,11 +17,12 @@ function Cards(props) {
     const createStartingCardsArray = num => {
         let cards = [];
         for(let i = 1; i < num * 2 + 1; i++) {
-            let multiplier = i < num / 2 ? -1 : 1
+            let random = (5 + Math.random() * 15) * (i <= num ? 1 : -1) 
             cards.push({
                 id: i, 
                 color: getColor(i, colorPalette),
-                offset: Math.random() * 20 * (i <= num ? 1 : -1),
+                offset: random,
+                volumeMultiplier: scaler(5, 20, .35, 1, Math.abs(random)),
                 key: uuidv4()
             })
         }
@@ -74,11 +75,11 @@ function Cards(props) {
         
     }, [colorPalette]);
 
-    const soundPlay = soundObj => {
+    const soundPlay = (soundObj, multiplier) => {
         const sound = new Howl({
             src: soundObj.src,
             sprite: soundObj.sprite,
-            volume: props.volume * .01
+            volume: props.volume * .01 * multiplier
         });
         sound.play(soundObj.spriteName);
     }
@@ -92,16 +93,18 @@ function Cards(props) {
                 return card;
             }
         });
-        soundPlay(sound);
+        soundPlay(sound, cards[idx].volumeMultiplier);
         setCards(newCards);
         setNextIndex(idx + 1)        
     }
 
     const scatter = () => {
         let newCards = cards.map(card => {
+            let random = (5 + Math.random() * 15) * (card.id <= numCards ? 1 : -1)
             return {
                 ...card, 
-                offset: Math.random() * 20 * (card.id <= numCards ? 1 : -1)
+                offset: random,
+                volumeMultiplier: scaler(5, 20, .35, 1, Math.abs(random))
             }
         })
         setCards(newCards);
