@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
-import { getColor, getSound } from './utils';
+import { getColor, getSound, scaler } from './utils';
 import ControlBar from './ControlBar';
 import { Howl } from 'howler';
 
@@ -39,12 +39,14 @@ function Holes(props) {
             }
             let verticalMultiplier = Math.random() >= .5 ? 1 : -1;
             let horizontalMultiplier = Math.random() >= .5 ? 1 : -1;
+            let size = 30 + Math.random() * 70
             holes.push({
                 id: i,
                 filled: filled,
                 left: Math.random() * horizontalMultiplier,
                 top: Math.random() * verticalMultiplier,
-                size: 30 + Math.random() * 70,
+                size: size,
+                volumeMultiplier: scaler(30, 100, .2, 1, size)
             })
         };
         if(punctureCount < 3) {
@@ -114,11 +116,11 @@ function Holes(props) {
         
     }, [colorPalette]);
 
-    const soundPlay = soundObj => {
+    const soundPlay = (soundObj, multiplier) => {
         const sound = new Howl({
             src: soundObj.src,
             sprite: soundObj.sprite,
-            volume: props.volume * .01
+            volume: props.volume * .01 * multiplier
         });
         sound.play(soundObj.spriteName);
     }
@@ -149,7 +151,7 @@ function Holes(props) {
             }
         }
         
-        soundPlay(sound);
+        soundPlay(sound, holes[idx].volumeMultiplier);
         setHoles(newHoles);
         if(nextIdx < holes.length) {
             setNextIndex(nextIdx);
@@ -162,17 +164,18 @@ function Holes(props) {
     };
 
     const puncture = () => {
-        // let newHoles = holes.map(hole => {
-        //     return {
-        //         ...hole,
-        //         filled: Math.random() < .25 ? false : true,
-        //         left: Math.random(),
-        //         top: Math.random(),
-        //         size: 30 + Math.random() * 70
-        //     }
-        // });
-        
-        setHoles(createStartingHolesArray(numRows))
+        let newHoles = holes.map(hole => {
+            let size = 30 + Math.random() * 70
+            return {
+                ...hole,
+                filled: Math.random() < .25 ? false : true,
+                left: Math.random(),
+                top: Math.random(),
+                size: size,
+                volumeMultiplier: scaler(30, 70, .2, 1, size)
+            }
+        });
+        setHoles(newHoles);
         toggleIsOrganized();
     };
 
