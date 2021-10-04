@@ -1,23 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
 import useToggle from './hooks/useToggle';
-import { getColor, getSound } from './utils';
+import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
-import { Howl } from 'howler';
-// import Whoop from './assets/whoop.wav';
 
 function BullsEye(props) {
-    const getMargin = () => {
-        // console.log('getMargin ran')
-        // return `${Math.abs(Math.random() * (((props.width * .55 -2)/ props.numRings)))}px`
-        // return .1 + Math.random() * .8;
-        return Math.random()
-    };    
+    // const getMargin = () => {
+    //     return Math.random()
+    // };    
 
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [orgIndex, setOrgIndex] = useState(props.numRings + 1);
-    const [marginLeft, setMarginLeft] = useState(props.id > 1 ? getMargin() : '0');
-    const [marginTop, setMarginTop] = useState(props.id > 1 ? getMargin() : '0');
+    const [marginLeft, setMarginLeft] = useState(props.id > 1 ? Math.random(): '0');
+    const [marginTop, setMarginTop] = useState(props.id > 1 ? Math.random(): '0');
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound(props.sound));
     const [colorPalette, setColorPalette] = useState(props.palette);
@@ -25,14 +20,14 @@ function BullsEye(props) {
     const [userJustChangedNumber, toggleUserJustChangedNumber] = useToggle(props.id === 1 ? false : props.userJustChangedNumber);
     const [shape, setShape] = useState('circle');
 
-    const soundPlay = soundObj => {
-        const sound = new Howl({
-            src: soundObj.src,
-            sprite: soundObj.sprite,
-            volume: props.volume * .01
-        });
-        sound.play(soundObj.spriteName);
-    }
+    // const soundPlay = soundObj => {
+    //     const sound = new Howl({
+    //         src: soundObj.src,
+    //         sprite: soundObj.sprite,
+    //         volume: props.volume * .01
+    //     });
+    //     sound.play(soundObj.spriteName);
+    // }
 
     let firstUpdate = useRef(true);
     useEffect(() => {
@@ -62,8 +57,8 @@ function BullsEye(props) {
                 setMarginLeft(1 / 2);
                 setMarginTop(1 / 2);
             } else {
-                setMarginLeft(getMargin());
-                setMarginTop(getMargin());
+                setMarginLeft(Math.random());
+                setMarginTop(Math.random());
             }
         } else {
             numRingsFirstUpdate.current = false;
@@ -73,13 +68,13 @@ function BullsEye(props) {
     useEffect(() => {
         if((props.orgIndex === props.id && !isOrganized)) {
             if(orgIndex !== props.numRings) {
-                soundPlay(sound);
+                soundPlay(sound, scaler(0, 2, .0015, .01, marginTop + marginLeft), props.volume);
             }
             setMarginLeft(1 / 2);
             setMarginTop(1 / 2);
         } else if (props.isOrganized){
-            setMarginLeft(getMargin());
-            setMarginTop(getMargin());
+            setMarginLeft(Math.random());
+            setMarginTop(Math.random());
         }
     }, [props.orgIndex]);
 
