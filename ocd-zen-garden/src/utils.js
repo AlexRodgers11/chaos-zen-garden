@@ -423,11 +423,11 @@ const sounds = ['Ding', 'Whoosh', 'Whoop', 'Click', 'Blip', 'Robot', 'Slam', 'La
 const scaler = (min1, max1, min2, max2, val) => {
     return (((val - min1) * (max2 - min2)) / (max1 - min1)) + min2
 }
-const soundPlay = (soundObj, multiplier, volume) => {
+const soundPlay = (soundObj, multiplier, volume, proportionality) => {
     const sound = new Howl({
         src: soundObj.src,
         sprite: soundObj.sprite,
-        volume: volume * multiplier
+        volume: volume * (proportionality === 'proportional' ? multiplier : .01)
     });
     sound.play(soundObj.spriteName);
 }
