@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState} from 'react';
 import useToggle from './hooks/useToggle';
-import { getColor, getSound, scaler } from './utils';
+import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
-import { Howl } from 'howler';
 import { v4 as uuidv4 } from 'uuid';
 
 function Meters(props) {
@@ -14,14 +13,14 @@ function Meters(props) {
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Whoop'));
 
-    const soundPlay = (soundObj, multiplier) => {
-        const sound = new Howl({
-            src: soundObj.src,
-            sprite: soundObj.sprite,
-            volume: props.volume * .01 * multiplier
-        });
-        sound.play(soundObj.spriteName);
-    }
+    // const soundPlay = (soundObj, multiplier) => {
+    //     const sound = new Howl({
+    //         src: soundObj.src,
+    //         sprite: soundObj.sprite,
+    //         volume: props.volume * .01 * multiplier
+    //     });
+    //     sound.play(soundObj.spriteName);
+    // }
     
     const createStartingLinesArray = num => {
         let startingLineArray = [];
@@ -31,7 +30,7 @@ function Meters(props) {
                 id: i + 1,
                 color: getColor(i + 1, colorPalette),
                 topPercent: random,
-                volumeMultiplier: scaler(5, 100, .25, 1, random),
+                volumeMultiplier: scaler(5, 100, .0025, .01, random),
                 key: uuidv4()
             })
         }
@@ -89,7 +88,7 @@ function Meters(props) {
                 return line;
             }
         });
-        soundPlay(sound, lines[idx].volumeMultiplier);
+        soundPlay(sound, lines[idx].volumeMultiplier, props.volume);
         setLines(newLines);
         setNextIdx(idx + 1);
         if(idx + 1 === lines.length) {
@@ -106,7 +105,7 @@ function Meters(props) {
             return {
                 ...line, 
                 topPercent: random,
-                volumeMultiplier: scaler(5, 100, .25, 1, random),
+                volumeMultiplier: scaler(5, 100, .0025, .01, random),
             }
         })
         setLines(newLines);

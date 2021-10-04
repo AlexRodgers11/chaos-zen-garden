@@ -1,11 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
-import { getColor, getSound, scaler } from './utils';
+import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
-import { Howl } from 'howler';
-import { BsStarFill } from 'react-icons/bs';
-import { GiFoxHead, GiFoxTail } from 'react-icons/gi';
+import { GiFoxHead } from 'react-icons/gi';
 
 function Pogs(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -29,8 +27,8 @@ function Pogs(props) {
                 tilt: tilt,
                 x: x,
                 y: y,
-                volumeMultplier1: scaler(.4, 2, .3, 1, x + y),
-                volumeMultplier2: scaler(30, 75, .3, 1, tilt),
+                volumeMultplier1: scaler(.4, 2, .003, .01, x + y),
+                volumeMultplier2: scaler(30, 75, .003, .01, tilt),
                 z: Math.random() > .5 ? 1 : -1,
                 key: uuidv4()
             })
@@ -83,15 +81,6 @@ function Pogs(props) {
         
     }, [colorPalette]);
 
-    const soundPlay = (soundObj, multiplier) => {
-        const sound = new Howl({
-            src: soundObj.src,
-            sprite: soundObj.sprite,
-            volume: props.volume * .01 * multiplier
-        });
-        sound.play(soundObj.spriteName);
-    }
-
     const align = idx => {
         if(idx === 0) {
             toggleIsOrganizing();
@@ -103,7 +92,7 @@ function Pogs(props) {
                 return pog;
             }
         });
-        soundPlay(sound, pogs[idx].volumeMultplier1);
+        soundPlay(sound, pogs[idx].volumeMultplier1, props.volume);
         setPogs(newPogs);
         setTimeout(() => {
             let newPogs = pogs.map(pog => {
@@ -113,7 +102,7 @@ function Pogs(props) {
                     return pog;
                 }
             });
-            soundPlay(sound, pogs[idx].volumeMultplier2);
+            soundPlay(sound, pogs[idx].volumeMultplier2, props.volume);
             setPogs(newPogs);
             setNextIndex(idx + 1);
         }, speed)
@@ -123,7 +112,20 @@ function Pogs(props) {
     }
 
     const twist = () => {
-        let newPogs = createStartingPogsArray(numRows);
+        let newPogs = pogs.map(pog => {
+            let x = .7 + Math.random() * .3 * (Math.random() > .5 ? 1 : -1);
+            let y = .7 + Math.random() * .3 * (Math.random() > .5 ? 1 : -1);
+            let tilt = 30 + Math.random() * 45;
+            return ({
+                ...pog,
+                tilt: tilt,
+                x: x,
+                y: y,
+                volumeMultplier1: scaler(.4, 2, .003, .01, x + y),
+                volumeMultplier2: scaler(30, 75, .003, .01, tilt),
+                z: Math.random() > .5 ? 1 : -1,
+            })
+        })
         setPogs(newPogs);
         toggleIsOrganized();
     }

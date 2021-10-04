@@ -1,17 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import useToggle from './hooks/useToggle';
-import { getColor, getSound, scaler } from './utils';
+import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
-// import { Howl, Howler } from 'howler';
-import { Howl } from 'howler';
-// import Test from './assets/test2.mp3';
-// import Blip from './assets/blip.wav';
 import { v4 as uuidv4 } from 'uuid';
-import { CgEnter } from 'react-icons/cg';
 
-// const audioClips = [
-//     {sound: Test, label: 'test'}
-// ]
 
 function Snake(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -30,39 +22,31 @@ function Snake(props) {
             let random = Math.random() * .45 * 100
             boxes.push({
                 id: i,
-
                 left: `${Math.random() * .40 + .05}` * (Math.random() > .5 ? 1 : -1),
                 color: getColor(i, colorPalette),
                 key: uuidv4(),
             });
-
-            //old max: .45
-            //old min: .05
-            //new max: 1
-            //new min: .35
-            //newVal = (((oldval - oldmin) * .65) / .4) + .35
-
         }
         //look at squishing volume progressively less as the sitewide volume goes down
         for(let j = 0; j < boxes.length - 1; j++) {
-            boxes[j].volumeMultiplier = scaler(0, .9, .35, 1, Math.abs(boxes[j + 1].left - boxes[j].left))
+            boxes[j].volumeMultiplier = scaler(0, .9, .0035, .01, Math.abs(boxes[j + 1].left - boxes[j].left))
 
         }
-        boxes[boxes.length - 1].volumeMultiplier = scaler(0, .9, .35, 1, Math.abs(boxes[boxes.length - 1].left))
+        boxes[boxes.length - 1].volumeMultiplier = scaler(0, .9, .0035, .01, Math.abs(boxes[boxes.length - 1].left))
 
         return boxes;
     }
 
     const [boxes, setBoxes] = useState(createStartingBoxArray(numBoxes));
 
-    const soundPlay = (soundObj, volumeMultiplier) => {
-        const sound = new Howl({
-            src: soundObj.src,
-            sprite: soundObj.sprite,
-            volume: props.volume * .01 * volumeMultiplier
-        });
-        sound.play(soundObj.spriteName);
-    }
+    // const soundPlay = (soundObj, volumeMultiplier) => {
+    //     const sound = new Howl({
+    //         src: soundObj.src,
+    //         sprite: soundObj.sprite,
+    //         volume: props.volume * .01 * volumeMultiplier
+    //     });
+    //     sound.play(soundObj.spriteName);
+    // }
 
     const firstUpdate = useRef(true);
     useEffect(()=>{
@@ -124,7 +108,7 @@ function Snake(props) {
             });
         }
 
-        soundPlay(sound, boxes[idx].volumeMultiplier)
+        soundPlay(sound, boxes[idx].volumeMultiplier, props.volume)
 
         
         setBoxes(newBoxes);

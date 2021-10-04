@@ -1,9 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
-import { getColor, getSound, scaler } from './utils';
+import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
-import { Howl } from 'howler';
 
 function Eyes(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -24,7 +23,7 @@ function Eyes(props) {
                 color: getColor(i, colorPalette),
                 left: left * (Math.random > .5 ? 1 : -1),
                 top: top * (Math.random > .5 ? 1 : -1),
-                volumeMultiplier: scaler(10, 80, .3, 1, left + top),
+                volumeMultiplier: scaler(10, 80, .003, .01, left + top),
                 key: uuidv4()
             })
         }
@@ -76,14 +75,14 @@ function Eyes(props) {
         
     }, [colorPalette]);
 
-    const soundPlay = (soundObj, multiplier) => {
-        const sound = new Howl({
-            src: soundObj.src,
-            sprite: soundObj.sprite,
-            volume: props.volume * .01 * multiplier
-        });
-        sound.play(soundObj.spriteName);
-    }
+    // const soundPlay = (soundObj, multiplier) => {
+    //     const sound = new Howl({
+    //         src: soundObj.src,
+    //         sprite: soundObj.sprite,
+    //         volume: props.volume * .01 * multiplier
+    //     });
+    //     sound.play(soundObj.spriteName);
+    // }
 
     const center = idx => {
         if(idx === 0) toggleIsOrganizing();
@@ -96,7 +95,7 @@ function Eyes(props) {
         });
         let nextIdx = idx + 1;
 
-        soundPlay(sound, squares[idx].volumeMultiplier);
+        soundPlay(sound, squares[idx].volumeMultiplier, props.volume);
         setSquares(newSquares);
         if(nextIdx < squares.length) {
             setNextIndex(nextIdx);
@@ -115,7 +114,7 @@ function Eyes(props) {
             return {...square, 
                 left: left * (Math.random > .5 ? 1 : -1),
                 top: top * (Math.random > .5 ? 1 : -1),
-                volumeMultiplier: scaler(10, 80, .3, 1, left + top),
+                volumeMultiplier: scaler(10, 80, .03, .001, left + top),
             };
         });
         setSquares(newSquares);

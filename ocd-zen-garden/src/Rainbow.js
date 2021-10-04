@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState} from 'react';
 import useToggle from './hooks/useToggle';
-import { getColor, getSound, scaler } from './utils';
+import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
-import { Howl } from 'howler';
 
 
 function Rainbow(props) {
@@ -14,14 +13,14 @@ function Rainbow(props) {
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Sparkle'));
 
-    const soundPlay = (soundObj, multiplier) => {
-        const sound = new Howl({
-            src: soundObj.src,
-            sprite: soundObj.sprite,
-            volume: props.volume * .01 * multiplier
-        });
-        sound.play(soundObj.spriteName);
-    }
+    // const soundPlay = (soundObj, multiplier) => {
+    //     const sound = new Howl({
+    //         src: soundObj.src,
+    //         sprite: soundObj.sprite,
+    //         volume: props.volume * .01 * multiplier
+    //     });
+    //     sound.play(soundObj.spriteName);
+    // }
     
     const createStartingArcsArray = num => {
         let startingArcArray = [];
@@ -31,7 +30,7 @@ function Rainbow(props) {
                 id: i + 1,
                 color: getColor(i + 1, colorPalette),
                 offset: random * (i % 2 === 0 ? 1 : -1),
-                volumeMultiplier: scaler(.5, 10, .2, 1, random)
+                volumeMultiplier: scaler(.5, 10, .002, .01, random)
             })
         }
         return startingArcArray;
@@ -88,7 +87,7 @@ function Rainbow(props) {
                 return arc;
             }
         });
-        soundPlay(sound, arcs[idx].volumeMultiplier);
+        soundPlay(sound, arcs[idx].volumeMultiplier, props.volume);
         setArcs(newArcs);
         setNextIdx(idx - 1);
         if(idx - 1 === 0) {
@@ -105,7 +104,7 @@ function Rainbow(props) {
             return {
                 ...arc, 
                 offset: random * (arc.id % 2 === 0 ? -1 : 1),
-                volumeMultiplier: scaler(.5, 10, .2, 1, random)
+                volumeMultiplier: scaler(.5, 10, .002, .01, random)
             }
         })
         setArcs(newArcs);

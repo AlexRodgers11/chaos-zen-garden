@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import useToggle from './hooks/useToggle';
-import { getColor, getSound, scaler } from './utils';
+import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
-import { Howl } from 'howler';
 
 
 function Crosshair(props) {
@@ -25,7 +24,7 @@ function Crosshair(props) {
                 id: i,
                 color: getColor(i, colorPalette),
                 rotation: random,
-                volumeMultiplier: scaler(15, 360, .25, 1, random)
+                volumeMultiplier: scaler(15, 360, .0025, .01, random)
             })
         }
         return rings;
@@ -33,14 +32,14 @@ function Crosshair(props) {
 
     const [rings, setRings] = useState(createStartingRingArray(numRings));
 
-    const soundPlay = (soundObj, multiplier) => {
-        const sound = new Howl({
-            src: soundObj.src,
-            sprite: soundObj.sprite,
-            volume: props.volume * .01 * multiplier
-        });
-        sound.play(soundObj.spriteName);
-    }
+    // const soundPlay = (soundObj, multiplier) => {
+    //     const sound = new Howl({
+    //         src: soundObj.src,
+    //         sprite: soundObj.sprite,
+    //         volume: props.volume * .01 * multiplier
+    //     });
+    //     sound.play(soundObj.spriteName);
+    // }
 
     const firstUpdate = useRef(true);
     useEffect(()=>{
@@ -96,7 +95,7 @@ function Crosshair(props) {
             
         });
 
-        soundPlay(sound, rings[idx].volumeMultiplier);
+        soundPlay(sound, rings[idx].volumeMultiplier, props.volume);
         setRings(newRings);
         setNextIndex(idx + 1);
         if(idx + 1 === rings.length) setTimeout(() => {
@@ -111,7 +110,7 @@ function Crosshair(props) {
             return {
                 ...ring, 
                 rotation: random,
-                volumeMultiplier: scaler(15, 360, .25, 1, random)
+                volumeMultiplier: scaler(15, 360, .0025, .01, random)
             }
         })
         setRings(newRings);

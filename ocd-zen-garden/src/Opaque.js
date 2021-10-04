@@ -1,9 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
-import { getColor, getSound, scaler } from './utils';
+import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
-import { Howl } from 'howler';
 
 
 function Opaque(props) {
@@ -23,7 +22,7 @@ function Opaque(props) {
                 id: i, 
                 color: getColor(i, colorPalette),
                 opacity: random,
-                volumeMultiplier: scaler(.05, .95, .35, 1, 1 - random),
+                volumeMultiplier: scaler(.05, .95, .0035, .01, 1 - random),
                 key: uuidv4()
             })
         }
@@ -75,14 +74,14 @@ function Opaque(props) {
         
     }, [colorPalette]);
 
-    const soundPlay = (soundObj, multiplier) => {
-        const sound = new Howl({
-            src: soundObj.src,
-            sprite: soundObj.sprite,
-            volume: props.volume * .01 * multiplier
-        });
-        sound.play(soundObj.spriteName);
-    }
+    // const soundPlay = (soundObj, multiplier) => {
+    //     const sound = new Howl({
+    //         src: soundObj.src,
+    //         sprite: soundObj.sprite,
+    //         volume: props.volume * .01 * multiplier
+    //     });
+    //     sound.play(soundObj.spriteName);
+    // }
 
 
 
@@ -99,7 +98,7 @@ function Opaque(props) {
         });
 
         
-        soundPlay(sound, squares[idx].volumeMultiplier);
+        soundPlay(sound, squares[idx].volumeMultiplier, props.volume);
         setSquares(newSquares);
         if(idx < squares.length) {
             setNextIndex(idx + 1);
@@ -117,7 +116,7 @@ function Opaque(props) {
             return {
                 ...square, 
                 opacity: random,
-                volumeMultiplier: scaler(.05, .95, .35, 1, 1- random)
+                volumeMultiplier: scaler(.05, .95, .0035, .01, 1 - random)
             }
         });
         setSquares(newSquares)

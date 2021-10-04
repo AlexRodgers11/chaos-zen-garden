@@ -1,11 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import useToggle from './hooks/useToggle';
-import { getColor, getSound, scaler } from './utils';
+import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
-import { Howl } from 'howler';
 import { v4 as uuidv4 } from 'uuid';
-import { SiSketch } from 'react-icons/si';
-// import Whoosh from './assets/whoosh.wav';
 
 function Dots(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -15,17 +12,16 @@ function Dots(props) {
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Swish'));
     const [colorPalette, setColorPalette] = useState(props.palette);
-    const [colorUpdating] = useToggle(false);
     const [shape, setShape] = useState('circle');
 
-    const soundPlay = (soundObj, multiplier) => {
-        const sound = new Howl({
-            src: soundObj.src,
-            sprite: soundObj.sprite,
-            volume: props.volume * .01 * multiplier
-        });
-        sound.play(soundObj.spriteName);
-    }
+    // const soundPlay = (soundObj, multiplier) => {
+    //     const sound = new Howl({
+    //         src: soundObj.src,
+    //         sprite: soundObj.sprite,
+    //         volume: props.volume * .01 * multiplier
+    //     });
+    //     sound.play(soundObj.spriteName);
+    // }
 
     const createStartingDotArray = num => {
         let startingDotArray = [];
@@ -38,8 +34,8 @@ function Dots(props) {
                 marginTop: topOffset,
                 color: (getColor(i + 1, colorPalette)),
                 key: uuidv4(),
-                leftVolumeMultiplier: scaler(5, 65, .15, 1, Math.abs(leftOffset)),
-                topVolumeMultiplier: scaler(5, 65, .15, 1, Math.abs(topOffset))
+                leftVolumeMultiplier: scaler(5, 65, .0015, .01, Math.abs(leftOffset)),
+                topVolumeMultiplier: scaler(5, 65, .0015, .01, Math.abs(topOffset))
             })
         }
         return startingDotArray;
@@ -143,7 +139,7 @@ function Dots(props) {
                     return dot
                 }
             });
-            soundPlay(sound, dots[idx].leftVolumeMultiplier);
+            soundPlay(sound, dots[idx].leftVolumeMultiplier, props.volume);
         } else {
             newDots = dots.map(dot => {
                 if(dot.id === dots[idx].id){
@@ -152,7 +148,7 @@ function Dots(props) {
                     return dot
                 }
             });
-            soundPlay(sound, dots[idx].topVolumeMultiplier);
+            soundPlay(sound, dots[idx].topVolumeMultiplier,props.volume);
         };
         
         setDots(newDots);
@@ -171,8 +167,8 @@ function Dots(props) {
                 ...dot, 
                 marginLeft: leftOffset, 
                 marginTop: topOffset,
-                leftVolumeMultiplier: scaler(5, 65, .15, 1, Math.abs(leftOffset)),
-                topVolumeMultiplier: scaler(5, 65, .15, 1, Math.abs(topOffset))
+                leftVolumeMultiplier: scaler(5, 65, .0015, .01, Math.abs(leftOffset)),
+                topVolumeMultiplier: scaler(5, 65, .0015, .01, Math.abs(topOffset))
             }
         });
         setDots(newDots);

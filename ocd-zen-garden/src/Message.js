@@ -1,10 +1,8 @@
 import React,  {useState, useEffect, useRef} from 'react';
 import useToggle from './hooks/useToggle';
-import { getColor, getSound, scaler } from './utils';
+import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 import { v4 as uuidv4 } from 'uuid';
-import { Howl } from 'howler';
-// import Ding from './assets/ding.wav';
 
 function Message(props){
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -14,14 +12,14 @@ function Message(props){
     const [sound, setSound] = useState(getSound('Robot'));
     const [colorPalette, setColorPalette] = useState(props.palette);
 
-    const soundPlay = (soundObj, multiplier) => {
-        const sound = new Howl({
-            src: soundObj.src,
-            sprite: soundObj.sprite,
-            volume: props.volume * .01 * multiplier
-        });
-        sound.play(soundObj.spriteName);
-    }
+    // const soundPlay = (soundObj, multiplier) => {
+    //     const sound = new Howl({
+    //         src: soundObj.src,
+    //         sprite: soundObj.sprite,
+    //         volume: props.volume * .01 * multiplier
+    //     });
+    //     sound.play(soundObj.spriteName);
+    // }
 
     const [message, setMessage] = useState('Plus Ultra, Go Beyond.');
 
@@ -39,7 +37,7 @@ function Message(props){
                 letters[a].tilt = random
                 letters[a].color =  getColor(index, colorPalette);
                 letters[a].key = uuidv4();
-                letters[a].volumeMultiplier = scaler(5, 25, .3, 1, Math.abs(random));
+                letters[a].volumeMultiplier = scaler(5, 25, .003, .01, Math.abs(random));
                 index++;
             } else {
                 letters[a].id = null;
@@ -75,7 +73,7 @@ function Message(props){
                 return {...letter, tilt: 0}
             } else return letter;
         });
-        soundPlay(sound, letters[idx].volumeMultiplier);
+        soundPlay(sound, letters[idx].volumeMultiplier, props.volume);
         setLetters(newLetters);
         if(idx + 1 !== letters.length) {
             if(nextIndex === letters.length) {
@@ -137,7 +135,7 @@ function Message(props){
                 return {
                     ...letter, 
                     tilt: random,
-                    volumeMultiplier: scaler(5, 25, .3, 1, Math.abs(random))
+                    volumeMultiplier: scaler(5, 25, .003, .01, Math.abs(random))
                 };
             } else {
                 return letter;

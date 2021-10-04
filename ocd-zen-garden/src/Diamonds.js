@@ -1,9 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
-import { getColor, getSound, scaler } from './utils';
+import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
-import { Howl } from 'howler';
 
 
 function Diamonds(props) {
@@ -25,7 +24,7 @@ function Diamonds(props) {
                 color: getColor(i, colorPalette),
                 squareOneSize: random1,
                 squareTwoSize: random2,
-                volumeMultiplier: scaler(.0, .3, .35, 1, Math.abs(.4 - random1) + Math.abs(.2 - random2)),
+                volumeMultiplier: scaler(.0, .3, .0035, .01, Math.abs(.4 - random1) + Math.abs(.2 - random2)),
                 key: uuidv4()
             })
         }
@@ -77,14 +76,14 @@ function Diamonds(props) {
         
     }, [colorPalette]);
 
-    const soundPlay = (soundObj, multiplier) => {
-        const sound = new Howl({
-            src: soundObj.src,
-            sprite: soundObj.sprite,
-            volume: props.volume * .01 * multiplier
-        });
-        sound.play(soundObj.spriteName);
-    }
+    // const soundPlay = (soundObj, multiplier) => {
+    //     const sound = new Howl({
+    //         src: soundObj.src,
+    //         sprite: soundObj.sprite,
+    //         volume: props.volume * .01 * multiplier
+    //     });
+    //     sound.play(soundObj.spriteName);
+    // }
 
 
 
@@ -102,7 +101,7 @@ function Diamonds(props) {
         });
 
         
-        soundPlay(sound, squares[idx].volumeMultiplier);
+        soundPlay(sound, squares[idx].volumeMultiplier, props.volume);
         setSquares(newSquares);
         if(idx < squares.length) {
             setNextIndex(idx + 1);
@@ -122,7 +121,7 @@ function Diamonds(props) {
                 ...square, 
                 squareOneSize: random1,
                 squareTwoSize: random2,
-                volumeMultiplier: scaler(.0, .3, .35, 1, Math.abs(.4 - random1) + Math.abs(.2 - random2)),
+                volumeMultiplier: scaler(.0, .3, .0035, .01, Math.abs(.4 - random1) + Math.abs(.2 - random2)),
             }
         });
         setSquares(newSquares)

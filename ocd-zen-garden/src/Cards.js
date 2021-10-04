@@ -1,9 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
-import { getColor, getSound, scaler } from './utils';
+import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
-import { Howl } from 'howler';
 
 function Cards(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -22,7 +21,7 @@ function Cards(props) {
                 id: i, 
                 color: getColor(i, colorPalette),
                 offset: random,
-                volumeMultiplier: scaler(5, 20, .35, 1, Math.abs(random)),
+                volumeMultiplier: scaler(5, 20, .0035, .01, Math.abs(random)),
                 key: uuidv4()
             })
         }
@@ -75,14 +74,14 @@ function Cards(props) {
         
     }, [colorPalette]);
 
-    const soundPlay = (soundObj, multiplier) => {
-        const sound = new Howl({
-            src: soundObj.src,
-            sprite: soundObj.sprite,
-            volume: props.volume * .01 * multiplier
-        });
-        sound.play(soundObj.spriteName);
-    }
+    // const soundPlay = (soundObj, multiplier) => {
+    //     const sound = new Howl({
+    //         src: soundObj.src,
+    //         sprite: soundObj.sprite,
+    //         volume: props.volume * .01 * multiplier
+    //     });
+    //     sound.play(soundObj.spriteName);
+    // }
 
     const organize = (idx) => {
         if(idx === 0) toggleIsOrganizing();
@@ -93,7 +92,7 @@ function Cards(props) {
                 return card;
             }
         });
-        soundPlay(sound, cards[idx].volumeMultiplier);
+        soundPlay(sound, cards[idx].volumeMultiplier, props.volume);
         setCards(newCards);
         setNextIndex(idx + 1)        
     }
@@ -104,7 +103,7 @@ function Cards(props) {
             return {
                 ...card, 
                 offset: random,
-                volumeMultiplier: scaler(5, 20, .35, 1, Math.abs(random))
+                volumeMultiplier: scaler(5, 20, .0035, .01, Math.abs(random))
             }
         })
         setCards(newCards);

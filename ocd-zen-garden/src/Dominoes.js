@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState} from 'react';
 import useToggle from './hooks/useToggle';
-import { getColor, getSound, scaler } from './utils';
+import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
-import { Howl } from 'howler';
 import { v4 as uuidv4 } from 'uuid';
 
 function Dominoes(props) {
@@ -14,14 +13,14 @@ function Dominoes(props) {
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Click'));
 
-    const soundPlay = (soundObj, multiplier) => {
-        const sound = new Howl({
-            src: soundObj.src,
-            sprite: soundObj.sprite,
-            volume: props.volume * .01 * multiplier
-        });
-        sound.play(soundObj.spriteName);
-    }
+    // const soundPlay = (soundObj, multiplier) => {
+    //     const sound = new Howl({
+    //         src: soundObj.src,
+    //         sprite: soundObj.sprite,
+    //         volume: props.volume * .01 * multiplier
+    //     });
+    //     sound.play(soundObj.spriteName);
+    // }
 
     const createStartingLinesArray = num => {
         let startingLineArray = [];
@@ -31,7 +30,7 @@ function Dominoes(props) {
                 id: i + 1,
                 tilt: random,
                 color: getColor(i + 1, colorPalette),
-                volumeMultiplier: scaler(.25, 2.25, .2, 1, Math.abs(random)),
+                volumeMultiplier: scaler(.25, 2.25, .002, .01, Math.abs(random)),
                 key: uuidv4()
             })
         }
@@ -89,7 +88,7 @@ function Dominoes(props) {
                 return line;
             }
         });
-        soundPlay(sound, lines[idx].volumeMultiplier);
+        soundPlay(sound, lines[idx].volumeMultiplier, props.volume);
         setLines(newLines);
         setNextIdx(idx + 1);
         if(idx + 1 === lines.length) {
@@ -106,7 +105,7 @@ function Dominoes(props) {
             return {
                 ...line, 
                 tilt: random,
-                volumeMultiplier: scaler(.25, 2.25, .2, 1, Math.abs(random))
+                volumeMultiplier: scaler(.25, 2.25, .002, .01, Math.abs(random))
             }
         })
         setLines(newLines);

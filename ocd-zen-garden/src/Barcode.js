@@ -1,9 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { getColor, getSound, scaler } from './utils';
+import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
-import { Howl } from 'howler';
 
 function Barcode(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -33,21 +32,21 @@ function Barcode(props) {
                 id: i,
                 color: (getColor(i, colorPalette)),
                 height: height,
-                volumeMultiplier: scaler(0, 1 / (num ** 1.05) * .4, .2, 1, Math.abs(randomNum)),
+                volumeMultiplier: scaler(0, 1 / (num ** 1.05) * .4, .002, .01, Math.abs(randomNum)),
                 key: uuidv4()
             })
         }
         return stripeArr
     }
 
-    const soundPlay = (soundObj, multiplier) => {
-        const sound = new Howl({
-            src: soundObj.src,
-            sprite: soundObj.sprite,
-            volume: props.volume * .01 * multiplier
-        });
-        sound.play(soundObj.spriteName);
-    }
+    // const soundPlay = (soundObj, multiplier) => {
+    //     const sound = new Howl({
+    //         src: soundObj.src,
+    //         sprite: soundObj.sprite,
+    //         volume: props.volume * .01 * multiplier
+    //     });
+    //     sound.play(soundObj.spriteName);
+    // }
 
     const balanceStripes = idx => {
         if(idx === 0) toggleIsOrganizing();
@@ -58,7 +57,7 @@ function Barcode(props) {
                 return stripe;
             }
         });
-        soundPlay(sound, stripes[idx].volumeMultiplier);
+        soundPlay(sound, stripes[idx].volumeMultiplier, props.volume);
         setStripes(newStripes);
         setNextIdx(idx + 1);
         if(idx + 1 === stripes.length) {

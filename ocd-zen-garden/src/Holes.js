@@ -1,9 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
-import { getColor, getSound, scaler } from './utils';
+import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
-import { Howl } from 'howler';
 
 
 function Holes(props) {
@@ -46,7 +45,7 @@ function Holes(props) {
                 left: Math.random() * horizontalMultiplier,
                 top: Math.random() * verticalMultiplier,
                 size: size,
-                volumeMultiplier: scaler(30, 100, .2, 1, size)
+                volumeMultiplier: scaler(30, 100, .002, .01, size)
             })
         };
         if(punctureCount < 3) {
@@ -116,16 +115,14 @@ function Holes(props) {
         
     }, [colorPalette]);
 
-    const soundPlay = (soundObj, multiplier) => {
-        const sound = new Howl({
-            src: soundObj.src,
-            sprite: soundObj.sprite,
-            volume: props.volume * .01 * multiplier
-        });
-        sound.play(soundObj.spriteName);
-    }
-
-
+    // const soundPlay = (soundObj, multiplier) => {
+    //     const sound = new Howl({
+    //         src: soundObj.src,
+    //         sprite: soundObj.sprite,
+    //         volume: props.volume * .01 * multiplier
+    //     });
+    //     sound.play(soundObj.spriteName);
+    // }
 
     const fill = idx => {
         if(idx === 0) {
@@ -151,7 +148,7 @@ function Holes(props) {
             }
         }
         
-        soundPlay(sound, holes[idx].volumeMultiplier);
+        soundPlay(sound, holes[idx].volumeMultiplier, props.volume);
         setHoles(newHoles);
         if(nextIdx < holes.length) {
             setNextIndex(nextIdx);
@@ -172,7 +169,7 @@ function Holes(props) {
                 left: Math.random(),
                 top: Math.random(),
                 size: size,
-                volumeMultiplier: scaler(30, 70, .2, 1, size)
+                volumeMultiplier: scaler(30, 70, .002, .01, size)
             }
         });
         setHoles(newHoles);

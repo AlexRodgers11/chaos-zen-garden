@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
-import { getColor, getSound, scaler } from './utils';
+import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
-import { Howl } from 'howler';
 
 
 function Asterisk(props) {
@@ -25,7 +24,7 @@ function Asterisk(props) {
                 id: i,
                 color: getColor(i, colorPalette),
                 offset: random * (Math.random() > .5 ? 1 : -1),
-                volumeMultiplier: scaler(0, (360 / (numLines * 2)) / 1.5, .15, 1, random),
+                volumeMultiplier: scaler(0, (360 / (numLines * 2)) / 1.5, .0015, .01, random),
                 key: uuidv4()
             })
         }
@@ -34,14 +33,14 @@ function Asterisk(props) {
 
     const [lines, setLines] = useState(createStartingLineArray(numLines));
 
-    const soundPlay = (soundObj, multiplier) => {
-        const sound = new Howl({
-            src: soundObj.src,
-            sprite: soundObj.sprite,
-            volume: props.volume * .01 * multiplier
-        });
-        sound.play(soundObj.spriteName);
-    }
+    // const soundPlay = (soundObj, multiplier) => {
+    //     const sound = new Howl({
+    //         src: soundObj.src,
+    //         sprite: soundObj.sprite,
+    //         volume: props.volume * .01 * multiplier
+    //     });
+    //     sound.play(soundObj.spriteName);
+    // }
 
     const firstUpdate = useRef(true);
     useEffect(()=>{
@@ -96,7 +95,7 @@ function Asterisk(props) {
             
         });
 
-        soundPlay(sound, lines[idx].volumeMultiplier);
+        soundPlay(sound, lines[idx].volumeMultiplier, props.volume);
         setLines(newLines);
         setNextIndex(idx + 1);
         if(idx + 1 === lines.length) setTimeout(() => {
@@ -111,7 +110,7 @@ function Asterisk(props) {
             return {
                 ...line, 
                 offset: random * (Math.random() > .5 ? 1 : -1),
-                volumeMultiplier: scaler(0, (360 / (numLines * 2)) / 1.5, .15, 1, random),
+                volumeMultiplier: scaler(0, (360 / (numLines * 2)) / 1.5, .0015, .01, random),
             }
         })
         setLines(newLines);

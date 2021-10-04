@@ -1,13 +1,11 @@
 import React, {useEffect, useRef, useState} from 'react';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
-import { getColor, getSound, scaler } from './utils';
+import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 import { Howl } from 'howler';
 import { GiSplurt } from 'react-icons/gi';
-import { RiBubbleChartFill } from 'react-icons/ri';
-import Smudge from './Smudge';
-import { BsLayoutTextWindowReverse } from 'react-icons/bs';
+// import Smudge from './Smudge';
 
 function Smudges(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -30,7 +28,7 @@ function Smudges(props) {
                 size: random,
                 contaminated: Math.random() > .35 ? true : false,
                 rotation: Math.random(),
-                volumeMultiplier: scaler(20, 60, .35, 1, random),
+                volumeMultiplier: scaler(20, 60, .0025, .01, random),
                 key: uuidv4()
             })
         }
@@ -82,14 +80,14 @@ function Smudges(props) {
         
     }, [colorPalette]);
 
-    const soundPlay = (soundObj, multiplier) => {
-        const sound = new Howl({
-            src: soundObj.src,
-            sprite: soundObj.sprite,
-            volume: props.volume * .01 * multiplier
-        });
-        sound.play(soundObj.spriteName);
-    }
+    // const soundPlay = (soundObj, multiplier) => {
+    //     const sound = new Howl({
+    //         src: soundObj.src,
+    //         sprite: soundObj.sprite,
+    //         volume: props.volume * .01 * multiplier
+    //     });
+    //     sound.play(soundObj.spriteName);
+    // }
 
     const clean = idx => {
         if(idx === 0) {
@@ -116,7 +114,7 @@ function Smudges(props) {
             }
         }
 
-        soundPlay(sound, squares[idx].volumeMultiplier);
+        soundPlay(sound, squares[idx].volumeMultiplier, props.volume);
         setSquares(newSquares);
         if(nextIdx < squares.length) {
             setNextIndex(nextIdx);
@@ -136,7 +134,7 @@ function Smudges(props) {
                 top: Math.random(), size: 20 + Math.random() * 40,
                 size: random,
                 contaminated: Math.random() > .35 ? true : false,
-                volumeMultiplier: scaler(20, 40, 35, 1, random),
+                volumeMultiplier: scaler(20, 40, .0025, .01, random),
                 rotation: Math.random()};
         });
         setSquares(newSquares);

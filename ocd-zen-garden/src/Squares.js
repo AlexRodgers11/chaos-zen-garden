@@ -1,9 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
-import { getColor, getSound, scaler } from './utils';
+import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
-import { Howl } from 'howler';
 
 function Squares(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -88,14 +87,14 @@ function Squares(props) {
         
     }, [colorPalette]);
 
-    const soundPlay = (soundObj, multiplier) => {
-        const sound = new Howl({
-            src: soundObj.src,
-            sprite: soundObj.sprite,
-            volume: props.volume * .01 * multiplier
-        });
-        sound.play(soundObj.spriteName);
-    }
+    // const soundPlay = (soundObj, multiplier) => {
+    //     const sound = new Howl({
+    //         src: soundObj.src,
+    //         sprite: soundObj.sprite,
+    //         volume: props.volume * .01 * multiplier
+    //     });
+    //     sound.play(soundObj.spriteName);
+    // }
 
     const sharpen = (idx, dir) => {
         if(idx === 0 && dir === 'topLeft') toggleIsOrganizing();
@@ -108,13 +107,13 @@ function Squares(props) {
         });
         switch(dir) {
             case 'topLeft':
-                soundPlay(sound, scaler(5, 15, .75, 1, squares[idx].topLeft));
+                soundPlay(sound, scaler(5, 15, .0075, .01, squares[idx].topLeft), props.volume);
             case 'topRight':
-                soundPlay(sound, scaler(5, 15, .75, 1, squares[idx].topRight));
+                soundPlay(sound, scaler(5, 15, .0075, .01, squares[idx].topRight), props.volume);
             case 'bottomLeft':
-                soundPlay(sound, scaler(5, 15, .75, 1, squares[idx].bottomLeft));
+                soundPlay(sound, scaler(5, 15, .0075, .01, squares[idx].bottomLeft), props.volume);
             case 'bottomRight':
-                soundPlay(sound, scaler(5, 15, .75, 1, squares[idx].bottomRight));
+                soundPlay(sound, scaler(5, 15, .0075, .01, squares[idx].bottomRight), props.volume);
         }
         
         setSquares(newSquares);

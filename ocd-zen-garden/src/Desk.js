@@ -1,8 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import useToggle from './hooks/useToggle';
-import { getColor, getSound, scaler } from './utils';
+import { getColor, getSound, scaler,soundPlay } from './utils';
 import ControlBar from './ControlBar';
-import { Howl } from 'howler';
 import { FaRegKeyboard } from 'react-icons/fa';
 import { CgMouse } from 'react-icons/cg'
 import { TiPencil } from 'react-icons/ti'
@@ -26,7 +25,7 @@ function Desk(props) {
                 id: i, 
                 color: getColor(i, colorPalette),
                 tilt: random * (Math.random() > .5 ? 1 : -1),
-                volumeMultiplier: scaler(2.5, 20, .2, 1, random)
+                volumeMultiplier: scaler(2.5, 20, .002, .01, random)
             })
         }
         return items;
@@ -77,14 +76,14 @@ function Desk(props) {
         
     }, [colorPalette]);
 
-    const soundPlay = (soundObj, multiplier) => {
-        const sound = new Howl({
-            src: soundObj.src,
-            sprite: soundObj.sprite,
-            volume: props.volume * .01 * multiplier
-        });
-        sound.play(soundObj.spriteName);
-    }
+    // const soundPlay = (soundObj, multiplier) => {
+    //     const sound = new Howl({
+    //         src: soundObj.src,
+    //         sprite: soundObj.sprite,
+    //         volume: props.volume * .01 * multiplier
+    //     });
+    //     sound.play(soundObj.spriteName);
+    // }
 
     const align = (idx) => {
         if(idx === 0) toggleIsOrganizing();
@@ -95,7 +94,7 @@ function Desk(props) {
                 return item;
             }
         });
-        soundPlay(sound, items[idx].volumeMultiplier);
+        soundPlay(sound, items[idx].volumeMultiplier, props.volume);
         setItems(newItems);
         setNextIndex(idx + 1);
     }
@@ -106,7 +105,7 @@ function Desk(props) {
             return {
                 ...item, 
                 tilt: random * (Math.random() > .5 ? 1 : -1),
-                volumeMultiplier: scaler(2.5, 20, .2, 1, random)
+                volumeMultiplier: scaler(2.5, 20, .002, .01, random)
             }
         })
         setItems(newItems);
