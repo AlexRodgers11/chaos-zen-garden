@@ -86,8 +86,8 @@ function ControlBar(props) {
     }
 
     const handleVolumeChange = evt => {
-        props.changeVolume(evt.target.id)
-        setVolume(evt.target.id)
+        props.changeVolume(evt.target.value)
+        setVolume(evt.target.value)
     }
     
     const handleProportionalVolumeChange = selection => {
