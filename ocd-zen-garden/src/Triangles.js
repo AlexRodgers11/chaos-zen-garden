@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
-import { getColor, getSound } from './utils';
+import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 import { Howl } from 'howler';
 
@@ -13,11 +13,13 @@ function Triangles(props) {
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Chirp'));
+    const [proportionalVolume, setProportionalVolume] = useState('proportional');
+
 
     const createStartingTrianglesArray = num => {
         let triangles = [];
         for(let i = 1; i < num ** 2 + 1; i++) {
-            let random = Math.random() * .5
+            let random = .05 + Math.random() * .45
             let remainder = 1 - random;
             let side = Math.random() > .5 ? 'right' : 'left'
             triangles.push({
@@ -25,6 +27,7 @@ function Triangles(props) {
                 color: getColor(i, colorPalette),
                 left: side === 'left' ? random : remainder,
                 right: side === 'right' ? random : remainder,
+                volumeMultiplier: scaler(.5, .95, .002, .01, remainder),
                 key: uuidv4()
             })
         }
@@ -75,14 +78,14 @@ function Triangles(props) {
         
     }, [colorPalette]);
 
-    const soundPlay = soundObj => {
-        const sound = new Howl({
-            src: soundObj.src,
-            sprite: soundObj.sprite,
-            volume: props.volume * .01
-        });
-        sound.play(soundObj.spriteName);
-    }
+    // const soundPlay = soundObj => {
+    //     const sound = new Howl({
+    //         src: soundObj.src,
+    //         sprite: soundObj.sprite,
+    //         volume: props.volume * .01
+    //     });
+    //     sound.play(soundObj.spriteName);
+    // }
 
     const center = (idx) => {
         if(idx === 0) toggleIsOrganizing();
@@ -93,20 +96,21 @@ function Triangles(props) {
                 return triangle;
             }
         });
-        soundPlay(sound);
+        soundPlay(sound, triangles[idx].volumeMultiplier, props.volume, proportionalVolume);
         setTriangles(newTriangles);
         setNextIndex({id: idx + 1})        
     }
 
     const uncenter = () => {
         let newTriangles = triangles.map(triangle => {
-            let random = Math.random() * .5;
+            let random = .05 + Math.random() * .45
             let remainder = 1 - random;
             let side = Math.random() > .5 ? 'right' : 'left';
             return {
                 ...triangle,
                 left: side === 'left' ? random : remainder,
-                right: side === 'right' ? random : remainder
+                right: side === 'right' ? random : remainder,
+                volumeMultiplier: scaler(.5, .95, .002, .01, remainder),
             }
         })
         setTriangles(newTriangles);
@@ -133,6 +137,10 @@ function Triangles(props) {
 
     const handleChangeVolume = volume => {
         props.changeVolume(volume);
+    }
+
+    const handleChangeProportionalVolume = selection => {
+        setProportionalVolume(selection);
     }
 
     const displayTriangles = () => {
@@ -170,7 +178,7 @@ function Triangles(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow}  setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={12} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Chirp' organizedFunction={uncenter} unorganizedFunction={() => center(0)} unorgButton='Uncenter' orgButton='Center'/>
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow}  setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={12} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Chirp' organizedFunction={uncenter} unorganizedFunction={() => center(0)} unorgButton='Uncenter' orgButton='Center'/>
             </div>
         </div>
     )
