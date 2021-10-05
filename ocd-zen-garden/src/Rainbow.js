@@ -12,6 +12,7 @@ function Rainbow(props) {
     const [numArcs, setNumArcs] = useState(12);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Sparkle'));
+    const [proportionalVolume, setProportionalVolume] = useState('proportional');
 
     // const soundPlay = (soundObj, multiplier) => {
     //     const sound = new Howl({
@@ -87,7 +88,7 @@ function Rainbow(props) {
                 return arc;
             }
         });
-        soundPlay(sound, arcs[idx].volumeMultiplier, props.volume);
+        soundPlay(sound, arcs[idx].volumeMultiplier, props.volume, proportionalVolume);
         setArcs(newArcs);
         setNextIdx(idx - 1);
         if(idx - 1 === 0) {
@@ -122,6 +123,10 @@ function Rainbow(props) {
     const handleSetColorPalette = palette => {
         colorsDoNotUpdate.current = false;
         setColorPalette(palette);
+    }
+
+    const handleChangeProportionalVolume = selection => {
+        setProportionalVolume(selection);
     }
 
     const handleChangeVolume = volume => {
@@ -169,7 +174,7 @@ function Rainbow(props) {
                             {displayArcs(0, props.width * .7)}
                         </div>
                 </div>
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumArcs} minNum={7} maxNum={25} number={numArcs} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Sparkle' organizedFunction={shift} unorganizedFunction={() => align(arcs.length - 1)} unorgButton='Shift' orgButton='Align' />
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumArcs} minNum={7} maxNum={25} number={numArcs} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Sparkle' organizedFunction={shift} unorganizedFunction={() => align(arcs.length - 1)} unorgButton='Shift' orgButton='Align' />
 
             </div>
         </div>

@@ -12,6 +12,7 @@ function Meters(props) {
     const [numLines, setNumLines] = useState(10);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Whoop'));
+    const [proportionalVolume, setProportionalVolume] = useState('proportional');
 
     // const soundPlay = (soundObj, multiplier) => {
     //     const sound = new Howl({
@@ -88,7 +89,7 @@ function Meters(props) {
                 return line;
             }
         });
-        soundPlay(sound, lines[idx].volumeMultiplier, props.volume);
+        soundPlay(sound, lines[idx].volumeMultiplier, props.volume, proportionalVolume);
         setLines(newLines);
         setNextIdx(idx + 1);
         if(idx + 1 === lines.length) {
@@ -125,6 +126,10 @@ function Meters(props) {
         setColorPalette(palette);
     }
 
+    const handleChangeProportionalVolume = selection => {
+        setProportionalVolume(selection);
+    }
+
     const handleChangeVolume = volume => {
         props.changeVolume(volume);
     }
@@ -152,7 +157,7 @@ function Meters(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumLines} minNum={7} maxNum={35} number={numLines} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Whoop' organizedFunction={unbalance} unorganizedFunction={() => balance(0)} unorgButton='Unbalance' orgButton='Balance' />
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumLines} minNum={7} maxNum={35} number={numLines} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Whoop' organizedFunction={unbalance} unorganizedFunction={() => balance(0)} unorgButton='Unbalance' orgButton='Balance' />
 
             </div>
         </div>

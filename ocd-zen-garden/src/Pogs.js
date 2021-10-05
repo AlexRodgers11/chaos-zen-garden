@@ -13,6 +13,7 @@ function Pogs(props) {
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Robot'));
+    const [proportionalVolume, setProportionalVolume] = useState('proportional');
     const [shape, setShape] = useState('circle');
 
     const createStartingPogsArray = num => {
@@ -92,7 +93,7 @@ function Pogs(props) {
                 return pog;
             }
         });
-        soundPlay(sound, pogs[idx].volumeMultplier1, props.volume);
+        soundPlay(sound, pogs[idx].volumeMultplier1, props.volume, proportionalVolume);
         setPogs(newPogs);
         setTimeout(() => {
             let newPogs = pogs.map(pog => {
@@ -102,7 +103,7 @@ function Pogs(props) {
                     return pog;
                 }
             });
-            soundPlay(sound, pogs[idx].volumeMultplier2, props.volume);
+            soundPlay(sound, pogs[idx].volumeMultplier2, props.volume, proportionalVolume);
             setPogs(newPogs);
             setNextIndex(idx + 1);
         }, speed)
@@ -147,6 +148,10 @@ function Pogs(props) {
         setColorPalette(palette);
     }
 
+    const handleChangeProportionalVolume = selection => {
+        setProportionalVolume(selection);
+    }
+
     const handleChangeVolume = volume => {
         props.changeVolume(volume);
     }
@@ -189,7 +194,7 @@ function Pogs(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={twist} unorganizedFunction={() => align(0)} unorgButton='Twist' orgButton='Align'/>
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={twist} unorganizedFunction={() => align(0)} unorgButton='Twist' orgButton='Align'/>
             </div>
         </div>
     )

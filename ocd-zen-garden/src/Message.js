@@ -10,6 +10,7 @@ function Message(props){
     const [nextIndex, setNextIndex] = useState(0);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Robot'));
+    const [proportionalVolume, setProportionalVolume] = useState('proportional');
     const [colorPalette, setColorPalette] = useState(props.palette);
 
     // const soundPlay = (soundObj, multiplier) => {
@@ -73,7 +74,7 @@ function Message(props){
                 return {...letter, tilt: 0}
             } else return letter;
         });
-        soundPlay(sound, letters[idx].volumeMultiplier, props.volume);
+        soundPlay(sound, letters[idx].volumeMultiplier, props.volume, proportionalVolume);
         setLetters(newLetters);
         if(idx + 1 !== letters.length) {
             if(nextIndex === letters.length) {
@@ -159,6 +160,10 @@ function Message(props){
         setColorPalette(palette);
     }
 
+    const handleChangeProportionalVolume = selection => {
+        setProportionalVolume(selection);
+    }
+
     const handleChangeVolume = volume => {
         props.changeVolume(volume);
     }
@@ -210,7 +215,7 @@ function Message(props){
                         {displayWords(letters)}
                     </div>
                 </div>
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} soundValue='Robot' changeText={handleChangeText} setSpeed={handleSetSpeed} setSound={handleSetSound} organizedFunction={unalignLetters} unorganizedFunction={() => straightenLetters(0)} unorgButton='Unalign' orgButton='Straighten' />
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} soundValue='Robot' changeText={handleChangeText} setSpeed={handleSetSpeed} setSound={handleSetSound} organizedFunction={unalignLetters} unorganizedFunction={() => straightenLetters(0)} unorgButton='Unalign' orgButton='Straighten' />
             </div>
         </div>
     )

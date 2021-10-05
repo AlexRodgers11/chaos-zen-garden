@@ -10,6 +10,7 @@ function Crosshair(props) {
     const [nextIndex, setNextIndex] = useState(0);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Robot'));
+    const [proportionalVolume, setProportionalVolume] = useState('proportional');
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [numRings, setNumRings] = useState(6);
     const [userJustChangedNumber, toggleUserJustChangedNumber] = useToggle(props.id === 1 ? false : props.userJustChangedNumber)
@@ -95,7 +96,7 @@ function Crosshair(props) {
             
         });
 
-        soundPlay(sound, rings[idx].volumeMultiplier, props.volume);
+        soundPlay(sound, rings[idx].volumeMultiplier, props.volume, proportionalVolume);
         setRings(newRings);
         setNextIndex(idx + 1);
         if(idx + 1 === rings.length) setTimeout(() => {
@@ -128,6 +129,10 @@ function Crosshair(props) {
     const handleSetColorPalette = palette => {
         colorsDoNotUpdate.current = false;
         setColorPalette(palette);
+    }
+
+    const handleChangeProportionalVolume = selection => {
+        setProportionalVolume(selection);
     }
 
     const handleChangeVolume = volume => {
@@ -194,7 +199,7 @@ function Crosshair(props) {
                         {display(1)}
                     </div>
                 </div>
-            <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumRings} minNum={4} maxNum={20} number={numRings} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={spin} unorganizedFunction={() => align(0)} unorgButton='Spin' orgButton='Align' />
+            <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumRings} minNum={4} maxNum={20} number={numRings} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={spin} unorganizedFunction={() => align(0)} unorgButton='Spin' orgButton='Align' />
 
             </div>
         </div>

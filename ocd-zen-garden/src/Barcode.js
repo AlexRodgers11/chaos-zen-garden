@@ -11,6 +11,7 @@ function Barcode(props) {
     const [numStripes, setNumStripes] = useState(props.numStripes || 15);
     const [nextIdx, setNextIdx] = useState(0);
     const [sound, setSound] = useState(getSound('Blip'));
+    const [proportionalVolume, setProportionalVolume] = useState('proportional');
     const [speed, setSpeed] = useState(1000);
 
     const createStartingStripeArray = num => {
@@ -57,7 +58,7 @@ function Barcode(props) {
                 return stripe;
             }
         });
-        soundPlay(sound, stripes[idx].volumeMultiplier, props.volume);
+        soundPlay(sound, stripes[idx].volumeMultiplier, props.volume, proportionalVolume);
         setStripes(newStripes);
         setNextIdx(idx + 1);
         if(idx + 1 === stripes.length) {
@@ -130,6 +131,10 @@ function Barcode(props) {
         setColorPalette(palette);
     }
 
+    const handleChangeProportionalVolume = selection => {
+        setProportionalVolume(selection);
+    }
+
     const handleChangeVolume = volume => {
         props.changeVolume(volume);
     }
@@ -153,7 +158,7 @@ function Barcode(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar toggleWindow={handleToggleWindow} disableFullWindow={props.disableFullWindow} fullWindow={props.fullWindow} setModalContent={props.setModalContent} palette={colorPalette} volume={props.volume} changeVolume={handleChangeVolume} setPalette={handleSetColorPalette} setNumber={handleSetNumStripes} minNum={5} maxNum={25} number={numStripes} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Blip' organizedFunction={unbalanceStripes} unorganizedFunction={() => balanceStripes(0)} unorgButton='Unbalance' orgButton='Balance' />
+                <ControlBar toggleWindow={handleToggleWindow} disableFullWindow={props.disableFullWindow} fullWindow={props.fullWindow} setModalContent={props.setModalContent} palette={colorPalette} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} setPalette={handleSetColorPalette} setNumber={handleSetNumStripes} minNum={5} maxNum={25} number={numStripes} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Blip' organizedFunction={unbalanceStripes} unorganizedFunction={() => balanceStripes(0)} unorgButton='Unbalance' orgButton='Balance' />
             </div>
         </div>
     )

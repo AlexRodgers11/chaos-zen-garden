@@ -15,6 +15,7 @@ function Smudges(props) {
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Sparkle'));
+    const [proportionalVolume, setProportionalVolume] = useState('proportional');
 
     const createStartingSquaresArray = num => {
         let squares = [];
@@ -114,7 +115,7 @@ function Smudges(props) {
             }
         }
 
-        soundPlay(sound, squares[idx].volumeMultiplier, props.volume);
+        soundPlay(sound, squares[idx].volumeMultiplier, props.volume, proportionalVolume);
         setSquares(newSquares);
         if(nextIdx < squares.length) {
             setNextIndex(nextIdx);
@@ -158,6 +159,10 @@ function Smudges(props) {
         setColorPalette(palette);
     }
 
+    const handleChangeProportionalVolume = selection => {
+        setProportionalVolume(selection);
+    }
+
     const handleChangeVolume = volume => {
         props.changeVolume(volume);
     }
@@ -196,7 +201,7 @@ function Smudges(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Sparkle' organizedFunction={contaminate} unorganizedFunction={() => clean(0)} unorgButton='Contaminate' orgButton='Clean'/>
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Sparkle' organizedFunction={contaminate} unorganizedFunction={() => clean(0)} unorgButton='Contaminate' orgButton='Clean'/>
             </div>
         </div>
     )

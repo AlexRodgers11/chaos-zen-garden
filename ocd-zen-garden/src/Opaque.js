@@ -13,6 +13,7 @@ function Opaque(props) {
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Ding'));
+    const [proportionalVolume, setProportionalVolume] = useState('proportional');
 
     const createStartingSquaresArray = num => {
         let squares = [];
@@ -98,7 +99,7 @@ function Opaque(props) {
         });
 
         
-        soundPlay(sound, squares[idx].volumeMultiplier, props.volume);
+        soundPlay(sound, squares[idx].volumeMultiplier, props.volume, proportionalVolume);
         setSquares(newSquares);
         if(idx < squares.length) {
             setNextIndex(idx + 1);
@@ -140,6 +141,10 @@ function Opaque(props) {
         setColorPalette(palette);
     }
 
+    const handleChangeProportionalVolume = selection => {
+        setProportionalVolume(selection);
+    }
+
     const handleChangeVolume = volume => {
         props.changeVolume(volume);
     }
@@ -177,7 +182,7 @@ function Opaque(props) {
                         })}</div>
                     })}
                 </div>
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={20} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={fade} unorganizedFunction={() => sharpen(0)} unorgButton='Fade' orgButton='Sharpen'/>
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={'proportional'} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={20} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={fade} unorganizedFunction={() => sharpen(0)} unorgButton='Fade' orgButton='Sharpen'/>
             </div>
         </div>
     )

@@ -11,6 +11,7 @@ function Asterisk(props) {
     const [nextIndex, setNextIndex] = useState(0);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Click'));
+    const [proportionalVolume, setProportionalVolume] = useState('proportional');
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [numLines, setNumLines] = useState(15);
     const [userJustChangedNumber, toggleUserJustChangedNumber] = useToggle(props.id === 1 ? false : props.userJustChangedNumber)
@@ -95,7 +96,7 @@ function Asterisk(props) {
             
         });
 
-        soundPlay(sound, lines[idx].volumeMultiplier, props.volume);
+        soundPlay(sound, lines[idx].volumeMultiplier, props.volume, proportionalVolume);
         setLines(newLines);
         setNextIndex(idx + 1);
         if(idx + 1 === lines.length) setTimeout(() => {
@@ -130,6 +131,10 @@ function Asterisk(props) {
         setColorPalette(palette);
     }
 
+    const handleChangeProportionalVolume = selection => {
+        setProportionalVolume(selection);
+    }
+
     const handleChangeVolume = volume => {
         props.changeVolume(volume);
     }
@@ -160,7 +165,7 @@ function Asterisk(props) {
                         })}
                     </div>
                 </div>
-            <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumLines} minNum={4} maxNum={50} number={numLines} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={shift} unorganizedFunction={() => align(0)} unorgButton='Shift' orgButton='Align' />
+            <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumLines} minNum={4} maxNum={50} number={numLines} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={shift} unorganizedFunction={() => align(0)} unorgButton='Shift' orgButton='Align' />
 
             </div>
         </div>

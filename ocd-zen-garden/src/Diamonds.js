@@ -13,6 +13,7 @@ function Diamonds(props) {
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Laser'));
+    const [proportionalVolume, setProportionalVolume] = useState('proportional');
 
     const createStartingSquaresArray = num => {
         let squares = [];
@@ -101,7 +102,7 @@ function Diamonds(props) {
         });
 
         
-        soundPlay(sound, squares[idx].volumeMultiplier, props.volume);
+        soundPlay(sound, squares[idx].volumeMultiplier, props.volume, proportionalVolume);
         setSquares(newSquares);
         if(idx < squares.length) {
             setNextIndex(idx + 1);
@@ -143,6 +144,10 @@ function Diamonds(props) {
     const handleSetColorPalette = palette => {
         colorsDoNotUpdate.current = false;
         setColorPalette(palette);
+    }
+
+    const handleChangeProportionalVolume = selection => {
+        setProportionalVolume(selection);
     }
 
     const handleChangeVolume = volume => {
@@ -187,7 +192,7 @@ function Diamonds(props) {
                     })}
                 </div>
                 </div>
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={20} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Laser' organizedFunction={unbalance} unorganizedFunction={() => balance(0)} unorgButton='Unbalance' orgButton='Balance'/>
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={'proportional'} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={20} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Laser' organizedFunction={unbalance} unorganizedFunction={() => balance(0)} unorgButton='Unbalance' orgButton='Balance'/>
             </div>
         </div>
     )

@@ -16,6 +16,7 @@ function Desk(props) {
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Ding'));
+    const [proportionalVolume, setProportionalVolume] = useState('proportional');
 
     const createStartingItemsArray = num => {
         let items = [];
@@ -94,7 +95,7 @@ function Desk(props) {
                 return item;
             }
         });
-        soundPlay(sound, items[idx].volumeMultiplier, props.volume);
+        soundPlay(sound, items[idx].volumeMultiplier, props.volume, proportionalVolume);
         setItems(newItems);
         setNextIndex(idx + 1);
     }
@@ -123,6 +124,10 @@ function Desk(props) {
     const handleSetColorPalette = palette => {
         colorsDoNotUpdate.current = false;
         setColorPalette(palette);
+    }
+
+    const handleChangeProportionalVolume = selection => {
+        setProportionalVolume(selection);
     }
 
     const handleChangeVolume = volume => {
@@ -165,7 +170,7 @@ function Desk(props) {
                         </div>
                     </div>
                 </div>
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={shift} unorganizedFunction={() => align(0)} unorgButton='Shift' orgButton='Align'/>
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={shift} unorganizedFunction={() => align(0)} unorgButton='Shift' orgButton='Align'/>
             </div>
         </div>
     )

@@ -12,6 +12,7 @@ function Dominoes(props) {
     const [numLines, setNumLines] = useState(10);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Click'));
+    const [proportionalVolume, setProportionalVolume] = useState('proportional');
 
     // const soundPlay = (soundObj, multiplier) => {
     //     const sound = new Howl({
@@ -88,7 +89,7 @@ function Dominoes(props) {
                 return line;
             }
         });
-        soundPlay(sound, lines[idx].volumeMultiplier, props.volume);
+        soundPlay(sound, lines[idx].volumeMultiplier, props.volume, proportionalVolume);
         setLines(newLines);
         setNextIdx(idx + 1);
         if(idx + 1 === lines.length) {
@@ -125,6 +126,10 @@ function Dominoes(props) {
         setColorPalette(palette);
     }
 
+    const handleChangeProportionalVolume = selection => {
+        setProportionalVolume(selection);
+    }
+
     const handleChangeVolume = volume => {
         props.changeVolume(volume);
     }
@@ -152,7 +157,7 @@ function Dominoes(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumLines} minNum={5} maxNum={35} number={numLines} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Click' organizedFunction={tiltLines} unorganizedFunction={() => straightenLines(0)} unorgButton='Tilt' orgButton='Straighten' />
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} volume={props.volume} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumLines} minNum={5} maxNum={35} number={numLines} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Click' organizedFunction={tiltLines} unorganizedFunction={() => straightenLines(0)} unorgButton='Tilt' orgButton='Straighten' />
 
             </div>
         </div>

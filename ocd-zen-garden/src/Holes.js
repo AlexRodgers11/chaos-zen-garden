@@ -13,6 +13,7 @@ function Holes(props) {
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Ding'));
+    const [proportionalVolume, setProportionalVolume] = useState('proportional');
 
     const createStartingSquaresArray = num => {
         let squares = [];
@@ -148,7 +149,7 @@ function Holes(props) {
             }
         }
         
-        soundPlay(sound, holes[idx].volumeMultiplier, props.volume);
+        soundPlay(sound, holes[idx].volumeMultiplier, props.volume, proportionalVolume);
         setHoles(newHoles);
         if(nextIdx < holes.length) {
             setNextIndex(nextIdx);
@@ -192,6 +193,10 @@ function Holes(props) {
     const handleSetColorPalette = palette => {
         colorsDoNotUpdate.current = false;
         setColorPalette(palette);
+    }
+
+    const handleChangeProportionalVolume = selection => {
+        setProportionalVolume(selection);
     }
 
     const handleChangeVolume = volume => {
@@ -257,7 +262,7 @@ function Holes(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={20} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={puncture} unorganizedFunction={() => fill(0)} unorgButton='Puncture' orgButton='Fill'/>
+                <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={20} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={puncture} unorganizedFunction={() => fill(0)} unorgButton='Puncture' orgButton='Fill'/>
             </div>
         </div>
     )
