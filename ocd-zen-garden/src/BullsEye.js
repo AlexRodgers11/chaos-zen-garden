@@ -15,6 +15,7 @@ function BullsEye(props) {
     const [marginTop, setMarginTop] = useState(props.id > 1 ? Math.random(): '0');
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound(props.sound));
+    const [proportionalVolume, setProportionalVolume] = useState(props.id === 1 ? 'proportional' : props.proportionalVolume);
     const [colorPalette, setColorPalette] = useState(props.palette);
     const [numRings, setNumRings] = useState(props.numRings);
     const [userJustChangedNumber, toggleUserJustChangedNumber] = useToggle(props.id === 1 ? false : props.userJustChangedNumber);
@@ -68,7 +69,7 @@ function BullsEye(props) {
     useEffect(() => {
         if((props.orgIndex === props.id && !isOrganized)) {
             if(orgIndex !== props.numRings) {
-                soundPlay(sound, scaler(0, 2, .0015, .01, marginTop + marginLeft), props.volume);
+                soundPlay(sound, scaler(0, 2, .0015, .01, marginTop + marginLeft), props.volume, (props.id > 1 ? props.proportionalVolume : proportionalVolume));
             }
             setMarginLeft(1 / 2);
             setMarginTop(1 / 2);
@@ -132,6 +133,10 @@ function BullsEye(props) {
         setColorPalette(palette);
     }
 
+    const handleChangeProportionalVolume = selection => {
+        setProportionalVolume(selection);
+    }
+
     const handleChangeVolume = volume => {
         props.changeVolume(volume);
     }
@@ -158,12 +163,12 @@ function BullsEye(props) {
                 <div style={props.id === 1 ? {display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', height: '100%'} : null}>
                     <div style={props.id > 1 ? {position: 'relative', backgroundColor: getColor(props.id, colorPalette), left: `${(marginLeft * props.width * .6 / props.numRings) - 1}px`, top: `${(marginTop * props.width * .6 / props.numRings) - 1}px`, border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: `${props.shape === 'circle' ? '50%' : 0}`, width: `${props.width * .6 - ((props.width * .6 / props.numRings) * (props.id - 1)) - 1}px`, height: `${props.width * .6 - ((props.width * .6 / props.numRings) * (props.id - 1)) - 1}px`} : {position: 'relative', margin: '0 auto', backgroundColor: getColor(props.id, colorPalette), border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: `${props.shape === 'circle' ? '50%' : 0}`, width: `${props.width * .60}px`, height: `${props.width * .60}px`}}>
                         {                                                                                                         
-                            props.id < props.numRings ? <BullsEye shape={props.shape} userJustChangedNumber={props.id === 1 ? userJustChangedNumber : props.userJustChangedNumber} volume={props.volume} palette={colorPalette} sound={sound} orgIndex={props.id === 1 ? orgIndex : props.orgIndex} isOrganized={props.id === 1 ? isOrganized : props.isOrganized} numRings={props.numRings} id={props.id + 1} width={props.width}  /> : null
+                            props.id < props.numRings ? <BullsEye shape={props.shape} userJustChangedNumber={props.id === 1 ? userJustChangedNumber : props.userJustChangedNumber} volume={props.volume} proportionalVolume={props.id === 1 ? proportionalVolume : props.proportionalVolume} palette={colorPalette} sound={sound} orgIndex={props.id === 1 ? orgIndex : props.orgIndex} isOrganized={props.id === 1 ? isOrganized : props.isOrganized} numRings={props.numRings} id={props.id + 1} width={props.width}  /> : null
                         }
                         
                     </div>
                 </div>
-            {props.id === 1 ? <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} shape={shape} shapes={['circle', 'square']} changeShape={props.setShape} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumRings} minNum={4} maxNum={40} number={props.numRings} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Whoop' organizedFunction={scatterRings} unorganizedFunction={organizeRings} unorgButton='Scatter' orgButton='Organize' /> : null}
+            {props.id === 1 ? <ControlBar toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} shape={shape} shapes={['circle', 'square']} changeShape={props.setShape} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumRings} minNum={4} maxNum={40} number={props.numRings} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Whoop' organizedFunction={scatterRings} unorganizedFunction={organizeRings} unorgButton='Scatter' orgButton='Organize' /> : null}
             </div>
         </div>
         
