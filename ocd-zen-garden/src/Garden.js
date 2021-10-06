@@ -6,6 +6,7 @@ import NewUserForm from './NewUserForm';
 import LoginForm from './LoginForm';
 import ColorForm from './ColorForm';
 import useCurrentWidth from './hooks/useCurrentWidth';
+import useCurrentHeight from './hooks/useCurrentHeight';
 import { getColor, palettes, getSound } from './utils';
 import Snake from './Snake';
 import Dots from './Dots';
@@ -38,6 +39,7 @@ import { GiJamesBondAperture } from 'react-icons/gi';
 
 function Garden(){
     let width = useCurrentWidth();
+    let height = useCurrentHeight();
     const [colorPalette, setColorPalette] = useState(palettes[0]);
     const [volume, setVolume] = useState(65);
     const [numRings, setNumRings] = useState(10)
@@ -73,17 +75,17 @@ function Garden(){
 
     const displayFullSize = gardenPiece => {
         // let gardenPieceWidth = width * .5
-        let gardenPieceWidth;
+        let gardenPieceWidth = height - 47;
         let disableFullWindow = false;
-        if(width >= 1700) {
-            gardenPieceWidth = width * .475;
-        } else if(width >= 1200) {
-            gardenPieceWidth = width * .5;
-        } else if(width >= 900) {
-            gardenPieceWidth = width * .75;
-        } else if (width < 900 && width > 600) {
-            gardenPieceWidth = width
-        } 
+        // if(width >= 1700) {
+        //     gardenPieceWidth = width * .475;
+        // } else if(width >= 1200) {
+        //     gardenPieceWidth = width * .5;
+        // } else if(width >= 900) {
+        //     gardenPieceWidth = width * .75;
+        // } else if (width < 900 && width > 600) {
+        //     gardenPieceWidth = width
+        // } 
         switch(gardenPiece) {
             case 'snake':
                 return <Snake width={gardenPieceWidth} className="Snake" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} />
@@ -205,7 +207,7 @@ function Garden(){
     } else {
         return (
             <>
-            <Header />
+            <Header changePalette={handleChangePalette} setModalContent={handleSetModalContent}/>
             <div className="pieceContainer">
                 {displayFullSize(fullSelectedPiece)}
             </div>

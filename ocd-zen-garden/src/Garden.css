@@ -6,7 +6,8 @@
 
 .pieceContainer {
     position: relative;
-    top: 45px
+    top: 45px;
+    background-color: black;
 }
 
 
