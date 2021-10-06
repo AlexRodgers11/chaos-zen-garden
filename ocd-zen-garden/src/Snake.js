@@ -180,7 +180,7 @@ function Snake(props) {
                         {boxes.map(box => {
                             return (
                                 // <div key={box.key} style={{position: 'relative', boxSizing: 'border-box', border: `1px solid ${getColor('border', colorPalette)}`, width: `${props.width * .75 / numBoxes}px`, height: `${props.width * .75 / numBoxes}px`, padding: 0, marginTop: '0', marginBottom: '0', left:`${box.left}%`, backgroundColor: `${box.color}`, borderRadius: `${shape === 'circle' ? '50%' : 0}`}}></div>
-                                <div key={box.key} style={{position: 'relative', boxSizing: 'border-box', border: `1px solid ${getColor('border', colorPalette)}`, width: `${props.width * .75 / numBoxes}px`, height: `${props.width * .75 / numBoxes}px`, padding: 0, marginTop: '0', marginBottom: '0', left: `${box.left * props.width * .75 / numBoxes}px`, backgroundColor: `${box.color}`, borderRadius: `${shape === 'circle' ? '50%' : 0}`}}></div>
+                                <div key={box.key} style={{position: 'relative', boxSizing: 'border-box', border: `1px solid ${getColor('border', colorPalette)}`, width: `${Math.floor(props.width * .75 / numBoxes)}px`, height: `${Math.floor(props.width * .75 / numBoxes)}px`, padding: 0, marginTop: '0', marginBottom: '0', left: `${box.left * props.width * .75 / numBoxes}px`, backgroundColor: `${box.color}`, borderRadius: `${shape === 'circle' ? '50%' : 0}`}}></div>
                             )
                         })}
                     {/* </div> */}
