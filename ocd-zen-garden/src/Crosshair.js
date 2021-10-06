@@ -159,6 +159,7 @@ function Crosshair(props) {
     const display = (id) => {
         let ringSize = `${id === 1 ? `${.6 * props.width}` : `${(.6 - (id - 1) * (.6 / numRings)) * props.width}`}`;
         if(id <= numRings) {
+            let lineColor = getColor(1, colorPalette);
             return (
                 // <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', border: `1px solid ${getColor(id, colorPalette)}`, height: `${id === 1 ? '70%' : `${70 - (70 / numEdges)}`}`, width: `${width}px`}}>{display(id + 1, width / 2)}</div>
                 <div style={{
@@ -176,12 +177,12 @@ function Crosshair(props) {
                     width: `${ringSize}px`}}>
                         <div style={{position: 'absolute', zIndex: `${id}`, height: `${ringSize}px`, width: `${ringSize}px`}}>
                             <div style={{position: 'absolute', width: '100%', height: '50%', zIndex: `${id}`}}>
-                                <div style={{position: 'relative', display: 'inline-block', width: `${ringSize * .5 - 1}px`, zIndex: `${id}`, height: `${ringSize * .5 - 1}px`, borderBottom: '1px solid black', borderRight: '1px solid black'}}></div>
-                                <div style={{position: 'relative', display: 'inline-block', width: `${ringSize * .5 - 1}px`, zIndex: `${id}`, height: `${ringSize * .5 - 1}px`, borderBottom: '1px solid black', borderLeft: '1px solid black'}}></div>
+                                <div style={{position: 'relative', display: 'inline-block', width: `${ringSize * .5 - 1}px`, zIndex: `${id}`, height: `${ringSize * .5 - 1}px`, borderBottom: `1px solid ${lineColor}`, borderRight: `1px solid ${lineColor}`}}></div>
+                                <div style={{position: 'relative', display: 'inline-block', width: `${ringSize * .5 - 1}px`, zIndex: `${id}`, height: `${ringSize * .5 - 1}px`, borderBottom: `1px solid ${lineColor}`, borderLeft: `1px solid ${lineColor}`}}></div>
                             </div>
                             <div style={{position: 'absolute', width: '100%', height: '50%', top: `${ringSize * .5}px`, zIndex: `${id}`}}>
-                                <div style={{position: 'relative', display: 'inline-block', width: `${ringSize * .5 - 1}px`, zIndex: `${id}`, height: `${ringSize * .5 - 1}px`, borderTop: '1px solid black', borderRight: '1px solid black'}}></div>
-                                <div style={{position: 'relative', display: 'inline-block', width: `${ringSize * .5 - 1}px`, zIndex: `${id}`, height: `${ringSize * .5 - 1}px`, borderTop: '1px solid black', borderLeft: '1px solid black'}}></div>
+                                <div style={{position: 'relative', display: 'inline-block', width: `${ringSize * .5 - 1}px`, zIndex: `${id}`, height: `${ringSize * .5 - 1}px`, borderTop: `1px solid ${lineColor}`, borderRight: `1px solid ${lineColor}`}}></div>
+                                <div style={{position: 'relative', display: 'inline-block', width: `${ringSize * .5 - 1}px`, zIndex: `${id}`, height: `${ringSize * .5 - 1}px`, borderTop: `1px solid ${lineColor}`, borderLeft: `1px solid ${lineColor}`}}></div>
                             </div>
                         </div>
 
