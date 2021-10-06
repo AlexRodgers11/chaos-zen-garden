@@ -86,53 +86,53 @@ function Garden(){
         } 
         switch(gardenPiece) {
             case 'snake':
-                return <><Header changePalette={handleChangePalette}/><Snake width={gardenPieceWidth} className="Snake" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} /></>
+                return <Snake width={gardenPieceWidth} className="Snake" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} />
             case 'dots':
-                return <><Header changePalette={handleChangePalette}/><Dots width={gardenPieceWidth} className="Dots" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} /></>
+                return <Dots width={gardenPieceWidth} className="Dots" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} />
             case 'bullseye':
-                return <><Header changePalette={handleChangePalette}/><BullsEye width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} numRings={numRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" className="BullsEye" orgIndex={numRings + 1} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} /></>
+                return <BullsEye width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} numRings={numRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" className="BullsEye" orgIndex={numRings + 1} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} />
             case 'message':
-                return <><Header changePalette={handleChangePalette}/><Message width={gardenPieceWidth} className="Message" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
+                return <Message width={gardenPieceWidth} className="Message" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
             case 'dominoes':
-                return <><Header changePalette={handleChangePalette}/><Dominoes width={gardenPieceWidth} className="Dominoes" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
+                return <Dominoes width={gardenPieceWidth} className="Dominoes" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
             case 'barcode': 
-                return <><Header changePalette={handleChangePalette}/><Barcode width={gardenPieceWidth} className="Barcode" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
+                return <Barcode width={gardenPieceWidth} className="Barcode" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
             case 'squares':
-                return <><Header changePalette={handleChangePalette}/><Squares width={gardenPieceWidth} className="Squares" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
+                return <Squares width={gardenPieceWidth} className="Squares" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
             case 'triangles':
-                return <><Header changePalette={handleChangePalette}/><Triangles width={gardenPieceWidth} className="Triangles" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
+                return <Triangles width={gardenPieceWidth} className="Triangles" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
             case 'antlers':
-                return <><Header changePalette={handleChangePalette}/><Antlers width={gardenPieceWidth} className="Antlers" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
+                return <Antlers width={gardenPieceWidth} className="Antlers" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
             case 'pogs':
-                return <><Header changePalette={handleChangePalette}/><Pogs width={gardenPieceWidth} className="Coins" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
+                return <Pogs width={gardenPieceWidth} className="Coins" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
             case 'message2':
-                return <><Header changePalette={handleChangePalette}/><Message2 width={gardenPieceWidth} className="Message2" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
+                return <Message2 width={gardenPieceWidth} className="Message2" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
             case 'smudges':
-                return <><Header changePalette={handleChangePalette}/><Smudges width={gardenPieceWidth} className="Smudges" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
+                return <Smudges width={gardenPieceWidth} className="Smudges" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
             case 'holes':
-                return <><Header changePalette={handleChangePalette}/><Holes width={gardenPieceWidth} className="Holes" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
+                return <Holes width={gardenPieceWidth} className="Holes" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
             case 'edges':
-                return <><Header changePalette={handleChangePalette}/><Edges width={gardenPieceWidth} className="Edges" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
+                return <Edges width={gardenPieceWidth} className="Edges" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
             case 'crosshair':
-                return <><Header changePalette={handleChangePalette}/><Crosshair width={gardenPieceWidth} className="Crosshair" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
+                return <Crosshair width={gardenPieceWidth} className="Crosshair" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
             case 'tallies':
-                return <><Header changePalette={handleChangePalette}/><Tallies width={gardenPieceWidth} className="Tallies" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
+                return <Tallies width={gardenPieceWidth} className="Tallies" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
             case 'cards':
-                return <><Header changePalette={handleChangePalette}/><Cards width={gardenPieceWidth} className="Cards" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
+                return <Cards width={gardenPieceWidth} className="Cards" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
             case 'desk':
-                return <><Header changePalette={handleChangePalette}/><Desk width={gardenPieceWidth} className="Desk" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
+                return <Desk width={gardenPieceWidth} className="Desk" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
             case 'meters':
-                return <><Header changePalette={handleChangePalette}/><Meters width={gardenPieceWidth} className="Meters" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
+                return <Meters width={gardenPieceWidth} className="Meters" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
             case 'eyes':
-                return <><Header changePalette={handleChangePalette}/><Eyes width={gardenPieceWidth} className="Eyes" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
+                return <Eyes width={gardenPieceWidth} className="Eyes" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
             case 'opaque':
-                return <><Header changePalette={handleChangePalette}/><Opaque width={gardenPieceWidth} className="Opaque" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
+                return <Opaque width={gardenPieceWidth} className="Opaque" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
             case 'diamonds':
-                return <><Header changePalette={handleChangePalette}/><Diamonds width={gardenPieceWidth} className="Diamonds" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
+                return <Diamonds width={gardenPieceWidth} className="Diamonds" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
             case 'rainbow':
-                return <><Header changePalette={handleChangePalette}/><Rainbow width={gardenPieceWidth} className="Rainbow" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
+                return <Rainbow width={gardenPieceWidth} className="Rainbow" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
             case 'asterisk':
-                return <><Header changePalette={handleChangePalette}/><Asterisk width={gardenPieceWidth} className="Asterisk" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/></>
+                return <Asterisk width={gardenPieceWidth} className="Asterisk" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
         }
     }
     const displayModalContent = content => {
@@ -203,7 +203,15 @@ function Garden(){
             </>
         )
     } else {
-        return displayFullSize(fullSelectedPiece);
+        return (
+            <>
+            <Header />
+            <div className="pieceContainer">
+                {displayFullSize(fullSelectedPiece)}
+            </div>
+            </>
+        )
+        
     }
 }
 

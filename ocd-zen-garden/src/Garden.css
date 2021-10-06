@@ -4,6 +4,11 @@
     top: 45px
 }
 
+.pieceContainer {
+    position: relative;
+    top: 45px
+}
+
 
 @media (min-width: 1000px) {
     .Garden {
