@@ -75,7 +75,7 @@ function Garden(){
 
     const displayFullSize = gardenPiece => {
         // let gardenPieceWidth = width * .5
-        let gardenPieceWidth = height - 47;
+        let gardenPieceWidth = width > height ? height - 47 : width - 2;
         let disableFullWindow = false;
         // if(width >= 1700) {
         //     gardenPieceWidth = width * .475;
@@ -205,13 +205,27 @@ function Garden(){
             </>
         )
     } else {
+        console.log(width);
+        console.log(height)
         return (
-            <>
-            <Header changePalette={handleChangePalette} setModalContent={handleSetModalContent}/>
-            <div className="pieceContainer">
-                {displayFullSize(fullSelectedPiece)}
+            <div style={{width: '100vw', height: `${height}px`}}>
+                <div style={{position: 'fixed', zIndex: '3'}}>
+                {/* <div style={{position: 'fixed'}}> */}
+                <Header changePalette={handleChangePalette} setModalContent={handleSetModalContent}/>
+                </div>
+            
+            {/* <div className="pieceContainer" style={{display: 'grid', gridTemplateRows: `${width <= height ? `1fr ${width}px 1fr` : '1fr'}`, gridTemplateColumns: `${width > height ? `1fr ${height}px 1fr` : '1fr'}`}}> */}
+            <div className="pieceContainer" style={{display: 'grid', height: `${height - 45}px`, width: '100%', gridTemplateRows: `${width <= height - 45 ? `auto ${width}px auto` : '1fr'}`, gridTemplateColumns: `${width > height - 45 ? `auto ${height - 45}px auto` : '1fr'}`}}>
+            {/* <div className="pieceContainer" style={{display: 'grid', gridTemplateRows: `${width <= height ? '1fr 2fr 1fr' : '2fr 1fr 2fr'}`, gridTemplateColumns: `${width > height ? '1fr 2fr 1fr' : '2fr 1fr 2fr'}`}}> */}
+            {/* <div className="pieceContainer" style={{display: 'grid', gridTemplateRows: '1fr 1fr 1fr', gridTemplateColumns: '1fr 1fr 1fr'}}> */}
+                <div style={{backgroundColor: 'black', height: '100%', width:'auto'}}></div>
+                <div style={{backgroundColor: 'black', height: '100%', width:'auto'}}>
+                    {displayFullSize(fullSelectedPiece)}
+                </div>
+                <div style={{backgroundColor: 'black', height: '100%', width:'auto'}}></div>
             </div>
-            </>
+            
+            </div>
         )
         
     }
