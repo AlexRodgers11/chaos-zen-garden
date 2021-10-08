@@ -1,5 +1,5 @@
 import React from 'react';
-import useToggle from './hooks/useToggle';
+import './Modal.css';
 
 // function Modal(props, {children}) {
 function Modal(props) {
@@ -8,7 +8,7 @@ function Modal(props) {
     }
 
     return (
-        <div class="ModalShell" style={{
+        <div class="Modal" style={{
             position: 'fixed',
             top: '45px',
             textAlign: 'center',
@@ -20,10 +20,10 @@ function Modal(props) {
             zIndex: '999'
         }}>
             {/* <div style={{position: 'fixed', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, .90)', zIndex: '10000'}} onClick={handleToggleHideModal}></div> */}
-            <div style={{position: 'fixed', top: '45px', display: props.hidden ? 'none' : 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: `${props.height - 45}px`, backgroundColor: 'rgba(0, 0, 0, .90)', zIndex: '10000'}} onClick={handleToggleHideModal}></div>
-            <div style={{
+            <div className="Modal-Backdrop" style={{position: 'fixed', top: '45px', display: props.hidden ? 'none' : 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: `${props.height - 45}px`, backgroundColor: 'rgba(0, 0, 0, .90)', zIndex: '10000'}} onClick={handleToggleHideModal}></div>
+            <div className="Modal-Container" style={{
                 position: 'fixed',
-                width: '30%',
+                // width: '70%',
                 // height: '50%',
                 border: '1px solid black',
                 backgroundColor: '#303030',
@@ -35,7 +35,7 @@ function Modal(props) {
                     {/* <button style={{cursor: 'pointer', height: '75%', padding: '.25em', margin: '.5em'}} onClick={handleToggleHideModal}>Close</button>                     */}
                     <button style={{cursor: 'pointer', height: '2.5em', padding: '.25em', margin: '.5em'}} onClick={handleToggleHideModal}>Close</button>                    
                 </div>
-                <div className="Children" style={{backgroundColor: '#d9d9d9', padding: '5em'}}>
+                <div className="Modal-Content" style={{backgroundColor: '#d9d9d9'}}>
                     {props.children}
                 </div>
             </div>
