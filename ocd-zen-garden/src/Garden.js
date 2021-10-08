@@ -196,7 +196,7 @@ function Garden(){
                 <Rainbow width={gardenPieceWidth} className="Rainbow" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
                 <Asterisk width={gardenPieceWidth} className="Asterisk" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
                 {!hideModal ? 
-                    <Modal toggleHideModal={toggleHideModal} hidden={hideModal}>
+                    <Modal height={height} toggleHideModal={toggleHideModal} hidden={hideModal}>
                         {displayModalContent(modalContent)}
                     </Modal> 
                     : null
@@ -205,8 +205,8 @@ function Garden(){
             </>
         )
     } else {
-        console.log(width);
-        console.log(height)
+        // console.log(width);
+        // console.log(height)
         return (
             <div style={{width: '100vw', height: `${height}px`}}>
                 <div style={{position: 'fixed', zIndex: '3'}}>
