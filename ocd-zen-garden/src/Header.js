@@ -26,7 +26,11 @@ function Header(props){
     }
 
     const handleSetModalContent = evt => {
-        props.setModalContent(evt.target.id);
+        if(!props.loggedIn) {
+            props.setModalContent(evt.target.id);
+        } else {
+            props.toggleLoggedIn()
+        }
     }
 
     return(
@@ -82,8 +86,8 @@ function Header(props){
                     </div>
 
                     <div className='Header_dropdown-content'>
-                        <p id="new-user" onClick={handleSetModalContent}>Create Account</p>
-                        <p id="login" onClick={handleSetModalContent}>Log In</p>
+                        {!props.loggedIn ? <p id="new-user" onClick={handleSetModalContent}>Create Account</p> : null}
+                        <p id="login" onClick={handleSetModalContent}>{props.loggedIn ? 'Log Out' : 'Log In'}</p>
 
                     </div>
                 </div>

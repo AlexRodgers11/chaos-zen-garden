@@ -16,7 +16,8 @@ class LoginForm extends Component {
     }
 
     handleSubmit(evt) {
-
+        evt.preventDefault();
+        this.props.toggleLoggedIn();
     }
 
     render() {
@@ -32,6 +33,7 @@ class LoginForm extends Component {
                             <label className="form-label" htmlFor="password">Password</label>
                             <input className="form-control" type="password" id="password" name="password" value={this.state.password} onChange={this.handleChange} />
                         </div>
+                        <button type="submit">Create Account</button>
                     </div>
                 </form>
             </div>

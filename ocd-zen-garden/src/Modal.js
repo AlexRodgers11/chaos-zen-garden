@@ -1,10 +1,31 @@
 import React from 'react';
 import './Modal.css';
 
-// function Modal(props, {children}) {
+import NewUserForm from './NewUserForm';
+import LoginForm from './LoginForm';
+import ColorForm from './ColorForm';
+
 function Modal(props) {
     const handleToggleHideModal = () => {
         props.toggleHideModal()
+    }
+
+    const displayModalContent = () => {
+        switch(props.content) {
+            case 'epilepsy-warning':
+                return (<div>
+                    <p>WARNING: PHOTOSENSITIVITY/EPILEPSY SEIZURES</p>
+                    <p>If you, or anyone in your family has an epileptic condition or has had seizures of any kind, consult your physician before using this website. IMMEDIATELY DISCONTINUE use and consult your physician before resuming use of this website.</p>
+                </div>)
+            case 'monochrome': 
+                return (<ColorForm monochrome={true} colorCount={1}/>);
+            case 'custom-palette':
+                return (<ColorForm monochrome={false} colorCount={7}/>);
+            case 'new-user':
+                return (<NewUserForm loggedIn={props.loggedIn} toggleLoggedIn={props.toggleLoggedIn} />);
+            case 'login':
+                return (<LoginForm loggedIn={props.loggedIn} toggleLoggedIn={props.toggleLoggedIn}  />)
+        }
     }
 
     return (
@@ -19,23 +40,18 @@ function Modal(props) {
             justifyContent: 'center',
             zIndex: '999'
         }}>
-            {/* <div style={{position: 'fixed', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, .90)', zIndex: '10000'}} onClick={handleToggleHideModal}></div> */}
             <div className="Modal-Backdrop" style={{position: 'fixed', top: '45px', display: props.hidden ? 'none' : 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: `${props.height - 45}px`, backgroundColor: 'rgba(0, 0, 0, .90)', zIndex: '10000'}} onClick={handleToggleHideModal}></div>
             <div className="Modal-Container" style={{
                 position: 'fixed',
-                // width: '70%',
-                // height: '50%',
                 border: '1px solid black',
                 backgroundColor: '#303030',
                 zIndex: '10001',
             }}>
-                {/* <div className="Close" style={{display: 'flex', width: '100%', height: '15%', justifyContent: 'end'}}> */}
-                {/* <div className="Close" style={{display: 'flex', alignItems: 'center', width: '100%', height: '3em', justifyContent: 'end'}}> */}
                 <div className="Close" style={{display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'end'}}>
-                    {/* <button style={{cursor: 'pointer', height: '75%', padding: '.25em', margin: '.5em'}} onClick={handleToggleHideModal}>Close</button>                     */}
                     <button style={{cursor: 'pointer', height: '2.5em', padding: '.25em', margin: '.5em'}} onClick={handleToggleHideModal}>Close</button>                    
                 </div>
                 <div className="Modal-Content" style={{backgroundColor: '#d9d9d9'}}>
+                    {displayModalContent()}
                     {props.children}
                 </div>
             </div>

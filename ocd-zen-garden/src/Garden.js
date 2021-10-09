@@ -2,9 +2,9 @@ import React, { useState} from 'react';
 import useToggle from './hooks/useToggle';
 import Header from './Header';
 import Modal from './Modal';
-import NewUserForm from './NewUserForm';
-import LoginForm from './LoginForm';
-import ColorForm from './ColorForm';
+// import NewUserForm from './NewUserForm';
+// import LoginForm from './LoginForm';
+// import ColorForm from './ColorForm';
 import useCurrentWidth from './hooks/useCurrentWidth';
 import useCurrentHeight from './hooks/useCurrentHeight';
 import { getColor, palettes, getSound } from './utils';
@@ -37,7 +37,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { GiJamesBondAperture } from 'react-icons/gi';
 
 
-function Garden(){
+function Garden(props) {
     let width = useCurrentWidth();
     let height = useCurrentHeight();
     const [colorPalette, setColorPalette] = useState(palettes[0]);
@@ -62,6 +62,13 @@ function Garden(){
     
     const handleSetShape = shape => {
         setBullsEyeShape(shape)
+    }
+
+    const handleToggleLoggedIn = () => {
+        if(!hideModal) {
+            toggleHideModal()
+        }
+        props.toggleLoggedIn();
     }
 
     const handleToggleWindow = fullWindowPiece => {
@@ -137,23 +144,23 @@ function Garden(){
                 return <Asterisk width={gardenPieceWidth} className="Asterisk" volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
         }
     }
-    const displayModalContent = content => {
-        switch(content) {
-            case 'epilepsy-warning':
-                return (<div>
-                    <p>WARNING: PHOTOSENSITIVITY/EPILEPSY SEIZURES</p>
-                    <p>If you, or anyone in your family has an epileptic condition or has had seizures of any kind, consult your physician before using this website. IMMEDIATELY DISCONTINUE use and consult your physician before resuming use of this website.</p>
-                </div>)
-            case 'monochrome': 
-                return (<ColorForm monochrome={true} colorCount={1}/>);
-            case 'custom-palette':
-                return (<ColorForm monochrome={false} colorCount={7}/>);
-            case 'new-user':
-                return (<NewUserForm />);
-            case 'login':
-                return (<LoginForm />)
-        }
-    }
+    // const displayModalContent = content => {
+    //     switch(content) {
+    //         case 'epilepsy-warning':
+    //             return (<div>
+    //                 <p>WARNING: PHOTOSENSITIVITY/EPILEPSY SEIZURES</p>
+    //                 <p>If you, or anyone in your family has an epileptic condition or has had seizures of any kind, consult your physician before using this website. IMMEDIATELY DISCONTINUE use and consult your physician before resuming use of this website.</p>
+    //             </div>)
+    //         case 'monochrome': 
+    //             return (<ColorForm monochrome={true} colorCount={1}/>);
+    //         case 'custom-palette':
+    //             return (<ColorForm monochrome={false} colorCount={7}/>);
+    //         case 'new-user':
+    //             return (<NewUserForm />);
+    //         case 'login':
+    //             return (<LoginForm />)
+    //     }
+    // }
 
     if(!fullSelectedPiece) {
         let gardenPieceWidth;
@@ -169,7 +176,7 @@ function Garden(){
 
         return (
             <>
-            <Header changePalette={handleChangePalette} setModalContent={handleSetModalContent} disableDropdowns={!hideModal}/>
+            <Header changePalette={handleChangePalette} setModalContent={handleSetModalContent} disableDropdowns={!hideModal} loggedIn={props.loggedIn} toggleLoggedIn={props.toggleLoggedIn} />
             <div className="Garden">
                 <Snake width={gardenPieceWidth} className="Snake" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
                 <Dots width={gardenPieceWidth} className="Dots" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
@@ -196,8 +203,8 @@ function Garden(){
                 <Rainbow width={gardenPieceWidth} className="Rainbow" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
                 <Asterisk width={gardenPieceWidth} className="Asterisk" disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
                 {!hideModal ? 
-                    <Modal height={height} toggleHideModal={toggleHideModal} hidden={hideModal}>
-                        {displayModalContent(modalContent)}
+                    <Modal content={modalContent} height={height} toggleHideModal={toggleHideModal} hidden={hideModal} loggedIn={props.loggedIn} toggleLoggedIn={handleToggleLoggedIn}>
+                        {/* {displayModalContent(modalContent)} */}
                     </Modal> 
                     : null
                 }
@@ -211,7 +218,7 @@ function Garden(){
             <div style={{width: '100vw', height: `${height}px`}}>
                 <div style={{position: 'fixed', zIndex: '3'}}>
                 {/* <div style={{position: 'fixed'}}> */}
-                <Header changePalette={handleChangePalette} setModalContent={handleSetModalContent}/>
+                <Header loggedIn={props.loggedIn} toggleLoggedIn={props.toggleLoggedIn} changePalette={handleChangePalette} setModalContent={handleSetModalContent}/>
                 </div>
             
             {/* <div className="pieceContainer" style={{display: 'grid', gridTemplateRows: `${width <= height ? `1fr ${width}px 1fr` : '1fr'}`, gridTemplateColumns: `${width > height ? `1fr ${height}px 1fr` : '1fr'}`}}> */}
