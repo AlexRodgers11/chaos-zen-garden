@@ -150,7 +150,7 @@ function ControlBar(props) {
                                     return <p key={key} onClick={() => handlePaletteChange(palette)}>{palette}</p>
                                 })}
                                 <p style={{alignItems: 'center'}} onClick={() => {props.setModalContent('monochrome')}}>Monochrome</p>
-                                <p><p style={{display: 'flex', alignItems: 'center'}} onClick={() => {props.setModalContent('custom-palette')}} >Custom{!props.loggedIn ? <BsLockFill /> : null}</p></p>
+                                <p><p style={{display: 'flex', alignItems: 'center'}} onClick={props.loggedIn ? () => {props.setModalContent('custom-palette')} : null} >Custom{!props.loggedIn ? <BsLockFill /> : null}</p></p>
                             </div>
                             <div style={{height: '1.8em', opacity: .5, backgroundColor: 'black'}}></div>    
                         </div>
