@@ -138,7 +138,7 @@ function ControlBar(props) {
                     <GiHamburgerMenu size='1.5em'/>
                 </button>
                 <div style={{display: !hidden ? 'inline-block' : 'none'}}>
-                    <button disabled={!props.isLoggedIn} style={{color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} ><SiAddthis size='1.5em' /></button>
+                    <button disabled={!props.loggedIn} style={{color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} ><SiAddthis size='1.5em' /></button>
                     <div style={{position: 'relative', zIndex: 114}} onMouseLeave={showPopup.palette ? () => handleTogglePopup('palette') : null} className={`ControlBar_popup ${showPopup.palette ? 'ControlBar_popup-active' : ''}`}>
                         <button disabled={props.isOrganizing} style={{position: 'relative', zIndex: 115, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="speed" onClick={() => handleTogglePopup('palette')}><IoIosColorPalette size='1.5em' /></button>
                         {/* <div onMouseLeave={() => handleToggleDropdown('palette')} className='dropdown-content'> */}
@@ -150,7 +150,7 @@ function ControlBar(props) {
                                     return <p key={key} onClick={() => handlePaletteChange(palette)}>{palette}</p>
                                 })}
                                 <p style={{alignItems: 'center'}} onClick={() => {props.setModalContent('monochrome')}}>Monochrome</p>
-                                <p><p style={{display: 'flex', alignItems: 'center'}} onClick={() => {props.setModalContent('custom-palette')}} >Custom<BsLockFill /></p></p>
+                                <p><p style={{display: 'flex', alignItems: 'center'}} onClick={() => {props.setModalContent('custom-palette')}} >Custom{!props.loggedIn ? <BsLockFill /> : null}</p></p>
                             </div>
                             <div style={{height: '1.8em', opacity: .5, backgroundColor: 'black'}}></div>    
                         </div>
