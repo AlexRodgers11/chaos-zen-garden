@@ -20,7 +20,9 @@ function Header(props){
     }
 
     const handleToggleDropdown = group => {
-        setShowDropdown({...showDropdown, [group]: !showDropdown[group]});
+        if(!props.disableDropdowns || showDropdown[group]) {
+            setShowDropdown({...showDropdown, [group]: !showDropdown[group]});
+        }
     }
 
     const handleSetModalContent = evt => {
