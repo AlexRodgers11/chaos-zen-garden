@@ -23,7 +23,8 @@ class NewUserForm extends Component {
     }
 
     handleSubmit(evt) {
-
+        evt.preventDefault();
+        this.props.toggleLoggedIn();
     }
 
     render() {
@@ -47,6 +48,7 @@ class NewUserForm extends Component {
                             <label className="form-label" htmlFor="profilePic">Upload Profile Picture</label>
                             <input className="form-control" type="file" id="profilePic" name="profilePic" value={this.state.profilePic} onChange={this.handleChange} />
                         </div>
+                        <button type="submit">Create Account</button>
                     </div>
                 </form>
             </div>
