@@ -258,7 +258,7 @@ function ControlBar(props) {
                             <button disabled={props.isOrganizing} style={{position: 'relative', zIndex: 105, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="number" onClick={() => handleTogglePopup('number')}><ImSortNumbericDesc size='1.5em' /></button>
                             <div className='ControlBar_popup-content'>
                             {/* <div className='ControlBar_dropdown-content'> */}
-                                <div style={{boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)', overflowY: `${props.maxNum - props.minNum > 8 ? 'scroll' : null}`, height: `${props.maxNum - props.minNum >= 8 ? `${props.width * .5}px` : null}`}}>
+                                <div style={{boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)', overflowY: `${props.maxNum - props.minNum > 8 ? 'scroll' : null}`, overscrollBehavior: 'none', height: `${props.maxNum - props.minNum >= 8 ? `${props.width * .5}px` : null}`}}>
                                     {displayNumberOptions(props.minNum, props.maxNum).map(num => {
                                         let key= uuidv4();
                                         return <p key={key} onClick={() => handleNumberChange(num)}>{num}</p>
