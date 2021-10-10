@@ -22,8 +22,8 @@ function Eyes(props) {
             squares.push({
                 id: i, 
                 color: getColor(i, colorPalette),
-                left: left * (Math.random > .5 ? 1 : -1),
-                top: top * (Math.random > .5 ? 1 : -1),
+                left: left * (Math.random() > .5 ? 1 : -1),
+                top: top * (Math.random() > .5 ? 1 : -1),
                 volumeMultiplier: scaler(10, 80, .003, .01, left + top),
                 key: uuidv4()
             })
@@ -113,8 +113,8 @@ function Eyes(props) {
             let left = 5 + Math.random() * 35;
             let top = 5 + Math.random() * 35;
             return {...square, 
-                left: left * (Math.random > .5 ? 1 : -1),
-                top: top * (Math.random > .5 ? 1 : -1),
+                left: left * (Math.random() > .5 ? 1 : -1),
+                top: top * (Math.random() > .5 ? 1 : -1),
                 volumeMultiplier: scaler(10, 80, .03, .001, left + top),
             };
         });
