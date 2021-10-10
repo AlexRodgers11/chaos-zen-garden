@@ -39,3 +39,29 @@
 .Header_dropdown-active .Header_dropdown-content {
   display: block;
 }
+
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block; 
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  /* visibility: hidden; */
+  /* width: 120px; */
+  color: white;
+  text-align: right;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  /* top: 3.75em; */
+  top: 25px;
+  left: 0px;
+  z-index: 1000;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+/* .showTooltipText {
+  visibility: visible;
+} */

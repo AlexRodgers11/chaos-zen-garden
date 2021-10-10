@@ -3,7 +3,7 @@ import { getColor } from './utils';
 import { palettes } from './utils';
 import { v4 as uuidv4 } from 'uuid';
 import { GiHamburgerMenu } from 'react-icons/gi/';
-import { FaUserCircle } from 'react-icons/fa/';
+import { FaUserCircle, FaLongArrowAltUp } from 'react-icons/fa/';
 import { IoIosColorPalette } from 'react-icons/io/';
 import './Header.css';
 
@@ -82,7 +82,9 @@ function Header(props){
                 </div>
                 <div onMouseLeave={showDropdown.main ? () => handleToggleDropdown('main') : null} className={`Header_dropdown ${showDropdown.main ? 'Header_dropdown-active' : ''}`} >
                     <div style={{display: 'flex', alignItems: 'center'}}>
-                        <FaUserCircle id="main" className="Header_dropbtn" onClick={() => handleToggleDropdown('main')} size="1.5rem" color={!props.highlightUserIcon ? getColor('aux2', colorPalette) : 'white'}/>
+                        <div style={{display: 'flex', alignItems: 'center'}} className="tooltip">
+                            {props.highlightUserIcon ? <span className='tooltiptext'><FaLongArrowAltUp size="1.5rem" /></span> : null}<FaUserCircle id="main" className="Header_dropbtn" onClick={() => handleToggleDropdown('main')} size="1.5rem" color={!props.highlightUserIcon ? getColor('aux2', colorPalette) : 'white'}/>
+                        </div>
                     </div>
 
                     <div className='Header_dropdown-content'>
