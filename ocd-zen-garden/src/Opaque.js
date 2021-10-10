@@ -36,14 +36,10 @@ function Opaque(props) {
     const firstUpdate = useRef(true);
     useEffect(() => {
         if(!firstUpdate.current) {
-            if(nextIndex < squares.length){
-                setTimeout(() => {
-                    sharpen(nextIndex)
-                }, speed);
-            } else {
-                toggleIsOrganizing();
-                toggleIsOrganized();
-            }
+            setTimeout(() => {
+                sharpen(nextIndex)
+            }, speed);
+
         } else {firstUpdate.current = false}
     }, [nextIndex])
     
@@ -101,7 +97,7 @@ function Opaque(props) {
         
         soundPlay(sound, squares[idx].volumeMultiplier, props.volume, proportionalVolume);
         setSquares(newSquares);
-        if(idx < squares.length) {
+        if(idx < squares.length - 1) {
             setNextIndex(idx + 1);
         } else {
             setTimeout(() => {
