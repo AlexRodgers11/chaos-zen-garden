@@ -94,6 +94,7 @@ function Edges(props) {
     const complete = (idx) => {
         if(idx === 0) {
             toggleIsOrganizing();
+            props.increaseNumOrganizing();
         }
         let newEdges = edges.map(edge => {
             if(edge.id === edges[idx].id) {
@@ -116,6 +117,7 @@ function Edges(props) {
         if(idx + 1 === edges.length) setTimeout(() => {
             toggleIsOrganized();
             toggleIsOrganizing();
+            props.decreaseNumOrganizing();
         }, speed)
     }
 

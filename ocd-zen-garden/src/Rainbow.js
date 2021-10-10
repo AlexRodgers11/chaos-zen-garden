@@ -80,6 +80,7 @@ function Rainbow(props) {
     const align = idx => {
         if(idx === arcs.length - 1) {
             toggleIsOrganizing();
+            props.increaseNumOrganizing();
         }
         let newArcs = arcs.map(arc => {
             if(arcs[idx].id === arc.id) {
@@ -95,6 +96,7 @@ function Rainbow(props) {
             setTimeout(() => {
                 toggleIsOrganized();
                 toggleIsOrganizing();
+                props.decreaseNumOrganizing();
             }, speed);
         }
     }

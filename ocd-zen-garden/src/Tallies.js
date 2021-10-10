@@ -48,6 +48,7 @@ function Tallies(props) {
             } else {
                 toggleIsOrganizing();
                 toggleIsOrganized();
+                props.decreaseNumOrganizing();
             }
         } else {firstUpdate.current = false}
     }, [nextIndex])
@@ -94,6 +95,7 @@ function Tallies(props) {
         let currentMark = mark;
         if(idx === 0 && mark === 2) {
             toggleIsOrganizing();
+            props.increaseNumOrganizing();
         }
         while(tallies[currentIdx].marks[currentMark]) {
             if(currentMark < 5) {

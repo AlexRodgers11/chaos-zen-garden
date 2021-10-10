@@ -93,6 +93,7 @@ function Snake(props) {
     const organizeBoxes = (idx) => {
         if(idx === 0) {
             toggleIsOrganizing();
+            props.increaseNumOrganizing();
         }
         let newBoxes;
         if(idx + 1 === boxes.length){
@@ -113,11 +114,15 @@ function Snake(props) {
 
         
         setBoxes(newBoxes);
-        setNextIndex(idx + 1);
-        if(idx + 1 === boxes.length) setTimeout(() => {
-            toggleIsOrganized();
-            toggleIsOrganizing();
-        }, speed)
+        if(idx < boxes.length - 1) {
+            setNextIndex(idx + 1);
+        } else {
+            setTimeout(() => {
+                toggleIsOrganized();
+                toggleIsOrganizing();
+                props.decreaseNumOrganizing();
+            }, speed);
+        }
     }
 
     const scatterBoxes = () => {

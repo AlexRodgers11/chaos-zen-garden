@@ -68,6 +68,7 @@ function Message(props){
     const straightenLetters = (idx) => {
         if(idx === 0) {
             toggleIsOrganizing();
+            props.increaseNumOrganizing();
         }
         let newLetters = letters.map(letter => {
             if(letter.id === letters[idx].id) {
@@ -90,6 +91,7 @@ function Message(props){
             setTimeout(() => {
                 toggleIsOrganized();
                 toggleIsOrganizing();
+                props.decreaseNumOrganizing();
             }, speed)
         }
     }

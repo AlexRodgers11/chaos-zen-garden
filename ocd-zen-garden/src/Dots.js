@@ -132,6 +132,7 @@ function Dots(props) {
     const organizeDots = (idx, dir) => {
         if(idx === 0 && dir === 'horizontal') {
             toggleIsOrganizing();
+            props.increaseNumOrganizing();
         }
         let newDots;
         let newDir = dir === 'horizontal' ? 'vertical' : 'horizontal';
@@ -161,6 +162,7 @@ function Dots(props) {
         if(idx + 1 === dots.length && dir === 'horizontal') setTimeout(() => {
             toggleIsOrganized();
             toggleIsOrganizing();
+            props.decreaseNumOrganizing();
         }, 1000)
     }
 

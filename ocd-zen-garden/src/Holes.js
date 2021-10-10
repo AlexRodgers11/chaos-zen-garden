@@ -123,6 +123,7 @@ function Holes(props) {
     const fill = idx => {
         if(idx === 0) {
             toggleIsOrganizing();
+            props.increaseNumOrganizing();
             while(holes[idx].filled) {
                 idx++
             };
@@ -152,6 +153,7 @@ function Holes(props) {
             setTimeout(() => {
                 toggleIsOrganizing();
                 toggleIsOrganized();
+                props.decreaseNumOrganizing();
             }, speed);
         }
     };

@@ -88,6 +88,7 @@ function Smudges(props) {
     const clean = idx => {
         if(idx === 0) {
             toggleIsOrganizing();
+            props.increaseNumOrganizing();
             while(!squares[idx].contaminated) {
                 idx++
             };
@@ -112,12 +113,13 @@ function Smudges(props) {
 
         soundPlay(sound, squares[idx].volumeMultiplier, props.volume, proportionalVolume);
         setSquares(newSquares);
-        if(nextIdx < squares.length - 1) {
+        if(nextIdx < squares.length) {
             setNextIndex(nextIdx);
         } else {
             setTimeout(() => {
                 toggleIsOrganizing();
                 toggleIsOrganized();
+                props.decreaseNumOrganizing();
             }, speed);
         }
     };

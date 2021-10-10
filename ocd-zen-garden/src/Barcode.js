@@ -50,7 +50,10 @@ function Barcode(props) {
     // }
 
     const balanceStripes = idx => {
-        if(idx === 0) toggleIsOrganizing();
+        if(idx === 0) {
+            toggleIsOrganizing();
+            props.increaseNumOrganizing();
+        }
         let newStripes = stripes.map(stripe => {
             if(stripe.id === stripes[idx].id) {
                 return {...stripe, height: `${(1 / numStripes) * .4}`}
@@ -64,6 +67,7 @@ function Barcode(props) {
         if(idx + 1 === stripes.length) {
             toggleIsOrganizing();
             toggleIsOrganized();
+            props.decreaseNumOrganizing();
         }
     }
 

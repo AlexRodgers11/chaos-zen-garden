@@ -50,6 +50,7 @@ function Pogs(props) {
             } else {
                 toggleIsOrganizing();
                 toggleIsOrganized();
+                props.decreaseNumOrganizing();
             }
         } else {firstUpdate.current = false}
     }, [nextIndex])
@@ -85,6 +86,7 @@ function Pogs(props) {
     const align = idx => {
         if(idx === 0) {
             toggleIsOrganizing();
+            props.increaseNumOrganizing();
         }
         let newPogs = pogs.map(pog => {
             if(pog.id === pogs[idx].id) {

@@ -86,6 +86,7 @@ function Crosshair(props) {
     const align = (idx) => {
         if(idx === 0) {
             toggleIsOrganizing();
+            props.increaseNumOrganizing();
         }
         let newRings = rings.map(ring => {
             if(ring.id === rings[idx].id) {
@@ -102,6 +103,7 @@ function Crosshair(props) {
         if(idx + 1 === rings.length) setTimeout(() => {
             toggleIsOrganized();
             toggleIsOrganizing();
+            props.decreaseNumOrganizing();
         }, speed)
     }
 

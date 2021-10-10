@@ -87,6 +87,7 @@ function Asterisk(props) {
     const align = (idx) => {
         if(idx === 0) {
             toggleIsOrganizing();
+            props.increaseNumOrganizing();
         }
         let newLines = lines.map(line => {
             if(line.id === lines[idx].id) {
@@ -102,6 +103,7 @@ function Asterisk(props) {
         if(idx + 1 === lines.length) setTimeout(() => {
             toggleIsOrganized();
             toggleIsOrganizing();
+            props.decreaseNumOrganizing();
         }, speed)
     }
 

@@ -69,8 +69,8 @@ function Header(props){
             {/* <div onMouseLeave={showDropdown.palette ? () => handleToggleDropdown('main') : null} className={`dropdown ${showDropdown.main ? 'dropdown-active' : ''}`} style={{display: 'flex', alignItems: 'center', marginRight: '.5rem'}}> */}
             <div style={{display: 'flex', alignItems: 'center', marginRight: '1rem'}}>
                 <div onMouseLeave={showDropdown.palette ? () => handleToggleDropdown('palette') : null} className={`Header_dropdown ${showDropdown.palette ? 'Header_dropdown-active' : ''}`} >
-                    <div style={{display: 'flex', alignItems: 'center', marginRight: '.5rem'}}>
-                        <IoIosColorPalette id="palette" className="Header_dropbtn" onClick={() => handleToggleDropdown('palette')} size="2rem" color={getColor('aux1', colorPalette)}/>
+                    <div style={{display: 'flex', alignItems: 'center', marginRight: '.5rem', cursor: `${props.numOrganizing === 0 ? 'pointer' : 'wait'}`}}>
+                        <IoIosColorPalette id="palette" className="Header_dropbtn" onClick={props.numOrganizing === 0 ? () => handleToggleDropdown('palette') : null} size="2rem" color={getColor('aux1', colorPalette)}/>
                     </div>
 
                     <div className='Header_dropdown-content'>

@@ -45,6 +45,7 @@ function Diamonds(props) {
             } else {
                 toggleIsOrganizing();
                 toggleIsOrganized();
+                props.decreaseNumOrganizing();
             }
         } else {firstUpdate.current = false}
     }, [nextIndex])
@@ -91,7 +92,7 @@ function Diamonds(props) {
     const balance = idx => {
         if(idx === 0) {
             toggleIsOrganizing();
-
+            props.increaseNumOrganizing();
         };
         let newSquares = squares.map(square => {
             if(square.id === squares[idx].id) {

@@ -41,6 +41,7 @@ function BullsEye(props) {
                     else if(orgIndex === 2) {
                         toggleIsOrganized();
                         toggleIsOrganizing();
+                        props.decreaseNumOrganizing();
                     }
                 }, speed)
             }
@@ -109,7 +110,7 @@ function BullsEye(props) {
         if(userJustChangedNumber) toggleUserJustChangedNumber();
         if(orgIndex === props.numRings + 1) {
             toggleIsOrganizing();
-            
+            props.increaseNumOrganizing();
         }
         setOrgIndex(orgIndex - 1);
     }

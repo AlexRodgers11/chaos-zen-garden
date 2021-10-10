@@ -68,6 +68,7 @@ function Message2(props){
     const matchLetters = (idx) => {
         if(idx === 1) {
             toggleIsOrganizing();
+            props.increaseNumOrganizing();
             while(letters[idx].font === letters[0].font) {
                 idx++;
             }
@@ -93,6 +94,7 @@ function Message2(props){
             setTimeout(() => {
                 toggleIsOrganized();
                 toggleIsOrganizing();
+                props.decreaseNumOrganizing();
             }, speed);
         } else {
             setNextIndex(nextIdx);

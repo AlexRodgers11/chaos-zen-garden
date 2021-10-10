@@ -45,6 +45,7 @@ function Desk(props) {
             } else {
                 toggleIsOrganizing();
                 toggleIsOrganized();
+                props.decreaseNumOrganizing();
             }
         } else {firstUpdate.current = false}
     }, [nextIndex])
@@ -87,7 +88,10 @@ function Desk(props) {
     // }
 
     const align = (idx) => {
-        if(idx === 0) toggleIsOrganizing();
+        if(idx === 0) {
+            toggleIsOrganizing();
+            props.increaseNumOrganizing();
+        }
         let newItems = items.map(item => {
             if(item.id === items[idx].id) {
                 return {...item, tilt: 0}

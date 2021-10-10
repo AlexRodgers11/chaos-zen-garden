@@ -35,10 +35,10 @@ function Antlers(props) {
             setTimeout(() => {
                 if(nextIndex < horns.length){
                     align(nextIndex);
-                    
                 } else {
                     toggleIsOrganizing();
                     toggleIsOrganized();
+                    props.decreaseNumOrganizing();
                 }
             }, speed)
         } else {firstUpdate.current = false}
@@ -85,6 +85,7 @@ function Antlers(props) {
         let currentIdx = idx;
         if(idx === 0) {
             toggleIsOrganizing();
+            props.increaseNumOrganizing();
             if(horns[0].side !== 'bottom') {
                 while(horns[currentIdx].side !== 'bottom') {
                     currentIdx++

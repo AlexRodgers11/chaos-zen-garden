@@ -39,13 +39,14 @@ function Triangles(props) {
     const firstUpdate = useRef(true);
     useEffect(() => {
         if(!firstUpdate.current) {
-            if(nextIndex.id < triangles.length){
+            if(nextIndex < triangles.length){
                 setTimeout(() => {
-                    center(nextIndex.id);
+                    center(nextIndex);
                 }, speed);
             } else {
                 toggleIsOrganizing();
                 toggleIsOrganized();
+                props.decreaseNumOrganizing();
             }
         } else {firstUpdate.current = false}
     }, [nextIndex])
@@ -88,7 +89,10 @@ function Triangles(props) {
     // }
 
     const center = (idx) => {
-        if(idx === 0) toggleIsOrganizing();
+        if(idx === 0) {
+            toggleIsOrganizing();
+            props.increaseNumOrganizing();
+        }
         let newTriangles = triangles.map(triangle => {
             if(triangle.id === triangles[idx].id) {
                 return {...triangle, left: .5, right: .5}
@@ -98,7 +102,7 @@ function Triangles(props) {
         });
         soundPlay(sound, triangles[idx].volumeMultiplier, props.volume, proportionalVolume);
         setTriangles(newTriangles);
-        setNextIndex({id: idx + 1})        
+        setNextIndex(idx + 1)        
     }
 
     const uncenter = () => {

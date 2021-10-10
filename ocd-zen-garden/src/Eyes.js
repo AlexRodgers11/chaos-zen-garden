@@ -81,7 +81,10 @@ function Eyes(props) {
     // }
 
     const center = idx => {
-        if(idx === 0) toggleIsOrganizing();
+        if(idx === 0) {
+            toggleIsOrganizing();
+            props.increaseNumOrganizing();
+        }
         let newSquares = squares.map(square => {
             if(square.id === squares[idx].id) {
                 square.top = 0;
@@ -99,6 +102,7 @@ function Eyes(props) {
             setTimeout(() => {
                 toggleIsOrganizing();
                 toggleIsOrganized();
+                props.decreaseNumOrganizing();
             }, speed);
         }
     };

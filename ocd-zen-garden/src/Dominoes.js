@@ -81,6 +81,7 @@ function Dominoes(props) {
     const straightenLines = idx => {
         if(idx === 0) {
             toggleIsOrganizing();
+            props.increaseNumOrganizing();
         }
         let newLines = lines.map(line => {
             if(lines[idx].id === line.id) {
@@ -96,6 +97,7 @@ function Dominoes(props) {
             setTimeout(() => {
                 toggleIsOrganized();
                 toggleIsOrganizing();
+                props.decreaseNumOrganizing();
             }, speed);
         }
     }

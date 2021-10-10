@@ -43,6 +43,7 @@ function Cards(props) {
             } else {
                 toggleIsOrganizing();
                 toggleIsOrganized();
+                props.decreaseNumOrganizing();
             }
         } else {firstUpdate.current = false}
     }, [nextIndex])
@@ -85,7 +86,10 @@ function Cards(props) {
     // }
 
     const organize = (idx) => {
-        if(idx === 0) toggleIsOrganizing();
+        if(idx === 0) {
+            toggleIsOrganizing();
+            props.increaseNumOrganizing(); 
+        }
         let newCards = cards.map(card => {
             if(card.id === cards[idx].id) {
                 return {...card, offset: 0}

@@ -85,7 +85,7 @@ function Opaque(props) {
     const sharpen = idx => {
         if(idx === 0) {
             toggleIsOrganizing();
-
+            props.increaseNumOrganizing();
         };
         let newSquares = squares.map(square => {
             if(square.id === squares[idx].id) {
@@ -103,6 +103,7 @@ function Opaque(props) {
             setTimeout(() => {
                 toggleIsOrganizing();
                 toggleIsOrganized();
+                props.decreaseNumOrganizing();
             }, speed);
         }
     };

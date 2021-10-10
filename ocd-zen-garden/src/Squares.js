@@ -56,6 +56,7 @@ function Squares(props) {
             } else {
                 toggleIsOrganizing();
                 toggleIsOrganized();
+                props.decreaseNumOrganizing();
             }
         } else {firstUpdate.current = false}
     }, [nextIndex])
@@ -98,7 +99,10 @@ function Squares(props) {
     // }
 
     const sharpen = (idx, dir) => {
-        if(idx === 0 && dir === 'topLeft') toggleIsOrganizing();
+        if(idx === 0 && dir === 'topLeft') {
+            toggleIsOrganizing();
+            props.increaseNumOrganizing();
+        } 
         let newSquares = squares.map(square => {
             if(square.id === squares[idx].id) {
                 return {...square, [dir]: 0}
