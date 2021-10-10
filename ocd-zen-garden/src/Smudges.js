@@ -42,14 +42,9 @@ function Smudges(props) {
     const firstUpdate = useRef(true);
     useEffect(() => {
         if(!firstUpdate.current) {
-            if(nextIndex < squares.length){
-                setTimeout(() => {
-                    clean(nextIndex);
-                }, speed);
-            } else {
-                toggleIsOrganizing();
-                toggleIsOrganized();
-            }
+            setTimeout(() => {
+                clean(nextIndex);
+            }, speed);
         } else {firstUpdate.current = false}
     }, [nextIndex])
     
@@ -117,7 +112,7 @@ function Smudges(props) {
 
         soundPlay(sound, squares[idx].volumeMultiplier, props.volume, proportionalVolume);
         setSquares(newSquares);
-        if(nextIdx < squares.length) {
+        if(nextIdx < squares.length - 1) {
             setNextIndex(nextIdx);
         } else {
             setTimeout(() => {
