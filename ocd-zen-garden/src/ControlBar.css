@@ -109,13 +109,13 @@
 
 
 /* Tooltip container */
-.tooltip {
+.ControlBar_tooltip {
   position: relative;
   display: inline-block; 
 }
 
 /* Tooltip text */
-.tooltip .tooltiptext {
+.ControlBar_tooltip .ControlBar_tooltiptext {
   visibility: hidden;
   width: 120px;
   /* background-color: black; */
@@ -132,7 +132,7 @@
 }
 
 /* Show the tooltip text when you mouse over the tooltip container */
-.tooltip:hover .showTooltipText {
+.ControlBar_tooltip:hover .ControlBar_showTooltipText {
   visibility: visible;
 }
 
