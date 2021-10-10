@@ -37,14 +37,9 @@ function Eyes(props) {
     const firstUpdate = useRef(true);
     useEffect(() => {
         if(!firstUpdate.current) {
-            if(nextIndex < squares.length){
-                setTimeout(() => {
-                    center(nextIndex);
-                }, speed);
-            } else {
-                toggleIsOrganizing();
-                toggleIsOrganized();
-            }
+            setTimeout(() => {
+                center(nextIndex);
+            }, speed);
         } else {firstUpdate.current = false}
     }, [nextIndex])
     
