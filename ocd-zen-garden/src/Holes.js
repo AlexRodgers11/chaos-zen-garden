@@ -77,14 +77,9 @@ function Holes(props) {
     const firstUpdate = useRef(true);
     useEffect(() => {
         if(!firstUpdate.current) {
-            if(nextIndex < holes.length){
-                setTimeout(() => {
-                    fill(nextIndex)
-                }, speed);
-            } else {
-                toggleIsOrganizing();
-                toggleIsOrganized();
-            }
+            setTimeout(() => {
+                fill(nextIndex)
+            }, speed);
         } else {firstUpdate.current = false}
     }, [nextIndex])
     
