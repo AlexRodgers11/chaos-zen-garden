@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import useToggle from './hooks/useToggle';
 import Header from './Header';
 import Modal from './Modal';
@@ -49,6 +49,28 @@ function Garden(props) {
     const [modalContent, setModalContent] = useState('epilepsy-warning');
     const [highlightUserIcon, toggleHighlightUserIcon] = useToggle(false);
     const [numOrganizing, setNumOrganizing] = useState(0);
+    const [organizationCount, setOrganizationCount] = useState(0);
+    const [resetTimer, toggleResetTimer] = useToggle(true);
+
+    const firstButtonCountUpdate = useRef(true);
+    useEffect(() => {
+        console.log('we may have a problem here')
+        if(resetTimer) {
+            console.log('or maybe not')
+            toggleResetTimer();
+            setTimeout(() => {
+                toggleResetTimer();
+                setOrganizationCount(0);
+            }, 1800000)
+        }
+    }, [resetTimer], firstButtonCountUpdate);
+
+    useEffect(() => {
+        if (organizationCount > 30){
+            alert('user may actually have OCD');
+        }
+    }, [organizationCount])
+
 
     const handleChangePalette = palette => {
         setColorPalette(palette);
@@ -64,6 +86,9 @@ function Garden(props) {
                 setNumOrganizing(num => {
                     return num + 1;
                 });
+                setOrganizationCount(count => {
+                    return count + 1;
+                })
                 break;
             case -1:
                 setNumOrganizing(num => {
