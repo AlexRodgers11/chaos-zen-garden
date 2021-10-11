@@ -68,7 +68,7 @@ function Message(props){
     const straightenLetters = (idx) => {
         if(idx === 0) {
             toggleIsOrganizing();
-            props.increaseNumOrganizing();
+            props.setNumOrganizing(1);
         }
         let newLetters = letters.map(letter => {
             if(letter.id === letters[idx].id) {
@@ -88,10 +88,10 @@ function Message(props){
                 console.log('found a space');
             }
         } else {
+            props.setNumOrganizing(-1);
             setTimeout(() => {
                 toggleIsOrganized();
                 toggleIsOrganizing();
-                props.decreaseNumOrganizing();
             }, speed)
         }
     }
@@ -217,7 +217,7 @@ function Message(props){
                         {displayWords(letters)}
                     </div>
                 </div>
-                <ControlBar width={props.width} loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} soundValue='Robot' changeText={handleChangeText} setSpeed={handleSetSpeed} setSound={handleSetSound} organizedFunction={unalignLetters} unorganizedFunction={() => straightenLetters(0)} unorgButton='Unalign' orgButton='Straighten' />
+                <ControlBar width={props.width} loggedIn={props.loggedIn} setNumOrganizing={props.setNumOrganizing} toggleHighlightUserIcon={props.toggleHighlightUserIcon} toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} soundValue='Robot' changeText={handleChangeText} setSpeed={handleSetSpeed} setSound={handleSetSound} organizedFunction={unalignLetters} unorganizedFunction={() => straightenLetters(0)} unorgButton='Unalign' orgButton='Straighten' />
             </div>
         </div>
     )

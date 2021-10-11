@@ -123,7 +123,7 @@ function Holes(props) {
     const fill = idx => {
         if(idx === 0) {
             toggleIsOrganizing();
-            props.increaseNumOrganizing();
+            props.setNumOrganizing(1);
             while(holes[idx].filled) {
                 idx++
             };
@@ -150,10 +150,10 @@ function Holes(props) {
         if(nextIdx < holes.length) {
             setNextIndex(nextIdx);
         } else {
+            props.setNumOrganizing(-1);
             setTimeout(() => {
                 toggleIsOrganizing();
                 toggleIsOrganized();
-                props.decreaseNumOrganizing();
             }, speed);
         }
     };
@@ -259,7 +259,7 @@ function Holes(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar width={props.width} loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={20} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={puncture} unorganizedFunction={() => fill(0)} unorgButton='Puncture' orgButton='Fill'/>
+                <ControlBar width={props.width} loggedIn={props.loggedIn} setNumOrganizing={props.setNumOrganizing} toggleHighlightUserIcon={props.toggleHighlightUserIcon} toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={20} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={puncture} unorganizedFunction={() => fill(0)} unorgButton='Puncture' orgButton='Fill'/>
             </div>
         </div>
     )

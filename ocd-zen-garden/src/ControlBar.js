@@ -85,6 +85,11 @@ function ControlBar(props) {
         props.setPalette(palette);
     }
 
+    const handleToggleFullWindow = () => {
+        props.toggleWindow();
+        props.setNumOrganizing(0)
+    }
+
     const handleVolumeChange = evt => {
         props.changeVolume(evt.target.value)
         setVolume(evt.target.value)
@@ -323,7 +328,8 @@ function ControlBar(props) {
 
                 {!props.disableFullWindow ? 
                     <span>
-                        <button disabled={props.isOrganizing} style={{color: getColor('aux1', palette), backgroundColor: '#303030', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} onClick={props.toggleWindow}>{props.fullWindow ? <ImShrink2 size='1.5em' /> : <FaExpandAlt size='1.5em' />}</button>
+                        {/* <button disabled={props.isOrganizing} style={{color: getColor('aux1', palette), backgroundColor: '#303030', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} onClick={handleToggleFullWindow}>{props.fullWindow ? <ImShrink2 size='1.5em' /> : <FaExpandAlt size='1.5em' />}</button> */}
+                        <button style={{color: getColor('aux1', palette), backgroundColor: '#303030', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} onClick={handleToggleFullWindow}>{props.fullWindow ? <ImShrink2 size='1.5em' /> : <FaExpandAlt size='1.5em' />}</button>
                     </span>
                     :
                     null

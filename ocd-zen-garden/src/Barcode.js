@@ -52,7 +52,7 @@ function Barcode(props) {
     const balanceStripes = idx => {
         if(idx === 0) {
             toggleIsOrganizing();
-            props.increaseNumOrganizing();
+            props.setNumOrganizing(1);
         }
         let newStripes = stripes.map(stripe => {
             if(stripe.id === stripes[idx].id) {
@@ -67,7 +67,7 @@ function Barcode(props) {
         if(idx + 1 === stripes.length) {
             toggleIsOrganizing();
             toggleIsOrganized();
-            props.decreaseNumOrganizing();
+            props.setNumOrganizing(-1);
         }
     }
 
@@ -162,7 +162,7 @@ function Barcode(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar width={props.width} loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} toggleWindow={handleToggleWindow} disableFullWindow={props.disableFullWindow} fullWindow={props.fullWindow} setModalContent={props.setModalContent} palette={colorPalette} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} setPalette={handleSetColorPalette} setNumber={handleSetNumStripes} minNum={5} maxNum={25} number={numStripes} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Blip' organizedFunction={unbalanceStripes} unorganizedFunction={() => balanceStripes(0)} unorgButton='Unbalance' orgButton='Balance' />
+                <ControlBar width={props.width} loggedIn={props.loggedIn} setNumOrganizing={props.setNumOrganizing} toggleHighlightUserIcon={props.toggleHighlightUserIcon} toggleWindow={handleToggleWindow} disableFullWindow={props.disableFullWindow} fullWindow={props.fullWindow} setModalContent={props.setModalContent} palette={colorPalette} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} setPalette={handleSetColorPalette} setNumber={handleSetNumStripes} minNum={5} maxNum={25} number={numStripes} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Blip' organizedFunction={unbalanceStripes} unorganizedFunction={() => balanceStripes(0)} unorgButton='Unbalance' orgButton='Balance' />
             </div>
         </div>
     )

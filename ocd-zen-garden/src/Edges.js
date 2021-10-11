@@ -94,7 +94,7 @@ function Edges(props) {
     const complete = (idx) => {
         if(idx === 0) {
             toggleIsOrganizing();
-            props.increaseNumOrganizing();
+            props.setNumOrganizing(1);
         }
         let newEdges = edges.map(edge => {
             if(edge.id === edges[idx].id) {
@@ -114,11 +114,13 @@ function Edges(props) {
         soundPlay(sound);
         setEdges(newEdges);
         setNextIndex(idx + 1);
-        if(idx + 1 === edges.length) setTimeout(() => {
-            toggleIsOrganized();
-            toggleIsOrganizing();
-            props.decreaseNumOrganizing();
-        }, speed)
+        if(idx + 1 === edges.length) {
+            props.setNumOrganizing(-1);
+            setTimeout(() => {
+                toggleIsOrganized();
+                toggleIsOrganizing();
+            }, speed);
+        } 
     }
 
     const remove = () => {
@@ -187,7 +189,7 @@ function Edges(props) {
                         {display(1)}
                     </div>
                 </div>
-            <ControlBar width={props.width} loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumEdges} minNum={4} maxNum={40} number={numEdges} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={remove} unorganizedFunction={() => complete(0)} unorgButton='Remove' orgButton='Complete' />
+            <ControlBar width={props.width} loggedIn={props.loggedIn} setNumOrganizing={props.setNumOrganizing} toggleHighlightUserIcon={props.toggleHighlightUserIcon} toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumEdges} minNum={4} maxNum={40} number={numEdges} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={remove} unorganizedFunction={() => complete(0)} unorgButton='Remove' orgButton='Complete' />
 
             </div>
         </div>

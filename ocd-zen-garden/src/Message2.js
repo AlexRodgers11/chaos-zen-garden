@@ -68,7 +68,7 @@ function Message2(props){
     const matchLetters = (idx) => {
         if(idx === 1) {
             toggleIsOrganizing();
-            props.increaseNumOrganizing();
+            props.setNumOrganizing(1);
             while(letters[idx].font === letters[0].font) {
                 idx++;
             }
@@ -91,10 +91,10 @@ function Message2(props){
         setLetters(newLetters);
 
         if(nextIdx === letters.length) {
+            props.setNumOrganizing(-1);
             setTimeout(() => {
                 toggleIsOrganized();
                 toggleIsOrganizing();
-                props.decreaseNumOrganizing();
             }, speed);
         } else {
             setNextIndex(nextIdx);
@@ -210,7 +210,7 @@ function Message2(props){
                         {displayWords(letters)}
                     </div>
                 </div>
-                <ControlBar width={props.width} loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} soundValue='Sparkle' changeText={handleChangeText} setSpeed={handleSetSpeed} setSound={handleSetSound} organizedFunction={randomizeLetters} unorganizedFunction={() => matchLetters(1)} unorgButton='Randomize' orgButton='Match' />
+                <ControlBar width={props.width} loggedIn={props.loggedIn} setNumOrganizing={props.setNumOrganizing} toggleHighlightUserIcon={props.toggleHighlightUserIcon} toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} soundValue='Sparkle' changeText={handleChangeText} setSpeed={handleSetSpeed} setSound={handleSetSound} organizedFunction={randomizeLetters} unorganizedFunction={() => matchLetters(1)} unorgButton='Randomize' orgButton='Match' />
 
             </div>
         </div>

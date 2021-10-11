@@ -45,7 +45,7 @@ function Desk(props) {
             } else {
                 toggleIsOrganizing();
                 toggleIsOrganized();
-                props.decreaseNumOrganizing();
+                props.setNumOrganizing(-1);
             }
         } else {firstUpdate.current = false}
     }, [nextIndex])
@@ -90,7 +90,7 @@ function Desk(props) {
     const align = (idx) => {
         if(idx === 0) {
             toggleIsOrganizing();
-            props.increaseNumOrganizing();
+            props.setNumOrganizing(1);
         }
         let newItems = items.map(item => {
             if(item.id === items[idx].id) {
@@ -174,7 +174,7 @@ function Desk(props) {
                         </div>
                     </div>
                 </div>
-                <ControlBar width={props.width} toggleWindow={handleToggleWindow} loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={shift} unorganizedFunction={() => align(0)} unorgButton='Shift' orgButton='Align'/>
+                <ControlBar width={props.width} toggleWindow={handleToggleWindow} loggedIn={props.loggedIn} setNumOrganizing={props.setNumOrganizing} toggleHighlightUserIcon={props.toggleHighlightUserIcon} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={shift} unorganizedFunction={() => align(0)} unorgButton='Shift' orgButton='Align'/>
             </div>
         </div>
     )

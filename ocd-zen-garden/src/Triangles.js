@@ -46,7 +46,7 @@ function Triangles(props) {
             } else {
                 toggleIsOrganizing();
                 toggleIsOrganized();
-                props.decreaseNumOrganizing();
+                props.setNumOrganizing(-1);
             }
         } else {firstUpdate.current = false}
     }, [nextIndex])
@@ -91,7 +91,7 @@ function Triangles(props) {
     const center = (idx) => {
         if(idx === 0) {
             toggleIsOrganizing();
-            props.increaseNumOrganizing();
+            props.setNumOrganizing(1);
         }
         let newTriangles = triangles.map(triangle => {
             if(triangle.id === triangles[idx].id) {
@@ -182,7 +182,7 @@ function Triangles(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar width={props.width} loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow}  setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={12} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Chirp' organizedFunction={uncenter} unorganizedFunction={() => center(0)} unorgButton='Uncenter' orgButton='Center'/>
+                <ControlBar width={props.width} loggedIn={props.loggedIn} setNumOrganizing={props.setNumOrganizing} toggleHighlightUserIcon={props.toggleHighlightUserIcon} toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow}  setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={12} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Chirp' organizedFunction={uncenter} unorganizedFunction={() => center(0)} unorgButton='Uncenter' orgButton='Center'/>
             </div>
         </div>
     )

@@ -48,6 +48,7 @@ function Asterisk(props) {
         if(!firstUpdate.current) {
             if(nextIndex < lines.length){
                 setTimeout(()=>{
+                    console.log('timeout complete')
                     align(nextIndex);
                 }, speed);
             }
@@ -87,7 +88,7 @@ function Asterisk(props) {
     const align = (idx) => {
         if(idx === 0) {
             toggleIsOrganizing();
-            props.increaseNumOrganizing();
+            props.setNumOrganizing(1);
         }
         let newLines = lines.map(line => {
             if(line.id === lines[idx].id) {
@@ -98,13 +99,18 @@ function Asterisk(props) {
         });
 
         soundPlay(sound, lines[idx].volumeMultiplier, props.volume, proportionalVolume);
+        console.log('aligned');
         setLines(newLines);
-        setNextIndex(idx + 1);
-        if(idx + 1 === lines.length) setTimeout(() => {
-            toggleIsOrganized();
-            toggleIsOrganizing();
-            props.decreaseNumOrganizing();
-        }, speed)
+        if(idx + 1 === lines.length) {
+            props.setNumOrganizing(-1);
+            console.log(`reduced numOrganizing at idx: ${idx}`)
+            setTimeout(() => {
+                toggleIsOrganized();
+                toggleIsOrganizing();
+            }, speed)
+        } else {
+            setNextIndex(idx + 1);
+        }
     }
 
     const shift = () => {
@@ -167,7 +173,7 @@ function Asterisk(props) {
                         })}
                     </div>
                 </div>
-            <ControlBar width={props.width} loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumLines} minNum={4} maxNum={50} number={numLines} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={shift} unorganizedFunction={() => align(0)} unorgButton='Shift' orgButton='Align' />
+            <ControlBar width={props.width} loggedIn={props.loggedIn} setNumOrganizing={props.setNumOrganizing} toggleHighlightUserIcon={props.toggleHighlightUserIcon} toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumLines} minNum={4} maxNum={50} number={numLines} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={shift} unorganizedFunction={() => align(0)} unorgButton='Shift' orgButton='Align' />
 
             </div>
         </div>

@@ -132,7 +132,7 @@ function Dots(props) {
     const organizeDots = (idx, dir) => {
         if(idx === 0 && dir === 'horizontal') {
             toggleIsOrganizing();
-            props.increaseNumOrganizing();
+            props.setNumOrganizing(1);
         }
         let newDots;
         let newDir = dir === 'horizontal' ? 'vertical' : 'horizontal';
@@ -159,11 +159,13 @@ function Dots(props) {
         
         setDots(newDots);
         setNextIndex({id: newIdx, dir: newDir});
-        if(idx + 1 === dots.length && dir === 'horizontal') setTimeout(() => {
-            toggleIsOrganized();
-            toggleIsOrganizing();
-            props.decreaseNumOrganizing();
-        }, 1000)
+        if(idx + 1 === dots.length && dir === 'horizontal') {
+            props.setNumOrganizing(-1);
+            setTimeout(() => {
+                toggleIsOrganized();
+                toggleIsOrganizing();
+            }, 1000);
+        } 
     }
 
     const scatterDots = () => {
@@ -213,7 +215,7 @@ function Dots(props) {
                         </div>
                     </div>
                 </div>
-                <ControlBar width={props.width} loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={25} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Swish' organizedFunction={scatterDots} unorganizedFunction={() => organizeDots(0, 'horizontal')} unorgButton='Scatter' orgButton='Organize' />
+                <ControlBar width={props.width} loggedIn={props.loggedIn} setNumOrganizing={props.setNumOrganizing} toggleHighlightUserIcon={props.toggleHighlightUserIcon} toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={25} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Swish' organizedFunction={scatterDots} unorganizedFunction={() => organizeDots(0, 'horizontal')} unorgButton='Scatter' orgButton='Organize' />
             </div>
             
         </div>

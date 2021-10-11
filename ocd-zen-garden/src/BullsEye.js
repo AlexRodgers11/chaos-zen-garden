@@ -34,6 +34,9 @@ function BullsEye(props) {
     useEffect(() => {
         if((!firstUpdate.current && !isOrganized) && !userJustChangedNumber) {
             if(props.id === 1) {
+                if(orgIndex === 2) {
+                    props.setNumOrganizing(-1);
+                }
                 setTimeout(() => {
                     if(orgIndex > 2) {
                         setOrgIndex(orgIndex - 1);
@@ -41,7 +44,6 @@ function BullsEye(props) {
                     else if(orgIndex === 2) {
                         toggleIsOrganized();
                         toggleIsOrganizing();
-                        props.decreaseNumOrganizing();
                     }
                 }, speed)
             }
@@ -110,7 +112,7 @@ function BullsEye(props) {
         if(userJustChangedNumber) toggleUserJustChangedNumber();
         if(orgIndex === props.numRings + 1) {
             toggleIsOrganizing();
-            props.increaseNumOrganizing();
+            props.setNumOrganizing(1);
         }
         setOrgIndex(orgIndex - 1);
     }
@@ -169,7 +171,7 @@ function BullsEye(props) {
                         
                     </div>
                 </div>
-            {props.id === 1 ? <ControlBar width={props.width} loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} shape={shape} shapes={['circle', 'square']} changeShape={props.setShape} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumRings} minNum={4} maxNum={40} number={props.numRings} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Whoop' organizedFunction={scatterRings} unorganizedFunction={organizeRings} unorgButton='Scatter' orgButton='Organize' /> : null}
+            {props.id === 1 ? <ControlBar width={props.width} loggedIn={props.loggedIn} setNumOrganizing={props.setNumOrganizing} toggleHighlightUserIcon={props.toggleHighlightUserIcon} toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} shape={shape} shapes={['circle', 'square']} changeShape={props.setShape} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumRings} minNum={4} maxNum={40} number={props.numRings} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Whoop' organizedFunction={scatterRings} unorganizedFunction={organizeRings} unorgButton='Scatter' orgButton='Organize' /> : null}
             </div>
         </div>
         
