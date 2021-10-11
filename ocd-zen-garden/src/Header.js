@@ -82,7 +82,7 @@ function Header(props){
                 </div>
                 <div onMouseLeave={showDropdown.main ? () => handleToggleDropdown('main') : null} className={`Header_dropdown ${showDropdown.main ? 'Header_dropdown-active' : ''}`} >
                     <div style={{display: 'flex', alignItems: 'center'}}>
-                        <div style={{display: 'flex', alignItems: 'center'}} className="tooltip">
+                        <div style={{display: 'flex', alignItems: 'center', cursor: 'pointer'}} className="tooltip">
                             {props.highlightUserIcon ? <span className='tooltiptext'><FaLongArrowAltUp size="1.5rem" /></span> : null}<FaUserCircle id="main" className="Header_dropbtn" onClick={() => handleToggleDropdown('main')} size="1.5rem" color={!props.highlightUserIcon ? getColor('aux2', colorPalette) : 'white'}/>
                         </div>
                     </div>

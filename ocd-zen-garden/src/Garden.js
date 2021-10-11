@@ -235,7 +235,7 @@ function Garden(props) {
             <div style={{width: '100vw', height: `${height}px`}}>
                 <div style={{position: 'fixed', zIndex: '3'}}>
                 {/* <div style={{position: 'fixed'}}> */}
-                <Header loggedIn={props.loggedIn} toggleLoggedIn={props.toggleLoggedIn} highlightUserIcon={highlightUserIcon} changePalette={handleChangePalette} setModalContent={handleSetModalContent} />
+                <Header loggedIn={props.loggedIn} toggleLoggedIn={props.toggleLoggedIn} numOrganizing={numOrganizing} highlightUserIcon={highlightUserIcon} changePalette={handleChangePalette} setModalContent={handleSetModalContent} />
                 </div>
             
             {/* <div className="pieceContainer" style={{display: 'grid', gridTemplateRows: `${width <= height ? `1fr ${width}px 1fr` : '1fr'}`, gridTemplateColumns: `${width > height ? `1fr ${height}px 1fr` : '1fr'}`}}> */}
