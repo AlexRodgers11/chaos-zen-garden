@@ -2,12 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import useToggle from './hooks/useToggle';
 import Header from './Header';
 import Modal from './Modal';
-// import NewUserForm from './NewUserForm';
-// import LoginForm from './LoginForm';
-// import ColorForm from './ColorForm';
 import useCurrentWidth from './hooks/useCurrentWidth';
 import useCurrentHeight from './hooks/useCurrentHeight';
-import { getColor, palettes, getSound } from './utils';
+import { palettes } from './utils';
 import Snake from './Snake';
 import Dots from './Dots';
 import BullsEye from './BullsEye';
@@ -33,8 +30,6 @@ import Diamonds from './Diamonds';
 import Rainbow from './Rainbow';
 import './Garden.css';
 import Asterisk from './Asterisk';
-import { v4 as uuidv4 } from 'uuid';
-import { GiJamesBondAperture } from 'react-icons/gi';
 
 
 function Garden(props) {
@@ -50,26 +45,26 @@ function Garden(props) {
     const [highlightUserIcon, toggleHighlightUserIcon] = useToggle(false);
     const [numOrganizing, setNumOrganizing] = useState(0);
     const [organizationCount, setOrganizationCount] = useState(0);
-    const [resetTimer, toggleResetTimer] = useToggle(true);
+    // const [resetTimer, toggleResetTimer] = useToggle(true);
 
-    const firstButtonCountUpdate = useRef(true);
-    useEffect(() => {
-        console.log('we may have a problem here')
-        if(resetTimer) {
-            console.log('or maybe not')
-            toggleResetTimer();
-            setTimeout(() => {
-                toggleResetTimer();
-                setOrganizationCount(0);
-            }, 1800000)
-        }
-    }, [resetTimer], firstButtonCountUpdate);
+    // const firstButtonCountUpdate = useRef(true);
+    // useEffect(() => {
+    //     console.log('we may have a problem here')
+    //     if(resetTimer) {
+    //         console.log('or maybe not')
+    //         toggleResetTimer();
+    //         setTimeout(() => {
+    //             toggleResetTimer();
+    //             setOrganizationCount(0);
+    //         }, 1800000)
+    //     }
+    // }, [resetTimer], firstButtonCountUpdate);
 
-    useEffect(() => {
-        if (organizationCount > 30){
-            alert('user may actually have OCD');
-        }
-    }, [organizationCount])
+    // useEffect(() => {
+    //     if (organizationCount > 30){
+    //         alert('user may actually have OCD');
+    //     }
+    // }, [organizationCount])
 
 
     const handleChangePalette = palette => {
@@ -102,18 +97,6 @@ function Garden(props) {
         }
     }
 
-    // const handleDecreaseNumOrganizing = () => {
-    //     setNumOrganizing(num => {
-    //         return num - 1;
-    //     });
-    // }
-
-    // const handleIncreaseNumOrganizing = () => {
-    //     setNumOrganizing(num => {
-    //         return num + 1;
-    //     });
-    // }
-
     const handleSetNumRings = num => {
         setNumRings(Number(num))
     }
@@ -143,18 +126,9 @@ function Garden(props) {
     }
 
     const displayFullSize = gardenPiece => {
-        // let gardenPieceWidth = width * .5
         let gardenPieceWidth = width > height ? height - 47 : width - 2;
         let disableFullWindow = false;
-        // if(width >= 1700) {
-        //     gardenPieceWidth = width * .475;
-        // } else if(width >= 1200) {
-        //     gardenPieceWidth = width * .5;
-        // } else if(width >= 900) {
-        //     gardenPieceWidth = width * .75;
-        // } else if (width < 900 && width > 600) {
-        //     gardenPieceWidth = width
-        // } 
+
         switch(gardenPiece) {
             case 'snake':
                 return <Snake width={gardenPieceWidth} className="Snake" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} />
@@ -206,23 +180,7 @@ function Garden(props) {
                 return <Asterisk width={gardenPieceWidth} className="Asterisk" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
         }
     }
-    // const displayModalContent = content => {
-    //     switch(content) {
-    //         case 'epilepsy-warning':
-    //             return (<div>
-    //                 <p>WARNING: PHOTOSENSITIVITY/EPILEPSY SEIZURES</p>
-    //                 <p>If you, or anyone in your family has an epileptic condition or has had seizures of any kind, consult your physician before using this website. IMMEDIATELY DISCONTINUE use and consult your physician before resuming use of this website.</p>
-    //             </div>)
-    //         case 'monochrome': 
-    //             return (<ColorForm monochrome={true} colorCount={1}/>);
-    //         case 'custom-palette':
-    //             return (<ColorForm monochrome={false} colorCount={7}/>);
-    //         case 'new-user':
-    //             return (<NewUserForm />);
-    //         case 'login':
-    //             return (<LoginForm />)
-    //     }
-    // }
+
 
     if(!fullSelectedPiece) {
         let gardenPieceWidth;
@@ -266,7 +224,6 @@ function Garden(props) {
                 <Asterisk width={gardenPieceWidth} className="Asterisk" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} palette={colorPalette} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
                 {!hideModal ? 
                     <Modal content={modalContent} height={height} toggleHideModal={toggleHideModal} hidden={hideModal} loggedIn={props.loggedIn} toggleLoggedIn={handleToggleLoggedIn}>
-                        {/* {displayModalContent(modalContent)} */}
                     </Modal> 
                     : null
                 }
@@ -274,19 +231,14 @@ function Garden(props) {
             </>
         )
     } else {
-        // console.log(width);
-        // console.log(height)
         return (
             <div style={{width: '100vw', height: `${height}px`}}>
                 <div style={{position: 'fixed', zIndex: '3'}}>
-                {/* <div style={{position: 'fixed'}}> */}
                 <Header loggedIn={props.loggedIn} toggleLoggedIn={props.toggleLoggedIn} numOrganizing={numOrganizing} highlightUserIcon={highlightUserIcon} changePalette={handleChangePalette} setModalContent={handleSetModalContent} />
                 </div>
             
-            {/* <div className="pieceContainer" style={{display: 'grid', gridTemplateRows: `${width <= height ? `1fr ${width}px 1fr` : '1fr'}`, gridTemplateColumns: `${width > height ? `1fr ${height}px 1fr` : '1fr'}`}}> */}
+
             <div className="pieceContainer" style={{display: 'grid', height: `${height - 45}px`, width: '100%', gridTemplateRows: `${width <= height - 45 ? `auto ${width}px auto` : '1fr'}`, gridTemplateColumns: `${width > height - 45 ? `auto ${height - 45}px auto` : '1fr'}`}}>
-            {/* <div className="pieceContainer" style={{display: 'grid', gridTemplateRows: `${width <= height ? '1fr 2fr 1fr' : '2fr 1fr 2fr'}`, gridTemplateColumns: `${width > height ? '1fr 2fr 1fr' : '2fr 1fr 2fr'}`}}> */}
-            {/* <div className="pieceContainer" style={{display: 'grid', gridTemplateRows: '1fr 1fr 1fr', gridTemplateColumns: '1fr 1fr 1fr'}}> */}
                 <div style={{backgroundColor: 'black', height: '100%', width:'auto'}}></div>
                 <div style={{backgroundColor: 'black', height: '100%', width:'auto'}}>
                     {displayFullSize(fullSelectedPiece)}
