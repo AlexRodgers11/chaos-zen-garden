@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
 import { getColor, getSound, scaler, soundPlay } from './utils';
@@ -6,13 +7,14 @@ import ControlBar from './ControlBar';
 
 
 function Asterisk(props) {
+    const palette = useSelector((state) => state.palette.palette);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [nextIndex, setNextIndex] = useState(0);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Click'));
     const [proportionalVolume, setProportionalVolume] = useState('proportional');
-    const [colorPalette, setColorPalette] = useState(props.palette);
+    const [colorPalette, setColorPalette] = useState(palette);
     const [numLines, setNumLines] = useState(15);
     const [userJustChangedNumber, toggleUserJustChangedNumber] = useToggle(props.id === 1 ? false : props.userJustChangedNumber)
     const [shape, setShape] = useState('circle');
@@ -61,15 +63,15 @@ function Asterisk(props) {
     useEffect(() => {
         if(!colorFirstUpdate.current) {
             let newLines = lines.map(line => {
-                return {...line, color: getColor(line.id, props.palette)}
+                return {...line, color: getColor(line.id, palette)}
             });
-            setColorPalette(props.palette);
+            setColorPalette(palette);
             setLines(newLines);
             colorsDoNotUpdate.current = true;
         } else {
             colorFirstUpdate.current = false;
         }
-    }, [props.palette]);
+    }, [palette]);
 
     const colorsDoNotUpdate = useRef(true)
     useEffect(() => {

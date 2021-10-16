@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState} from 'react';
+import { useSelector } from 'react-redux';
 import useToggle from './hooks/useToggle';
 import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 import { v4 as uuidv4 } from 'uuid';
 
 function Dominoes(props) {
+    const palette = useSelector((state) => state.palette.palette);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
-    const [colorPalette, setColorPalette] = useState(props.palette);
+    const [colorPalette, setColorPalette] = useState(palette);
     const [nextIdx, setNextIdx] = useState();
     const [numLines, setNumLines] = useState(10);
     const [speed, setSpeed] = useState(1000);
@@ -55,15 +57,15 @@ function Dominoes(props) {
     useEffect(() => {
         if(!firstUpdate.current) {
             let newLines = lines.map(line => {
-                return {...line, color: getColor(line.id, props.palette)}
+                return {...line, color: getColor(line.id, palette)}
             });
             setLines(newLines);
-            setColorPalette(props.palette);
+            setColorPalette(palette);
             colorsDoNotUpdate.current = true;
         } else {
             colorsFirstUpdate.current = false;
         }
-    }, [props.palette]);
+    }, [palette]);
 
     const colorsDoNotUpdate = useRef(true)
     useEffect(() => {

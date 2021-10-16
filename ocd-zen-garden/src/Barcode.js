@@ -1,13 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
 
 function Barcode(props) {
+    const palette = useSelector((state) => state.palette.palette);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
-    const [colorPalette, setColorPalette] = useState(props.palette);
+    const [colorPalette, setColorPalette] = useState(palette);
     const [numStripes, setNumStripes] = useState(props.numStripes || 15);
     const [nextIdx, setNextIdx] = useState(0);
     const [sound, setSound] = useState(getSound('Blip'));
@@ -94,15 +96,15 @@ function Barcode(props) {
     useEffect(() => {
         if(!colorFirstUpdate.current) {
             let newStripes = stripes.map(stripe => {
-                return {...stripe, color: getColor(stripe.id, props.palette)}
+                return {...stripe, color: getColor(stripe.id, palette)}
             });
             setStripes(newStripes);
-            setColorPalette(props.palette);
+            setColorPalette(palette);
             colorsDoNotUpdate.current = true;
         } else {
             colorFirstUpdate.current = false;
         }
-    }, [props.palette]);
+    }, [palette]);
 
     const colorsDoNotUpdate = useRef(true)
     useEffect(() => {

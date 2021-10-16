@@ -1,4 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
+import { useSelector } from 'react-redux';
 import useToggle from './hooks/useToggle';
 import { getColor, getSound, scaler,soundPlay } from './utils';
 import ControlBar from './ControlBar';
@@ -10,10 +11,11 @@ import { CgNotes } from 'react-icons/cg';
 import { GoCalendar } from 'react-icons/go';
 
 function Desk(props) {
+    const palette = useSelector((state) => state.palette.palette);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [nextIndex, setNextIndex] = useState(0);
-    const [colorPalette, setColorPalette] = useState(props.palette);
+    const [colorPalette, setColorPalette] = useState(palette);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Ding'));
     const [proportionalVolume, setProportionalVolume] = useState('proportional');
@@ -54,16 +56,16 @@ function Desk(props) {
     useEffect(() => {
         if(!colorsFirstUpdate.current) {
             let newItems = items.map(item => {
-                return {...item, color: getColor(item.id, props.palette)}
+                return {...item, color: getColor(item.id, palette)}
             });
-            setColorPalette(props.palette);
+            setColorPalette(palette);
             setItems(newItems);
             colorsDoNotUpdate.current = true;
         } else {
             colorsFirstUpdate.current = false;
         }
         
-    }, [props.palette]);
+    }, [palette]);
 
     const colorsDoNotUpdate = useRef(true)
     useEffect(() => {

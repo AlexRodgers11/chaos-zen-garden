@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import useToggle from './hooks/useToggle';
 import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
@@ -6,10 +7,11 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 function Snake(props) {
+    const palette = useSelector((state) => state.palette.palette);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [nextIndex, setNextIndex] = useState(0);
-    const [colorPalette, setColorPalette] = useState(props.palette);
+    const [colorPalette, setColorPalette] = useState(palette);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Slam'));
     const [proportionalVolume, setProportionalVolume] = useState('proportional');
@@ -66,15 +68,15 @@ function Snake(props) {
     useEffect(() => {
         if(!colorFirstUpdate.current) {
             let newBoxes = boxes.map(box => {
-                return {...box, color: getColor(box.id, props.palette)}
+                return {...box, color: getColor(box.id, palette)}
             });
-            setColorPalette(props.palette);
+            setColorPalette(palette);
             setBoxes(newBoxes);
             colorsDoNotUpdate.current = true;
         } else {
             colorFirstUpdate.current = false;
         }
-    }, [props.palette]);
+    }, [palette]);
 
     const colorsDoNotUpdate = useRef(true)
     useEffect(() => {

@@ -1,15 +1,17 @@
 import React, {useEffect, useRef, useState} from 'react';
+import { useSelector } from 'react-redux';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
 import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 
 function Cards(props) {
+    const palette = useSelector((state) => state.palette.palette);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [numCards, setNumRows] = useState(5);
     const [nextIndex, setNextIndex] = useState(0);
-    const [colorPalette, setColorPalette] = useState(props.palette);
+    const [colorPalette, setColorPalette] = useState(palette);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Whoosh'));
     const [proportionalVolume, setProportionalVolume] = useState('proportional');
@@ -52,16 +54,16 @@ function Cards(props) {
     useEffect(() => {
         if(!colorsFirstUpdate.current) {
             let newCards = cards.map(card => {
-                return {...card, color: getColor(card.id, props.palette)}
+                return {...card, color: getColor(card.id, palette)}
             });
-            setColorPalette(props.palette);
+            setColorPalette(palette);
             setCards(newCards);
             colorsDoNotUpdate.current = true;
         } else {
             colorsFirstUpdate.current = false;
         }
         
-    }, [props.palette]);
+    }, [palette]);
 
     const colorsDoNotUpdate = useRef(true)
     useEffect(() => {

@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import useToggle from './hooks/useToggle';
 import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 import { v4 as uuidv4 } from 'uuid';
 
 function Dots(props) {
+    const palette = useSelector((state) => state.palette.palette);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [nextIndex, setNextIndex] = useState({id: 0, dir: 'vertical'});
@@ -12,7 +14,7 @@ function Dots(props) {
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Swish'));
     const [proportionalVolume, setProportionalVolume] = useState('proportional');
-    const [colorPalette, setColorPalette] = useState(props.palette);
+    const [colorPalette, setColorPalette] = useState(palette);
     const [shape, setShape] = useState('circle');
 
     // const soundPlay = (soundObj, multiplier) => {
@@ -60,16 +62,16 @@ function Dots(props) {
     useEffect(() => {
         if(!colorsPropFirstUpdate.current) {
             let newDots = dots.map(dot => {
-                return {...dot, color: getColor(dot.id, props.palette)}
+                return {...dot, color: getColor(dot.id, palette)}
             });
-            setColorPalette(props.palette);
+            setColorPalette(palette);
             setDots(newDots);
             colorsDoNotUpdate.current = true;
         } else {
             colorsPropFirstUpdate.current = false;
         }
         
-    }, [props.palette]);
+    }, [palette]);
 
     const colorsDoNotUpdate = useRef(true)
     useEffect(() => {

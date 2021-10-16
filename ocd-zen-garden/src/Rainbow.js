@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState} from 'react';
+import { useSelector } from 'react-redux';
 import useToggle from './hooks/useToggle';
 import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 
 
 function Rainbow(props) {
+    const palette = useSelector((state) => state.palette.palette);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
-    const [colorPalette, setColorPalette] = useState(props.palette);
+    const [colorPalette, setColorPalette] = useState(palette);
     const [nextIdx, setNextIdx] = useState();
     const [numArcs, setNumArcs] = useState(12);
     const [speed, setSpeed] = useState(1000);
@@ -54,15 +56,15 @@ function Rainbow(props) {
     useEffect(() => {
         if(!firstUpdate.current) {
             let newArcs = arcs.map(arc => {
-                return {...arc, color: getColor(arc.id, props.palette), color2: getColor(arc.id + 1, colorPalette)}
+                return {...arc, color: getColor(arc.id, palette), color2: getColor(arc.id + 1, colorPalette)}
             });
             setArcs(newArcs);
-            setColorPalette(props.palette);
+            setColorPalette(palette);
             colorsDoNotUpdate.current = true;
         } else {
             colorsFirstUpdate.current = false;
         }
-    }, [props.palette]);
+    }, [palette]);
 
     const colorsDoNotUpdate = useRef(true)
     useEffect(() => {

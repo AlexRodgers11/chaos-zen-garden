@@ -1,13 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import useToggle from './hooks/useToggle';
 import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 
 function BullsEye(props) {
-    // const getMargin = () => {
-    //     return Math.random()
-    // };    
-
+    const palette = useSelector((state) => state.palette.palette);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [orgIndex, setOrgIndex] = useState(props.numRings + 1);
@@ -16,7 +14,7 @@ function BullsEye(props) {
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound(props.sound));
     const [proportionalVolume, setProportionalVolume] = useState(props.id === 1 ? 'proportional' : props.proportionalVolume);
-    const [colorPalette, setColorPalette] = useState(props.palette);
+    const [colorPalette, setColorPalette] = useState(palette);
     const [numRings, setNumRings] = useState(props.numRings);
     const [userJustChangedNumber, toggleUserJustChangedNumber] = useToggle(props.id === 1 ? false : props.userJustChangedNumber);
     const [shape, setShape] = useState('circle');
@@ -85,12 +83,25 @@ function BullsEye(props) {
     let colorFirstUpdate = useRef(true);
     useEffect(() => {
         if(!colorFirstUpdate.current) {
+            setColorPalette(palette);
+        } else {
+            if(props.id !== 1) {
+                setColorPalette(palette);
+            } else {
+                colorFirstUpdate.current = false;
+            }
+        }
+    }, [palette]);
+
+    let colorPropsFirstUpdate = useRef(true);
+    useEffect(() => {
+        if(!colorPropsFirstUpdate.current) {
             setColorPalette(props.palette);
         } else {
             if(props.id !== 1) {
                 setColorPalette(props.palette);
             } else {
-                colorFirstUpdate.current = false;
+                colorPropsFirstUpdate.current = false;
             }
         }
     }, [props.palette]);

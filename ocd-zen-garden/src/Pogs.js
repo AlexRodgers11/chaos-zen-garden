@@ -1,4 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
+import { useSelector } from 'react-redux';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
 import { getColor, getSound, scaler, soundPlay } from './utils';
@@ -6,11 +7,12 @@ import ControlBar from './ControlBar';
 import { GiFoxHead } from 'react-icons/gi';
 
 function Pogs(props) {
+    const palette = useSelector((state) => state.palette.palette);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [numRows, setNumRows] = useState(5);
     const [nextIndex, setNextIndex] = useState(0);
-    const [colorPalette, setColorPalette] = useState(props.palette);
+    const [colorPalette, setColorPalette] = useState(palette);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Robot'));
     const [proportionalVolume, setProportionalVolume] = useState('proportional');
@@ -59,16 +61,16 @@ function Pogs(props) {
     useEffect(() => {
         if(!colorsFirstUpdate.current) {
             let newPogs = pogs.map(pog => {
-                return {...pog, color: getColor(pog.id, props.palette)}
+                return {...pog, color: getColor(pog.id, palette)}
             });
-            setColorPalette(props.palette);
+            setColorPalette(palette);
             setPogs(newPogs);
             colorsDoNotUpdate.current = true;
         } else {
             colorsFirstUpdate.current = false;
         }
         
-    }, [props.palette]);
+    }, [palette]);
 
     const colorsDoNotUpdate = useRef(true)
     useEffect(() => {

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import useToggle from './hooks/useToggle';
 import { getColor, getSound } from './utils';
 import ControlBar from './ControlBar';
@@ -6,12 +7,13 @@ import { Howl } from 'howler';
 
 
 function Edges(props) {
+    const palette = useSelector((state) => state.palette.palette);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [nextIndex, setNextIndex] = useState(0);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Ding'));
-    const [colorPalette, setColorPalette] = useState(props.palette);
+    const [colorPalette, setColorPalette] = useState(palette);
     const [numEdges, setNumEdges] = useState(17);
     const [userJustChangedNumber, toggleUserJustChangedNumber] = useToggle(props.id === 1 ? false : props.userJustChangedNumber)
 
@@ -67,15 +69,15 @@ function Edges(props) {
     useEffect(() => {
         if(!colorFirstUpdate.current) {
             let newEdges = edges.map(edge => {
-                return {...edge, color: getColor(edge.id, props.palette)}
+                return {...edge, color: getColor(edge.id, palette)}
             });
-            setColorPalette(props.palette);
+            setColorPalette(palette);
             setEdges(newEdges);
             colorsDoNotUpdate.current = true;
         } else {
             colorFirstUpdate.current = false;
         }
-    }, [props.palette]);
+    }, [palette]);
 
     const colorsDoNotUpdate = useRef(true)
     useEffect(() => {

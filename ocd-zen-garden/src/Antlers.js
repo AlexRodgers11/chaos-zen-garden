@@ -1,4 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
+import { useSelector } from 'react-redux';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
 import { getColor, getSound } from './utils';
@@ -6,11 +7,12 @@ import ControlBar from './ControlBar';
 import { Howl } from 'howler';
 
 function Antlers(props) {
+    const palette = useSelector((state) => state.palette.palette);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [numRows, setNumRows] = useState(5);
     const [nextIndex, setNextIndex] = useState(0);
-    const [colorPalette, setColorPalette] = useState(props.palette);
+    const [colorPalette, setColorPalette] = useState(palette);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Click'));
     
@@ -42,16 +44,16 @@ function Antlers(props) {
     useEffect(() => {
         if(!colorsFirstUpdate.current) {
             let newHorns = horns.map(horn => {
-                return {...horn, color: getColor(horn.id, props.palette)}
+                return {...horn, color: getColor(horn.id, palette)}
             });
-            setColorPalette(props.palette);
+            setColorPalette(palette);
             setHorns(newHorns);
             colorsDoNotUpdate.current = true;
         } else {
             colorsFirstUpdate.current = false;
         }
         
-    }, [props.palette]);
+    }, [palette]);
 
     const colorsDoNotUpdate = useRef(true)
     useEffect(() => {

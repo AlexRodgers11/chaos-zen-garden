@@ -1,4 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
+import { useSelector } from 'react-redux';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
 import { getColor, getSound } from './utils';
@@ -6,11 +7,12 @@ import ControlBar from './ControlBar';
 import { Howl } from 'howler';
 
 function Tallies(props) {
+    const palette = useSelector((state) => state.palette.palette);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [numRows, setNumRows] = useState(3);
     const [nextIndex, setNextIndex] = useState({idx: 0, mark: 2});
-    const [colorPalette, setColorPalette] = useState(props.palette);
+    const [colorPalette, setColorPalette] = useState(palette);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Click'));
 
@@ -57,16 +59,16 @@ function Tallies(props) {
     useEffect(() => {
         if(!colorsFirstUpdate.current) {
             let newTallies = tallies.map(tally => {
-                return {...tally, color: getColor(tally.id, props.palette)}
+                return {...tally, color: getColor(tally.id, palette)}
             });
-            setColorPalette(props.palette);
+            setColorPalette(palette);
             setTallies(newTallies);
             colorsDoNotUpdate.current = true;
         } else {
             colorsFirstUpdate.current = false;
         }
         
-    }, [props.palette]);
+    }, [palette]);
 
     const colorsDoNotUpdate = useRef(true)
     useEffect(() => {

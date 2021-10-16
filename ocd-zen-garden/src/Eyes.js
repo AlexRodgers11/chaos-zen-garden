@@ -1,15 +1,17 @@
 import React, {useEffect, useRef, useState} from 'react';
+import { useSelector } from 'react-redux';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
 import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 
 function Eyes(props) {
+    const palette = useSelector((state) => state.palette.palette);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [numRows, setNumRows] = useState(5);
     const [nextIndex, setNextIndex] = useState(0);
-    const [colorPalette, setColorPalette] = useState(props.palette);
+    const [colorPalette, setColorPalette] = useState(palette);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Sparkle'));
     const [proportionalVolume, setProportionalVolume] = useState('proportional');
@@ -47,16 +49,16 @@ function Eyes(props) {
     useEffect(() => {
         if(!colorsFirstUpdate.current) {
             let newSquares = squares.map(square => {
-                return {...square, color: getColor(square.id, props.palette)}
+                return {...square, color: getColor(square.id, palette)}
             });
-            setColorPalette(props.palette);
+            setColorPalette(palette);
             setSquares(newSquares);
             colorsDoNotUpdate.current = true;
         } else {
             colorsFirstUpdate.current = false;
         }
         
-    }, [props.palette]);
+    }, [palette]);
 
     const colorsDoNotUpdate = useRef(true)
     useEffect(() => {

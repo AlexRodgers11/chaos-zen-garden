@@ -1,17 +1,19 @@
 import React,  {useState, useEffect, useRef} from 'react';
+import { useSelector } from 'react-redux';
 import useToggle from './hooks/useToggle';
 import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 import { v4 as uuidv4 } from 'uuid';
 
 function Message(props){
+    const palette = useSelector((state) => state.palette.palette);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [nextIndex, setNextIndex] = useState(0);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Robot'));
     const [proportionalVolume, setProportionalVolume] = useState('proportional');
-    const [colorPalette, setColorPalette] = useState(props.palette);
+    const [colorPalette, setColorPalette] = useState(palette);
 
     // const soundPlay = (soundObj, multiplier) => {
     //     const sound = new Howl({
@@ -100,15 +102,15 @@ function Message(props){
     useEffect(() => {
         if(!colorFirstUpdate.current) {
             let newLetters = letters.map(letter => {
-                return {...letter, color: getColor(letter.id, props.palette)}
+                return {...letter, color: getColor(letter.id, palette)}
             });
             setLetters(newLetters);
-            setColorPalette(props.palette);
+            setColorPalette(palette);
             colorsDoNotUpdate.current = true;
         } else {
             colorFirstUpdate.current = false;
         }
-    }, [props.palette]);
+    }, [palette]);
 
     const colorsDoNotUpdate = useRef(true)
     useEffect(() => {

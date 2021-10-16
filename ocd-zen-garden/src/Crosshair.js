@@ -1,17 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import useToggle from './hooks/useToggle';
 import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 
 
 function Crosshair(props) {
+    const palette = useSelector((state) => state.palette.palette);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [nextIndex, setNextIndex] = useState(0);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Robot'));
     const [proportionalVolume, setProportionalVolume] = useState('proportional');
-    const [colorPalette, setColorPalette] = useState(props.palette);
+    const [colorPalette, setColorPalette] = useState(palette);
     const [numRings, setNumRings] = useState(6);
     const [userJustChangedNumber, toggleUserJustChangedNumber] = useToggle(props.id === 1 ? false : props.userJustChangedNumber)
     const [shape, setShape] = useState('circle');
@@ -59,15 +61,15 @@ function Crosshair(props) {
     useEffect(() => {
         if(!colorFirstUpdate.current) {
             let newRings = rings.map(ring => {
-                return {...ring, color: getColor(ring.id, props.palette)}
+                return {...ring, color: getColor(ring.id, palette)}
             });
-            setColorPalette(props.palette);
+            setColorPalette(palette);
             setRings(newRings);
             colorsDoNotUpdate.current = true;
         } else {
             colorFirstUpdate.current = false;
         }
-    }, [props.palette]);
+    }, [palette]);
 
     const colorsDoNotUpdate = useRef(true)
     useEffect(() => {

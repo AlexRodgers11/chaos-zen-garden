@@ -1,4 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
+import { useSelector } from 'react-redux';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
 import { getColor, getSound, scaler, soundPlay } from './utils';
@@ -6,11 +7,12 @@ import ControlBar from './ControlBar';
 import { Howl } from 'howler';
 
 function Triangles(props) {
+    const palette = useSelector((state) => state.palette.palette);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [numRows, setNumRows] = useState(7);
     const [nextIndex, setNextIndex] = useState(0);
-    const [colorPalette, setColorPalette] = useState(props.palette);
+    const [colorPalette, setColorPalette] = useState(palette);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Chirp'));
     const [proportionalVolume, setProportionalVolume] = useState('proportional');
@@ -55,16 +57,16 @@ function Triangles(props) {
     useEffect(() => {
         if(!colorsFirstUpdate.current) {
             let newTriangles = triangles.map(triangle => {
-                return {...triangle, color: getColor(triangle.id, props.palette)}
+                return {...triangle, color: getColor(triangle.id, palette)}
             });
-            setColorPalette(props.palette);
+            setColorPalette(palette);
             setTriangles(newTriangles);
             colorsDoNotUpdate.current = true;
         } else {
             colorsFirstUpdate.current = false;
         }
         
-    }, [props.palette]);
+    }, [palette]);
 
     const colorsDoNotUpdate = useRef(true)
     useEffect(() => {
