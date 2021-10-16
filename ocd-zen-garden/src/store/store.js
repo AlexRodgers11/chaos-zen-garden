@@ -1,7 +1,7 @@
 // import { createStore } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
 import paletteSlice from './palette';
-import organizingCounterSlice from './organizing-counter-slice';
+import organizingCounterSlice from './organizing-counter';
 // const initialState = {
 //     palette: 'carnival',
 //     organizingCounter: 0
