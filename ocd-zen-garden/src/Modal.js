@@ -4,6 +4,7 @@ import './Modal.css';
 import NewUserForm from './NewUserForm';
 import LoginForm from './LoginForm';
 import ColorForm from './ColorForm';
+import OCDForm from './OCDForm';
 
 function Modal(props) {
     const handleToggleHideModal = () => {
@@ -24,7 +25,9 @@ function Modal(props) {
             case 'new-user':
                 return (<NewUserForm loggedIn={props.loggedIn} toggleLoggedIn={props.toggleLoggedIn} />);
             case 'login':
-                return (<LoginForm loggedIn={props.loggedIn} toggleLoggedIn={props.toggleLoggedIn}  />)
+                return (<LoginForm loggedIn={props.loggedIn} toggleLoggedIn={props.toggleLoggedIn}  />);
+            case 'ocd-timeout':
+                return (<OCDForm />)
         }
     }
 
