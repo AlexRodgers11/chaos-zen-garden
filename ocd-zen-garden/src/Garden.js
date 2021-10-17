@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import useToggle from './hooks/useToggle';
 import Header from './Header';
 import Modal from './Modal';
@@ -33,13 +34,15 @@ import Asterisk from './Asterisk';
 
 
 function Garden(props) {
-    let width = useCurrentWidth();
+    // let width = useCurrentWidth();
+    // const palette = useSelector((state) => state.palette.palette);
     let height = useCurrentHeight();
+    let width = useSelector((state) => state.width.appWidth);
+    let fullView = useSelector((state) => state.fullView.fullView);
     const [colorPalette, setColorPalette] = useState(palettes[0]);
     const [volume, setVolume] = useState(65);
     const [numRings, setNumRings] = useState(10)
     const [bullsEyeShape, setBullsEyeShape] = useState('circle')
-    const [fullSelectedPiece, setFullSelectedPiece] = useState(null);
     const [hideModal, toggleHideModal] = useToggle(false);
     const [modalContent, setModalContent] = useState('epilepsy-warning');
     const [highlightUserIcon, toggleHighlightUserIcon] = useToggle(false);
@@ -116,10 +119,6 @@ function Garden(props) {
         props.toggleLoggedIn();
     }
 
-    const handleToggleWindow = fullWindowPiece => {
-        setFullSelectedPiece(fullWindowPiece);
-    }
-
     const handleSetModalContent = content => {
         setModalContent(content);
         toggleHideModal();
@@ -131,58 +130,58 @@ function Garden(props) {
 
         switch(gardenPiece) {
             case 'snake':
-                return <Snake width={gardenPieceWidth} className="Snake" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} />
+                return <Snake width={gardenPieceWidth} className="Snake" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} />
             case 'dots':
-                return <Dots width={gardenPieceWidth} className="Dots" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} />
+                return <Dots width={gardenPieceWidth} className="Dots" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} />
             case 'bullseye':
-                return <BullsEye width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} setNumOrganizing={handleSetNumOrganizing} numRings={numRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" className="BullsEye" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} orgIndex={numRings + 1} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} />
+                return <BullsEye width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} setNumOrganizing={handleSetNumOrganizing} numRings={numRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" className="BullsEye" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} orgIndex={numRings + 1} volume={volume} changeVolume={handleChangeVolume} />
             case 'message':
-                return <Message width={gardenPieceWidth} className="Message" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                return <Message width={gardenPieceWidth} className="Message" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'dominoes':
-                return <Dominoes width={gardenPieceWidth} className="Dominoes" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                return <Dominoes width={gardenPieceWidth} className="Dominoes" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} />
             case 'barcode': 
-                return <Barcode width={gardenPieceWidth} className="Barcode" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                return <Barcode width={gardenPieceWidth} className="Barcode" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'squares':
-                return <Squares width={gardenPieceWidth} className="Squares" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                return <Squares width={gardenPieceWidth} className="Squares" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} />
             case 'triangles':
-                return <Triangles width={gardenPieceWidth} className="Triangles" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                return <Triangles width={gardenPieceWidth} className="Triangles" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} />
             case 'antlers':
-                return <Antlers width={gardenPieceWidth} className="Antlers" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                return <Antlers width={gardenPieceWidth} className="Antlers" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'pogs':
-                return <Pogs width={gardenPieceWidth} className="Coins" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                return <Pogs width={gardenPieceWidth} className="Coins" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'message2':
-                return <Message2 width={gardenPieceWidth} className="Message2" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                return <Message2 width={gardenPieceWidth} className="Message2" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'smudges':
-                return <Smudges width={gardenPieceWidth} className="Smudges" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                return <Smudges width={gardenPieceWidth} className="Smudges" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'holes':
-                return <Holes width={gardenPieceWidth} className="Holes" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                return <Holes width={gardenPieceWidth} className="Holes" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'edges':
-                return <Edges width={gardenPieceWidth} className="Edges" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                return <Edges width={gardenPieceWidth} className="Edges" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'crosshair':
-                return <Crosshair width={gardenPieceWidth} className="Crosshair" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                return <Crosshair width={gardenPieceWidth} className="Crosshair" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'tallies':
-                return <Tallies width={gardenPieceWidth} className="Tallies" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                return <Tallies width={gardenPieceWidth} className="Tallies" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'cards':
-                return <Cards width={gardenPieceWidth} className="Cards" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                return <Cards width={gardenPieceWidth} className="Cards" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'desk':
-                return <Desk width={gardenPieceWidth} className="Desk" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                return <Desk width={gardenPieceWidth} className="Desk" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'meters':
-                return <Meters width={gardenPieceWidth} className="Meters" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                return <Meters width={gardenPieceWidth} className="Meters" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'eyes':
-                return <Eyes width={gardenPieceWidth} className="Eyes" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                return <Eyes width={gardenPieceWidth} className="Eyes" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'opaque':
-                return <Opaque width={gardenPieceWidth} className="Opaque" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                return <Opaque width={gardenPieceWidth} className="Opaque" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'diamonds':
-                return <Diamonds width={gardenPieceWidth} className="Diamonds" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                return <Diamonds width={gardenPieceWidth} className="Diamonds" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'rainbow':
-                return <Rainbow width={gardenPieceWidth} className="Rainbow" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                return <Rainbow width={gardenPieceWidth} className="Rainbow" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'asterisk':
-                return <Asterisk width={gardenPieceWidth} className="Asterisk" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow}/>
+                return <Asterisk width={gardenPieceWidth} className="Asterisk" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
         }
     }
 
 
-    if(!fullSelectedPiece) {
+    if(!fullView) {
         let gardenPieceWidth;
         let disableFullWindow = false;
         if(width >= 1000) {
@@ -198,30 +197,30 @@ function Garden(props) {
             <>
             <Header changePalette={handleChangePalette} setModalContent={handleSetModalContent} disableDropdowns={!hideModal} numOrganizing={numOrganizing} loggedIn={props.loggedIn} toggleLoggedIn={props.toggleLoggedIn} highlightUserIcon={highlightUserIcon} />
             <div className="Garden">
-                <Snake width={gardenPieceWidth} className="Snake" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
-                <Dots width={gardenPieceWidth} className="Dots" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
-                <BullsEye width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} numRings={numRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" className="BullsEye" loggedIn={props.loggedIn} disableFullWindow={disableFullWindow} orgIndex={numRings + 1} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
-                <Message width={gardenPieceWidth} className="Message" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
-                <Dominoes width={gardenPieceWidth} className="Dominoes" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
-                <Barcode width={gardenPieceWidth} className="Barcode" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
-                <Squares width={gardenPieceWidth} className="Squares" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
-                <Triangles width={gardenPieceWidth} className="Triangles" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume}  fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
-                <Antlers width={gardenPieceWidth} className="Antlers" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
-                <Pogs width={gardenPieceWidth} className="Coins" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
-                <Message2 width={gardenPieceWidth} className="Message2" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
-                <Smudges width={gardenPieceWidth} className="Smudges" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
-                <Holes width={gardenPieceWidth} className="Holes" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
-                <Edges width={gardenPieceWidth} className="Edges" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
-                <Crosshair width={gardenPieceWidth} className="Crosshair" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
-                <Tallies width={gardenPieceWidth} className="Tallies" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
-                <Cards width={gardenPieceWidth} className="Cards" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
-                <Desk width={gardenPieceWidth} className="Desk" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
-                <Meters width={gardenPieceWidth} className="Meters" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
-                <Eyes width={gardenPieceWidth} className="Eyes" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
-                <Opaque width={gardenPieceWidth} className="Opaque" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
-                <Diamonds width={gardenPieceWidth} className="Diamonds" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
-                <Rainbow width={gardenPieceWidth} className="Rainbow" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
-                <Asterisk width={gardenPieceWidth} className="Asterisk" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} fullWindow={fullSelectedPiece} toggleWindow={handleToggleWindow} setModalContent={handleSetModalContent} />
+                <Snake width={gardenPieceWidth} className="Snake" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Dots width={gardenPieceWidth} className="Dots" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <BullsEye width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} numRings={numRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" className="BullsEye" loggedIn={props.loggedIn} disableFullWindow={disableFullWindow} orgIndex={numRings + 1} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Message width={gardenPieceWidth} className="Message" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Dominoes width={gardenPieceWidth} className="Dominoes" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume}  setModalContent={handleSetModalContent} />
+                <Barcode width={gardenPieceWidth} className="Barcode" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Squares width={gardenPieceWidth} className="Squares" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume}  setModalContent={handleSetModalContent} />
+                <Triangles width={gardenPieceWidth} className="Triangles" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume}  setModalContent={handleSetModalContent} />
+                <Antlers width={gardenPieceWidth} className="Antlers" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Pogs width={gardenPieceWidth} className="Coins" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Message2 width={gardenPieceWidth} className="Message2" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Smudges width={gardenPieceWidth} className="Smudges" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Holes width={gardenPieceWidth} className="Holes" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Edges width={gardenPieceWidth} className="Edges" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Crosshair width={gardenPieceWidth} className="Crosshair" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Tallies width={gardenPieceWidth} className="Tallies" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Cards width={gardenPieceWidth} className="Cards" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Desk width={gardenPieceWidth} className="Desk" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Meters width={gardenPieceWidth} className="Meters" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Eyes width={gardenPieceWidth} className="Eyes" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Opaque width={gardenPieceWidth} className="Opaque" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Diamonds width={gardenPieceWidth} className="Diamonds" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Rainbow width={gardenPieceWidth} className="Rainbow" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Asterisk width={gardenPieceWidth} className="Asterisk" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} disableFullWindow={disableFullWindow} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
                 {!hideModal ? 
                     <Modal content={modalContent} height={height} toggleHideModal={toggleHideModal} hidden={hideModal} loggedIn={props.loggedIn} toggleLoggedIn={handleToggleLoggedIn}>
                     </Modal> 
@@ -241,7 +240,7 @@ function Garden(props) {
             <div className="pieceContainer" style={{display: 'grid', height: `${height - 45}px`, width: '100%', gridTemplateRows: `${width <= height - 45 ? `auto ${width}px auto` : '1fr'}`, gridTemplateColumns: `${width > height - 45 ? `auto ${height - 45}px auto` : '1fr'}`}}>
                 <div style={{backgroundColor: 'black', height: '100%', width:'auto'}}></div>
                 <div style={{backgroundColor: 'black', height: '100%', width:'auto'}}>
-                    {displayFullSize(fullSelectedPiece)}
+                    {displayFullSize(fullView)}
                 </div>
                 <div style={{backgroundColor: 'black', height: '100%', width:'auto'}}></div>
             </div>

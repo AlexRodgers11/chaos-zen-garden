@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import useToggle from './hooks/useToggle';
 import { palettes, sounds, getColor } from './utils';
 import { v4 as uuidv4 } from 'uuid';
@@ -12,6 +13,7 @@ import { ImSortNumbericDesc, ImShrink2, ImVolumeHigh, ImVolumeLow, ImVolumeMediu
 import { BsFileText, BsLockFill } from 'react-icons/bs';
 import { RiSoundModuleLine } from 'react-icons/ri';
 import './ControlBar.css';
+import { fullViewActions } from './store/full-view';
 
 
 function ControlBar(props) {
@@ -36,6 +38,8 @@ function ControlBar(props) {
             proportionalVolume: false
         }
     )
+
+    const dispatch = useDispatch();
 
     const volumeFirstUpdate = useRef(true);
     useEffect(() => {
@@ -86,7 +90,8 @@ function ControlBar(props) {
     }
 
     const handleToggleFullWindow = () => {
-        props.toggleWindow();
+        // props.toggleWindow();
+        dispatch(fullViewActions.setFullView(props.piece));
         props.setNumOrganizing(0)
     }
 

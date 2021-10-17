@@ -159,14 +159,6 @@ function Antlers(props) {
         return hornLines;
     }
 
-    const handleToggleWindow = () => {
-        if(props.fullWindow) {
-            props.toggleWindow(null)
-        } else {
-            props.toggleWindow('antlers');
-        }
-    }
-
     return (
         <div style={{margin: props.fullWindow ? '0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width}px`, height: `${props.width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%'}}>
@@ -200,7 +192,7 @@ function Antlers(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar width={props.width} loggedIn={props.loggedIn} setNumOrganizing={props.setNumOrganizing} toggleHighlightUserIcon={props.toggleHighlightUserIcon} toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} palette={colorPalette} volume={props.volume} changeVolume={handleChangeVolume} setPalette={handleSetColorPalette} minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Click' organizedFunction={flip} unorganizedFunction={() => align(0)} unorgButton='Flip' orgButton='Align'/>
+                <ControlBar width={props.width} piece='antlers' loggedIn={props.loggedIn} setNumOrganizing={props.setNumOrganizing} toggleHighlightUserIcon={props.toggleHighlightUserIcon} palette={colorPalette} volume={props.volume} changeVolume={handleChangeVolume} setPalette={handleSetColorPalette} minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Click' organizedFunction={flip} unorganizedFunction={() => align(0)} unorgButton='Flip' orgButton='Align'/>
             </div>
         </div>
     )

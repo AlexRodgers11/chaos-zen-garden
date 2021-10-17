@@ -165,14 +165,6 @@ function Message2(props){
         props.changeVolume(volume);
     }
 
-    const handleToggleWindow = () => {
-        if(props.fullWindow) {
-            props.toggleWindow(null)
-        } else {
-            props.toggleWindow('message2');
-        }
-    }
-
     const displayWords = letterArr => {
         let fontSize;
         if(letterArr.length > 25) {
@@ -212,7 +204,7 @@ function Message2(props){
                         {displayWords(letters)}
                     </div>
                 </div>
-                <ControlBar width={props.width} loggedIn={props.loggedIn} setNumOrganizing={props.setNumOrganizing} toggleHighlightUserIcon={props.toggleHighlightUserIcon} toggleWindow={handleToggleWindow} fullWindow={props.fullWindow} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} soundValue='Sparkle' changeText={handleChangeText} setSpeed={handleSetSpeed} setSound={handleSetSound} organizedFunction={randomizeLetters} unorganizedFunction={() => matchLetters(1)} unorgButton='Randomize' orgButton='Match' />
+                <ControlBar width={props.width} piece='message2' loggedIn={props.loggedIn} setNumOrganizing={props.setNumOrganizing} toggleHighlightUserIcon={props.toggleHighlightUserIcon} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} soundValue='Sparkle' changeText={handleChangeText} setSpeed={handleSetSpeed} setSound={handleSetSound} organizedFunction={randomizeLetters} unorganizedFunction={() => matchLetters(1)} unorgButton='Randomize' orgButton='Match' />
 
             </div>
         </div>
