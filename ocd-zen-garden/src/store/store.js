@@ -2,6 +2,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import paletteSlice from './palette';
 import organizingCounterSlice from './organizing-counter';
+import widthSlice from './width';
+import fullViewSlice from './full-view';
+
 // const initialState = {
 //     palette: 'carnival',
 //     organizingCounter: 0
@@ -10,7 +13,9 @@ import organizingCounterSlice from './organizing-counter';
 const store= configureStore({
     reducer: {
         palette: paletteSlice,
-        counter: organizingCounterSlice
+        counter: organizingCounterSlice,
+        width: widthSlice,
+        fullView: fullViewSlice
     }
 })
 
