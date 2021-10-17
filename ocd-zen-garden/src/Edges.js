@@ -182,7 +182,7 @@ function Edges(props) {
                         {display(1)}
                     </div>
                 </div>
-            <ControlBar width={props.width} piece='edges' loggedIn={props.loggedIn} setNumOrganizing={props.setNumOrganizing} toggleHighlightUserIcon={props.toggleHighlightUserIcon} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumEdges} minNum={4} maxNum={40} number={numEdges} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={remove} unorganizedFunction={() => complete(0)} unorgButton='Remove' orgButton='Complete' />
+            <ControlBar width={props.width} piece='edges' loggedIn={props.loggedIn} setNumOrganizing={props.setNumOrganizing} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumEdges} minNum={4} maxNum={40} number={numEdges} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={remove} unorganizedFunction={() => complete(0)} unorgButton='Remove' orgButton='Complete' />
 
             </div>
         </div>
