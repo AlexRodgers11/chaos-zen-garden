@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { organizingCounterActions } from './store/organizing-counter';
 import useToggle from './hooks/useToggle';
 import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
-
 
 function Crosshair(props) {
     const palette = useSelector((state) => state.palette.palette);
@@ -17,6 +17,7 @@ function Crosshair(props) {
     const [numRings, setNumRings] = useState(6);
     const [userJustChangedNumber, toggleUserJustChangedNumber] = useToggle(props.id === 1 ? false : props.userJustChangedNumber)
     const [shape, setShape] = useState('circle');
+    const dispatch = useDispatch();
 
     const createStartingRingArray = num => {
         let rings = [];
@@ -88,7 +89,8 @@ function Crosshair(props) {
     const align = (idx) => {
         if(idx === 0) {
             toggleIsOrganizing();
-            props.setNumOrganizing(1);
+            // props.setNumOrganizing(1);
+            dispatch(organizingCounterActions.incrementOrganizingCounter())
         }
         let newRings = rings.map(ring => {
             if(ring.id === rings[idx].id) {
@@ -103,7 +105,8 @@ function Crosshair(props) {
         setRings(newRings);
         setNextIndex(idx + 1);
         if(idx + 1 === rings.length) {
-            props.setNumOrganizing(-1);
+            // props.setNumOrganizing(-1);
+            dispatch(organizingCounterActions.decrementOrganizingCounter());
             setTimeout(() => {
                 toggleIsOrganized();
                 toggleIsOrganizing();
@@ -198,7 +201,7 @@ function Crosshair(props) {
                         {display(1)}
                     </div>
                 </div>
-            <ControlBar width={props.width} piece='crosshair' loggedIn={props.loggedIn} setNumOrganizing={props.setNumOrganizing} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumRings} minNum={4} maxNum={20} number={numRings} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={spin} unorganizedFunction={() => align(0)} unorgButton='Spin' orgButton='Align' />
+            <ControlBar width={props.width} piece='crosshair' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumRings} minNum={4} maxNum={20} number={numRings} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={spin} unorganizedFunction={() => align(0)} unorgButton='Spin' orgButton='Align' />
 
             </div>
         </div>

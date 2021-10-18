@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { organizingCounterActions } from './store/organizing-counter';
 import useToggle from './hooks/useToggle';
 import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
@@ -18,6 +19,7 @@ function BullsEye(props) {
     const [numRings, setNumRings] = useState(props.numRings);
     const [userJustChangedNumber, toggleUserJustChangedNumber] = useToggle(props.id === 1 ? false : props.userJustChangedNumber);
     const [shape, setShape] = useState('circle');
+    const dispatch = useDispatch();
 
     // const soundPlay = soundObj => {
     //     const sound = new Howl({
@@ -33,7 +35,7 @@ function BullsEye(props) {
         if((!firstUpdate.current && !isOrganized) && !userJustChangedNumber) {
             if(props.id === 1) {
                 if(orgIndex === 2) {
-                    props.setNumOrganizing(-1);
+                    dispatch(organizingCounterActions.decrementOrganizingCounter());
                 }
                 setTimeout(() => {
                     if(orgIndex > 2) {
@@ -123,7 +125,7 @@ function BullsEye(props) {
         if(userJustChangedNumber) toggleUserJustChangedNumber();
         if(orgIndex === props.numRings + 1) {
             toggleIsOrganizing();
-            props.setNumOrganizing(1);
+            dispatch(organizingCounterActions.incrementOrganizingCounter())
         }
         setOrgIndex(orgIndex - 1);
     }
@@ -174,7 +176,7 @@ function BullsEye(props) {
                         
                     </div>
                 </div>
-            {props.id === 1 ? <ControlBar width={props.width} piece='bullseye' loggedIn={props.loggedIn} setNumOrganizing={props.setNumOrganizing} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} shape={shape} shapes={['circle', 'square']} changeShape={props.setShape} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumRings} minNum={4} maxNum={40} number={props.numRings} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Whoop' organizedFunction={scatterRings} unorganizedFunction={organizeRings} unorgButton='Scatter' orgButton='Organize' /> : null}
+            {props.id === 1 ? <ControlBar width={props.width} piece='bullseye' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} shape={shape} shapes={['circle', 'square']} changeShape={props.setShape} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumRings} minNum={4} maxNum={40} number={props.numRings} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Whoop' organizedFunction={scatterRings} unorganizedFunction={organizeRings} unorgButton='Scatter' orgButton='Organize' /> : null}
             </div>
         </div>
         

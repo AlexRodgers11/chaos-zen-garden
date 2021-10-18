@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { organizingCounterActions } from './store/organizing-counter';
 import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 import useToggle from './hooks/useToggle';
@@ -15,6 +16,7 @@ function Barcode(props) {
     const [sound, setSound] = useState(getSound('Blip'));
     const [proportionalVolume, setProportionalVolume] = useState('proportional');
     const [speed, setSpeed] = useState(1000);
+    const dispatch = useDispatch();
 
     const createStartingStripeArray = num => {
         let totalHeight = .4 * (1 / num)
@@ -54,7 +56,7 @@ function Barcode(props) {
     const balanceStripes = idx => {
         if(idx === 0) {
             toggleIsOrganizing();
-            props.setNumOrganizing(1);
+            dispatch(organizingCounterActions.incrementOrganizingCounter())
         }
         let newStripes = stripes.map(stripe => {
             if(stripe.id === stripes[idx].id) {
@@ -69,7 +71,7 @@ function Barcode(props) {
         if(idx + 1 === stripes.length) {
             toggleIsOrganizing();
             toggleIsOrganized();
-            props.setNumOrganizing(-1);
+            dispatch(organizingCounterActions.decrementOrganizingCounter());
         }
     }
 
@@ -156,7 +158,7 @@ function Barcode(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar width={props.width} piece='barcode' loggedIn={props.loggedIn} setNumOrganizing={props.setNumOrganizing} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} palette={colorPalette} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} setPalette={handleSetColorPalette} setNumber={handleSetNumStripes} minNum={5} maxNum={25} number={numStripes} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Blip' organizedFunction={unbalanceStripes} unorganizedFunction={() => balanceStripes(0)} unorgButton='Unbalance' orgButton='Balance' />
+                <ControlBar width={props.width} piece='barcode' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} palette={colorPalette} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} setPalette={handleSetColorPalette} setNumber={handleSetNumStripes} minNum={5} maxNum={25} number={numStripes} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Blip' organizedFunction={unbalanceStripes} unorganizedFunction={() => balanceStripes(0)} unorgButton='Unbalance' orgButton='Balance' />
             </div>
         </div>
     )

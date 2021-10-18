@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { organizingCounterActions } from './store/organizing-counter';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
 import { getColor, getSound, scaler, soundPlay } from './utils';
@@ -18,6 +19,7 @@ function Asterisk(props) {
     const [numLines, setNumLines] = useState(15);
     const [userJustChangedNumber, toggleUserJustChangedNumber] = useToggle(props.id === 1 ? false : props.userJustChangedNumber)
     const [shape, setShape] = useState('circle');
+    const dispatch = useDispatch();
 
     const createStartingLineArray = num => {
         let lines = [];
@@ -90,7 +92,7 @@ function Asterisk(props) {
     const align = (idx) => {
         if(idx === 0) {
             toggleIsOrganizing();
-            props.setNumOrganizing(1);
+            dispatch(organizingCounterActions.incrementOrganizingCounter())
         }
         let newLines = lines.map(line => {
             if(line.id === lines[idx].id) {
@@ -104,7 +106,7 @@ function Asterisk(props) {
         console.log('aligned');
         setLines(newLines);
         if(idx + 1 === lines.length) {
-            props.setNumOrganizing(-1);
+            dispatch(organizingCounterActions.decrementOrganizingCounter());
             console.log(`reduced numOrganizing at idx: ${idx}`)
             setTimeout(() => {
                 toggleIsOrganized();
@@ -166,7 +168,7 @@ function Asterisk(props) {
                         })}
                     </div>
                 </div>
-            <ControlBar width={props.width} piece='asterisk' loggedIn={props.loggedIn} setNumOrganizing={props.setNumOrganizing} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumLines} minNum={4} maxNum={50} number={numLines} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={shift} unorganizedFunction={() => align(0)} unorgButton='Shift' orgButton='Align' />
+            <ControlBar width={props.width} piece='asterisk' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumLines} minNum={4} maxNum={50} number={numLines} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={shift} unorganizedFunction={() => align(0)} unorgButton='Shift' orgButton='Align' />
 
             </div>
         </div>

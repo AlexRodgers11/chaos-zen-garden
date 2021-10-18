@@ -92,9 +92,7 @@ function ControlBar(props) {
     }
 
     const handleToggleFullWindow = () => {
-        // props.toggleWindow();
         dispatch(fullViewActions.setFullView(props.piece));
-        props.setNumOrganizing(0)
     }
 
     const handleVolumeChange = evt => {

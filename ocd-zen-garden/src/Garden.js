@@ -36,9 +36,10 @@ import Asterisk from './Asterisk';
 function Garden(props) {
     // let width = useCurrentWidth();
     // const palette = useSelector((state) => state.palette.palette);
-    let height = useCurrentHeight();
-    let width = useSelector((state) => state.width.appWidth);
-    let fullView = useSelector((state) => state.fullView.fullView);
+    const height = useCurrentHeight();
+    const width = useSelector((state) => state.width.appWidth);
+    const fullView = useSelector((state) => state.fullView.fullView);
+    const organizingCounter = useSelector((state) => state.organizingCounter.organizingCounter);
     const [colorPalette, setColorPalette] = useState(palettes[0]);
     const [volume, setVolume] = useState(65);
     const [numRings, setNumRings] = useState(10)
@@ -46,7 +47,6 @@ function Garden(props) {
     const [hideModal, toggleHideModal] = useToggle(false);
     const [modalContent, setModalContent] = useState('epilepsy-warning');
     const [highlightUserIcon, toggleHighlightUserIcon] = useToggle(false);
-    const [numOrganizing, setNumOrganizing] = useState(0);
     const [organizationCount, setOrganizationCount] = useState(0);
     // const [resetTimer, toggleResetTimer] = useToggle(true);
 
@@ -78,28 +78,6 @@ function Garden(props) {
         setVolume(volume);
     }
 
-    const handleSetNumOrganizing = num => {
-        switch (num) {
-            case 1:
-                setNumOrganizing(num => {
-                    return num + 1;
-                });
-                setOrganizationCount(count => {
-                    return count + 1;
-                })
-                break;
-            case -1:
-                setNumOrganizing(num => {
-                    return num - 1;
-                });
-                break;
-            case 0:
-                setNumOrganizing(() => {
-                    return 0;
-                });
-        }
-    }
-
     const handleSetNumRings = num => {
         setNumRings(Number(num))
     }
@@ -129,53 +107,53 @@ function Garden(props) {
 
         switch(gardenPiece) {
             case 'snake':
-                return <Snake width={gardenPieceWidth} className="Snake" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} />
+                return <Snake width={gardenPieceWidth} className="Snake" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} />
             case 'dots':
-                return <Dots width={gardenPieceWidth} className="Dots" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} />
+                return <Dots width={gardenPieceWidth} className="Dots" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} />
             case 'bullseye':
-                return <BullsEye width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} setNumOrganizing={handleSetNumOrganizing} numRings={numRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" className="BullsEye" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} orgIndex={numRings + 1} volume={volume} changeVolume={handleChangeVolume} />
+                return <BullsEye width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} numRings={numRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" className="BullsEye" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} orgIndex={numRings + 1} volume={volume} changeVolume={handleChangeVolume} />
             case 'message':
-                return <Message width={gardenPieceWidth} className="Message" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
+                return <Message width={gardenPieceWidth} className="Message" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'dominoes':
-                return <Dominoes width={gardenPieceWidth} className="Dominoes" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} />
+                return <Dominoes width={gardenPieceWidth} className="Dominoes" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} />
             case 'barcode': 
-                return <Barcode width={gardenPieceWidth} className="Barcode" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
+                return <Barcode width={gardenPieceWidth} className="Barcode" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'squares':
-                return <Squares width={gardenPieceWidth} className="Squares" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} />
+                return <Squares width={gardenPieceWidth} className="Squares" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} />
             case 'triangles':
-                return <Triangles width={gardenPieceWidth} className="Triangles" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} />
+                return <Triangles width={gardenPieceWidth} className="Triangles" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} />
             case 'antlers':
-                return <Antlers width={gardenPieceWidth} className="Antlers" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
+                return <Antlers width={gardenPieceWidth} className="Antlers" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'pogs':
-                return <Pogs width={gardenPieceWidth} className="Coins" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
+                return <Pogs width={gardenPieceWidth} className="Coins" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'message2':
-                return <Message2 width={gardenPieceWidth} className="Message2" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
+                return <Message2 width={gardenPieceWidth} className="Message2" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'smudges':
-                return <Smudges width={gardenPieceWidth} className="Smudges" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
+                return <Smudges width={gardenPieceWidth} className="Smudges" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'holes':
-                return <Holes width={gardenPieceWidth} className="Holes" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
+                return <Holes width={gardenPieceWidth} className="Holes" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'edges':
-                return <Edges width={gardenPieceWidth} className="Edges" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
+                return <Edges width={gardenPieceWidth} className="Edges" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'crosshair':
-                return <Crosshair width={gardenPieceWidth} className="Crosshair" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
+                return <Crosshair width={gardenPieceWidth} className="Crosshair" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'tallies':
-                return <Tallies width={gardenPieceWidth} className="Tallies" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
+                return <Tallies width={gardenPieceWidth} className="Tallies" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'cards':
-                return <Cards width={gardenPieceWidth} className="Cards" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
+                return <Cards width={gardenPieceWidth} className="Cards" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'desk':
-                return <Desk width={gardenPieceWidth} className="Desk" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
+                return <Desk width={gardenPieceWidth} className="Desk" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'meters':
-                return <Meters width={gardenPieceWidth} className="Meters" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
+                return <Meters width={gardenPieceWidth} className="Meters" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'eyes':
-                return <Eyes width={gardenPieceWidth} className="Eyes" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
+                return <Eyes width={gardenPieceWidth} className="Eyes" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'opaque':
-                return <Opaque width={gardenPieceWidth} className="Opaque" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
+                return <Opaque width={gardenPieceWidth} className="Opaque" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'diamonds':
-                return <Diamonds width={gardenPieceWidth} className="Diamonds" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
+                return <Diamonds width={gardenPieceWidth} className="Diamonds" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'rainbow':
-                return <Rainbow width={gardenPieceWidth} className="Rainbow" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
+                return <Rainbow width={gardenPieceWidth} className="Rainbow" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
             case 'asterisk':
-                return <Asterisk width={gardenPieceWidth} className="Asterisk" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
+                return <Asterisk width={gardenPieceWidth} className="Asterisk" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}/>
         }
     }
 
@@ -192,32 +170,32 @@ function Garden(props) {
 
         return (
             <>
-            <Header changePalette={handleChangePalette} setModalContent={handleSetModalContent} disableDropdowns={!hideModal} numOrganizing={numOrganizing} loggedIn={props.loggedIn} toggleLoggedIn={props.toggleLoggedIn} highlightUserIcon={highlightUserIcon} />
+            <Header changePalette={handleChangePalette} setModalContent={handleSetModalContent} disableDropdowns={!hideModal} loggedIn={props.loggedIn} toggleLoggedIn={props.toggleLoggedIn} highlightUserIcon={highlightUserIcon} />
             <div className="Garden">
-                <Snake width={gardenPieceWidth} className="Snake" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
-                <Dots width={gardenPieceWidth} className="Dots" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
-                <BullsEye width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} numRings={numRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" className="BullsEye" loggedIn={props.loggedIn} orgIndex={numRings + 1} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
-                <Message width={gardenPieceWidth} className="Message" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
-                <Dominoes width={gardenPieceWidth} className="Dominoes" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}  setModalContent={handleSetModalContent} />
-                <Barcode width={gardenPieceWidth} className="Barcode" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
-                <Squares width={gardenPieceWidth} className="Squares" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}  setModalContent={handleSetModalContent} />
-                <Triangles width={gardenPieceWidth} className="Triangles" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}  setModalContent={handleSetModalContent} />
-                <Antlers width={gardenPieceWidth} className="Antlers" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
-                <Pogs width={gardenPieceWidth} className="Coins" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
-                <Message2 width={gardenPieceWidth} className="Message2" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
-                <Smudges width={gardenPieceWidth} className="Smudges" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
-                <Holes width={gardenPieceWidth} className="Holes" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
-                <Edges width={gardenPieceWidth} className="Edges" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
-                <Crosshair width={gardenPieceWidth} className="Crosshair" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
-                <Tallies width={gardenPieceWidth} className="Tallies" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
-                <Cards width={gardenPieceWidth} className="Cards" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
-                <Desk width={gardenPieceWidth} className="Desk" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
-                <Meters width={gardenPieceWidth} className="Meters" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
-                <Eyes width={gardenPieceWidth} className="Eyes" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
-                <Opaque width={gardenPieceWidth} className="Opaque" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
-                <Diamonds width={gardenPieceWidth} className="Diamonds" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
-                <Rainbow width={gardenPieceWidth} className="Rainbow" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
-                <Asterisk width={gardenPieceWidth} className="Asterisk" loggedIn={props.loggedIn} setNumOrganizing={handleSetNumOrganizing} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Snake width={gardenPieceWidth} className="Snake" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Dots width={gardenPieceWidth} className="Dots" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <BullsEye width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} toggleHighlightUserIcon={handleToggleHighlightUserIcon} numRings={numRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" className="BullsEye" loggedIn={props.loggedIn} orgIndex={numRings + 1} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Message width={gardenPieceWidth} className="Message" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Dominoes width={gardenPieceWidth} className="Dominoes" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}  setModalContent={handleSetModalContent} />
+                <Barcode width={gardenPieceWidth} className="Barcode" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Squares width={gardenPieceWidth} className="Squares" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}  setModalContent={handleSetModalContent} />
+                <Triangles width={gardenPieceWidth} className="Triangles" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume}  setModalContent={handleSetModalContent} />
+                <Antlers width={gardenPieceWidth} className="Antlers" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Pogs width={gardenPieceWidth} className="Coins" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Message2 width={gardenPieceWidth} className="Message2" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Smudges width={gardenPieceWidth} className="Smudges" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Holes width={gardenPieceWidth} className="Holes" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Edges width={gardenPieceWidth} className="Edges" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Crosshair width={gardenPieceWidth} className="Crosshair" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Tallies width={gardenPieceWidth} className="Tallies" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Cards width={gardenPieceWidth} className="Cards" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Desk width={gardenPieceWidth} className="Desk" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Meters width={gardenPieceWidth} className="Meters" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Eyes width={gardenPieceWidth} className="Eyes" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Opaque width={gardenPieceWidth} className="Opaque" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Diamonds width={gardenPieceWidth} className="Diamonds" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Rainbow width={gardenPieceWidth} className="Rainbow" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
+                <Asterisk width={gardenPieceWidth} className="Asterisk" loggedIn={props.loggedIn} toggleHighlightUserIcon={handleToggleHighlightUserIcon} volume={volume} changeVolume={handleChangeVolume} setModalContent={handleSetModalContent} />
                 {!hideModal ? 
                     <Modal content={modalContent} height={height} toggleHideModal={toggleHideModal} hidden={hideModal} loggedIn={props.loggedIn} toggleLoggedIn={handleToggleLoggedIn}>
                     </Modal> 
@@ -230,7 +208,7 @@ function Garden(props) {
         return (
             <div style={{width: '100vw', height: `${height}px`}}>
                 <div style={{position: 'fixed', zIndex: '3'}}>
-                <Header loggedIn={props.loggedIn} toggleLoggedIn={props.toggleLoggedIn} numOrganizing={numOrganizing} highlightUserIcon={highlightUserIcon} changePalette={handleChangePalette} setModalContent={handleSetModalContent} />
+                <Header loggedIn={props.loggedIn} toggleLoggedIn={props.toggleLoggedIn} highlightUserIcon={highlightUserIcon} changePalette={handleChangePalette} setModalContent={handleSetModalContent} />
                 </div>
             
 

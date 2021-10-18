@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { organizingCounterActions } from './store/organizing-counter';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
 import { getColor, getSound, scaler, soundPlay } from './utils';
@@ -18,6 +19,7 @@ function Smudges(props) {
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Sparkle'));
     const [proportionalVolume, setProportionalVolume] = useState('proportional');
+    const dispatch = useDispatch();
 
     const createStartingSquaresArray = num => {
         let squares = [];
@@ -90,7 +92,7 @@ function Smudges(props) {
     const clean = idx => {
         if(idx === 0) {
             toggleIsOrganizing();
-            props.setNumOrganizing(1);
+            dispatch(organizingCounterActions.incrementOrganizingCounter())
             while(!squares[idx].contaminated) {
                 idx++
             };
@@ -118,7 +120,7 @@ function Smudges(props) {
         if(nextIdx < squares.length) {
             setNextIndex(nextIdx);
         } else {
-            props.setNumOrganizing(-1);
+            dispatch(organizingCounterActions.decrementOrganizingCounter());
             setTimeout(() => {
                 toggleIsOrganizing();
                 toggleIsOrganized();
@@ -192,7 +194,7 @@ function Smudges(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar width={props.width} piece='smudges' loggedIn={props.loggedIn} setNumOrganizing={props.setNumOrganizing} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Sparkle' organizedFunction={contaminate} unorganizedFunction={() => clean(0)} unorgButton='Contaminate' orgButton='Clean'/>
+                <ControlBar width={props.width} piece='smudges' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Sparkle' organizedFunction={contaminate} unorganizedFunction={() => clean(0)} unorgButton='Contaminate' orgButton='Clean'/>
             </div>
         </div>
     )

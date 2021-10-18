@@ -13,7 +13,7 @@ import fullViewSlice from './full-view';
 const store= configureStore({
     reducer: {
         palette: paletteSlice,
-        counter: organizingCounterSlice,
+        organizingCounter: organizingCounterSlice,
         width: widthSlice,
         fullView: fullViewSlice
     }

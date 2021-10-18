@@ -12,6 +12,7 @@ import './Header.css';
 function Header(props){
     const dispatch = useDispatch();
     const palette = useSelector((state) => state.palette.palette);
+    const organizingCounter = useSelector((state) => state.organizingCounter.organizingCounter);
     const [showDropdown, setShowDropdown] = useState({
         main: false,
         palette: false
@@ -71,8 +72,8 @@ function Header(props){
             {/* <div onMouseLeave={showDropdown.palette ? () => handleToggleDropdown('main') : null} className={`dropdown ${showDropdown.main ? 'dropdown-active' : ''}`} style={{display: 'flex', alignItems: 'center', marginRight: '.5rem'}}> */}
             <div style={{display: 'flex', alignItems: 'center', marginRight: '1rem'}}>
                 <div onMouseLeave={showDropdown.palette ? () => handleToggleDropdown('palette') : null} className={`Header_dropdown ${showDropdown.palette ? 'Header_dropdown-active' : ''}`} >
-                    <div style={{display: 'flex', alignItems: 'center', marginRight: '.5rem', cursor: `${props.numOrganizing === 0 ? 'pointer' : 'wait'}`}}>
-                        <IoIosColorPalette id="palette" className="Header_dropbtn" onClick={props.numOrganizing === 0 ? () => handleToggleDropdown('palette') : null} size="2rem" color={getColor('aux1', palette)}/>
+                    <div style={{display: 'flex', alignItems: 'center', marginRight: '.5rem', cursor: `${organizingCounter === 0 ? 'pointer' : 'wait'}`}}>
+                        <IoIosColorPalette id="palette" className="Header_dropbtn" onClick={organizingCounter === 0 ? () => handleToggleDropdown('palette') : null} size="2rem" color={getColor('aux1', palette)}/>
                     </div>
 
                     <div className='Header_dropdown-content'>

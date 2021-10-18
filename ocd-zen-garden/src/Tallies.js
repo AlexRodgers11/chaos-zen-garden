@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { organizingCounterActions } from './store/organizing-counter';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
 import { getColor, getSound } from './utils';
@@ -15,6 +16,7 @@ function Tallies(props) {
     const [colorPalette, setColorPalette] = useState(palette);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Click'));
+    const dispatch = useDispatch();
 
     const createStartingTalliesArray = num => {
         let tallies = [];
@@ -50,7 +52,7 @@ function Tallies(props) {
             } else {
                 toggleIsOrganizing();
                 toggleIsOrganized();
-                props.setNumOrganizing(-1);
+                dispatch(organizingCounterActions.decrementOrganizingCounter());
             }
         } else {firstUpdate.current = false}
     }, [nextIndex])
@@ -97,7 +99,7 @@ function Tallies(props) {
         let currentMark = mark;
         if(idx === 0 && mark === 2) {
             toggleIsOrganizing();
-            props.setNumOrganizing(1);
+            dispatch(organizingCounterActions.incrementOrganizingCounter())
         }
         while(tallies[currentIdx].marks[currentMark]) {
             if(currentMark < 5) {
@@ -222,7 +224,7 @@ function Tallies(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar width={props.width} piece='tallies' loggedIn={props.loggedIn} setNumOrganizing={props.setNumOrganizing} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Click' organizedFunction={erase} unorganizedFunction={() => complete(0, 2)} unorgButton='Erase' orgButton='Complete'/>
+                <ControlBar width={props.width} piece='tallies' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Click' organizedFunction={erase} unorganizedFunction={() => complete(0, 2)} unorgButton='Erase' orgButton='Complete'/>
             </div>
         </div>
     )

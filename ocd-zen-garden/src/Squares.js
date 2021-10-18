@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { organizingCounterActions } from './store/organizing-counter'; 
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
 import { getColor, getSound, scaler, soundPlay } from './utils';
@@ -15,6 +16,7 @@ function Squares(props) {
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Ding'));
     const [proportionalVolume, setProportionalVolume] = useState('proportional');
+    const dispatch = useDispatch();
 
     const createStartingSquaresArray = num => {
         let squares = [];
@@ -58,7 +60,7 @@ function Squares(props) {
             } else {
                 toggleIsOrganizing();
                 toggleIsOrganized();
-                props.setNumOrganizing(-1);
+                dispatch(organizingCounterActions.decrementOrganizingCounter());
             }
         } else {firstUpdate.current = false}
     }, [nextIndex])
@@ -103,7 +105,7 @@ function Squares(props) {
     const sharpen = (idx, dir) => {
         if(idx === 0 && dir === 'topLeft') {
             toggleIsOrganizing();
-            props.setNumOrganizing(1);
+            dispatch(organizingCounterActions.incrementOrganizingCounter())
         } 
         let newSquares = squares.map(square => {
             if(square.id === squares[idx].id) {
@@ -191,7 +193,7 @@ function Squares(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar width={props.width} piece='squares' loggedIn={props.loggedIn} setNumOrganizing={props.setNumOrganizing} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={dull} unorganizedFunction={() => sharpen(0, 'topLeft')} unorgButton='Dull' orgButton='Sharpen'/>
+                <ControlBar width={props.width} piece='squares' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={dull} unorganizedFunction={() => sharpen(0, 'topLeft')} unorgButton='Dull' orgButton='Sharpen'/>
             </div>
         </div>
     )

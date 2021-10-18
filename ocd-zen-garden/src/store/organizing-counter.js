@@ -2,13 +2,16 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const organizingCounterSlice = createSlice({
     name: 'organizingCounter',
-    initialState: 0,
+    initialState: {organizingCounter: 0},
     reducers: {
-        incrementOrganizingCounter(state, action) {
-            state.counter++;
+        incrementOrganizingCounter(state) {
+            state.organizingCounter++;
         },
-        decrementOrganizingCounter(state, action) {
-            state.counter--;
+        decrementOrganizingCounter(state) {
+            state.organizingCounter--;
+        },
+        resetOrganizingCounter(state) {
+            state.organizingCounter = 0;
         }
     }
 })

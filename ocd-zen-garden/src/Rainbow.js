@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState} from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { organizingCounterActions } from './store/organizing-counter';
 import useToggle from './hooks/useToggle';
 import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
@@ -15,6 +16,7 @@ function Rainbow(props) {
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Sparkle'));
     const [proportionalVolume, setProportionalVolume] = useState('proportional');
+    const dispatch = useDispatch();
 
     // const soundPlay = (soundObj, multiplier) => {
     //     const sound = new Howl({
@@ -82,7 +84,7 @@ function Rainbow(props) {
     const align = idx => {
         if(idx === arcs.length - 1) {
             toggleIsOrganizing();
-            props.setNumOrganizing(1);
+            dispatch(organizingCounterActions.incrementOrganizingCounter())
         }
         let newArcs = arcs.map(arc => {
             if(arcs[idx].id === arc.id) {
@@ -95,7 +97,7 @@ function Rainbow(props) {
         setArcs(newArcs);
         setNextIdx(idx - 1);
         if(idx - 1 === 0) {
-            props.setNumOrganizing(-1);
+            dispatch(organizingCounterActions.decrementOrganizingCounter());
             setTimeout(() => {
                 toggleIsOrganized();
                 toggleIsOrganizing();
@@ -170,7 +172,7 @@ function Rainbow(props) {
                             {displayArcs(0, props.width * .7)}
                         </div>
                 </div>
-                <ControlBar width={props.width} piece='rainbow' loggedIn={props.loggedIn} setNumOrganizing={props.setNumOrganizing} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumArcs} minNum={7} maxNum={25} number={numArcs} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Sparkle' organizedFunction={shift} unorganizedFunction={() => align(arcs.length - 1)} unorgButton='Shift' orgButton='Align' />
+                <ControlBar width={props.width} piece='rainbow' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumArcs} minNum={7} maxNum={25} number={numArcs} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Sparkle' organizedFunction={shift} unorganizedFunction={() => align(arcs.length - 1)} unorgButton='Shift' orgButton='Align' />
 
             </div>
         </div>

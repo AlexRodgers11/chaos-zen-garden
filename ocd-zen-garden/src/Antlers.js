@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { organizingCounterActions } from './store/organizing-counter';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
 import { getColor, getSound } from './utils';
@@ -15,6 +16,7 @@ function Antlers(props) {
     const [colorPalette, setColorPalette] = useState(palette);
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Click'));
+    const dispatch = useDispatch();
     
     const createStartingHornsArray = num => {
         let horns = [];
@@ -81,7 +83,7 @@ function Antlers(props) {
         let currentIdx = idx;
         if(idx === 0) {
             toggleIsOrganizing();
-            props.setNumOrganizing(1);
+            dispatch(organizingCounterActions.incrementOrganizingCounter())
             if(horns[0].side !== 'bottom') {
                 while(horns[currentIdx].side !== 'bottom') {
                     currentIdx++
@@ -105,7 +107,7 @@ function Antlers(props) {
         soundPlay(sound);
         setHorns(newHorns);
         if(nextBottomIndex === horns.length){
-            props.setNumOrganizing(-1);
+            dispatch(organizingCounterActions.decrementOrganizingCounter());
             toggleIsOrganizing();
             toggleIsOrganized();
         } else {
@@ -192,7 +194,7 @@ function Antlers(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar width={props.width} piece='antlers' loggedIn={props.loggedIn} setNumOrganizing={props.setNumOrganizing} toggleHighlightUserIcon={props.toggleHighlightUserIcon} palette={colorPalette} volume={props.volume} changeVolume={handleChangeVolume} setPalette={handleSetColorPalette} minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Click' organizedFunction={flip} unorganizedFunction={() => align(0)} unorgButton='Flip' orgButton='Align'/>
+                <ControlBar width={props.width} piece='antlers' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} palette={colorPalette} volume={props.volume} changeVolume={handleChangeVolume} setPalette={handleSetColorPalette} minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Click' organizedFunction={flip} unorganizedFunction={() => align(0)} unorgButton='Flip' orgButton='Align'/>
             </div>
         </div>
     )

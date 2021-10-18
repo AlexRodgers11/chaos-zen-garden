@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { organizingCounterActions } from './store/organizing-counter';
 import useToggle from './hooks/useToggle';
 import { getColor, getSound } from './utils';
 import ControlBar from './ControlBar';
@@ -15,7 +16,8 @@ function Edges(props) {
     const [sound, setSound] = useState(getSound('Ding'));
     const [colorPalette, setColorPalette] = useState(palette);
     const [numEdges, setNumEdges] = useState(17);
-    const [userJustChangedNumber, toggleUserJustChangedNumber] = useToggle(props.id === 1 ? false : props.userJustChangedNumber)
+    const [userJustChangedNumber, toggleUserJustChangedNumber] = useToggle(props.id === 1 ? false : props.userJustChangedNumber);
+    const dispatch = useDispatch();
 
     const createStartingEdgeArray = num => {
         let edges = [];
@@ -96,7 +98,7 @@ function Edges(props) {
     const complete = (idx) => {
         if(idx === 0) {
             toggleIsOrganizing();
-            props.setNumOrganizing(1);
+            dispatch(organizingCounterActions.incrementOrganizingCounter())
         }
         let newEdges = edges.map(edge => {
             if(edge.id === edges[idx].id) {
@@ -117,7 +119,7 @@ function Edges(props) {
         setEdges(newEdges);
         setNextIndex(idx + 1);
         if(idx + 1 === edges.length) {
-            props.setNumOrganizing(-1);
+            dispatch(organizingCounterActions.decrementOrganizingCounter());
             setTimeout(() => {
                 toggleIsOrganized();
                 toggleIsOrganizing();
@@ -182,7 +184,7 @@ function Edges(props) {
                         {display(1)}
                     </div>
                 </div>
-            <ControlBar width={props.width} piece='edges' loggedIn={props.loggedIn} setNumOrganizing={props.setNumOrganizing} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumEdges} minNum={4} maxNum={40} number={numEdges} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={remove} unorganizedFunction={() => complete(0)} unorgButton='Remove' orgButton='Complete' />
+            <ControlBar width={props.width} piece='edges' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumEdges} minNum={4} maxNum={40} number={numEdges} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={remove} unorganizedFunction={() => complete(0)} unorgButton='Remove' orgButton='Complete' />
 
             </div>
         </div>

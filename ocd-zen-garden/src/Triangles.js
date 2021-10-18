@@ -1,10 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { organizingCounterActions } from './store/organizing-counter';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
 import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
-import { Howl } from 'howler';
 
 function Triangles(props) {
     const palette = useSelector((state) => state.palette.palette);
@@ -16,6 +16,7 @@ function Triangles(props) {
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Chirp'));
     const [proportionalVolume, setProportionalVolume] = useState('proportional');
+    const dispatch = useDispatch();
 
 
     const createStartingTrianglesArray = num => {
@@ -48,7 +49,7 @@ function Triangles(props) {
             } else {
                 toggleIsOrganizing();
                 toggleIsOrganized();
-                props.setNumOrganizing(-1);
+                dispatch(organizingCounterActions.decrementOrganizingCounter());
             }
         } else {firstUpdate.current = false}
     }, [nextIndex])
@@ -93,7 +94,7 @@ function Triangles(props) {
     const center = (idx) => {
         if(idx === 0) {
             toggleIsOrganizing();
-            props.setNumOrganizing(1);
+            dispatch(organizingCounterActions.incrementOrganizingCounter())
         }
         let newTriangles = triangles.map(triangle => {
             if(triangle.id === triangles[idx].id) {
@@ -176,7 +177,7 @@ function Triangles(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar width={props.width} piece='triangles' loggedIn={props.loggedIn} setNumOrganizing={props.setNumOrganizing} toggleHighlightUserIcon={props.toggleHighlightUserIcon}  setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={12} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Chirp' organizedFunction={uncenter} unorganizedFunction={() => center(0)} unorgButton='Uncenter' orgButton='Center'/>
+                <ControlBar width={props.width} piece='triangles' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon}  setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={12} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Chirp' organizedFunction={uncenter} unorganizedFunction={() => center(0)} unorgButton='Uncenter' orgButton='Center'/>
             </div>
         </div>
     )

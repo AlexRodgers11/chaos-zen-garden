@@ -1,5 +1,6 @@
 import React,  {useState, useEffect, useRef} from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { organizingCounterActions } from './store/organizing-counter';
 import useToggle from './hooks/useToggle';
 import { getColor, getSound } from './utils';
 import ControlBar from './ControlBar';
@@ -14,6 +15,7 @@ function Message2(props){
     const [speed, setSpeed] = useState(1000);
     const [sound, setSound] = useState(getSound('Sparkle'));
     const [colorPalette, setColorPalette] = useState(palette);
+    const dispatch = useDispatch();
 
     const soundPlay = soundObj => {
         const sound = new Howl({
@@ -70,7 +72,7 @@ function Message2(props){
     const matchLetters = (idx) => {
         if(idx === 1) {
             toggleIsOrganizing();
-            props.setNumOrganizing(1);
+            dispatch(organizingCounterActions.incrementOrganizingCounter())
             while(letters[idx].font === letters[0].font) {
                 idx++;
             }
@@ -93,7 +95,7 @@ function Message2(props){
         setLetters(newLetters);
 
         if(nextIdx === letters.length) {
-            props.setNumOrganizing(-1);
+            dispatch(organizingCounterActions.decrementOrganizingCounter());
             setTimeout(() => {
                 toggleIsOrganized();
                 toggleIsOrganizing();
@@ -204,7 +206,7 @@ function Message2(props){
                         {displayWords(letters)}
                     </div>
                 </div>
-                <ControlBar width={props.width} piece='message2' loggedIn={props.loggedIn} setNumOrganizing={props.setNumOrganizing} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} soundValue='Sparkle' changeText={handleChangeText} setSpeed={handleSetSpeed} setSound={handleSetSound} organizedFunction={randomizeLetters} unorganizedFunction={() => matchLetters(1)} unorgButton='Randomize' orgButton='Match' />
+                <ControlBar width={props.width} piece='message2' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} soundValue='Sparkle' changeText={handleChangeText} setSpeed={handleSetSpeed} setSound={handleSetSound} organizedFunction={randomizeLetters} unorganizedFunction={() => matchLetters(1)} unorgButton='Randomize' orgButton='Match' />
 
             </div>
         </div>
