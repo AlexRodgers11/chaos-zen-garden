@@ -39,7 +39,6 @@ function Garden(props) {
     const height = useCurrentHeight();
     const width = useSelector((state) => state.width.appWidth);
     const fullView = useSelector((state) => state.fullView.fullView);
-    const organizingCounter = useSelector((state) => state.organizingCounter.organizingCounter);
     const [colorPalette, setColorPalette] = useState(palettes[0]);
     const [volume, setVolume] = useState(65);
     const [numRings, setNumRings] = useState(10)
