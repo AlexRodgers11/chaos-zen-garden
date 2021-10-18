@@ -9,6 +9,7 @@ import { Howl } from 'howler';
 
 function Message2(props){
     const palette = useSelector((state) => state.palette.palette);
+    const volume = useSelector((state) => state.volume.volume);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [nextIndex, setNextIndex] = useState(1);
@@ -21,7 +22,7 @@ function Message2(props){
         const sound = new Howl({
             src: soundObj.src,
             sprite: soundObj.sprite,
-            volume: props.volume * .01,
+            volume: volume * .01,
         });
         sound.play(soundObj.spriteName);
     }
@@ -163,10 +164,6 @@ function Message2(props){
         setColorPalette(palette);
     }
 
-    const handleChangeVolume = volume => {
-        props.changeVolume(volume);
-    }
-
     const displayWords = letterArr => {
         let fontSize;
         if(letterArr.length > 25) {
@@ -206,7 +203,7 @@ function Message2(props){
                         {displayWords(letters)}
                     </div>
                 </div>
-                <ControlBar width={props.width} piece='message2' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} soundValue='Sparkle' changeText={handleChangeText} setSpeed={handleSetSpeed} setSound={handleSetSound} organizedFunction={randomizeLetters} unorganizedFunction={() => matchLetters(1)} unorgButton='Randomize' orgButton='Match' />
+                <ControlBar width={props.width} piece='message2' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} soundValue='Sparkle' changeText={handleChangeText} setSpeed={handleSetSpeed} setSound={handleSetSound} organizedFunction={randomizeLetters} unorganizedFunction={() => matchLetters(1)} unorgButton='Randomize' orgButton='Match' />
 
             </div>
         </div>

@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { fullViewActions } from './store/full-view';
+import { volumeActions } from './store/volume'
 import useToggle from './hooks/useToggle';
 import { palettes, sounds, getColor } from './utils';
 import { v4 as uuidv4 } from 'uuid';
@@ -13,10 +15,12 @@ import { ImSortNumbericDesc, ImShrink2, ImVolumeHigh, ImVolumeLow, ImVolumeMediu
 import { BsFileText, BsLockFill } from 'react-icons/bs';
 import { RiSoundModuleLine } from 'react-icons/ri';
 import './ControlBar.css';
-import { fullViewActions } from './store/full-view';
+
+
 
 
 function ControlBar(props) {
+    const volume = useSelector((state) => state.volume.volume);
     const pieceWidth = useSelector((state) => state.width.pieceWidth);
     const appWidth = useSelector((state) => state.width.appWidth);
     const [speed, setSpeed] = useState(1000);
@@ -26,7 +30,7 @@ function ControlBar(props) {
     const [palette, setPalette] = useState(props.palette);
     const [proportionalVolume, setProportionalVolume] = useState(props.proportionalVolume || null);
     const [hidden, toggleHidden] = useToggle(true);
-    const [volume, setVolume] = useState(props.volume);
+    // const [volume, setVolume] = useState(props.volume);
     const [shape, setShape] = useState(props.shape);
     const [showPopup, setShowPopup] = useState(
         {
@@ -43,14 +47,14 @@ function ControlBar(props) {
 
     const dispatch = useDispatch();
 
-    const volumeFirstUpdate = useRef(true);
-    useEffect(() => {
-        if(!volumeFirstUpdate.current) {
-            setVolume(props.volume);
-        } else {
-            volumeFirstUpdate.current = false;
-        }
-    }, [props.volume])
+    // const volumeFirstUpdate = useRef(true);
+    // useEffect(() => {
+    //     if(!volumeFirstUpdate.current) {
+    //         setVolume(props.volume);
+    //     } else {
+    //         volumeFirstUpdate.current = false;
+    //     }
+    // }, [props.volume])
 
     const colorFirstUpdate = useRef(true);
     useEffect(() => {
@@ -96,8 +100,9 @@ function ControlBar(props) {
     }
 
     const handleVolumeChange = evt => {
-        props.changeVolume(evt.target.value)
-        setVolume(evt.target.value)
+        // props.changeVolume(evt.target.value)
+        // setVolume(evt.target.value)
+        dispatch(volumeActions.setVolume(evt.target.value));
     }
     
     const handleProportionalVolumeChange = selection => {

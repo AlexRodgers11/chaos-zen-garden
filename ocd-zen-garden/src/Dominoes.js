@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 function Dominoes(props) {
     const palette = useSelector((state) => state.palette.palette);
+    const volume = useSelector((state) => state.volume.volume);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [colorPalette, setColorPalette] = useState(palette);
@@ -94,7 +95,7 @@ function Dominoes(props) {
                 return line;
             }
         });
-        soundPlay(sound, lines[idx].volumeMultiplier, props.volume, proportionalVolume);
+        soundPlay(sound, lines[idx].volumeMultiplier, volume, proportionalVolume);
         setLines(newLines);
         if(idx < lines.length - 1) {
             setNextIdx(idx + 1);
@@ -137,10 +138,6 @@ function Dominoes(props) {
         setProportionalVolume(selection);
     }
 
-    const handleChangeVolume = volume => {
-        props.changeVolume(volume);
-    }
-
     const handleSetNumLines = num => {
         setNumLines(Number(num));
         setLines(createStartingLinesArray(Number(num)))
@@ -156,7 +153,7 @@ function Dominoes(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar width={props.width} piece='dominoes' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} volume={props.volume} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumLines} minNum={5} maxNum={35} number={numLines} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Click' organizedFunction={tiltLines} unorganizedFunction={() => straightenLines(0)} unorgButton='Tilt' orgButton='Straighten' />
+                <ControlBar width={props.width} piece='dominoes' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumLines} minNum={5} maxNum={35} number={numLines} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Click' organizedFunction={tiltLines} unorganizedFunction={() => straightenLines(0)} unorgButton='Tilt' orgButton='Straighten' />
 
             </div>
         </div>

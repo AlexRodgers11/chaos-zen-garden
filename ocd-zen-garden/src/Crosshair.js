@@ -7,6 +7,7 @@ import ControlBar from './ControlBar';
 
 function Crosshair(props) {
     const palette = useSelector((state) => state.palette.palette);
+    const volume = useSelector((state) => state.volume.volume);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [nextIndex, setNextIndex] = useState(0);
@@ -35,15 +36,6 @@ function Crosshair(props) {
     }
 
     const [rings, setRings] = useState(createStartingRingArray(numRings));
-
-    // const soundPlay = (soundObj, multiplier) => {
-    //     const sound = new Howl({
-    //         src: soundObj.src,
-    //         sprite: soundObj.sprite,
-    //         volume: props.volume * .01 * multiplier
-    //     });
-    //     sound.play(soundObj.spriteName);
-    // }
 
     const firstUpdate = useRef(true);
     useEffect(()=>{
@@ -101,7 +93,7 @@ function Crosshair(props) {
             
         });
 
-        soundPlay(sound, rings[idx].volumeMultiplier, props.volume, proportionalVolume);
+        soundPlay(sound, rings[idx].volumeMultiplier, volume, proportionalVolume);
         setRings(newRings);
         setNextIndex(idx + 1);
         if(idx + 1 === rings.length) {
@@ -142,10 +134,6 @@ function Crosshair(props) {
 
     const handleChangeProportionalVolume = selection => {
         setProportionalVolume(selection);
-    }
-
-    const handleChangeVolume = volume => {
-        props.changeVolume(volume);
     }
 
     const handleSetNumRings = num => {
@@ -201,7 +189,7 @@ function Crosshair(props) {
                         {display(1)}
                     </div>
                 </div>
-            <ControlBar width={props.width} piece='crosshair' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumRings} minNum={4} maxNum={20} number={numRings} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={spin} unorganizedFunction={() => align(0)} unorgButton='Spin' orgButton='Align' />
+            <ControlBar width={props.width} piece='crosshair' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumRings} minNum={4} maxNum={20} number={numRings} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={spin} unorganizedFunction={() => align(0)} unorgButton='Spin' orgButton='Align' />
 
             </div>
         </div>

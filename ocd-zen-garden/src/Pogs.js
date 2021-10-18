@@ -9,6 +9,7 @@ import { GiFoxHead } from 'react-icons/gi';
 
 function Pogs(props) {
     const palette = useSelector((state) => state.palette.palette);
+    const volume = useSelector((state) => state.volume.volume);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [numRows, setNumRows] = useState(5);
@@ -99,7 +100,7 @@ function Pogs(props) {
                 return pog;
             }
         });
-        soundPlay(sound, pogs[idx].volumeMultplier1, props.volume, proportionalVolume);
+        soundPlay(sound, pogs[idx].volumeMultplier1, volume, proportionalVolume);
         setPogs(newPogs);
         setTimeout(() => {
             let newPogs = pogs.map(pog => {
@@ -109,7 +110,7 @@ function Pogs(props) {
                     return pog;
                 }
             });
-            soundPlay(sound, pogs[idx].volumeMultplier2, props.volume, proportionalVolume);
+            soundPlay(sound, pogs[idx].volumeMultplier2, volume, proportionalVolume);
             setPogs(newPogs);
             setNextIndex(idx + 1);
         }, speed)
@@ -158,10 +159,6 @@ function Pogs(props) {
         setProportionalVolume(selection);
     }
 
-    const handleChangeVolume = volume => {
-        props.changeVolume(volume);
-    }
-
     const handleChangeShape = shape => {
         setShape(shape);
     }
@@ -192,7 +189,7 @@ function Pogs(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar width={props.width} piece='pogs' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={twist} unorganizedFunction={() => align(0)} unorgButton='Twist' orgButton='Align'/>
+                <ControlBar width={props.width} piece='pogs' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={twist} unorganizedFunction={() => align(0)} unorgButton='Twist' orgButton='Align'/>
             </div>
         </div>
     )

@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 function Dots(props) {
     const palette = useSelector((state) => state.palette.palette);
+    const volume = useSelector((state) => state.volume.volume);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [nextIndex, setNextIndex] = useState({id: 0, dir: 'vertical'});
@@ -112,10 +113,6 @@ function Dots(props) {
         setProportionalVolume(selection);
     }
 
-    const handleChangeVolume = volume => {
-        props.changeVolume(volume);
-    }
-
     const handleChangeShape = shape => {
         setShape(shape);
     }
@@ -149,7 +146,7 @@ function Dots(props) {
                     return dot
                 }
             });
-            soundPlay(sound, dots[idx].leftVolumeMultiplier, props.volume, proportionalVolume);
+            soundPlay(sound, dots[idx].leftVolumeMultiplier, volume, proportionalVolume);
         } else {
             newDots = dots.map(dot => {
                 if(dot.id === dots[idx].id){
@@ -158,7 +155,7 @@ function Dots(props) {
                     return dot
                 }
             });
-            soundPlay(sound, dots[idx].topVolumeMultiplier,props.volume, proportionalVolume);
+            soundPlay(sound, dots[idx].topVolumeMultiplier,volume, proportionalVolume);
         };
         
         setDots(newDots);
@@ -207,7 +204,7 @@ function Dots(props) {
                         </div>
                     </div>
                 </div>
-                <ControlBar width={props.width} piece='dots' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={25} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Swish' organizedFunction={scatterDots} unorganizedFunction={() => organizeDots(0, 'horizontal')} unorgButton='Scatter' orgButton='Organize' />
+                <ControlBar width={props.width} piece='dots' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={25} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Swish' organizedFunction={scatterDots} unorganizedFunction={() => organizeDots(0, 'horizontal')} unorgButton='Scatter' orgButton='Organize' />
             </div>
             
         </div>

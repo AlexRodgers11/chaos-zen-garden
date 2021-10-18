@@ -8,6 +8,7 @@ import ControlBar from './ControlBar';
 
 function Triangles(props) {
     const palette = useSelector((state) => state.palette.palette);
+    const volume = useSelector((state) => state.volume.volume);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [numRows, setNumRows] = useState(7);
@@ -103,7 +104,7 @@ function Triangles(props) {
                 return triangle;
             }
         });
-        soundPlay(sound, triangles[idx].volumeMultiplier, props.volume, proportionalVolume);
+        soundPlay(sound, triangles[idx].volumeMultiplier, volume, proportionalVolume);
         setTriangles(newTriangles);
         setNextIndex(idx + 1)        
     }
@@ -142,10 +143,6 @@ function Triangles(props) {
         setColorPalette(palette);
     }
 
-    const handleChangeVolume = volume => {
-        props.changeVolume(volume);
-    }
-
     const handleChangeProportionalVolume = selection => {
         setProportionalVolume(selection);
     }
@@ -177,7 +174,7 @@ function Triangles(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar width={props.width} piece='triangles' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon}  setModalContent={props.setModalContent} volume={props.volume} changeVolume={handleChangeVolume} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={12} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Chirp' organizedFunction={uncenter} unorganizedFunction={() => center(0)} unorgButton='Uncenter' orgButton='Center'/>
+                <ControlBar width={props.width} piece='triangles' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon}  setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={12} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Chirp' organizedFunction={uncenter} unorganizedFunction={() => center(0)} unorgButton='Uncenter' orgButton='Center'/>
             </div>
         </div>
     )

@@ -8,6 +8,7 @@ import ControlBar from './ControlBar';
 
 function Squares(props) {
     const palette = useSelector((state) => state.palette.palette);
+    const volume = useSelector((state) => state.volume.volume);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [numRows, setNumRows] = useState(5);
@@ -116,16 +117,16 @@ function Squares(props) {
         });
         switch(dir) {
             case 'topLeft':
-                soundPlay(sound, scaler(5, 15, .0075, .01, squares[idx].topLeft), props.volume, proportionalVolume);
+                soundPlay(sound, scaler(5, 15, .0075, .01, squares[idx].topLeft), volume, proportionalVolume);
                 break;
             case 'topRight':
-                soundPlay(sound, scaler(5, 15, .0075, .01, squares[idx].topRight), props.volume, proportionalVolume);
+                soundPlay(sound, scaler(5, 15, .0075, .01, squares[idx].topRight), volume, proportionalVolume);
                 break;
             case 'bottomLeft':
-                soundPlay(sound, scaler(5, 15, .0075, .01, squares[idx].bottomLeft), props.volume, proportionalVolume);
+                soundPlay(sound, scaler(5, 15, .0075, .01, squares[idx].bottomLeft), volume, proportionalVolume);
                 break;
             case 'bottomRight':
-                soundPlay(sound, scaler(5, 15, .0075, .01, squares[idx].bottomRight), props.volume, proportionalVolume);
+                soundPlay(sound, scaler(5, 15, .0075, .01, squares[idx].bottomRight), volume, proportionalVolume);
                 break;
         }
         
@@ -162,10 +163,6 @@ function Squares(props) {
         setProportionalVolume(selection);
     }
 
-    const handleChangeVolume = volume => {
-        props.changeVolume(volume);
-    }
-
     const displaySquares = () => {
         let squareLines = []
         let newLine = []
@@ -193,7 +190,7 @@ function Squares(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar width={props.width} piece='squares' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={dull} unorganizedFunction={() => sharpen(0, 'topLeft')} unorgButton='Dull' orgButton='Sharpen'/>
+                <ControlBar width={props.width} piece='squares' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={dull} unorganizedFunction={() => sharpen(0, 'topLeft')} unorgButton='Dull' orgButton='Sharpen'/>
             </div>
         </div>
     )

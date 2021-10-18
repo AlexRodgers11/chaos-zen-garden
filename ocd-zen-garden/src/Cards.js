@@ -8,6 +8,7 @@ import ControlBar from './ControlBar';
 
 function Cards(props) {
     const palette = useSelector((state) => state.palette.palette);
+    const volume = useSelector((state) => state.volume.volume);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [numCards, setNumRows] = useState(5);
@@ -101,7 +102,7 @@ function Cards(props) {
                 return card;
             }
         });
-        soundPlay(sound, cards[idx].volumeMultiplier, props.volume, proportionalVolume);
+        soundPlay(sound, cards[idx].volumeMultiplier, volume, proportionalVolume);
         setCards(newCards);
         setNextIndex(idx + 1)        
     }
@@ -140,10 +141,6 @@ function Cards(props) {
         setProportionalVolume(selection);
     }
 
-    const handleChangeVolume = volume => {
-        props.changeVolume(volume);
-    }
-
     const displayCards = () => {
         let cardLines = []
         let newLine = []
@@ -180,7 +177,7 @@ function Cards(props) {
                             })}</div>
                         })}
                 </div>
-                <ControlBar width={props.width} piece='cards' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={30} number={numCards} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={scatter} unorganizedFunction={() => organize(0)} unorgButton='Scatter' orgButton='Organize'/>
+                <ControlBar width={props.width} piece='cards' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} setModalContent={props.setModalContent} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={30} number={numCards} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={scatter} unorganizedFunction={() => organize(0)} unorgButton='Scatter' orgButton='Organize'/>
             </div>
         </div>
     )

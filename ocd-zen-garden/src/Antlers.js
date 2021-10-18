@@ -9,6 +9,7 @@ import { Howl } from 'howler';
 
 function Antlers(props) {
     const palette = useSelector((state) => state.palette.palette);
+    const volume = useSelector((state) => state.volume.volume);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [numRows, setNumRows] = useState(5);
@@ -74,7 +75,7 @@ function Antlers(props) {
         const sound = new Howl({
             src: soundObj.src,
             sprite: soundObj.sprite,
-            volume: props.volume * .01
+            volume: volume * .01
         });
         sound.play(soundObj.spriteName);
     }
@@ -144,10 +145,6 @@ function Antlers(props) {
         setColorPalette(palette);
     }
 
-    const handleChangeVolume = volume => {
-        props.changeVolume(volume);
-    }
-
     const displayHorns = () => {
         let hornLines = []
         let newLine = []
@@ -194,7 +191,7 @@ function Antlers(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar width={props.width} piece='antlers' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} palette={colorPalette} volume={props.volume} changeVolume={handleChangeVolume} setPalette={handleSetColorPalette} minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Click' organizedFunction={flip} unorganizedFunction={() => align(0)} unorgButton='Flip' orgButton='Align'/>
+                <ControlBar width={props.width} piece='antlers' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Click' organizedFunction={flip} unorganizedFunction={() => align(0)} unorgButton='Flip' orgButton='Align'/>
             </div>
         </div>
     )

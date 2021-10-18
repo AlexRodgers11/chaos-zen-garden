@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 function Snake(props) {
     const palette = useSelector((state) => state.palette.palette);
     const width = useSelector((state) => state.width.pieceWidth);
+    const volume = useSelector((state) => state.volume.volume);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [nextIndex, setNextIndex] = useState(0);
@@ -115,7 +116,7 @@ function Snake(props) {
             });
         }
 
-        soundPlay(sound, boxes[idx].volumeMultiplier, props.volume, proportionalVolume);
+        soundPlay(sound, boxes[idx].volumeMultiplier, volume, proportionalVolume);
 
         
         setBoxes(newBoxes);
@@ -160,10 +161,6 @@ function Snake(props) {
         setProportionalVolume(selection);
     }
 
-    const handleChangeVolume = volume => {
-        props.changeVolume(volume);
-    }
-
     const handleSetNumBoxes = num => {
         setNumBoxes(Number(num));
         setBoxes(createStartingBoxArray(Number(num)))
@@ -187,7 +184,7 @@ function Snake(props) {
                         })}
                     {/* </div> */}
                 </div>
-                <ControlBar width={width} piece='snake' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} volume={props.volume} changeVolume={handleChangeVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={30} number={numBoxes} setNumber={handleSetNumBoxes} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Slam' organizedFunction={scatterBoxes} unorganizedFunction={() => organizeBoxes(0)} unorgButton='Scatter' orgButton='Organize' />
+                <ControlBar width={width} piece='snake' loggedIn={props.loggedIn} toggleHighlightUserIcon={props.toggleHighlightUserIcon} disableFullWindow={props.disableFullWindow} setModalContent={props.setModalContent} shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={30} number={numBoxes} setNumber={handleSetNumBoxes} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Slam' organizedFunction={scatterBoxes} unorganizedFunction={() => organizeBoxes(0)} unorgButton='Scatter' orgButton='Organize' />
             </div>
         </div>
     )
