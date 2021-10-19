@@ -16,13 +16,11 @@ import { BsFileText, BsLockFill } from 'react-icons/bs';
 import { RiSoundModuleLine } from 'react-icons/ri';
 import './ControlBar.css';
 
-
-
-
 function ControlBar(props) {
     const volume = useSelector((state) => state.volume.volume);
     const pieceWidth = useSelector((state) => state.width.pieceWidth);
     const appWidth = useSelector((state) => state.width.appWidth);
+    const loggedIn = useSelector((state) => state.authentication.loggedIn);
     const [speed, setSpeed] = useState(1000);
     const [text, setText] = useState(props.textValue || null);
     const [sound, setSound] = useState(props.soundValue || null);
@@ -153,7 +151,7 @@ function ControlBar(props) {
                     <GiHamburgerMenu size='1.5em'/>
                 </button>
                 <div style={{display: !hidden ? 'inline-block' : 'none'}}>
-                    <div className="ControlBar_tooltip"><span className={`ControlBar_tooltiptext ${!props.loggedIn ? 'ControlBar_showTooltipText' : ''}`}>Log in to add to custom garden</span><button disabled={!props.loggedIn} onMouseOver={!props.loggedIn ? props.toggleHighlightUserIcon : null} onMouseOut={!props.loggedIn ? props.toggleHighlightUserIcon : null} style={{color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} ><SiAddthis size='1.5em' /></button></div>
+                    <div className="ControlBar_tooltip"><span className={`ControlBar_tooltiptext ${!loggedIn ? 'ControlBar_showTooltipText' : ''}`}>Log in to add to custom garden</span><button disabled={!loggedIn} onMouseOver={!loggedIn ? props.toggleHighlightUserIcon : null} onMouseOut={!loggedIn ? props.toggleHighlightUserIcon : null} style={{color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} ><SiAddthis size='1.5em' /></button></div>
                     <div style={{position: 'relative', zIndex: 114}} onMouseLeave={showPopup.palette ? () => handleTogglePopup('palette') : null} className={`ControlBar_popup ${showPopup.palette ? 'ControlBar_popup-active' : ''}`}>
                         <button disabled={props.isOrganizing} style={{position: 'relative', zIndex: 115, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="speed" onClick={() => handleTogglePopup('palette')}><IoIosColorPalette size='1.5em' /></button>
                         {/* <div onMouseLeave={() => handleToggleDropdown('palette')} className='dropdown-content'> */}
@@ -165,7 +163,7 @@ function ControlBar(props) {
                                     return <p key={key} onClick={() => handlePaletteChange(palette)}>{palette}</p>
                                 })}
                                 <p style={{alignItems: 'center'}} onClick={() => {props.setModalContent('monochrome')}}>Monochrome</p>
-                                <p><p style={{display: 'flex', alignItems: 'center'}} onClick={props.loggedIn ? () => {props.setModalContent('custom-palette')} : null} >Custom{!props.loggedIn ? <BsLockFill /> : null}</p></p>
+                                <p><p style={{display: 'flex', alignItems: 'center'}} onClick={loggedIn ? () => {props.setModalContent('custom-palette')} : null} >Custom{!loggedIn ? <BsLockFill /> : null}</p></p>
                             </div>
                             <div style={{height: '1.8em', opacity: .5, backgroundColor: 'black'}}></div>    
                         </div>

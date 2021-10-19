@@ -3,10 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { widthActions } from './store/width';
 import './App.css';
 import Garden from './Garden';
-import useToggle from './hooks/useToggle';
 
 function App() {
-  const [loggedIn, toggleLoggedIn] = useToggle(false);
   const fullView = useSelector((state) => state.fullView.fullView);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -37,7 +35,7 @@ function App() {
 
   return (
     <div className="App">
-      <Garden loggedIn={loggedIn} toggleLoggedIn={toggleLoggedIn} />
+      <Garden />
     </div>
   );
 }

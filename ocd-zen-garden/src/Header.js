@@ -8,10 +8,12 @@ import { GiHamburgerMenu } from 'react-icons/gi/';
 import { FaUserCircle, FaLongArrowAltUp } from 'react-icons/fa/';
 import { IoIosColorPalette } from 'react-icons/io/';
 import './Header.css';
+import { authenticationActions } from './store/authentication';
 
 function Header(props){
     const dispatch = useDispatch();
     const palette = useSelector((state) => state.palette.palette);
+    const loggedIn = useSelector((state) => state.authentication.loggedIn);
     const organizingCounter = useSelector((state) => state.organizingCounter.organizingCounter);
     const [showDropdown, setShowDropdown] = useState({
         main: false,
@@ -29,10 +31,10 @@ function Header(props){
     }
 
     const handleSetModalContent = evt => {
-        if(!props.loggedIn) {
+        if(!loggedIn) {
             props.setModalContent(evt.target.id);
         } else {
-            props.toggleLoggedIn()
+            dispatch(authenticationActions.toggleLogInStatus());
         }
     }
 
@@ -91,8 +93,8 @@ function Header(props){
                     </div>
 
                     <div className='Header_dropdown-content'>
-                        {!props.loggedIn ? <p id="new-user" onClick={handleSetModalContent}>Create Account</p> : null}
-                        <p id="login" onClick={handleSetModalContent}>{props.loggedIn ? 'Log Out' : 'Log In'}</p>
+                        {!loggedIn ? <p id="new-user" onClick={handleSetModalContent}>Create Account</p> : null}
+                        <p id="login" onClick={handleSetModalContent}>{loggedIn ? 'Log Out' : 'Log In'}</p>
 
                     </div>
                 </div>

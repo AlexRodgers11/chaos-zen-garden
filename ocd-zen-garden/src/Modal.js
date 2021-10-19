@@ -1,14 +1,23 @@
 import React from 'react';
 import './Modal.css';
-
+import { useSelector, useDispatch } from 'react-redux';
 import NewUserForm from './NewUserForm';
 import LoginForm from './LoginForm';
 import ColorForm from './ColorForm';
 import OCDForm from './OCDForm';
+import { authenticationActions } from './store/authentication';
 
 function Modal(props) {
+    const loggedIn = useSelector((state) => state.authentication.loggedIn);
+    const dispatch = useDispatch();
+
     const handleToggleHideModal = () => {
         props.toggleHideModal()
+    }
+
+    const handleToggleLogInStatus = () => {
+        dispatch(authenticationActions.toggleLogInStatus());
+        props.toggleHideModal();
     }
 
     const displayModalContent = () => {
@@ -23,9 +32,9 @@ function Modal(props) {
             case 'custom-palette':
                 return (<ColorForm monochrome={false} colorCount={7}/>);
             case 'new-user':
-                return (<NewUserForm loggedIn={props.loggedIn} toggleLoggedIn={props.toggleLoggedIn} />);
+                return (<NewUserForm loggedIn={loggedIn} toggleLoggedIn={handleToggleLogInStatus} />);
             case 'login':
-                return (<LoginForm loggedIn={props.loggedIn} toggleLoggedIn={props.toggleLoggedIn}  />);
+                return (<LoginForm loggedIn={loggedIn} toggleLoggedIn={handleToggleLogInStatus}  />);
             case 'ocd-timeout':
                 return (<OCDForm />)
         }

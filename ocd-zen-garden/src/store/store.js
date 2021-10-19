@@ -5,6 +5,7 @@ import organizingCounterSlice from './organizing-counter';
 import widthSlice from './width';
 import fullViewSlice from './full-view';
 import volumeSlice from './volume';
+import authenticationSlice from './authentication';
 
 // const initialState = {
 //     palette: 'carnival',
@@ -17,7 +18,8 @@ const store= configureStore({
         organizingCounter: organizingCounterSlice,
         width: widthSlice,
         fullView: fullViewSlice,
-        volume: volumeSlice
+        volume: volumeSlice,
+        authentication: authenticationSlice
     }
 })
 
