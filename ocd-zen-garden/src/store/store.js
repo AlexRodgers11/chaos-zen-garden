@@ -6,6 +6,7 @@ import widthSlice from './width';
 import fullViewSlice from './full-view';
 import volumeSlice from './volume';
 import authenticationSlice from './authentication';
+import highlightUserIconSlice from './highlight-user-icon';
 
 // const initialState = {
 //     palette: 'carnival',
@@ -19,7 +20,8 @@ const store= configureStore({
         width: widthSlice,
         fullView: fullViewSlice,
         volume: volumeSlice,
-        authentication: authenticationSlice
+        authentication: authenticationSlice,
+        highlightUserIcon: highlightUserIconSlice
     }
 })
 

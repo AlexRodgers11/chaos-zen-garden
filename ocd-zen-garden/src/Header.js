@@ -15,6 +15,7 @@ function Header(props){
     const palette = useSelector((state) => state.palette.palette);
     const loggedIn = useSelector((state) => state.authentication.loggedIn);
     const organizingCounter = useSelector((state) => state.organizingCounter.organizingCounter);
+    const highlightUserIcon = useSelector((state) => state.highlightUserIcon.highlightUserIcon);
     const [showDropdown, setShowDropdown] = useState({
         main: false,
         palette: false
@@ -88,7 +89,7 @@ function Header(props){
                 <div onMouseLeave={showDropdown.main ? () => handleToggleDropdown('main') : null} className={`Header_dropdown ${showDropdown.main ? 'Header_dropdown-active' : ''}`} >
                     <div style={{display: 'flex', alignItems: 'center'}}>
                         <div style={{display: 'flex', alignItems: 'center', cursor: 'pointer'}} className="tooltip">
-                            {props.highlightUserIcon ? <span className='tooltiptext'><FaLongArrowAltUp size="1.5rem" /></span> : null}<FaUserCircle id="main" className="Header_dropbtn" onClick={() => handleToggleDropdown('main')} size="1.5rem" color={!props.highlightUserIcon ? getColor('aux2', palette) : 'white'}/>
+                            {highlightUserIcon ? <span className='tooltiptext'><FaLongArrowAltUp size="1.5rem" /></span> : null}<FaUserCircle id="main" className="Header_dropbtn" onClick={() => handleToggleDropdown('main')} size="1.5rem" color={!highlightUserIcon ? getColor('aux2', palette) : 'white'}/>
                         </div>
                     </div>
 

@@ -46,7 +46,6 @@ function Garden(props) {
     const [bullsEyeShape, setBullsEyeShape] = useState('circle')
     const [hideModal, toggleHideModal] = useToggle(false);
     const [modalContent, setModalContent] = useState('epilepsy-warning');
-    const [highlightUserIcon, toggleHighlightUserIcon] = useToggle(false);
     const [organizationCount, setOrganizationCount] = useState(0);
     // const [resetTimer, toggleResetTimer] = useToggle(true);
 
@@ -82,10 +81,6 @@ function Garden(props) {
         setBullsEyeShape(shape)
     }
 
-    const handleToggleHighlightUserIcon = () => {
-        toggleHighlightUserIcon();
-    }
-
     const handleSetModalContent = content => {
         setModalContent(content);
         toggleHideModal();
@@ -96,53 +91,53 @@ function Garden(props) {
 
         switch(gardenPiece) {
             case 'snake':
-                return <Snake width={gardenPieceWidth} className="Snake" toggleHighlightUserIcon={handleToggleHighlightUserIcon} />
+                return <Snake width={gardenPieceWidth} className="Snake" />
             case 'dots':
-                return <Dots width={gardenPieceWidth} className="Dots" toggleHighlightUserIcon={handleToggleHighlightUserIcon} />
+                return <Dots width={gardenPieceWidth} className="Dots" />
             case 'bullseye':
-                return <BullsEye width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} numRings={numRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" className="BullsEye" toggleHighlightUserIcon={handleToggleHighlightUserIcon} orgIndex={numRings + 1} />
+                return <BullsEye width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} numRings={numRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" className="BullsEye" orgIndex={numRings + 1} />
             case 'message':
-                return <Message width={gardenPieceWidth} className="Message" toggleHighlightUserIcon={handleToggleHighlightUserIcon}/>
+                return <Message width={gardenPieceWidth} className="Message"/>
             case 'dominoes':
-                return <Dominoes width={gardenPieceWidth} className="Dominoes" toggleHighlightUserIcon={handleToggleHighlightUserIcon} />
+                return <Dominoes width={gardenPieceWidth} className="Dominoes" />
             case 'barcode': 
-                return <Barcode width={gardenPieceWidth} className="Barcode" toggleHighlightUserIcon={handleToggleHighlightUserIcon}/>
+                return <Barcode width={gardenPieceWidth} className="Barcode"/>
             case 'squares':
-                return <Squares width={gardenPieceWidth} className="Squares" toggleHighlightUserIcon={handleToggleHighlightUserIcon} />
+                return <Squares width={gardenPieceWidth} className="Squares" />
             case 'triangles':
-                return <Triangles width={gardenPieceWidth} className="Triangles" toggleHighlightUserIcon={handleToggleHighlightUserIcon} />
+                return <Triangles width={gardenPieceWidth} className="Triangles" />
             case 'antlers':
-                return <Antlers width={gardenPieceWidth} className="Antlers" toggleHighlightUserIcon={handleToggleHighlightUserIcon}/>
+                return <Antlers width={gardenPieceWidth} className="Antlers"/>
             case 'pogs':
-                return <Pogs width={gardenPieceWidth} className="Coins" toggleHighlightUserIcon={handleToggleHighlightUserIcon}/>
+                return <Pogs width={gardenPieceWidth} className="Coins"/>
             case 'message2':
-                return <Message2 width={gardenPieceWidth} className="Message2" toggleHighlightUserIcon={handleToggleHighlightUserIcon}/>
+                return <Message2 width={gardenPieceWidth} className="Message2"/>
             case 'smudges':
-                return <Smudges width={gardenPieceWidth} className="Smudges" toggleHighlightUserIcon={handleToggleHighlightUserIcon}/>
+                return <Smudges width={gardenPieceWidth} className="Smudges"/>
             case 'holes':
-                return <Holes width={gardenPieceWidth} className="Holes" toggleHighlightUserIcon={handleToggleHighlightUserIcon}/>
+                return <Holes width={gardenPieceWidth} className="Holes"/>
             case 'edges':
-                return <Edges width={gardenPieceWidth} className="Edges" toggleHighlightUserIcon={handleToggleHighlightUserIcon}/>
+                return <Edges width={gardenPieceWidth} className="Edges"/>
             case 'crosshair':
-                return <Crosshair width={gardenPieceWidth} className="Crosshair" toggleHighlightUserIcon={handleToggleHighlightUserIcon}/>
+                return <Crosshair width={gardenPieceWidth} className="Crosshair"/>
             case 'tallies':
-                return <Tallies width={gardenPieceWidth} className="Tallies" toggleHighlightUserIcon={handleToggleHighlightUserIcon}/>
+                return <Tallies width={gardenPieceWidth} className="Tallies"/>
             case 'cards':
-                return <Cards width={gardenPieceWidth} className="Cards" toggleHighlightUserIcon={handleToggleHighlightUserIcon}/>
+                return <Cards width={gardenPieceWidth} className="Cards"/>
             case 'desk':
-                return <Desk width={gardenPieceWidth} className="Desk" toggleHighlightUserIcon={handleToggleHighlightUserIcon}/>
+                return <Desk width={gardenPieceWidth} className="Desk"/>
             case 'meters':
-                return <Meters width={gardenPieceWidth} className="Meters" toggleHighlightUserIcon={handleToggleHighlightUserIcon}/>
+                return <Meters width={gardenPieceWidth} className="Meters"/>
             case 'eyes':
-                return <Eyes width={gardenPieceWidth} className="Eyes" toggleHighlightUserIcon={handleToggleHighlightUserIcon}/>
+                return <Eyes width={gardenPieceWidth} className="Eyes"/>
             case 'opaque':
-                return <Opaque width={gardenPieceWidth} className="Opaque" toggleHighlightUserIcon={handleToggleHighlightUserIcon}/>
+                return <Opaque width={gardenPieceWidth} className="Opaque"/>
             case 'diamonds':
-                return <Diamonds width={gardenPieceWidth} className="Diamonds" toggleHighlightUserIcon={handleToggleHighlightUserIcon}/>
+                return <Diamonds width={gardenPieceWidth} className="Diamonds"/>
             case 'rainbow':
-                return <Rainbow width={gardenPieceWidth} className="Rainbow" toggleHighlightUserIcon={handleToggleHighlightUserIcon}/>
+                return <Rainbow width={gardenPieceWidth} className="Rainbow"/>
             case 'asterisk':
-                return <Asterisk width={gardenPieceWidth} className="Asterisk" toggleHighlightUserIcon={handleToggleHighlightUserIcon}/>
+                return <Asterisk width={gardenPieceWidth} className="Asterisk"/>
         }
     }
 
@@ -159,32 +154,32 @@ function Garden(props) {
 
         return (
             <>
-            <Header changePalette={handleChangePalette} setModalContent={handleSetModalContent} disableDropdowns={!hideModal} toggleLoggedIn={props.toggleLoggedIn} highlightUserIcon={highlightUserIcon} />
+            <Header changePalette={handleChangePalette} setModalContent={handleSetModalContent} disableDropdowns={!hideModal} />
             <div className="Garden">
-                <Snake width={gardenPieceWidth} className="Snake" toggleHighlightUserIcon={handleToggleHighlightUserIcon} setModalContent={handleSetModalContent} />
-                <Dots width={gardenPieceWidth} className="Dots" toggleHighlightUserIcon={handleToggleHighlightUserIcon} setModalContent={handleSetModalContent} />
-                <BullsEye width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} toggleHighlightUserIcon={handleToggleHighlightUserIcon} numRings={numRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" className="BullsEye" orgIndex={numRings + 1} setModalContent={handleSetModalContent} />
-                <Message width={gardenPieceWidth} className="Message" toggleHighlightUserIcon={handleToggleHighlightUserIcon} setModalContent={handleSetModalContent} />
-                <Dominoes width={gardenPieceWidth} className="Dominoes" toggleHighlightUserIcon={handleToggleHighlightUserIcon}  setModalContent={handleSetModalContent} />
-                <Barcode width={gardenPieceWidth} className="Barcode" toggleHighlightUserIcon={handleToggleHighlightUserIcon} setModalContent={handleSetModalContent} />
-                <Squares width={gardenPieceWidth} className="Squares" toggleHighlightUserIcon={handleToggleHighlightUserIcon}  setModalContent={handleSetModalContent} />
-                <Triangles width={gardenPieceWidth} className="Triangles" toggleHighlightUserIcon={handleToggleHighlightUserIcon}  setModalContent={handleSetModalContent} />
-                <Antlers width={gardenPieceWidth} className="Antlers" toggleHighlightUserIcon={handleToggleHighlightUserIcon} setModalContent={handleSetModalContent} />
-                <Pogs width={gardenPieceWidth} className="Coins" toggleHighlightUserIcon={handleToggleHighlightUserIcon} setModalContent={handleSetModalContent} />
-                <Message2 width={gardenPieceWidth} className="Message2" toggleHighlightUserIcon={handleToggleHighlightUserIcon} setModalContent={handleSetModalContent} />
-                <Smudges width={gardenPieceWidth} className="Smudges" toggleHighlightUserIcon={handleToggleHighlightUserIcon} setModalContent={handleSetModalContent} />
-                <Holes width={gardenPieceWidth} className="Holes" toggleHighlightUserIcon={handleToggleHighlightUserIcon} setModalContent={handleSetModalContent} />
-                <Edges width={gardenPieceWidth} className="Edges" toggleHighlightUserIcon={handleToggleHighlightUserIcon} setModalContent={handleSetModalContent} />
-                <Crosshair width={gardenPieceWidth} className="Crosshair" toggleHighlightUserIcon={handleToggleHighlightUserIcon} setModalContent={handleSetModalContent} />
-                <Tallies width={gardenPieceWidth} className="Tallies" toggleHighlightUserIcon={handleToggleHighlightUserIcon} setModalContent={handleSetModalContent} />
-                <Cards width={gardenPieceWidth} className="Cards" toggleHighlightUserIcon={handleToggleHighlightUserIcon} setModalContent={handleSetModalContent} />
-                <Desk width={gardenPieceWidth} className="Desk" toggleHighlightUserIcon={handleToggleHighlightUserIcon} setModalContent={handleSetModalContent} />
-                <Meters width={gardenPieceWidth} className="Meters" toggleHighlightUserIcon={handleToggleHighlightUserIcon} setModalContent={handleSetModalContent} />
-                <Eyes width={gardenPieceWidth} className="Eyes" toggleHighlightUserIcon={handleToggleHighlightUserIcon} setModalContent={handleSetModalContent} />
-                <Opaque width={gardenPieceWidth} className="Opaque" toggleHighlightUserIcon={handleToggleHighlightUserIcon} setModalContent={handleSetModalContent} />
-                <Diamonds width={gardenPieceWidth} className="Diamonds" toggleHighlightUserIcon={handleToggleHighlightUserIcon} setModalContent={handleSetModalContent} />
-                <Rainbow width={gardenPieceWidth} className="Rainbow" toggleHighlightUserIcon={handleToggleHighlightUserIcon} setModalContent={handleSetModalContent} />
-                <Asterisk width={gardenPieceWidth} className="Asterisk" toggleHighlightUserIcon={handleToggleHighlightUserIcon} setModalContent={handleSetModalContent} />
+                <Snake width={gardenPieceWidth} className="Snake" setModalContent={handleSetModalContent} />
+                <Dots width={gardenPieceWidth} className="Dots" setModalContent={handleSetModalContent} />
+                <BullsEye width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} numRings={numRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" className="BullsEye" orgIndex={numRings + 1} setModalContent={handleSetModalContent} />
+                <Message width={gardenPieceWidth} className="Message" setModalContent={handleSetModalContent} />
+                <Dominoes width={gardenPieceWidth} className="Dominoes"  setModalContent={handleSetModalContent} />
+                <Barcode width={gardenPieceWidth} className="Barcode" setModalContent={handleSetModalContent} />
+                <Squares width={gardenPieceWidth} className="Squares"  setModalContent={handleSetModalContent} />
+                <Triangles width={gardenPieceWidth} className="Triangles"  setModalContent={handleSetModalContent} />
+                <Antlers width={gardenPieceWidth} className="Antlers" setModalContent={handleSetModalContent} />
+                <Pogs width={gardenPieceWidth} className="Coins" setModalContent={handleSetModalContent} />
+                <Message2 width={gardenPieceWidth} className="Message2" setModalContent={handleSetModalContent} />
+                <Smudges width={gardenPieceWidth} className="Smudges" setModalContent={handleSetModalContent} />
+                <Holes width={gardenPieceWidth} className="Holes" setModalContent={handleSetModalContent} />
+                <Edges width={gardenPieceWidth} className="Edges" setModalContent={handleSetModalContent} />
+                <Crosshair width={gardenPieceWidth} className="Crosshair" setModalContent={handleSetModalContent} />
+                <Tallies width={gardenPieceWidth} className="Tallies" setModalContent={handleSetModalContent} />
+                <Cards width={gardenPieceWidth} className="Cards" setModalContent={handleSetModalContent} />
+                <Desk width={gardenPieceWidth} className="Desk" setModalContent={handleSetModalContent} />
+                <Meters width={gardenPieceWidth} className="Meters" setModalContent={handleSetModalContent} />
+                <Eyes width={gardenPieceWidth} className="Eyes" setModalContent={handleSetModalContent} />
+                <Opaque width={gardenPieceWidth} className="Opaque" setModalContent={handleSetModalContent} />
+                <Diamonds width={gardenPieceWidth} className="Diamonds" setModalContent={handleSetModalContent} />
+                <Rainbow width={gardenPieceWidth} className="Rainbow" setModalContent={handleSetModalContent} />
+                <Asterisk width={gardenPieceWidth} className="Asterisk" setModalContent={handleSetModalContent} />
                 {!hideModal ? 
                     <Modal content={modalContent} height={height} toggleHideModal={toggleHideModal} hidden={hideModal}>
                     </Modal> 
@@ -197,18 +192,16 @@ function Garden(props) {
         return (
             <div style={{width: '100vw', height: `${height}px`}}>
                 <div style={{position: 'fixed', zIndex: '3'}}>
-                <Header toggleLoggedIn={props.toggleLoggedIn} highlightUserIcon={highlightUserIcon} changePalette={handleChangePalette} setModalContent={handleSetModalContent} />
+                <Header toggleLoggedIn={props.toggleLoggedIn} changePalette={handleChangePalette} setModalContent={handleSetModalContent} />
                 </div>
             
-
-            <div className="pieceContainer" style={{display: 'grid', height: `${height - 45}px`, width: '100%', gridTemplateRows: `${width <= height - 45 ? `auto ${width}px auto` : '1fr'}`, gridTemplateColumns: `${width > height - 45 ? `auto ${height - 45}px auto` : '1fr'}`}}>
-                <div style={{backgroundColor: 'black', height: '100%', width:'auto'}}></div>
-                <div style={{backgroundColor: 'black', height: '100%', width:'auto'}}>
-                    {displayFullSize(fullView)}
+                <div className="pieceContainer" style={{display: 'grid', height: `${height - 45}px`, width: '100%', gridTemplateRows: `${width <= height - 45 ? `auto ${width}px auto` : '1fr'}`, gridTemplateColumns: `${width > height - 45 ? `auto ${height - 45}px auto` : '1fr'}`}}>
+                    <div style={{backgroundColor: 'black', height: '100%', width:'auto'}}></div>
+                    <div style={{backgroundColor: 'black', height: '100%', width:'auto'}}>
+                        {displayFullSize(fullView)}
+                    </div>
+                    <div style={{backgroundColor: 'black', height: '100%', width:'auto'}}></div>
                 </div>
-                <div style={{backgroundColor: 'black', height: '100%', width:'auto'}}></div>
-            </div>
-            
             </div>
         )
         

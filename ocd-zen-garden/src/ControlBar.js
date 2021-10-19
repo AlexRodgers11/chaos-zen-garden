@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fullViewActions } from './store/full-view';
-import { volumeActions } from './store/volume'
+import { volumeActions } from './store/volume';
+import { highlightUserIconActions } from './store/highlight-user-icon';
 import useToggle from './hooks/useToggle';
 import { palettes, sounds, getColor } from './utils';
 import { v4 as uuidv4 } from 'uuid';
@@ -15,6 +16,7 @@ import { ImSortNumbericDesc, ImShrink2, ImVolumeHigh, ImVolumeLow, ImVolumeMediu
 import { BsFileText, BsLockFill } from 'react-icons/bs';
 import { RiSoundModuleLine } from 'react-icons/ri';
 import './ControlBar.css';
+
 
 function ControlBar(props) {
     const volume = useSelector((state) => state.volume.volume);
@@ -115,6 +117,10 @@ function ControlBar(props) {
         setShape(shape);
     }
 
+    const handleToggleHighlightUserIcon = () => {
+        dispatch(highlightUserIconActions.toggleHighlightUserIcon());
+    }
+
     const displayNumberOptions = (min = 3, max = 10) => {
         let numArr = [];
         for(let i = min; i <= max; i++) {
@@ -151,7 +157,7 @@ function ControlBar(props) {
                     <GiHamburgerMenu size='1.5em'/>
                 </button>
                 <div style={{display: !hidden ? 'inline-block' : 'none'}}>
-                    <div className="ControlBar_tooltip"><span className={`ControlBar_tooltiptext ${!loggedIn ? 'ControlBar_showTooltipText' : ''}`}>Log in to add to custom garden</span><button disabled={!loggedIn} onMouseOver={!loggedIn ? props.toggleHighlightUserIcon : null} onMouseOut={!loggedIn ? props.toggleHighlightUserIcon : null} style={{color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} ><SiAddthis size='1.5em' /></button></div>
+                    <div className="ControlBar_tooltip"><span className={`ControlBar_tooltiptext ${!loggedIn ? 'ControlBar_showTooltipText' : ''}`}>Log in to add to custom garden</span><button disabled={!loggedIn} onMouseOver={!loggedIn ? handleToggleHighlightUserIcon : null} onMouseOut={!loggedIn ? handleToggleHighlightUserIcon : null} style={{color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} ><SiAddthis size='1.5em' /></button></div>
                     <div style={{position: 'relative', zIndex: 114}} onMouseLeave={showPopup.palette ? () => handleTogglePopup('palette') : null} className={`ControlBar_popup ${showPopup.palette ? 'ControlBar_popup-active' : ''}`}>
                         <button disabled={props.isOrganizing} style={{position: 'relative', zIndex: 115, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="speed" onClick={() => handleTogglePopup('palette')}><IoIosColorPalette size='1.5em' /></button>
                         {/* <div onMouseLeave={() => handleToggleDropdown('palette')} className='dropdown-content'> */}
