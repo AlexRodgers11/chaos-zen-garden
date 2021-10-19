@@ -7,6 +7,7 @@ import fullViewSlice from './full-view';
 import volumeSlice from './volume';
 import authenticationSlice from './authentication';
 import highlightUserIconSlice from './highlight-user-icon';
+import modalContentSlice from './modal-content';
 
 // const initialState = {
 //     palette: 'carnival',
@@ -21,7 +22,8 @@ const store= configureStore({
         fullView: fullViewSlice,
         volume: volumeSlice,
         authentication: authenticationSlice,
-        highlightUserIcon: highlightUserIconSlice
+        highlightUserIcon: highlightUserIconSlice,
+        modalContent: modalContentSlice
     }
 })
 

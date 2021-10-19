@@ -40,12 +40,13 @@ function Garden(props) {
     const width = useSelector((state) => state.width.appWidth);
     const fullView = useSelector((state) => state.fullView.fullView);
     const volume = useSelector((state) => state.volume.volume);
+    const modalContent = useSelector((state) => state.modalContent.modalContent);
     const [colorPalette, setColorPalette] = useState(palettes[0]);
     // const [volume, setVolume] = useState(65);
     const [numRings, setNumRings] = useState(10)
     const [bullsEyeShape, setBullsEyeShape] = useState('circle')
     const [hideModal, toggleHideModal] = useToggle(false);
-    const [modalContent, setModalContent] = useState('epilepsy-warning');
+    // const [modalContent, setModalContent] = useState('epilepsy-warning');
     const [organizationCount, setOrganizationCount] = useState(0);
     // const [resetTimer, toggleResetTimer] = useToggle(true);
 
@@ -81,10 +82,10 @@ function Garden(props) {
         setBullsEyeShape(shape)
     }
 
-    const handleSetModalContent = content => {
-        setModalContent(content);
-        toggleHideModal();
-    }
+    // const handleSetModalContent = content => {
+    //     setModalContent(content);
+    //     toggleHideModal();
+    // }
 
     const displayFullSize = gardenPiece => {
         let gardenPieceWidth = width > height ? height - 47 : width - 2;
@@ -154,34 +155,34 @@ function Garden(props) {
 
         return (
             <>
-            <Header changePalette={handleChangePalette} setModalContent={handleSetModalContent} disableDropdowns={!hideModal} />
+            <Header changePalette={handleChangePalette} disableDropdowns={!modalContent} />
             <div className="Garden">
-                <Snake width={gardenPieceWidth} className="Snake" setModalContent={handleSetModalContent} />
-                <Dots width={gardenPieceWidth} className="Dots" setModalContent={handleSetModalContent} />
-                <BullsEye width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} numRings={numRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" className="BullsEye" orgIndex={numRings + 1} setModalContent={handleSetModalContent} />
-                <Message width={gardenPieceWidth} className="Message" setModalContent={handleSetModalContent} />
-                <Dominoes width={gardenPieceWidth} className="Dominoes"  setModalContent={handleSetModalContent} />
-                <Barcode width={gardenPieceWidth} className="Barcode" setModalContent={handleSetModalContent} />
-                <Squares width={gardenPieceWidth} className="Squares"  setModalContent={handleSetModalContent} />
-                <Triangles width={gardenPieceWidth} className="Triangles"  setModalContent={handleSetModalContent} />
-                <Antlers width={gardenPieceWidth} className="Antlers" setModalContent={handleSetModalContent} />
-                <Pogs width={gardenPieceWidth} className="Coins" setModalContent={handleSetModalContent} />
-                <Message2 width={gardenPieceWidth} className="Message2" setModalContent={handleSetModalContent} />
-                <Smudges width={gardenPieceWidth} className="Smudges" setModalContent={handleSetModalContent} />
-                <Holes width={gardenPieceWidth} className="Holes" setModalContent={handleSetModalContent} />
-                <Edges width={gardenPieceWidth} className="Edges" setModalContent={handleSetModalContent} />
-                <Crosshair width={gardenPieceWidth} className="Crosshair" setModalContent={handleSetModalContent} />
-                <Tallies width={gardenPieceWidth} className="Tallies" setModalContent={handleSetModalContent} />
-                <Cards width={gardenPieceWidth} className="Cards" setModalContent={handleSetModalContent} />
-                <Desk width={gardenPieceWidth} className="Desk" setModalContent={handleSetModalContent} />
-                <Meters width={gardenPieceWidth} className="Meters" setModalContent={handleSetModalContent} />
-                <Eyes width={gardenPieceWidth} className="Eyes" setModalContent={handleSetModalContent} />
-                <Opaque width={gardenPieceWidth} className="Opaque" setModalContent={handleSetModalContent} />
-                <Diamonds width={gardenPieceWidth} className="Diamonds" setModalContent={handleSetModalContent} />
-                <Rainbow width={gardenPieceWidth} className="Rainbow" setModalContent={handleSetModalContent} />
-                <Asterisk width={gardenPieceWidth} className="Asterisk" setModalContent={handleSetModalContent} />
-                {!hideModal ? 
-                    <Modal content={modalContent} height={height} toggleHideModal={toggleHideModal} hidden={hideModal}>
+                <Snake width={gardenPieceWidth} className="Snake" />
+                <Dots width={gardenPieceWidth} className="Dots" />
+                <BullsEye width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} numRings={numRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" className="BullsEye" orgIndex={numRings + 1} />
+                <Message width={gardenPieceWidth} className="Message" />
+                <Dominoes width={gardenPieceWidth} className="Dominoes"  />
+                <Barcode width={gardenPieceWidth} className="Barcode" />
+                <Squares width={gardenPieceWidth} className="Squares"  />
+                <Triangles width={gardenPieceWidth} className="Triangles"  />
+                <Antlers width={gardenPieceWidth} className="Antlers" />
+                <Pogs width={gardenPieceWidth} className="Coins" />
+                <Message2 width={gardenPieceWidth} className="Message2" />
+                <Smudges width={gardenPieceWidth} className="Smudges" />
+                <Holes width={gardenPieceWidth} className="Holes" />
+                <Edges width={gardenPieceWidth} className="Edges" />
+                <Crosshair width={gardenPieceWidth} className="Crosshair" />
+                <Tallies width={gardenPieceWidth} className="Tallies" />
+                <Cards width={gardenPieceWidth} className="Cards" />
+                <Desk width={gardenPieceWidth} className="Desk" />
+                <Meters width={gardenPieceWidth} className="Meters" />
+                <Eyes width={gardenPieceWidth} className="Eyes" />
+                <Opaque width={gardenPieceWidth} className="Opaque" />
+                <Diamonds width={gardenPieceWidth} className="Diamonds" />
+                <Rainbow width={gardenPieceWidth} className="Rainbow" />
+                <Asterisk width={gardenPieceWidth} className="Asterisk" />
+                {modalContent ? 
+                    <Modal height={height}>
                     </Modal> 
                     : null
                 }
@@ -192,7 +193,7 @@ function Garden(props) {
         return (
             <div style={{width: '100vw', height: `${height}px`}}>
                 <div style={{position: 'fixed', zIndex: '3'}}>
-                <Header toggleLoggedIn={props.toggleLoggedIn} changePalette={handleChangePalette} setModalContent={handleSetModalContent} />
+                <Header toggleLoggedIn={props.toggleLoggedIn} changePalette={handleChangePalette} />
                 </div>
             
                 <div className="pieceContainer" style={{display: 'grid', height: `${height - 45}px`, width: '100%', gridTemplateRows: `${width <= height - 45 ? `auto ${width}px auto` : '1fr'}`, gridTemplateColumns: `${width > height - 45 ? `auto ${height - 45}px auto` : '1fr'}`}}>

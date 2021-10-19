@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fullViewActions } from './store/full-view';
 import { volumeActions } from './store/volume';
 import { highlightUserIconActions } from './store/highlight-user-icon';
+import { modalContentActions } from './store/modal-content';
 import useToggle from './hooks/useToggle';
 import { palettes, sounds, getColor } from './utils';
 import { v4 as uuidv4 } from 'uuid';
@@ -168,8 +169,8 @@ function ControlBar(props) {
                                     let key = uuidv4();
                                     return <p key={key} onClick={() => handlePaletteChange(palette)}>{palette}</p>
                                 })}
-                                <p style={{alignItems: 'center'}} onClick={() => {props.setModalContent('monochrome')}}>Monochrome</p>
-                                <p><p style={{display: 'flex', alignItems: 'center'}} onClick={loggedIn ? () => {props.setModalContent('custom-palette')} : null} >Custom{!loggedIn ? <BsLockFill /> : null}</p></p>
+                                <p style={{alignItems: 'center'}} onClick={() => {dispatch(modalContentActions.setModalContent('monochrome'))}}>Monochrome</p>
+                                <p><p style={{display: 'flex', alignItems: 'center'}} onClick={loggedIn ? () => {dispatch(modalContentActions.setModalContent('custom-palette'))} : null} >Custom{!loggedIn ? <BsLockFill /> : null}</p></p>
                             </div>
                             <div style={{height: '1.8em', opacity: .5, backgroundColor: 'black'}}></div>    
                         </div>

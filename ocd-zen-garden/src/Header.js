@@ -9,11 +9,13 @@ import { FaUserCircle, FaLongArrowAltUp } from 'react-icons/fa/';
 import { IoIosColorPalette } from 'react-icons/io/';
 import './Header.css';
 import { authenticationActions } from './store/authentication';
+import { modalContentActions } from './store/modal-content';
 
-function Header(props){
+function Header(){
     const dispatch = useDispatch();
     const palette = useSelector((state) => state.palette.palette);
     const loggedIn = useSelector((state) => state.authentication.loggedIn);
+    const modalContent = useSelector((state) => state.modalContent.modalContent);
     const organizingCounter = useSelector((state) => state.organizingCounter.organizingCounter);
     const highlightUserIcon = useSelector((state) => state.highlightUserIcon.highlightUserIcon);
     const [showDropdown, setShowDropdown] = useState({
@@ -26,14 +28,14 @@ function Header(props){
     }
 
     const handleToggleDropdown = group => {
-        if(!props.disableDropdowns || showDropdown[group]) {
+        if(!modalContent || showDropdown[group]) {
             setShowDropdown({...showDropdown, [group]: !showDropdown[group]});
         }
     }
 
     const handleSetModalContent = evt => {
         if(!loggedIn) {
-            props.setModalContent(evt.target.id);
+            dispatch(modalContentActions.setModalContent(evt.target.id))
         } else {
             dispatch(authenticationActions.toggleLogInStatus());
         }
