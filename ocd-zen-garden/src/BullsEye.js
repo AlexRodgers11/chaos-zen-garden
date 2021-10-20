@@ -9,6 +9,7 @@ function BullsEye(props) {
     const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
     const volume = useSelector((state) => state.volume.volume);
+    const fullView = useSelector((state) => state.size.fullView);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [orgIndex, setOrgIndex] = useState(props.numRings + 1);
@@ -164,7 +165,7 @@ function BullsEye(props) {
     }
 
     return (
-        <div style={props.id === 1 ? {margin: props.fullWindow ? '0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${width}px`, height: `${width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)} : null}>
+        <div style={props.id === 1 ? {margin: fullView ? '0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${width}px`, height: `${width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)} : null}>
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', width: '100%'}}>
                 <div style={props.id === 1 ? {display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', height: '100%'} : null}>
                     <div style={props.id > 1 ? {position: 'relative', backgroundColor: getColor(props.id, colorPalette), left: `${(marginLeft * width * .6 / props.numRings) - 1}px`, top: `${(marginTop * width * .6 / props.numRings) - 1}px`, border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: `${props.shape === 'circle' ? '50%' : 0}`, width: `${width * .6 - ((width * .6 / props.numRings) * (props.id - 1)) - 1}px`, height: `${width * .6 - ((width * .6 / props.numRings) * (props.id - 1)) - 1}px`} : {position: 'relative', margin: '0 auto', backgroundColor: getColor(props.id, colorPalette), border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: `${props.shape === 'circle' ? '50%' : 0}`, width: `${width * .60}px`, height: `${width * .60}px`}}>

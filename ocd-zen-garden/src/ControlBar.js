@@ -24,6 +24,7 @@ function ControlBar(props) {
     const pieceWidth = useSelector((state) => state.size.pieceWidth);
     const appWidth = useSelector((state) => state.size.appWidth);
     const loggedIn = useSelector((state) => state.authentication.loggedIn);
+    const fullView = useSelector((state) => state.size.fullView);
     const [speed, setSpeed] = useState(1000);
     const [text, setText] = useState(props.textValue || null);
     const [sound, setSound] = useState(props.soundValue || null);
@@ -344,7 +345,7 @@ function ControlBar(props) {
                 {appWidth > 600 ? 
                     <span>
                         {/* <button disabled={props.isOrganizing} style={{color: getColor('aux1', palette), backgroundColor: '#303030', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} onClick={handleToggleFullWindow}>{props.fullWindow ? <ImShrink2 size='1.5em' /> : <FaExpandAlt size='1.5em' />}</button> */}
-                        <button style={{color: getColor('aux1', palette), backgroundColor: '#303030', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} onClick={handleToggleFullWindow}>{props.fullWindow ? <ImShrink2 size='1.5em' /> : <FaExpandAlt size='1.5em' />}</button>
+                        <button style={{color: getColor('aux1', palette), backgroundColor: '#303030', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} onClick={handleToggleFullWindow}>{fullView ? <ImShrink2 size='1.5em' /> : <FaExpandAlt size='1.5em' />}</button>
                     </span>
                     :
                     null
