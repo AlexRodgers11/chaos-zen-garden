@@ -7,7 +7,7 @@ import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 
 
-function Opaque(props) {
+function Opaque() {
     const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
     const volume = useSelector((state) => state.volume.volume);

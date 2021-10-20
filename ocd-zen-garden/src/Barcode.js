@@ -6,7 +6,7 @@ import ControlBar from './ControlBar';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
 
-function Barcode(props) {
+function Barcode(prps) {
     const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
     const volume = useSelector((state) => state.volume.volume);
@@ -14,7 +14,7 @@ function Barcode(props) {
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [colorPalette, setColorPalette] = useState(palette);
-    const [numStripes, setNumStripes] = useState(props.numStripes || 15);
+    const [numStripes, setNumStripes] = useState(15);
     const [nextIdx, setNextIdx] = useState(0);
     const [sound, setSound] = useState(getSound('Blip'));
     const [proportionalVolume, setProportionalVolume] = useState('proportional');

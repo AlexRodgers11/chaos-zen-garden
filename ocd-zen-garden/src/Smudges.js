@@ -9,7 +9,7 @@ import { Howl } from 'howler';
 import { GiSplurt } from 'react-icons/gi';
 // import Smudge from './Smudge';
 
-function Smudges(props) {
+function Smudges() {
     const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
     const volume = useSelector((state) => state.volume.volume);

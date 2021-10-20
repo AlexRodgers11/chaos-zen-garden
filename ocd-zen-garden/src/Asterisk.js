@@ -7,7 +7,7 @@ import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 
 
-function Asterisk(props) {
+function Asterisk() {
     const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
     const volume = useSelector((state) => state.volume.volume);
@@ -20,7 +20,6 @@ function Asterisk(props) {
     const [proportionalVolume, setProportionalVolume] = useState('proportional');
     const [colorPalette, setColorPalette] = useState(palette);
     const [numLines, setNumLines] = useState(15);
-    const [userJustChangedNumber, toggleUserJustChangedNumber] = useToggle(props.id === 1 ? false : props.userJustChangedNumber)
     const [shape, setShape] = useState('circle');
     const dispatch = useDispatch();
 

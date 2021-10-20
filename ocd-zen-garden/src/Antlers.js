@@ -7,7 +7,7 @@ import { getColor, getSound } from './utils';
 import ControlBar from './ControlBar';
 import { Howl } from 'howler';
 
-function Antlers(props) {
+function Antlers() {
     const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
     const volume = useSelector((state) => state.volume.volume);

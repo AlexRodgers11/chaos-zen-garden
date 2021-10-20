@@ -7,7 +7,7 @@ import ControlBar from './ControlBar';
 import { v4 as uuidv4 } from 'uuid';
 import { Howl } from 'howler';
 
-function Message2(props){
+function Message2(){
     const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
     const volume = useSelector((state) => state.volume.volume);

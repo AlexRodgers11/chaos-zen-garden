@@ -11,7 +11,7 @@ import { RiBallPenFill } from 'react-icons/ri';
 import { CgNotes } from 'react-icons/cg';
 import { GoCalendar } from 'react-icons/go';
 
-function Desk(props) {
+function Desk() {
     const width = useSelector((state) => state.size.pieceWidth);
     const volume = useSelector((state) => state.volume.volume);
     const palette = useSelector((state) => state.palette.palette);

@@ -175,7 +175,7 @@ function BullsEye(props) {
                         
                     </div>
                 </div>
-            {props.id === 1 ? <ControlBar width={width} piece='bullseye' changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} shape={shape} shapes={['circle', 'square']} changeShape={props.setShape} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumRings} minNum={4} maxNum={40} number={props.numRings} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Whoop' organizedFunction={scatterRings} unorganizedFunction={organizeRings} unorgButton='Scatter' orgButton='Organize' /> : null}
+            {props.id === 1 ? <ControlBar piece='bullseye' changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} shape={shape} shapes={['circle', 'square']} changeShape={props.setShape} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumRings} minNum={4} maxNum={40} number={props.numRings} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Whoop' organizedFunction={scatterRings} unorganizedFunction={organizeRings} unorgButton='Scatter' orgButton='Organize' /> : null}
             </div>
         </div>
         

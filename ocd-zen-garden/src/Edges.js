@@ -7,7 +7,7 @@ import ControlBar from './ControlBar';
 import { Howl } from 'howler';
 
 
-function Edges(props) {
+function Edges() {
     const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
     const volume = useSelector((state) => state.volume.volume);
@@ -19,7 +19,6 @@ function Edges(props) {
     const [sound, setSound] = useState(getSound('Ding'));
     const [colorPalette, setColorPalette] = useState(palette);
     const [numEdges, setNumEdges] = useState(17);
-    const [userJustChangedNumber, toggleUserJustChangedNumber] = useToggle(props.id === 1 ? false : props.userJustChangedNumber);
     const dispatch = useDispatch();
 
     const createStartingEdgeArray = num => {
