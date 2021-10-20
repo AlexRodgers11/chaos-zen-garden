@@ -30,7 +30,7 @@ import Asterisk from './Asterisk';
 
 
 function Garden(props) {
-    const height = useSelector((state) => state.size.height);
+    const height = useSelector((state) => state.size.appHeight);
     const width = useSelector((state) => state.size.appWidth);
     const fullView = useSelector((state) => state.size.fullView);
     const modalContent = useSelector((state) => state.modalContent.modalContent);
@@ -162,7 +162,7 @@ function Garden(props) {
         return (
             <div style={{width: '100vw', height: `${height}px`}}>
                 <div style={{position: 'fixed', zIndex: '3'}}>
-                <Header toggleLoggedIn={props.toggleLoggedIn} changePalette={handleChangePalette} />
+                <Header />
                 </div>
             
                 <div className="pieceContainer" style={{display: 'grid', height: `${height - 45}px`, width: '100%', gridTemplateRows: `${width <= height - 45 ? `auto ${width}px auto` : '1fr'}`, gridTemplateColumns: `${width > height - 45 ? `auto ${height - 45}px auto` : '1fr'}`}}>
