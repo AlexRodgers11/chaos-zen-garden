@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 function Snake(props) {
     const palette = useSelector((state) => state.palette.palette);
-    const width = useSelector((state) => state.width.pieceWidth);
+    const width = useSelector((state) => state.size.pieceWidth);
     const volume = useSelector((state) => state.volume.volume);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);

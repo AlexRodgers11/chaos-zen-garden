@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fullViewActions } from './store/full-view';
 import { volumeActions } from './store/volume';
 import { highlightUserIconActions } from './store/highlight-user-icon';
 import { modalContentActions } from './store/modal-content';
@@ -17,12 +16,13 @@ import { ImSortNumbericDesc, ImShrink2, ImVolumeHigh, ImVolumeLow, ImVolumeMediu
 import { BsFileText, BsLockFill } from 'react-icons/bs';
 import { RiSoundModuleLine } from 'react-icons/ri';
 import './ControlBar.css';
+import { sizeActions } from './store/size';
 
 
 function ControlBar(props) {
     const volume = useSelector((state) => state.volume.volume);
-    const pieceWidth = useSelector((state) => state.width.pieceWidth);
-    const appWidth = useSelector((state) => state.width.appWidth);
+    const pieceWidth = useSelector((state) => state.size.pieceWidth);
+    const appWidth = useSelector((state) => state.size.appWidth);
     const loggedIn = useSelector((state) => state.authentication.loggedIn);
     const [speed, setSpeed] = useState(1000);
     const [text, setText] = useState(props.textValue || null);
@@ -97,7 +97,7 @@ function ControlBar(props) {
     }
 
     const handleToggleFullWindow = () => {
-        dispatch(fullViewActions.setFullView(props.piece));
+        dispatch(sizeActions.setFullView(props.piece));
     }
 
     const handleVolumeChange = evt => {

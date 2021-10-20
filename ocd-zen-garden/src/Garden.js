@@ -37,8 +37,8 @@ function Garden(props) {
     // let width = useCurrentWidth();
     // const palette = useSelector((state) => state.palette.palette);
     const height = useCurrentHeight();
-    const width = useSelector((state) => state.width.appWidth);
-    const fullView = useSelector((state) => state.fullView.fullView);
+    const width = useSelector((state) => state.size.appWidth);
+    const fullView = useSelector((state) => state.size.fullView);
     const volume = useSelector((state) => state.volume.volume);
     const modalContent = useSelector((state) => state.modalContent.modalContent);
     const [colorPalette, setColorPalette] = useState(palettes[0]);

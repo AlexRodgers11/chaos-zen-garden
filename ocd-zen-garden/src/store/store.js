@@ -2,7 +2,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import paletteSlice from './palette';
 import organizingCounterSlice from './organizing-counter';
-import widthSlice from './width';
+import sizeSlice from './size';
 import fullViewSlice from './full-view';
 import volumeSlice from './volume';
 import authenticationSlice from './authentication';
@@ -18,8 +18,8 @@ const store= configureStore({
     reducer: {
         palette: paletteSlice,
         organizingCounter: organizingCounterSlice,
-        width: widthSlice,
-        fullView: fullViewSlice,
+        size: sizeSlice,
+        // fullView: fullViewSlice,
         volume: volumeSlice,
         authentication: authenticationSlice,
         highlightUserIcon: highlightUserIconSlice,
