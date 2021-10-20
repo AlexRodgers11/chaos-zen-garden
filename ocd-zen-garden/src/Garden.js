@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Header from './Header';
 import Modal from './Modal';
-import useCurrentHeight from './hooks/useCurrentHeight';
 import Snake from './Snake';
 import Dots from './Dots';
 import BullsEye from './BullsEye';
@@ -31,10 +30,9 @@ import Asterisk from './Asterisk';
 
 
 function Garden(props) {
-    const height = useCurrentHeight();
+    const height = useSelector((state) => state.size.height);
     const width = useSelector((state) => state.size.appWidth);
     const fullView = useSelector((state) => state.size.fullView);
-    const volume = useSelector((state) => state.volume.volume);
     const modalContent = useSelector((state) => state.modalContent.modalContent);
     const [numRings, setNumRings] = useState(10)
     const [bullsEyeShape, setBullsEyeShape] = useState('circle')
