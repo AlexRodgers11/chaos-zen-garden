@@ -8,6 +8,7 @@ import ControlBar from './ControlBar';
 
 
 function Diamonds(props) {
+    const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
     const volume = useSelector((state) => state.volume.volume);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -170,23 +171,23 @@ function Diamonds(props) {
     }
 
     return (
-        <div style={{margin: props.fullWindow ? '0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width}px`, height: `${props.width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
+        <div style={{margin: props.fullWindow ? '0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${width}px`, height: `${width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%'}}>
                 <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%'}}>
                 <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '60%', height: '60%', transform: 'rotate(45deg)'}}>
                     {displaySquares().map(squareLine => {
                         let lineKey = uuidv4()
                         return <div key={lineKey} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{squareLine.map(square => {
-                            return <div key={square.key} style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', backgroundColor:`${square.color}`, width: `${Math.floor(props.width * .60 * (1 / (numRows + 2)))}px`, height: `${Math.floor(props.width * .60 * (1 / (numRows + 2)))}px`, margin: 'none'}}>
-                                        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: getColor('border', colorPalette), width: `${Math.floor(props.width * square.squareOneSize * (1 / (numRows + 2)))}px`, height: `${Math.floor(props.width * square.squareOneSize * (1 / (numRows + 2)))}px`, margin: 'none'}}>
-                                            <div style={{backgroundColor: square.color, width: `${Math.floor(props.width * square.squareTwoSize * (1 / (numRows + 2)))}px`, height: `${Math.floor(props.width * square.squareTwoSize * (1 / (numRows + 2)))}px`, margin: 'none'}}></div>
+                            return <div key={square.key} style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', backgroundColor:`${square.color}`, width: `${Math.floor(width * .60 * (1 / (numRows + 2)))}px`, height: `${Math.floor(width * .60 * (1 / (numRows + 2)))}px`, margin: 'none'}}>
+                                        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: getColor('border', colorPalette), width: `${Math.floor(width * square.squareOneSize * (1 / (numRows + 2)))}px`, height: `${Math.floor(width * square.squareOneSize * (1 / (numRows + 2)))}px`, margin: 'none'}}>
+                                            <div style={{backgroundColor: square.color, width: `${Math.floor(width * square.squareTwoSize * (1 / (numRows + 2)))}px`, height: `${Math.floor(width * square.squareTwoSize * (1 / (numRows + 2)))}px`, margin: 'none'}}></div>
                                         </div>
                                 </div>
                         })}</div>
                     })}
                 </div>
                 </div>
-                <ControlBar width={props.width} piece='diamonds' changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={'proportional'} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={20} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Laser' organizedFunction={unbalance} unorganizedFunction={() => balance(0)} unorgButton='Unbalance' orgButton='Balance'/>
+                <ControlBar piece='diamonds' changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={'proportional'} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={20} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Laser' organizedFunction={unbalance} unorganizedFunction={() => balance(0)} unorgButton='Unbalance' orgButton='Balance'/>
             </div>
         </div>
     )

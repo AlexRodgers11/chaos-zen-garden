@@ -8,6 +8,7 @@ import ControlBar from './ControlBar';
 import { Howl } from 'howler';
 
 function Antlers(props) {
+    const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
     const volume = useSelector((state) => state.volume.volume);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -159,26 +160,26 @@ function Antlers(props) {
     }
 
     return (
-        <div style={{margin: props.fullWindow ? '0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width}px`, height: `${props.width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
+        <div style={{margin: props.fullWindow ? '0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${width}px`, height: `${width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%'}}>
                 <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', height: '100%'}}>
                     <div>
                         {displayHorns().map((hornLine, lineIdx) => {
                             let lineKey = uuidv4()
                             return (
-                                <div key={lineKey} className="outer" style={{padding: '0', height: `${(Math.floor(props.width * .65 / numRows))}px`}}>
-                                    <div style={{margin: '0', height: `${(Math.floor(props.width* .65 / numRows) / 2) - 1}px`}}>
+                                <div key={lineKey} className="outer" style={{padding: '0', height: `${(Math.floor(width * .65 / numRows))}px`}}>
+                                    <div style={{margin: '0', height: `${(Math.floor(width* .65 / numRows) / 2) - 1}px`}}>
                                         {hornLine.map(horn => {
                                             return (
-                                                <><div key={horn.key} style={{boxSizing:'border-box', display:'inline-block', backgroundColor: `${horn.side === 'top' ? horn.color : 'transparent'}`, borderRight: `${horn.side === 'top' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`,  borderLeft: `${horn.side === 'top' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`,  borderTop: `${horn.side === 'top' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`, width: `${props.width * .6 / (numRows * 4)}px`, height: `${(Math.floor(props.width * .65 / numRows) / 2) - 1}px`, marginBottom: '0'}}></div><div style={{display:'inline-block', width: `${props.width * .6 / (numRows * 4)}px`, height: `${(Math.floor(props.width * .65 / numRows) / 2) - 1}px`, marginBottom: '0'}}></div></>
+                                                <><div key={horn.key} style={{boxSizing:'border-box', display:'inline-block', backgroundColor: `${horn.side === 'top' ? horn.color : 'transparent'}`, borderRight: `${horn.side === 'top' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`,  borderLeft: `${horn.side === 'top' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`,  borderTop: `${horn.side === 'top' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`, width: `${width * .6 / (numRows * 4)}px`, height: `${(Math.floor(width * .65 / numRows) / 2) - 1}px`, marginBottom: '0'}}></div><div style={{display:'inline-block', width: `${width * .6 / (numRows * 4)}px`, height: `${(Math.floor(width * .65 / numRows) / 2) - 1}px`, marginBottom: '0'}}></div></>
                                             )
                                         })}
                                     </div>
-                                    <div style={{margin: `0 ${.2 * props.width - 0 * (props.width * .6 / (numRows * 4))}px`, backgroundColor: 'black', height: 0, border: `1px solid ${getColor('border', colorPalette)}`, width: `${props.width * .6 - ((props.width * .6 / (numRows * 4)))}px`}}></div>
-                                    <div style={{margin: '0', height: `${(Math.floor(props.width * .65 / numRows) / 2) - 1}px`}}>
+                                    <div style={{margin: `0 ${.2 * width - 0 * (width * .6 / (numRows * 4))}px`, backgroundColor: 'black', height: 0, border: `1px solid ${getColor('border', colorPalette)}`, width: `${width * .6 - ((width * .6 / (numRows * 4)))}px`}}></div>
+                                    <div style={{margin: '0', height: `${(Math.floor(width * .65 / numRows) / 2) - 1}px`}}>
                                         {hornLine.map(horn => {
                                             return (
-                                                <><div key={horn.key} style={{boxSizing:'border-box', display:'inline-block', backgroundColor: `${horn.side === 'bottom' ? horn.color : 'transparent'}`, borderRight: `${horn.side === 'bottom' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`,  borderLeft: `${horn.side === 'bottom' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`,  borderBottom: `${horn.side === 'bottom' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`, width: `${props.width * .6 / (numRows * 4)}px`, height: `${(Math.floor(props.width * .65 / numRows) / 2) - 1}px`, marginBottom: '0'}}></div><div style={{display:'inline-block', width: `${props.width * .6 / (numRows * 4)}px`, height: `${(Math.floor(props.width * .65 / numRows) / 2) - 1}px`, marginBottom: '0'}}></div></>
+                                                <><div key={horn.key} style={{boxSizing:'border-box', display:'inline-block', backgroundColor: `${horn.side === 'bottom' ? horn.color : 'transparent'}`, borderRight: `${horn.side === 'bottom' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`,  borderLeft: `${horn.side === 'bottom' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`,  borderBottom: `${horn.side === 'bottom' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`, width: `${width * .6 / (numRows * 4)}px`, height: `${(Math.floor(width * .65 / numRows) / 2) - 1}px`, marginBottom: '0'}}></div><div style={{display:'inline-block', width: `${width * .6 / (numRows * 4)}px`, height: `${(Math.floor(width * .65 / numRows) / 2) - 1}px`, marginBottom: '0'}}></div></>
 
                                             )
                                         })}
@@ -191,7 +192,7 @@ function Antlers(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar width={props.width} piece='antlers' palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Click' organizedFunction={flip} unorganizedFunction={() => align(0)} unorgButton='Flip' orgButton='Align'/>
+                <ControlBar piece='antlers' palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Click' organizedFunction={flip} unorganizedFunction={() => align(0)} unorgButton='Flip' orgButton='Align'/>
             </div>
         </div>
     )

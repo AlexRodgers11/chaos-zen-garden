@@ -88,57 +88,57 @@ function Garden(props) {
     // }
 
     const displayFullSize = gardenPiece => {
-        let gardenPieceWidth = width > height ? height - 47 : width - 2;
+        // let gardenPieceWidth = width > height ? height - 47 : width - 2;
 
         switch(gardenPiece) {
             case 'snake':
-                return <Snake width={gardenPieceWidth} className="Snake" />
+                return <Snake className="Snake" />
             case 'dots':
-                return <Dots width={gardenPieceWidth} className="Dots" />
+                return <Dots className="Dots" />
             case 'bullseye':
-                return <BullsEye width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} numRings={numRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" className="BullsEye" orgIndex={numRings + 1} />
+                return <BullsEye id={1} setNumRings={handleSetNumRings} numRings={numRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" className="BullsEye" orgIndex={numRings + 1} />
             case 'message':
-                return <Message width={gardenPieceWidth} className="Message"/>
+                return <Message className="Message"/>
             case 'dominoes':
-                return <Dominoes width={gardenPieceWidth} className="Dominoes" />
+                return <Dominoes className="Dominoes" />
             case 'barcode': 
-                return <Barcode width={gardenPieceWidth} className="Barcode"/>
+                return <Barcode className="Barcode"/>
             case 'squares':
-                return <Squares width={gardenPieceWidth} className="Squares" />
+                return <Squares className="Squares" />
             case 'triangles':
-                return <Triangles width={gardenPieceWidth} className="Triangles" />
+                return <Triangles className="Triangles" />
             case 'antlers':
-                return <Antlers width={gardenPieceWidth} className="Antlers"/>
+                return <Antlers className="Antlers"/>
             case 'pogs':
-                return <Pogs width={gardenPieceWidth} className="Coins"/>
+                return <Pogs className="Coins"/>
             case 'message2':
-                return <Message2 width={gardenPieceWidth} className="Message2"/>
+                return <Message2 className="Message2"/>
             case 'smudges':
-                return <Smudges width={gardenPieceWidth} className="Smudges"/>
+                return <Smudges className="Smudges"/>
             case 'holes':
-                return <Holes width={gardenPieceWidth} className="Holes"/>
+                return <Holes className="Holes"/>
             case 'edges':
-                return <Edges width={gardenPieceWidth} className="Edges"/>
+                return <Edges className="Edges"/>
             case 'crosshair':
-                return <Crosshair width={gardenPieceWidth} className="Crosshair"/>
+                return <Crosshair className="Crosshair"/>
             case 'tallies':
-                return <Tallies width={gardenPieceWidth} className="Tallies"/>
+                return <Tallies className="Tallies"/>
             case 'cards':
-                return <Cards width={gardenPieceWidth} className="Cards"/>
+                return <Cards className="Cards"/>
             case 'desk':
-                return <Desk width={gardenPieceWidth} className="Desk"/>
+                return <Desk className="Desk"/>
             case 'meters':
-                return <Meters width={gardenPieceWidth} className="Meters"/>
+                return <Meters className="Meters"/>
             case 'eyes':
-                return <Eyes width={gardenPieceWidth} className="Eyes"/>
+                return <Eyes className="Eyes"/>
             case 'opaque':
-                return <Opaque width={gardenPieceWidth} className="Opaque"/>
+                return <Opaque className="Opaque"/>
             case 'diamonds':
-                return <Diamonds width={gardenPieceWidth} className="Diamonds"/>
+                return <Diamonds className="Diamonds"/>
             case 'rainbow':
-                return <Rainbow width={gardenPieceWidth} className="Rainbow"/>
+                return <Rainbow className="Rainbow"/>
             case 'asterisk':
-                return <Asterisk width={gardenPieceWidth} className="Asterisk"/>
+                return <Asterisk className="Asterisk"/>
         }
     }
 
@@ -157,30 +157,30 @@ function Garden(props) {
             <>
             <Header changePalette={handleChangePalette} disableDropdowns={!modalContent} />
             <div className="Garden">
-                <Snake width={gardenPieceWidth} className="Snake" />
-                <Dots width={gardenPieceWidth} className="Dots" />
-                <BullsEye width={gardenPieceWidth} id={1} setNumRings={handleSetNumRings} numRings={numRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" className="BullsEye" orgIndex={numRings + 1} />
-                <Message width={gardenPieceWidth} className="Message" />
-                <Dominoes width={gardenPieceWidth} className="Dominoes"  />
-                <Barcode width={gardenPieceWidth} className="Barcode" />
-                <Squares width={gardenPieceWidth} className="Squares"  />
-                <Triangles width={gardenPieceWidth} className="Triangles"  />
-                <Antlers width={gardenPieceWidth} className="Antlers" />
-                <Pogs width={gardenPieceWidth} className="Coins" />
-                <Message2 width={gardenPieceWidth} className="Message2" />
-                <Smudges width={gardenPieceWidth} className="Smudges" />
-                <Holes width={gardenPieceWidth} className="Holes" />
-                <Edges width={gardenPieceWidth} className="Edges" />
-                <Crosshair width={gardenPieceWidth} className="Crosshair" />
-                <Tallies width={gardenPieceWidth} className="Tallies" />
-                <Cards width={gardenPieceWidth} className="Cards" />
-                <Desk width={gardenPieceWidth} className="Desk" />
-                <Meters width={gardenPieceWidth} className="Meters" />
-                <Eyes width={gardenPieceWidth} className="Eyes" />
-                <Opaque width={gardenPieceWidth} className="Opaque" />
-                <Diamonds width={gardenPieceWidth} className="Diamonds" />
-                <Rainbow width={gardenPieceWidth} className="Rainbow" />
-                <Asterisk width={gardenPieceWidth} className="Asterisk" />
+                <Snake className="Snake" />
+                <Dots className="Dots" />
+                <BullsEye id={1} setNumRings={handleSetNumRings} numRings={numRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" className="BullsEye" orgIndex={numRings + 1} />
+                <Message className="Message" />
+                <Dominoes className="Dominoes"  />
+                <Barcode className="Barcode" />
+                <Squares className="Squares"  />
+                <Triangles className="Triangles"  />
+                <Antlers className="Antlers" />
+                <Pogs className="Coins" />
+                <Message2 className="Message2" />
+                <Smudges className="Smudges" />
+                <Holes className="Holes" />
+                <Edges className="Edges" />
+                <Crosshair className="Crosshair" />
+                <Tallies className="Tallies" />
+                <Cards className="Cards" />
+                <Desk className="Desk" />
+                <Meters className="Meters" />
+                <Eyes className="Eyes" />
+                <Opaque className="Opaque" />
+                <Diamonds className="Diamonds" />
+                <Rainbow className="Rainbow" />
+                <Asterisk className="Asterisk" />
                 {modalContent ? 
                     <Modal height={height}>
                     </Modal> 

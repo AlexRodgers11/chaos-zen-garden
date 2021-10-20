@@ -8,6 +8,7 @@ import { Howl } from 'howler';
 
 
 function Edges(props) {
+    const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
     const volume = useSelector((state) => state.volume.volume);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -165,8 +166,8 @@ function Edges(props) {
                     borderRight: edges[id - 1].right ? `1px solid ${edges[id -1].color}` : 'none',
                     borderBottom: edges[id - 1].bottom ? `1px solid ${edges[id -1].color}` : 'none',
                     borderLeft: edges[id - 1].left ? `1px solid ${edges[id -1].color}` : 'none',
-                    height: `${id === 1 ? `${.6 * props.width}px` : `${(.6 - (id - 1) * (.6 / numEdges)) * props.width}px`}`, 
-                    width: `${id === 1 ? `${.6 * props.width}px` : `${(.6 - (id - 1) * (.6 / numEdges)) * props.width}px`}`}}>
+                    height: `${id === 1 ? `${.6 * width}px` : `${(.6 - (id - 1) * (.6 / numEdges)) * width}px`}`, 
+                    width: `${id === 1 ? `${.6 * width}px` : `${(.6 - (id - 1) * (.6 / numEdges)) * width}px`}`}}>
                         {display(id + 1)}
                     </div>
             )
@@ -174,14 +175,14 @@ function Edges(props) {
     }
 
     return (
-        <div style={{margin: props.fullWindow ? '0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width}px`, height: `${props.width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
+        <div style={{margin: props.fullWindow ? '0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${width}px`, height: `${width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%'}}>
                 <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', height: '100%'}}>
                     <div>
                         {display(1)}
                     </div>
                 </div>
-            <ControlBar width={props.width} piece='edges' palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumEdges} minNum={4} maxNum={40} number={numEdges} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={remove} unorganizedFunction={() => complete(0)} unorgButton='Remove' orgButton='Complete' />
+            <ControlBar piece='edges' palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumEdges} minNum={4} maxNum={40} number={numEdges} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={remove} unorganizedFunction={() => complete(0)} unorgButton='Remove' orgButton='Complete' />
 
             </div>
         </div>

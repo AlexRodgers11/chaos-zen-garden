@@ -7,6 +7,7 @@ import ControlBar from './ControlBar';
 
 
 function Rainbow(props) {
+    const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
     const volume = useSelector((state) => state.volume.volume);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -152,24 +153,24 @@ function Rainbow(props) {
                     justifyContent: 'center', 
                     width: `${width}px`, 
                     height: `${width}px`, 
-                    border: `${(props.width * .7) / (4 * numArcs)}px solid ${arcs[num].color}`, 
+                    border: `${(width * .7) / (4 * numArcs)}px solid ${arcs[num].color}`, 
                     borderRadius: '50%'}}
                 >
-                    {displayArcs(num + 1, width - (2 * (props.width * .7) / (4 * numArcs)))}
+                    {displayArcs(num + 1, width - (2 * (width * .7) / (4 * numArcs)))}
                 </div>
             )
         }
     }
 
     return (
-        <div style={{margin: props.fullWindow ? '0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width}px`, height: `${props.width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
+        <div style={{margin: props.fullWindow ? '0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${width}px`, height: `${width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%'}}>
                 <div className="putinhere" style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%'}}>
-                        <div className="wrapper" style={{display: 'flex', justifyContent: 'center', width: `100%`, height: `${props.width * .35}px`, overflow: 'hidden' }}>
-                            {displayArcs(0, props.width * .7)}
+                        <div className="wrapper" style={{display: 'flex', justifyContent: 'center', width: `100%`, height: `${width * .35}px`, overflow: 'hidden' }}>
+                            {displayArcs(0, width * .7)}
                         </div>
                 </div>
-                <ControlBar width={props.width} piece='rainbow' changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumArcs} minNum={7} maxNum={25} number={numArcs} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Sparkle' organizedFunction={shift} unorganizedFunction={() => align(arcs.length - 1)} unorgButton='Shift' orgButton='Align' />
+                <ControlBar piece='rainbow' changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumArcs} minNum={7} maxNum={25} number={numArcs} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Sparkle' organizedFunction={shift} unorganizedFunction={() => align(arcs.length - 1)} unorgButton='Shift' orgButton='Align' />
 
             </div>
         </div>

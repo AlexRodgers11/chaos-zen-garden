@@ -8,6 +8,7 @@ import ControlBar from './ControlBar';
 
 
 function Asterisk(props) {
+    const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
     const volume = useSelector((state) => state.volume.volume);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -154,18 +155,18 @@ function Asterisk(props) {
     }
 
     return (
-        <div style={{margin: props.fullWindow ? '0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width}px`, height: `${props.width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
+        <div style={{margin: props.fullWindow ? '0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${width}px`, height: `${width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%'}}>
                 <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%'}}>
                     <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%'}}>
                         {lines.map(line => {
                             return (
-                                <div key={line.key} style={{zIndex: `${line.id === 1 ? 1 : 0}`,position: 'absolute', width: `${Math.floor((.65 * props.width) / (3 * numLines))}px`, height: `${Math.floor(.65 * props.width)}px`, backgroundColor: line.color, border: `1px solid ${getColor('border', colorPalette)}`, transform: `rotate(${(360 / (numLines * 2)) * (line.id - 1) + line.offset}deg)`}}></div>
+                                <div key={line.key} style={{zIndex: `${line.id === 1 ? 1 : 0}`,position: 'absolute', width: `${Math.floor((.65 * width) / (3 * numLines))}px`, height: `${Math.floor(.65 * width)}px`, backgroundColor: line.color, border: `1px solid ${getColor('border', colorPalette)}`, transform: `rotate(${(360 / (numLines * 2)) * (line.id - 1) + line.offset}deg)`}}></div>
                             )
                         })}
                     </div>
                 </div>
-            <ControlBar width={props.width} piece='asterisk' changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumLines} minNum={4} maxNum={50} number={numLines} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={shift} unorganizedFunction={() => align(0)} unorgButton='Shift' orgButton='Align' />
+            <ControlBar piece='asterisk' changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumLines} minNum={4} maxNum={50} number={numLines} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={shift} unorganizedFunction={() => align(0)} unorgButton='Shift' orgButton='Align' />
 
             </div>
         </div>

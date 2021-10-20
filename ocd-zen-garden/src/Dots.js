@@ -7,6 +7,7 @@ import ControlBar from './ControlBar';
 import { v4 as uuidv4 } from 'uuid';
 
 function Dots(props) {
+    const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
     const volume = useSelector((state) => state.volume.volume);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -186,17 +187,17 @@ function Dots(props) {
     }
 
     return (
-        <div className="piece" style={{margin: props.fullWindow ? '0 auto' : 0, width: `${props.width}px`, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width}px`, height: `${props.width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
+        <div className="piece" style={{margin: props.fullWindow ? '0 auto' : 0, width: `${width}px`, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${width}px`, height: `${width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div className="outer" style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%'}}>
             <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%'}}>
-                <div style={{width: `${.75 * props.width}px`, height: `${.75 * props.width}px`}}>
+                <div style={{width: `${.75 * width}px`, height: `${.75 * width}px`}}>
                         <div className="piece-container" style={{width: '100%', height: '100%'}}>
                             {displayDots().map(dotLine => {
                                 let dotLineKey =uuidv4();
                                 return <p key={dotLineKey} style={{display: 'flex', marginBlockEnd: 0, marginBlockStart: 0, padding: 0, marginBottom: 0, marginTop: 0, width: '100%', height: `${100 / (numRows)}%`}}>
                                     {dotLine.map(dot => {
                                         return (<p key={dot.key} style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center', marginBlockEnd: 0, marginBlockStart: 0, padding: '0px', width: `${100 / (numRows)}%`, height: '100%', marginBottom: '0'}}>
-                                                    <span style={{display: 'inline-block', border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: `${shape === 'circle' ? '50%' : 0}`, width: `${Math.floor(((100 / numRows) / 100) * .3 * props.width * .75)}px`, height: `${Math.floor(((100 / numRows) / 100 ) * .3 * props.width * .75)}px`, marginLeft: `${dot.marginLeft}%`, marginTop: `${dot.marginTop}%`, backgroundColor: `${dot.color}`}}></span>
+                                                    <span style={{display: 'inline-block', border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: `${shape === 'circle' ? '50%' : 0}`, width: `${Math.floor(((100 / numRows) / 100) * .3 * width * .75)}px`, height: `${Math.floor(((100 / numRows) / 100 ) * .3 * width * .75)}px`, marginLeft: `${dot.marginLeft}%`, marginTop: `${dot.marginTop}%`, backgroundColor: `${dot.color}`}}></span>
                                                 </p>)
                                     })}
                                 </p>
@@ -204,7 +205,7 @@ function Dots(props) {
                         </div>
                     </div>
                 </div>
-                <ControlBar width={props.width} piece='dots' shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={25} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Swish' organizedFunction={scatterDots} unorganizedFunction={() => organizeDots(0, 'horizontal')} unorgButton='Scatter' orgButton='Organize' />
+                <ControlBar piece='dots' shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={25} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Swish' organizedFunction={scatterDots} unorganizedFunction={() => organizeDots(0, 'horizontal')} unorgButton='Scatter' orgButton='Organize' />
             </div>
             
         </div>

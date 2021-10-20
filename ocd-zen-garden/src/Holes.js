@@ -8,6 +8,7 @@ import ControlBar from './ControlBar';
 
 
 function Holes(props) {
+    const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
     const volume = useSelector((state) => state.volume.volume);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
@@ -228,7 +229,7 @@ function Holes(props) {
     }
 
     return (
-        <div style={{margin: props.fullWindow ? '0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${props.width}px`, height: `${props.width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
+        <div style={{margin: props.fullWindow ? '0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${width}px`, height: `${width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%'}}>
                 <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%'}}>
                     <div style={{position: 'absolute'}}> 
@@ -236,7 +237,7 @@ function Holes(props) {
                         {displayHoles().map(holeLine => {
                             let holeLineKey = uuidv4()
                             return <div key={holeLineKey} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{holeLine.map(hole => {
-                                return <div style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width: `${(props.width * .70 * (1 / (numRows + 2)) * numRows) / (numRows + Math.ceil(numRows / 3))}px`, height: `${(props.width * .70 * (1 / (numRows + 2)) * numRows) / (numRows + Math.ceil(numRows / 3))}px`, margin: 'none'}}>
+                                return <div style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width: `${(width * .70 * (1 / (numRows + 2)) * numRows) / (numRows + Math.ceil(numRows / 3))}px`, height: `${(width * .70 * (1 / (numRows + 2)) * numRows) / (numRows + Math.ceil(numRows / 3))}px`, margin: 'none'}}>
                                     {/* <div style={{position: 'relative', left: `${hole.left * (hole.size - 5)}%`, top: `${hole.top * (hole.size - 5)}%`, display: `${hole.filled ? 'none' : 'inline-block'}`, borderRadius: '50%', backgroundColor: `${getColor('base', colorPalette)}`, width: `${hole.size}%`, height: `${hole.size}%`}}></div> */}
                                     <div style={{position: 'relative', left: `${hole.left * (hole.size - 15)}%`, top: `${hole.top * (hole.size - 15)}%`, display: `${hole.filled ? 'none' : 'inline-block'}`, borderRadius: '50%', backgroundColor: `${getColor('base', colorPalette)}`, width: `${hole.size}%`, height: `${hole.size}%`}}></div>
                                 </div>
@@ -247,12 +248,12 @@ function Holes(props) {
                         {displaySquares().map(squareLine => {
                             let lineKey = uuidv4()
                             return <div key={lineKey} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{squareLine.map(square => {
-                                return <div key={square.key} style={{display: 'inline-block', alignItems: 'center', justifyContent: 'center', backgroundColor:`${square.color}`, width: `${props.width * .70 * (1 / (numRows + 2))}px`, height: `${props.width * .70 * (1 / (numRows + 2))}px`, margin: 'none'}}></div>
+                                return <div key={square.key} style={{display: 'inline-block', alignItems: 'center', justifyContent: 'center', backgroundColor:`${square.color}`, width: `${width * .70 * (1 / (numRows + 2))}px`, height: `${width * .70 * (1 / (numRows + 2))}px`, margin: 'none'}}></div>
                             })}</div>
                         })}
                     </div>
                 </div>
-                <ControlBar width={props.width} piece='holes' changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={20} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={puncture} unorganizedFunction={() => fill(0)} unorgButton='Puncture' orgButton='Fill'/>
+                <ControlBar piece='holes' changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={20} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={puncture} unorganizedFunction={() => fill(0)} unorgButton='Puncture' orgButton='Fill'/>
             </div>
         </div>
     )
