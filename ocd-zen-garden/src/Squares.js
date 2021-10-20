@@ -96,15 +96,6 @@ function Squares() {
         
     }, [colorPalette]);
 
-    // const soundPlay = (soundObj, multiplier) => {
-    //     const sound = new Howl({
-    //         src: soundObj.src,
-    //         sprite: soundObj.sprite,
-    //         volume: props.volume * .01 * multiplier
-    //     });
-    //     sound.play(soundObj.spriteName);
-    // }
-
     const sharpen = (idx, dir) => {
         if(idx === 0 && dir === 'topLeft') {
             toggleIsOrganizing();
@@ -186,7 +177,6 @@ function Squares() {
                         {displaySquares().map(squareLine => {
                             let lineKey = uuidv4()
                             return <div key={lineKey}>{squareLine.map(square => {
-                                // return <div style={{display: 'inline-block', backgroundColor:`${square.color}`, border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: `${square.topLeft}% ${square.topRight}% ${square.bottomRight}% ${square.bottomLeft}%`, width: `${width * (1 / 9)}px`, height: `${width * (1 / 9)}px`, margin: `${width * (1 / 81)}px`}}></div>
                                 return <div key={square.key} style={{display: 'inline-block', backgroundColor:`${square.color}`, border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: `${square.topLeft}% ${square.topRight}% ${square.bottomRight}% ${square.bottomLeft}%`, width: `${width * .70 * (1 / (numRows + 2))}px`, height: `${width * .70 * (1 / (numRows + 2))}px`, margin: `${(width * .70 * (1 / (numRows + 2)) / (numRows + 2))}px`}}></div>
                             })}</div>
                         })}

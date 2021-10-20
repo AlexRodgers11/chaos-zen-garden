@@ -83,15 +83,6 @@ function Cards() {
         
     }, [colorPalette]);
 
-    // const soundPlay = (soundObj, multiplier) => {
-    //     const sound = new Howl({
-    //         src: soundObj.src,
-    //         sprite: soundObj.sprite,
-    //         volume: props.volume * .01 * multiplier
-    //     });
-    //     sound.play(soundObj.spriteName);
-    // }
-
     const organize = (idx) => {
         if(idx === 0) {
             toggleIsOrganizing();
@@ -160,22 +151,10 @@ function Cards() {
         <div style={{margin: fullView ? '0 auto' : 0, display: 'flex', justifyContent: 'center', organizeItems: 'center', width: `${width}px`, height: `${width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%'}}>
                 <div style={{position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%'}}>
-                        {/* {displayCards().map(cardLine => {
-                            // return <div style={{margin: '7% 0'}}>{cardLine.map(card => {
-                            return <div style={{position: 'relative', margin: '7% 0', paddingLeft: `${((cards.length / 2) - 1) * 10}px`}}>{cardLine.map(card => {
-                                // return <div style={{position: 'relative', zIndex: card.id, right: '10px', display: 'inline-block', backgroundColor:`${card.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${width * .70 * (1 / (numCards + 2))}px`, height: `${1.5 * width * .70 * (1 / (numCards + 2))}px`, top: card.offset}}></div>
-                                return <div style={{position: 'relative', zIndex: card.id, right: `${card.id - (cards.length / 2) <= 0 ? (card.id - 1) * 10 : (card.id - (cards.length / 2) - 1) * 10}px`, display: 'inline-block', backgroundColor:`${card.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${width * .70 * (1 / (numCards + 2))}px`, height: `${1.5 * width * .70 * (1 / (numCards + 2))}px`, top: card.offset}}></div>
-                                // return <div style={{position: 'relative', width: `${width * .70 * (1 / (numCards + 2)) * numCards - ((numCards - 1) * 10)}px`}}><div style={{position: 'relative', zIndex: card.id, right: `${card.id - (cards.length / 2) <= 0 ? (card.id - 1) * 10 : (card.id - (cards.length / 2) - 1) * 10}px`, display: 'inline-block', backgroundColor:`${card.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${width * .70 * (1 / (numCards + 2))}px`, height: `${1.5 * width * .70 * (1 / (numCards + 2))}px`, top: card.offset}}></div></div>
-                            })}</div>
-                        })} */}
                         {displayCards().map(cardLine => {
                             let lineKey = uuidv4()
                             return <div key={lineKey} style={{position: 'relative', margin: '7% 0', paddingLeft: `${((cards.length / 2) - 1) * (.8 * width * .70 * (1 / (numCards + 2)))}px`}}>{cardLine.map(card => {
-                            // return <div style={{position: 'relative', margin: '7% 0'}}>{cardLine.map(card => {
-                            // return <div style={{position: 'relative', margin: '7% 0', width: `${(numCards + 1) * width * .70 * (1 / (numCards + 2))}px`}}>{cardLine.map(card => {
-                                // return <div style={{position: 'relative', zIndex: card.id, right: `${card.id - (cards.length / 2) <= 0 ? (card.id - 1) * 10 : (card.id - (cards.length / 2) - 1) * 10}px`, display: 'inline-block', backgroundColor:`${card.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${width * .70 * (1 / (numCards + 2))}px`, height: `${1.5 * width * .70 * (1 / (numCards + 2))}px`, top: card.offset}}></div>
                                 return <div key={card.key} style={{position: 'relative', zIndex: card.id,  right: `${card.id - (cards.length / 2) <= 0 ? (card.id - 1) * (.8 * width * .70 * (1 / (numCards + 2))) : (card.id - (cards.length / 2) - 1) * (.8 * width * .70 * (1 / (numCards + 2)))}px`, display: 'inline-block', backgroundColor:`${card.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${width * .70 * (1 / (numCards + 2))}px`, height: `${1.5 * width * .70 * (1 / (numCards + 2))}px`, top: card.offset}}></div>
-                                // return <div style={{position: 'relative', textAlign: 'left', zIndex: card.id,  display: 'inline-block', backgroundColor:`${card.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${width * .70 * (1 / (numCards + 2))}px`, height: `${1.5 * width * .70 * (1 / (numCards + 2))}px`, top: card.offset}}></div>
                             })}</div>
                         })}
                 </div>

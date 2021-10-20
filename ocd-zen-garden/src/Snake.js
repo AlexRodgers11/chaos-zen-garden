@@ -20,7 +20,6 @@ function Snake() {
     const [sound, setSound] = useState(getSound('Slam'));
     const [proportionalVolume, setProportionalVolume] = useState('proportional');
     const [numBoxes, setNumBoxes] = useState(7);
-    const [numSnakes, setNumSnakes] = useState(1);
     const [shape, setShape] = useState('square');
     const dispatch = useDispatch();
 
@@ -46,15 +45,6 @@ function Snake() {
     }
 
     const [boxes, setBoxes] = useState(createStartingBoxArray(numBoxes));
-
-    // const soundPlay = (soundObj, volumeMultiplier) => {
-    //     const sound = new Howl({
-    //         src: soundObj.src,
-    //         sprite: soundObj.sprite,
-    //         volume: props.volume * .01 * volumeMultiplier
-    //     });
-    //     sound.play(soundObj.spriteName);
-    // }
 
     const firstUpdate = useRef(true);
     useEffect(()=>{
@@ -174,16 +164,12 @@ function Snake() {
     return (
         <div style={{margin: fullView ? '0 auto' : 0, width: `${width}px`, height: `${width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', width: '100%'}}>
-                {/* <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', width: '100%'}}> */}
                 <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%'}}>
-                    {/* <div id="test" style={{margin: '0 auto', height:`${width * .75}`, width:`${(width * 2 * .75 / numBoxes) + 2}px`}}> */}
                         {boxes.map(box => {
                             return (
-                                // <div key={box.key} style={{position: 'relative', boxSizing: 'border-box', border: `1px solid ${getColor('border', colorPalette)}`, width: `${width * .75 / numBoxes}px`, height: `${width * .75 / numBoxes}px`, padding: 0, marginTop: '0', marginBottom: '0', left:`${box.left}%`, backgroundColor: `${box.color}`, borderRadius: `${shape === 'circle' ? '50%' : 0}`}}></div>
                                 <div key={box.key} style={{position: 'relative', boxSizing: 'border-box', border: `1px solid ${getColor('border', colorPalette)}`, width: `${Math.floor(width * .75 / numBoxes)}px`, height: `${Math.floor(width * .75 / numBoxes)}px`, padding: 0, marginTop: '0', marginBottom: '0', left: `${box.left * width * .75 / numBoxes}px`, backgroundColor: `${box.color}`, borderRadius: `${shape === 'circle' ? '50%' : 0}`}}></div>
                             )
                         })}
-                    {/* </div> */}
                 </div>
                 <ControlBar piece='snake' shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={30} number={numBoxes} setNumber={handleSetNumBoxes} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Slam' organizedFunction={scatterBoxes} unorganizedFunction={() => organizeBoxes(0)} unorgButton='Scatter' orgButton='Organize' />
             </div>

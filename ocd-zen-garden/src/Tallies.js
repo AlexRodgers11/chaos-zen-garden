@@ -141,10 +141,6 @@ function Tallies() {
             }
         }
 
-        
-
-
-
         soundPlay(sound);
         setTallies(newTallies);
         setNextIndex({idx: nextIdx, mark: nextMark});
@@ -207,16 +203,11 @@ function Tallies() {
                         {displayTallies().map(tallyLine => {
                             let lineKey = uuidv4()
                             return <div key={lineKey}>{tallyLine.map(tally => {
-                                // return <div style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center', backgroundColor:`${tally.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${width * .70 * (1 / (numRows + 2))}px`, height: `${width * .70 * (1 / (numRows + 2))}px`, margin: `${(width * .70 * (1 / (numRows + 2)) / (numRows + 2))}px`}}>
                                 return <div key={tally.key} style={{position: 'relative', display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width: `${width * .70 * (1 / (numRows + 2))}px`, height: `${width * .70 * (1 / (numRows + 2))}px`, margin: `${(width * .70 * (1 / (numRows + 2)) / (numRows + 2))}px`}}>
-                                    {/* {tally.marks.map(mark => {
-                                        return <span mark>t</span>
-                                    })} */}
                                     <span style={{height: '100%', width: '12.5%', marginRight: '12.5%', backgroundColor: `${tally.color}`, border: `1px solid ${getColor('border', colorPalette)}`}}></span>
                                     <span style={{display: tally.marks[2] ? 'inline-block' : 'none', height: '100%', width: '12.5%', marginRight: '12.5%', backgroundColor: `${tally.color}`, border: `1px solid ${getColor('border', colorPalette)}`}}></span>
                                     <span style={{display: tally.marks[3] ? 'inline-block' : 'none', height: '100%', width: '12.5%', marginRight: '12.5%', backgroundColor: `${tally.color}`, border: `1px solid ${getColor('border', colorPalette)}`}}></span>
                                     <span style={{display: tally.marks[4] ? 'inline-block' : 'none', height: '100%', width: '12.5%', marginRight: '12.5%', backgroundColor: `${tally.color}`, border: `1px solid ${getColor('border', colorPalette)}`}}></span>
-                                    {/* <span style={{position: 'absolute', zIndex: '2', transform: 'rotate(-45deg)', height: `${2 * width * .70 * (1 / (numRows + 2))}px`, display: tally.marks[5] ? 'inline-block' : 'none', height: '100%', width: '12.5%', marginRight: '12.5%', backgroundColor: `${tally.color}`, border: `1px solid ${getColor('border', colorPalette)}`}}></span> */}
                                     <span style={{position: 'absolute', zIndex: '2', transform: 'rotate(-45deg)', display: tally.marks[5] ? 'inline-block' : 'none', height: '135%', width: '12.5%', marginRight: '12.5%', backgroundColor: `${tally.color}`, border: `1px solid ${getColor('border', colorPalette)}`}}></span>
                                 </div>
                             })}</div>

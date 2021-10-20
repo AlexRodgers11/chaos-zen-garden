@@ -23,16 +23,7 @@ function BullsEye(props) {
     const [userJustChangedNumber, toggleUserJustChangedNumber] = useToggle(props.id === 1 ? false : props.userJustChangedNumber);
     const [shape, setShape] = useState('circle');
     const dispatch = useDispatch();
-
-    // const soundPlay = soundObj => {
-    //     const sound = new Howl({
-    //         src: soundObj.src,
-    //         sprite: soundObj.sprite,
-    //         volume: props.volume * .01
-    //     });
-    //     sound.play(soundObj.spriteName);
-    // }
-
+    
     let firstUpdate = useRef(true);
     useEffect(() => {
         if((!firstUpdate.current && !isOrganized) && !userJustChangedNumber) {

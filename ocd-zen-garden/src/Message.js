@@ -20,15 +20,6 @@ function Message(){
     const [colorPalette, setColorPalette] = useState(palette);
     const dispatch = useDispatch();
 
-    // const soundPlay = (soundObj, multiplier) => {
-    //     const sound = new Howl({
-    //         src: soundObj.src,
-    //         sprite: soundObj.sprite,
-    //         volume: props.volume * .01 * multiplier
-    //     });
-    //     sound.play(soundObj.spriteName);
-    // }
-
     const [message, setMessage] = useState('Plus Ultra, Go Beyond.');
 
     const getLetters = string => {

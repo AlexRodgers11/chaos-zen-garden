@@ -42,7 +42,6 @@ function Header(){
     }
 
     return(
-        // <div className="Header" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'fixed', width: '100%', height:'45px', backgroundColor: '#303030', fontFamily: 'Arial Narrow, sans-serif', fontWeight: '600', fontSize: '1.85em', borderBottom: '1px solid #000', zIndex: 300}}>
         <div className="Header" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'fixed', width: '100%', height:'45px', backgroundColor: '#303030', fontFamily: 'Arial Narrow, sans-serif', fontWeight: '600', fontSize: '1.85em', zIndex: 300}}>
             <div>
                 <span style={{marginLeft: '.5em', color: getColor(1, palette), textShadow:`-1.425px -1.425px 0 #000,1.425px -1.425px 0 #000,-1.425px 1.425px 0 #000,1.425px 1.425px 0 #000`}}>O</span>
@@ -58,23 +57,7 @@ function Header(){
                 <span style={{color: getColor(11, palette), textShadow:`-1.425px -1.425px 0 #000,1.425px -1.425px 0 #000,-1.425px 1.425px 0 #000,1.425px 1.425px 0 #000`}}>E</span>
                 <span style={{color: getColor(12, palette), textShadow:`-1.425px -1.425px 0 #000,1.425px -1.425px 0 #000,-1.425px 1.425px 0 #000,1.425px 1.425px 0 #000`}}>N</span>
             </div>
-            {/* <select style={{marginRight: '1.5em'}} onChange={handleChangePalette} value={colorPalette}>
-                {palettes.map(palette => {
-                    let paletteKey = uuidv4();
-                    return <option key={paletteKey} value={palette}>{palette}</option>
-                })}
-            </select> */}
 
-            {/* <div onMouseLeave={showDropdown.sound ? () => handleToggleDropdown('sound') : null} class={`dropdown ${showDropdown.sound ? 'dropdown-active' : ''}`}>
-                <button style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '2px'}} id="sound" onClick={() => handleToggleDropdown('sound')}><GoBell size='1.5em' /></button>
-                <div className='dropdown-content'>
-                    {sounds.map(sound => {
-                        return <p onClick={() => handleSoundChange(sound)} >{sound}</p>
-                    })}
-                </div>
-            </div> */}
-
-            {/* <div onMouseLeave={showDropdown.palette ? () => handleToggleDropdown('main') : null} className={`dropdown ${showDropdown.main ? 'dropdown-active' : ''}`} style={{display: 'flex', alignItems: 'center', marginRight: '.5rem'}}> */}
             <div style={{display: 'flex', alignItems: 'center', marginRight: '1rem'}}>
                 <div onMouseLeave={showDropdown.palette ? () => handleToggleDropdown('palette') : null} className={`Header_dropdown ${showDropdown.palette ? 'Header_dropdown-active' : ''}`} >
                     <div style={{display: 'flex', alignItems: 'center', marginRight: '.5rem', cursor: `${organizingCounter === 0 ? 'pointer' : 'wait'}`}}>

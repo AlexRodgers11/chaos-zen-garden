@@ -26,7 +26,6 @@ function Crosshair() {
         for(let i = 1; i <= num; i++) {
             let random = 15 + Math.random() * 345;
             rings.push({
-                // missingEdges: randomEdges[Math.ceil(Math.random() * 4)]
                 id: i,
                 color: getColor(i, colorPalette),
                 rotation: random,
@@ -82,12 +81,11 @@ function Crosshair() {
     const align = (idx) => {
         if(idx === 0) {
             toggleIsOrganizing();
-            // props.setNumOrganizing(1);
             dispatch(organizingCounterActions.incrementOrganizingCounter())
         }
         let newRings = rings.map(ring => {
             if(ring.id === rings[idx].id) {
-                // ring.rotation = ring.rotation > 180 ? 360 : 0
+
                 ring.rotation = 0
             }
             return ring;
@@ -151,7 +149,6 @@ function Crosshair() {
         if(id <= numRings) {
             let lineColor = getColor(1, colorPalette);
             return (
-                // <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', border: `1px solid ${getColor(id, colorPalette)}`, height: `${id === 1 ? '70%' : `${70 - (70 / numEdges)}`}`, width: `${width}px`}}>{display(id + 1, width / 2)}</div>
                 <div style={{
                     margin: '0 auto',
                     zIndex: `${id}`,

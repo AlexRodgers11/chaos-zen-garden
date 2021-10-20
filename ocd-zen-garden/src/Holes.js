@@ -118,15 +118,6 @@ function Holes() {
         
     }, [colorPalette]);
 
-    // const soundPlay = (soundObj, multiplier) => {
-    //     const sound = new Howl({
-    //         src: soundObj.src,
-    //         sprite: soundObj.sprite,
-    //         volume: props.volume * .01 * multiplier
-    //     });
-    //     sound.play(soundObj.spriteName);
-    // }
-
     const fill = idx => {
         if(idx === 0) {
             toggleIsOrganizing();
@@ -239,7 +230,6 @@ function Holes() {
                             let holeLineKey = uuidv4()
                             return <div key={holeLineKey} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{holeLine.map(hole => {
                                 return <div style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width: `${(width * .70 * (1 / (numRows + 2)) * numRows) / (numRows + Math.ceil(numRows / 3))}px`, height: `${(width * .70 * (1 / (numRows + 2)) * numRows) / (numRows + Math.ceil(numRows / 3))}px`, margin: 'none'}}>
-                                    {/* <div style={{position: 'relative', left: `${hole.left * (hole.size - 5)}%`, top: `${hole.top * (hole.size - 5)}%`, display: `${hole.filled ? 'none' : 'inline-block'}`, borderRadius: '50%', backgroundColor: `${getColor('base', colorPalette)}`, width: `${hole.size}%`, height: `${hole.size}%`}}></div> */}
                                     <div style={{position: 'relative', left: `${hole.left * (hole.size - 15)}%`, top: `${hole.top * (hole.size - 15)}%`, display: `${hole.filled ? 'none' : 'inline-block'}`, borderRadius: '50%', backgroundColor: `${getColor('base', colorPalette)}`, width: `${hole.size}%`, height: `${hole.size}%`}}></div>
                                 </div>
                             })}</div>

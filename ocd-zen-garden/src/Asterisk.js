@@ -20,7 +20,6 @@ function Asterisk() {
     const [proportionalVolume, setProportionalVolume] = useState('proportional');
     const [colorPalette, setColorPalette] = useState(palette);
     const [numLines, setNumLines] = useState(15);
-    const [shape, setShape] = useState('circle');
     const dispatch = useDispatch();
 
     const createStartingLineArray = num => {
@@ -39,15 +38,6 @@ function Asterisk() {
     }
 
     const [lines, setLines] = useState(createStartingLineArray(numLines));
-
-    // const soundPlay = (soundObj, multiplier) => {
-    //     const sound = new Howl({
-    //         src: soundObj.src,
-    //         sprite: soundObj.sprite,
-    //         volume: props.volume * .01 * multiplier
-    //     });
-    //     sound.play(soundObj.spriteName);
-    // }
 
     const firstUpdate = useRef(true);
     useEffect(()=>{

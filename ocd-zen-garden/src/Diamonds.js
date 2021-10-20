@@ -85,17 +85,6 @@ function Diamonds() {
         
     }, [colorPalette]);
 
-    // const soundPlay = (soundObj, multiplier) => {
-    //     const sound = new Howl({
-    //         src: soundObj.src,
-    //         sprite: soundObj.sprite,
-    //         volume: props.volume * .01 * multiplier
-    //     });
-    //     sound.play(soundObj.spriteName);
-    // }
-
-
-
     const balance = idx => {
         if(idx === 0) {
             toggleIsOrganizing();

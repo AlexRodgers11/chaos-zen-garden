@@ -5,9 +5,7 @@ import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
 import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
-import { Howl } from 'howler';
 import { GiSplurt } from 'react-icons/gi';
-// import Smudge from './Smudge';
 
 function Smudges() {
     const width = useSelector((state) => state.size.pieceWidth);
@@ -82,15 +80,6 @@ function Smudges() {
         }
         
     }, [colorPalette]);
-
-    // const soundPlay = (soundObj, multiplier) => {
-    //     const sound = new Howl({
-    //         src: soundObj.src,
-    //         sprite: soundObj.sprite,
-    //         volume: props.volume * .01 * multiplier
-    //     });
-    //     sound.play(soundObj.spriteName);
-    // }
 
     const clean = idx => {
         if(idx === 0) {

@@ -22,15 +22,6 @@ function Dots() {
     const [shape, setShape] = useState('circle');
     const dispatch = useDispatch();
 
-    // const soundPlay = (soundObj, multiplier) => {
-    //     const sound = new Howl({
-    //         src: soundObj.src,
-    //         sprite: soundObj.sprite,
-    //         volume: props.volume * .01 * multiplier
-    //     });
-    //     sound.play(soundObj.spriteName);
-    // }
-
     const createStartingDotArray = num => {
         let startingDotArray = [];
         for(let i = 0; i < num**2; i++) {

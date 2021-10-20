@@ -85,15 +85,6 @@ function Triangles() {
         
     }, [colorPalette]);
 
-    // const soundPlay = soundObj => {
-    //     const sound = new Howl({
-    //         src: soundObj.src,
-    //         sprite: soundObj.sprite,
-    //         volume: props.volume * .01
-    //     });
-    //     sound.play(soundObj.spriteName);
-    // }
-
     const center = (idx) => {
         if(idx === 0) {
             toggleIsOrganizing();
