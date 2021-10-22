@@ -8,6 +8,7 @@ import volumeSlice from './volume';
 import authenticationSlice from './authentication';
 import highlightUserIconSlice from './highlight-user-icon';
 import modalContentSlice from './modal-content';
+import gardenSlice from './garden';
 
 // const initialState = {
 //     palette: 'carnival',
@@ -23,7 +24,8 @@ const store= configureStore({
         volume: volumeSlice,
         authentication: authenticationSlice,
         highlightUserIcon: highlightUserIconSlice,
-        modalContent: modalContentSlice
+        modalContent: modalContentSlice,
+        garden: gardenSlice
     }
 })
 
