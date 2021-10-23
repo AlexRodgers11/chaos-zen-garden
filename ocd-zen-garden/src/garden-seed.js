@@ -24,7 +24,6 @@ import Diamonds from './Diamonds';
 import Rainbow from './Rainbow';
 import Asterisk from './Asterisk';
 
-
 const startingGarden = {
     1 : {
         type: 'snake',
@@ -269,58 +268,59 @@ const startingGarden = {
 }
 
 // const gardenSwitch = (type, palette, speed, sound, proportionalVolume, number, shape, text) => {
-const gardenSwitch = (pieceObj) => {
-    const {type, palette, speed, sound, proportionalVolume, number, shape, text} = {...pieceObj}
-    console.log(type)
+const gardenSwitch = (piece) => {
+    const id = piece[0]
+    const {type, palette, speed, sound, proportionalVolume, number, shape, text} = {...piece[1]}
     switch(type) {
         case 'antlers':
-            return <Antlers palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
+            console.log('antlers found')
+            return <Antlers id={id} palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
         case 'asterisk':
-            return <Asterisk palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
+            return <Asterisk id={id} palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
         case 'barcode': 
-            return <Barcode palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
+            return <Barcode id={id} palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
         // case 'bullseye':
         //     return <BullsEye id={1} setNumRings={() => console.log('test')} numRings={15} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" orgIndex={numRings + 1} />    
         case 'cards':
-            return <Cards palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
+            return <Cards id={id} palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
         case 'crosshair':
-            return <Crosshair palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
+            return <Crosshair id={id} palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
         case 'desk':
-            return <Desk palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
+            return <Desk id={id} palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
         case 'diamonds':
-            return <Diamonds palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
+            return <Diamonds id={id} palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
         case 'dominoes':
-            return <Dominoes palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
+            return <Dominoes id={id} palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
         case 'dots':
-            return <Dots palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
+            return <Dots id={id} palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
         case 'edges':
-            return <Edges palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
+            return <Edges id={id} palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
         case 'eyes':
-            return <Eyes palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
+            return <Eyes id={id} palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
         case 'holes':
-            return <Holes palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
+            return <Holes id={id} palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
         case 'message':
-            return <Message palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
+            return <Message id={id} palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
         case 'message2':
-            return <Message2 palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
+            return <Message2 id={id} palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
         case 'meters':
-            return <Meters palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
+            return <Meters id={id} palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
         case 'opaque':
-            return <Opaque palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
+            return <Opaque id={id} palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
         case 'pogs':
-            return <Pogs palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
+            return <Pogs id={id} palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
         case 'rainbow':
-            return <Rainbow palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
+            return <Rainbow id={id} palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
         case 'smudges':
-            return <Smudges palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
+            return <Smudges id={id} palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
         case 'snake':
-            return <Snake palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
+            return <Snake id={id} palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
         case 'squares':
-            return <Squares palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
+            return <Squares id={id} palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
         case 'tallies':
-            return <Tallies palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
+            return <Tallies id={id} palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
         case 'triangles':
-            return <Triangles palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
+            return <Triangles id={id} palette={palette} speed={speed} sound={sound} proportionalVolume={proportionalVolume} number={number} shape={shape} text={text} />
     }
 }
 
