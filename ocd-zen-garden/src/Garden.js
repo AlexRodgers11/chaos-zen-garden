@@ -1,39 +1,43 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { gardenSwitch } from './garden-seed';
+import './Garden.css';
 import Header from './Header';
 import Modal from './Modal';
-import Snake from './Snake';
-import Dots from './Dots';
-import BullsEye from './BullsEye';
-import Message from './Message';
-import Dominoes from './Dominoes';
-import Barcode from './Barcode';
-import Squares from './Squares';
-import Triangles from './Triangles';
-import Antlers from './Antlers';
-import Pogs from './Pogs';
-import Message2 from './Message2';
-import Smudges from './Smudges';
-import Holes from './Holes';
-import Edges from './Edges';
-import Crosshair from './Crosshair';
-import Tallies from './Tallies';
-import Cards from './Cards';
-import Desk from './Desk';
-import Meters from './Meters'
-import Eyes from './Eyes';
-import Opaque from './Opaque';
-import Diamonds from './Diamonds';
-import Rainbow from './Rainbow';
-import './Garden.css';
-import Asterisk from './Asterisk';
+// import Snake from './Snake';
+// import Dots from './Dots';
+// import BullsEye from './BullsEye';
+// // import Bullseye2 from './Bullseye2';
+// import Message from './Message';
+// import Dominoes from './Dominoes';
+// import Barcode from './Barcode';
+// import Squares from './Squares';
+// import Triangles from './Triangles';
+// import Antlers from './Antlers';
+// import Pogs from './Pogs';
+// import Message2 from './Message2';
+// import Smudges from './Smudges';
+// import Holes from './Holes';
+// import Edges from './Edges';
+// import Crosshair from './Crosshair';
+// import Tallies from './Tallies';
+// import Cards from './Cards';
+// import Desk from './Desk';
+// import Meters from './Meters'
+// import Eyes from './Eyes';
+// import Opaque from './Opaque';
+// import Diamonds from './Diamonds';
+// import Rainbow from './Rainbow';
+// import Asterisk from './Asterisk';
 
 
-function Garden(props) {
+function Garden() {
+    console.log('garden created');
     const height = useSelector((state) => state.size.appHeight);
     const width = useSelector((state) => state.size.appWidth);
     const fullView = useSelector((state) => state.size.fullView);
     const modalContent = useSelector((state) => state.modalContent.modalContent);
+    const garden = useSelector((state) => state.garden.garden);
     const [numRings, setNumRings] = useState(10)
     const [bullsEyeShape, setBullsEyeShape] = useState('circle')
     const [organizationCount, setOrganizationCount] = useState(0);
@@ -68,56 +72,58 @@ function Garden(props) {
 
     const displayFullSize = gardenPiece => {
         // let gardenPieceWidth = width > height ? height - 47 : width - 2;
-        switch(gardenPiece) {
-            case 'snake':
-                return <Snake className="Snake" />
-            case 'dots':
-                return <Dots className="Dots" />
-            case 'bullseye':
-                return <BullsEye id={1} setNumRings={handleSetNumRings} numRings={numRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" className="BullsEye" orgIndex={numRings + 1} />
-            case 'message':
-                return <Message className="Message"/>
-            case 'dominoes':
-                return <Dominoes className="Dominoes" />
-            case 'barcode': 
-                return <Barcode className="Barcode"/>
-            case 'squares':
-                return <Squares className="Squares" />
-            case 'triangles':
-                return <Triangles className="Triangles" />
-            case 'antlers':
-                return <Antlers className="Antlers"/>
-            case 'pogs':
-                return <Pogs className="Coins"/>
-            case 'message2':
-                return <Message2 className="Message2"/>
-            case 'smudges':
-                return <Smudges className="Smudges"/>
-            case 'holes':
-                return <Holes className="Holes"/>
-            case 'edges':
-                return <Edges className="Edges"/>
-            case 'crosshair':
-                return <Crosshair className="Crosshair"/>
-            case 'tallies':
-                return <Tallies className="Tallies"/>
-            case 'cards':
-                return <Cards className="Cards"/>
-            case 'desk':
-                return <Desk className="Desk"/>
-            case 'meters':
-                return <Meters className="Meters"/>
-            case 'eyes':
-                return <Eyes className="Eyes"/>
-            case 'opaque':
-                return <Opaque className="Opaque"/>
-            case 'diamonds':
-                return <Diamonds className="Diamonds"/>
-            case 'rainbow':
-                return <Rainbow className="Rainbow"/>
-            case 'asterisk':
-                return <Asterisk className="Asterisk"/>
-        }
+        return gardenSwitch(gardenPiece)
+        // switch(gardenPiece) {
+        //     case 'snake':
+        //         return <Snake className="Snake" />
+        //     case 'dots':
+        //         return <Dots className="Dots" />
+        //     case 'bullseye':
+        //         return <BullsEye id={1} setNumRings={handleSetNumRings} numRings={numRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" className="BullsEye" orgIndex={numRings + 1} />
+        //         // return <Bullseye2 id={1} numRings={numRings} shape={bullsEyeShape} sound="Whoop" />
+        //     case 'message':
+        //         return <Message className="Message"/>
+        //     case 'dominoes':
+        //         return <Dominoes className="Dominoes" />
+        //     case 'barcode': 
+        //         return <Barcode className="Barcode"/>
+        //     case 'squares':
+        //         return <Squares className="Squares" />
+        //     case 'triangles':
+        //         return <Triangles className="Triangles" />
+        //     case 'antlers':
+        //         return <Antlers className="Antlers"/>
+        //     case 'pogs':
+        //         return <Pogs className="Coins"/>
+        //     case 'message2':
+        //         return <Message2 className="Message2"/>
+        //     case 'smudges':
+        //         return <Smudges className="Smudges"/>
+        //     case 'holes':
+        //         return <Holes className="Holes"/>
+        //     case 'edges':
+        //         return <Edges className="Edges"/>
+        //     case 'crosshair':
+        //         return <Crosshair className="Crosshair"/>
+        //     case 'tallies':
+        //         return <Tallies className="Tallies"/>
+        //     case 'cards':
+        //         return <Cards className="Cards"/>
+        //     case 'desk':
+        //         return <Desk className="Desk"/>
+        //     case 'meters':
+        //         return <Meters className="Meters"/>
+        //     case 'eyes':
+        //         return <Eyes className="Eyes"/>
+        //     case 'opaque':
+        //         return <Opaque className="Opaque"/>
+        //     case 'diamonds':
+        //         return <Diamonds className="Diamonds"/>
+        //     case 'rainbow':
+        //         return <Rainbow className="Rainbow"/>
+        //     case 'asterisk':
+        //         return <Asterisk className="Asterisk"/>
+        // }
     }
 
 
@@ -126,10 +132,16 @@ function Garden(props) {
             <>
             <Header />
             <div className="Garden">
-                <Snake className="Snake" />
+                {Object.entries(garden).map(piece => {
+                    // return gardenSwitch(piece[1]);
+                    return gardenSwitch(piece);
+                    // <p style={{width: '100px', height: '100px', zIndex: 1000000000000000000, backgroundColor: 'blue'}}>Test</p>
+                })}
+                {/* <Snake className="Snake" />
                 <Dots className="Dots" />
-                <BullsEye id={1} setNumRings={handleSetNumRings} numRings={numRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" className="BullsEye" orgIndex={numRings + 1} />
-                <Message className="Message" />
+                <BullsEye id={1} setNumRings={handleSetNumRings} numRings={numRings} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" className="BullsEye" orgIndex={numRings + 1} /> */}
+                {/* <Bullseye2 id={1} setNumRings={handleSetNumRings} numRings={numRings} shape={bullsEyeShape} sound="Whoop" /> */}
+                {/* <Message className="Message" />
                 <Dominoes className="Dominoes"  />
                 <Barcode className="Barcode" />
                 <Squares className="Squares"  />
@@ -149,7 +161,7 @@ function Garden(props) {
                 <Opaque className="Opaque" />
                 <Diamonds className="Diamonds" />
                 <Rainbow className="Rainbow" />
-                <Asterisk className="Asterisk" />
+                <Asterisk className="Asterisk" /> */}
                 {modalContent ? 
                     <Modal height={height}>
                     </Modal> 
@@ -159,6 +171,7 @@ function Garden(props) {
             </>
         )
     } else {
+        console.log('in full view mode')
         return (
             <div style={{width: '100vw', height: `${height}px`}}>
                 <div style={{position: 'fixed', zIndex: '3'}}>
