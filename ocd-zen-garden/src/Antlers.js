@@ -6,19 +6,27 @@ import { v4 as uuidv4 } from 'uuid';
 import { getColor, getSound } from './utils';
 import ControlBar from './ControlBar';
 import { Howl } from 'howler';
+import { fullViewActions } from './store/size';
+import { sizeActions } from './store/size';
+import useSound from './hooks/useSound';
 
-function Antlers() {
+function Antlers(props) {
     const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
     const volume = useSelector((state) => state.volume.volume);
     const fullView = useSelector((state) => state.size.fullView);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
-    const [numRows, setNumRows] = useState(5);
+    // const [numRows, setNumRows] = useState(5);
     const [nextIndex, setNextIndex] = useState(0);
+    // const [colorPalette, setColorPalette] = useState(palette);
+    // const [speed, setSpeed] = useState(1000);
+    // const [sound, setSound] = useState(getSound('Click'));
+    const [numRows, setNumRows] = useState(props.number);
     const [colorPalette, setColorPalette] = useState(palette);
-    const [speed, setSpeed] = useState(1000);
-    const [sound, setSound] = useState(getSound('Click'));
+    const [speed, setSpeed] = useState(props.speed);
+    // const [sound, setSound] = useState(getSound('Click'));
+    const [soundName, soundObj, setSound] = useSound(props.sound);
     const dispatch = useDispatch();
     
     const createStartingHornsArray = num => {
@@ -107,7 +115,7 @@ function Antlers() {
                 break;
             }
         }
-        soundPlay(sound);
+        soundPlay(soundObj);
         setHorns(newHorns);
         if(nextBottomIndex === horns.length){
             dispatch(organizingCounterActions.decrementOrganizingCounter());
@@ -133,15 +141,15 @@ function Antlers() {
         setSpeed(time);
     }
 
-    const handleSetSound = sound => {
-        setSound(getSound(sound));
+    const handleSetSound = soundName => {
+        setSound(soundName);
     }
 
     const handleSetNumRows = num => {
         setNumRows(Number(num));
         setHorns(createStartingHornsArray(Number(num)))
     }
-
+    
     const handleSetColorPalette = palette => {
         colorsDoNotUpdate.current = false;
         setColorPalette(palette);
@@ -158,6 +166,24 @@ function Antlers() {
             }
         }
         return hornLines;
+    }
+
+    const handleToggleFullView = () => {
+        console.log('test')
+        dispatch(sizeActions.setFullView(
+            [
+                props.id, {
+                    type: 'antlers',
+                    palette: palette,
+                    speed: speed,
+                    sound: soundName,
+                    proportionalVolume: null,
+                    number: numRows,
+                    shape: null ,
+                    text: null
+                }
+            ]
+        ));
     }
 
     return (
@@ -186,14 +212,12 @@ function Antlers() {
                                         })}
                                     </div>
                                     <br />
-
-                                    
                                 </div>
                             )
                         })}
                     </div>
                 </div>
-                <ControlBar piece='antlers' palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Click' organizedFunction={flip} unorganizedFunction={() => align(0)} unorgButton='Flip' orgButton='Align'/>
+                <ControlBar id={props.id} toggleFullView={handleToggleFullView} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Click' organizedFunction={flip} unorganizedFunction={() => align(0)} unorgButton='Flip' orgButton='Align'/>
             </div>
         </div>
     )

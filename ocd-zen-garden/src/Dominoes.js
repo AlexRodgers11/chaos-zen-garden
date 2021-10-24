@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { sizeActions } from './store/size';
 import { organizingCounterActions } from './store/organizing-counter';
 import useToggle from './hooks/useToggle';
 import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 import { v4 as uuidv4 } from 'uuid';
 
-function Dominoes() {
+function Dominoes(props) {
     const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
     const volume = useSelector((state) => state.volume.volume);
@@ -136,6 +137,23 @@ function Dominoes() {
         setLines(createStartingLinesArray(Number(num)))
     }
 
+    const handleToggleFullView = () => {
+        dispatch(sizeActions.setFullView(
+            [
+                props.id, {
+                    type: 'dominoes',
+                    palette: palette,
+                    speed: speed,
+                    sound: sound,
+                    proportionalVolume: proportionalVolume,
+                    number: numLines,
+                    shape: null ,
+                    text: null
+                }
+            ]
+        ));
+    }
+
     return (
         <div style={{margin: fullView ? '0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${width}px`, height: `${width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%'}}>
@@ -146,7 +164,7 @@ function Dominoes() {
                         })}
                     </div>
                 </div>
-                <ControlBar piece='dominoes' changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumLines} minNum={5} maxNum={35} number={numLines} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Click' organizedFunction={tiltLines} unorganizedFunction={() => straightenLines(0)} unorgButton='Tilt' orgButton='Straighten' />
+                <ControlBar id={props.id} toggleFullView={handleToggleFullView} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumLines} minNum={5} maxNum={35} number={numLines} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Click' organizedFunction={tiltLines} unorganizedFunction={() => straightenLines(0)} unorgButton='Tilt' orgButton='Straighten' />
 
             </div>
         </div>

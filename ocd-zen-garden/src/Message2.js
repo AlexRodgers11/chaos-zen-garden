@@ -1,5 +1,6 @@
 import React,  {useState, useEffect, useRef} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { sizeActions } from './store/size';
 import { organizingCounterActions } from './store/organizing-counter';
 import useToggle from './hooks/useToggle';
 import { getColor, getSound } from './utils';
@@ -7,7 +8,7 @@ import ControlBar from './ControlBar';
 import { v4 as uuidv4 } from 'uuid';
 import { Howl } from 'howler';
 
-function Message2(){
+function Message2(props){
     const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
     const volume = useSelector((state) => state.volume.volume);
@@ -136,6 +137,12 @@ function Message2(){
         
     }, [colorPalette]);
 
+    useEffect(() => {
+        return () => {
+            console.log('Message2 is cleaning up');
+        }
+    }, [fullView])
+
     const handleChangeText = text => {
         if(isOrganized) {
             toggleIsOrganized();
@@ -197,6 +204,23 @@ function Message2(){
         })
     }
 
+    const handleToggleFullView = () => {
+        dispatch(sizeActions.setFullView(
+            [
+                props.id, {
+                    type: 'message2',
+                    palette: palette,
+                    speed: speed,
+                    sound: sound,
+                    proportionalVolume: null,
+                    number: null,
+                    shape: null ,
+                    text: message
+                }
+            ]
+        ));
+    }
+
     return (
         <div style={{margin: fullView ? '0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${width}px`, height: `${width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', width: '100%'}}>
@@ -205,7 +229,7 @@ function Message2(){
                         {displayWords(letters)}
                     </div>
                 </div>
-                <ControlBar piece='message2' palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} soundValue='Sparkle' changeText={handleChangeText} setSpeed={handleSetSpeed} setSound={handleSetSound} organizedFunction={randomizeLetters} unorganizedFunction={() => matchLetters(1)} unorgButton='Randomize' orgButton='Match' />
+                <ControlBar id={props.id} toggleFullView={handleToggleFullView} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} soundValue='Sparkle' changeText={handleChangeText} setSpeed={handleSetSpeed} setSound={handleSetSound} organizedFunction={randomizeLetters} unorganizedFunction={() => matchLetters(1)} unorgButton='Randomize' orgButton='Match' />
 
             </div>
         </div>

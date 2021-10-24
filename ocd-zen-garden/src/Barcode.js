@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { organizingCounterActions } from './store/organizing-counter';
+import { sizeActions } from './store/size';
 import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
 
-function Barcode(prps) {
+function Barcode(props) {
     const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
     const volume = useSelector((state) => state.volume.volume);
@@ -137,6 +138,23 @@ function Barcode(prps) {
         setProportionalVolume(selection);
     }
 
+    const handleToggleFullView = () => {
+        dispatch(sizeActions.setFullView(
+            [
+                props.id, {
+                    type: 'barcode',
+                    palette: palette,
+                    speed: speed,
+                    sound: sound,
+                    proportionalVolume: proportionalVolume,
+                    number: numStripes,
+                    shape: null ,
+                    text: null
+                }
+            ]
+        ));
+    }
+
     const [stripes, setStripes] = useState(createStartingStripeArray(numStripes))
     return (
         <div style={{margin: fullView ? '0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${width}px`, height: `${width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
@@ -148,7 +166,7 @@ function Barcode(prps) {
                         })}
                     </div>
                 </div>
-                <ControlBar piece='barcode' palette={colorPalette} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} setPalette={handleSetColorPalette} setNumber={handleSetNumStripes} minNum={5} maxNum={25} number={numStripes} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Blip' organizedFunction={unbalanceStripes} unorganizedFunction={() => balanceStripes(0)} unorgButton='Unbalance' orgButton='Balance' />
+                <ControlBar id={props.id} toggleFullView={handleToggleFullView} palette={colorPalette} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} setPalette={handleSetColorPalette} setNumber={handleSetNumStripes} minNum={5} maxNum={25} number={numStripes} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Blip' organizedFunction={unbalanceStripes} unorganizedFunction={() => balanceStripes(0)} unorgButton='Unbalance' orgButton='Balance' />
             </div>
         </div>
     )

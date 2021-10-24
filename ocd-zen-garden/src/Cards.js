@@ -1,19 +1,20 @@
 import React, {useEffect, useRef, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { sizeActions } from './store/size';
 import { organizingCounterActions } from './store/organizing-counter';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
 import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 
-function Cards() {
+function Cards(props) {
     const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
     const volume = useSelector((state) => state.volume.volume);
     const fullView = useSelector((state) => state.size.fullView);
     const [isOrganized, toggleIsOrganized] = useToggle(false);
     const [isOrganizing, toggleIsOrganizing] = useToggle(false);
-    const [numCards, setNumRows] = useState(5);
+    const [numCards, setNumCards] = useState(5);
     const [nextIndex, setNextIndex] = useState(0);
     const [colorPalette, setColorPalette] = useState(palette);
     const [speed, setSpeed] = useState(1000);
@@ -120,8 +121,8 @@ function Cards() {
     const handleSetSound = sound => {
         setSound(getSound(sound));
     }
-    const handleSetNumRows = num => {
-        setNumRows(Number(num));
+    const handleSetNumCards = num => {
+        setNumCards(Number(num));
         setCards(createStartingCardsArray(Number(num)))
     }
 
@@ -147,6 +148,23 @@ function Cards() {
         return cardLines;
     }
 
+    const handleToggleFullView = () => {
+        dispatch(sizeActions.setFullView(
+            [
+                props.id, {
+                    type: 'cards',
+                    palette: palette,
+                    speed: speed,
+                    sound: sound,
+                    proportionalVolume: proportionalVolume,
+                    number: numCards,
+                    shape: null ,
+                    text: null
+                }
+            ]
+        ));
+    }
+
     return (
         <div style={{margin: fullView ? '0 auto' : 0, display: 'flex', justifyContent: 'center', organizeItems: 'center', width: `${width}px`, height: `${width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%'}}>
@@ -158,7 +176,7 @@ function Cards() {
                             })}</div>
                         })}
                 </div>
-                <ControlBar piece='cards' changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={30} number={numCards} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={scatter} unorganizedFunction={() => organize(0)} unorgButton='Scatter' orgButton='Organize'/>
+                <ControlBar id={props.id} toggleFullView={handleToggleFullView} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={30} number={numCards} setNumber={handleSetNumCards} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={scatter} unorganizedFunction={() => organize(0)} unorgButton='Scatter' orgButton='Organize'/>
             </div>
         </div>
     )

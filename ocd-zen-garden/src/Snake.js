@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { sizeActions } from './store/size';
 import { organizingCounterActions } from './store/organizing-counter';
 import useToggle from './hooks/useToggle';
 import { getColor, getSound, scaler, soundPlay } from './utils';
@@ -7,7 +8,7 @@ import ControlBar from './ControlBar';
 import { v4 as uuidv4 } from 'uuid';
 
 
-function Snake() {
+function Snake(props) {
     const palette = useSelector((state) => state.palette.palette);
     const width = useSelector((state) => state.size.pieceWidth);
     const volume = useSelector((state) => state.volume.volume);
@@ -161,6 +162,23 @@ function Snake() {
         setShape(shape);
     }
 
+    const handleToggleFullView = () => {
+        dispatch(sizeActions.setFullView(
+            [
+                props.id, {
+                    type: 'snake',
+                    palette: palette,
+                    speed: speed,
+                    sound: sound,
+                    proportionalVolume: proportionalVolume,
+                    number: numBoxes,
+                    shape: shape ,
+                    text: null
+                }
+            ]
+        ));
+    }
+
     return (
         <div style={{margin: fullView ? '0 auto' : 0, width: `${width}px`, height: `${width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', width: '100%'}}>
@@ -171,7 +189,7 @@ function Snake() {
                             )
                         })}
                 </div>
-                <ControlBar piece='snake' shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={30} number={numBoxes} setNumber={handleSetNumBoxes} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Slam' organizedFunction={scatterBoxes} unorganizedFunction={() => organizeBoxes(0)} unorgButton='Scatter' orgButton='Organize' />
+                <ControlBar id={props.id} toggleFullView={handleToggleFullView} shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={30} number={numBoxes} setNumber={handleSetNumBoxes} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Slam' organizedFunction={scatterBoxes} unorganizedFunction={() => organizeBoxes(0)} unorgButton='Scatter' orgButton='Organize' />
             </div>
         </div>
     )
