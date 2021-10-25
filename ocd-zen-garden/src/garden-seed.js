@@ -27,7 +27,7 @@ import Asterisk from './Asterisk';
 const startingGarden = {
     1 : {
         type: 'snake',
-        palette: 'carnival',
+        palette: 'Carnival',
         speed: 1000,
         sound: 'Slam',
         proportionalVolume: 'proportional',
@@ -37,7 +37,7 @@ const startingGarden = {
     },
     2 : {
         type: 'dots',
-        palette: 'carnival', 
+        palette: 'Carnival', 
         speed: 1000,
         sound: 'Whoosh',
         proportionalVolume: 'proportional',
@@ -47,7 +47,7 @@ const startingGarden = {
     },
     // 3 : {
     //     type: 'bullseye',
-    //     palette: 'carnival',
+    //     palette: 'Carnival',
     //     speed: 1000,
     //     sound: 'Whoop',
     //     proportionalVolume: 'proportional',
@@ -57,7 +57,7 @@ const startingGarden = {
     // },
     4 : {
         type: 'message1',
-        palette: 'carnival',
+        palette: 'Carnival',
         speed: 1000,
         sound: 'Robot',
         proportionalVolume: 'proportional',
@@ -67,7 +67,7 @@ const startingGarden = {
     },
     5 : {
         type: 'dominoes',
-        palette: 'carnival',
+        palette: 'Carnival',
         speed: 1000,
         sound: 'Click',
         proportionalVolume: 'proportional',
@@ -77,7 +77,7 @@ const startingGarden = {
     },
     6 : {
         type: 'barcode',
-        palette: 'carnival',
+        palette: 'Carnival',
         speed: 1000,
         sound: 'Blip',
         proportionalVolume: 'proportional',
@@ -87,7 +87,7 @@ const startingGarden = {
     },
     7 : {
         type: 'squares',
-        palette: 'carnival',
+        palette: 'Carnival',
         speed: 1000,
         sound: 'Ding',
         proportionalVolume: 'proportional',
@@ -97,7 +97,7 @@ const startingGarden = {
     },
     8 : {
         type: 'triangles',
-        palette: 'carnival',
+        palette: 'Carnival',
         speed: 1000,
         sound: 'Chirp',
         proportionalVolume: 'proportional',
@@ -107,7 +107,7 @@ const startingGarden = {
     },
     9 : {
         type: 'antlers',
-        palette: 'carnival',
+        palette: 'Carnival',
         speed: 1000,
         sound: 'Click',
         proportionalVolume: 'even',
@@ -117,7 +117,7 @@ const startingGarden = {
     },
     10 : {
         type: 'pogs',
-        palette: 'carnival',
+        palette: 'Carnival',
         speed: 1000,
         sound: 'Robot',
         proportionalVolume: 'proportional',
@@ -127,7 +127,7 @@ const startingGarden = {
     },
     11 : {
         type: 'message2',
-        palette: 'carnival',
+        palette: 'Carnival',
         speed: 1000,
         sound: 'Sparkle',
         proportionalVolume: 'even',
@@ -137,7 +137,7 @@ const startingGarden = {
     },
     12 : {
         type: 'smudges',
-        palette: 'carnival',
+        palette: 'Carnival',
         speed: 1000,
         sound: 'Sparkle',
         proportionalVolume: 'proportional',
@@ -147,7 +147,7 @@ const startingGarden = {
     },
     13 : {
         type: 'holes',
-        palette: 'carnival',
+        palette: 'Carnival',
         speed: 1000,
         sound: 'Ding',
         proportionalVolume: 'proportional',
@@ -157,7 +157,7 @@ const startingGarden = {
     },
     14 : {
         type: 'edges',
-        palette: 'carnival',
+        palette: 'Carnival',
         speed: 1000,
         sound: 'Ding',
         proportionalVolume: 'even',
@@ -167,7 +167,7 @@ const startingGarden = {
     },
     15 : {
         type: 'crosshair',
-        palette: 'carnival',
+        palette: 'Carnival',
         speed: 1000,
         sound: 'Robot',
         proportionalVolume: 'proportional',
@@ -177,7 +177,7 @@ const startingGarden = {
     },
     16 : {
         type: 'tallies',
-        palette: 'carnival',
+        palette: 'Carnival',
         speed: 1000,
         sound: 'Click',
         proportionalVolume: 'even',
@@ -187,7 +187,7 @@ const startingGarden = {
     },
     17 : {
         type: 'cards',
-        palette: 'carnival',
+        palette: 'Carnival',
         speed: 1000,
         sound: 'Whoosh',
         proportionalVolume: 'proportional',
@@ -197,7 +197,7 @@ const startingGarden = {
     },
     18 : {
         type: 'desk',
-        palette: 'carnival',
+        palette: 'Carnival',
         speed: 1000,
         sound: 'Ding',
         proportionalVolume: 'proportional',
@@ -207,7 +207,7 @@ const startingGarden = {
     },
     19 : {
         type: 'meters',
-        palette: 'carnival',
+        palette: 'Carnival',
         speed: 1000,
         sound: 'Whoop',
         proportionalVolume: 'proportional',
@@ -217,7 +217,7 @@ const startingGarden = {
     },
     20 : {
         type: 'eyes',
-        palette: 'carnival',
+        palette: 'Carnival',
         speed: 1000,
         sound: 'Sparkle',
         proportionalVolume: 'proportional',
@@ -227,7 +227,7 @@ const startingGarden = {
     },
     21 : {
         type: 'opaque',
-        palette: 'carnival',
+        palette: 'Carnival',
         speed: 1000,
         sound: 'Ding',
         proportionalVolume: 'proportional',
@@ -237,7 +237,7 @@ const startingGarden = {
     },
     22 : {
         type: 'diamonds',
-        palette: 'carnival',
+        palette: 'Carnival',
         speed: 1000,
         sound: 'Laser',
         proportionalVolume: 'proportional',
@@ -247,7 +247,7 @@ const startingGarden = {
     },
     23 : {
         type: 'rainbow',
-        palette: 'carnival',
+        palette: 'Carnival',
         speed: 1000,
         sound: 'Sparkle',
         proportionalVolume: 'proportional',
@@ -257,7 +257,7 @@ const startingGarden = {
     },
     24 : {
         type: 'asterisk',
-        palette: 'carnival',
+        palette: 'Carnival',
         speed: 1000,
         sound: 'Click',
         proportionalVolume: 'proportional',
