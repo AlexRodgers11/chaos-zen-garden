@@ -2,27 +2,45 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { sizeActions } from './store/size';
 import { organizingCounterActions } from './store/organizing-counter';
-import useToggle from './hooks/useToggle';
+// import useToggle from './hooks/useToggle';
+import useGardenSpecs from './hooks/useGardenSpecs';
+import usePieceSpecs from './hooks/usePieceSpecs';
 import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 import { v4 as uuidv4 } from 'uuid';
 
 
 function Snake(props) {
+    // const start = Date.now();
     const palette = useSelector((state) => state.palette.palette);
-    const width = useSelector((state) => state.size.pieceWidth);
-    const volume = useSelector((state) => state.volume.volume);
-    const fullView = useSelector((state) => state.size.fullView);
-    const [isOrganized, toggleIsOrganized] = useToggle(false);
-    const [isOrganizing, toggleIsOrganizing] = useToggle(false);
-    const [nextIndex, setNextIndex] = useState(0);
+    // const width = useSelector((state) => state.size.pieceWidth);
+    // const volume = useSelector((state) => state.volume.volume);
+    // const fullView = useSelector((state) => state.size.fullView);
+    const [width, volume, fullView, dispatch] = useGardenSpecs();
+    const [
+        isOrganized, toggleIsOrganized, 
+        isOrganizing, toggleIsOrganizing, 
+        nextIndex, setNextIndex, 
+        numBoxes, setNumBoxes,
+        speed, setSpeed, 
+        soundName, soundObj, setSound,
+        proportionalVolume, setProportionalVolume,
+        shape, setShape,
+        text, setText,
+    ] = usePieceSpecs(0, 7, 'proportional', 'square', 'Slam', 1000, null);
+    // console.log(soundName)
+    // console.log(soundObj)
+    // (nextIdx, num, propVol, shp, sound, spd, txt)
+    // const [isOrganized, toggleIsOrganized] = useToggle(false);
+    // const [isOrganizing, toggleIsOrganizing] = useToggle(false);
+    // const [nextIndex, setNextIndex] = useState(0);
     const [colorPalette, setColorPalette] = useState(palette);
-    const [speed, setSpeed] = useState(1000);
-    const [sound, setSound] = useState(getSound('Slam'));
-    const [proportionalVolume, setProportionalVolume] = useState('proportional');
-    const [numBoxes, setNumBoxes] = useState(7);
-    const [shape, setShape] = useState('square');
-    const dispatch = useDispatch();
+    // const [speed, setSpeed] = useState(1000);
+    // const [sound, setSound] = useState(getSound('Slam'));
+    // const [proportionalVolume, setProportionalVolume] = useState('proportional');
+    // const [numBoxes, setNumBoxes] = useState(7);
+    // const [shape, setShape] = useState('square');
+    // const dispatch = useDispatch();
 
     const createStartingBoxArray = num => {
         let boxes = [];
@@ -108,7 +126,7 @@ function Snake(props) {
             });
         }
 
-        soundPlay(sound, boxes[idx].volumeMultiplier, volume, proportionalVolume);
+        soundPlay(soundObj, boxes[idx].volumeMultiplier, volume, proportionalVolume);
 
         
         setBoxes(newBoxes);
@@ -136,13 +154,13 @@ function Snake(props) {
         toggleIsOrganized();
     }
 
-    const handleSetSpeed = time => {
-        setSpeed(time);
-    }
+    // const handleSetSpeed = time => {
+    //     setSpeed(time);
+    // }
 
-    const handleSetSound = sound => {
-        setSound(getSound(sound));
-    }
+    // const handleSetSound = sound => {
+    //     setSound(sound);
+    // }
 
     const handleSetColorPalette = palette => {
         colorsDoNotUpdate.current = false;
@@ -158,9 +176,9 @@ function Snake(props) {
         setBoxes(createStartingBoxArray(Number(num)))
     }
 
-    const handleChangeShape = shape => {
-        setShape(shape);
-    }
+    // const handleChangeShape = shape => {
+    //     setShape(shape);
+    // }
 
     const handleToggleFullView = () => {
         dispatch(sizeActions.setFullView(
@@ -169,7 +187,7 @@ function Snake(props) {
                     type: 'snake',
                     palette: palette,
                     speed: speed,
-                    sound: sound,
+                    sound: soundName,
                     proportionalVolume: proportionalVolume,
                     number: numBoxes,
                     shape: shape ,
@@ -178,7 +196,8 @@ function Snake(props) {
             ]
         ));
     }
-
+    // const end = Date.now();
+    // console.log(end- start);
     return (
         <div style={{margin: fullView ? '0 auto' : 0, width: `${width}px`, height: `${width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', width: '100%'}}>
@@ -189,7 +208,7 @@ function Snake(props) {
                             )
                         })}
                 </div>
-                <ControlBar id={props.id} toggleFullView={handleToggleFullView} shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={30} number={numBoxes} setNumber={handleSetNumBoxes} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Slam' organizedFunction={scatterBoxes} unorganizedFunction={() => organizeBoxes(0)} unorgButton='Scatter' orgButton='Organize' />
+                <ControlBar id={props.id} toggleFullView={handleToggleFullView} shape={shape} shapes={['circle', 'square']} changeShape={setShape} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={30} number={numBoxes} setNumber={handleSetNumBoxes} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={setSpeed} setSound={setSound} soundValue='Slam' organizedFunction={scatterBoxes} unorganizedFunction={() => organizeBoxes(0)} unorgButton='Scatter' orgButton='Organize' />
             </div>
         </div>
     )
