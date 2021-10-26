@@ -13,7 +13,7 @@ const usePieceSpecs = (nextIdx, num, propVol, shp, sound, spd, txt) => {
     const [speed, setSpeed] = useState(spd);   
     const [text, setText] = useState(txt);
 
-    return [
+    const pieceSpecs = {
         isOrganized, toggleIsOrganized, 
         isOrganizing, toggleIsOrganizing, 
         nextIndex, setNextIndex, 
@@ -23,7 +23,9 @@ const usePieceSpecs = (nextIdx, num, propVol, shp, sound, spd, txt) => {
         proportionalVolume, setProportionalVolume,
         shape, setShape,
         text, setText,
-    ];
+    };
+
+    return pieceSpecs;
 }
 
 export default usePieceSpecs;
