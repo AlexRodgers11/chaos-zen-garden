@@ -1,27 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import useGardenSpecs from './hooks/useGardenSpecs';
+import usePieceSpecs from './hooks/usePieceSpecs';
 import { sizeActions } from './store/size';
 import { organizingCounterActions } from './store/organizing-counter';
-import useToggle from './hooks/useToggle';
-import { getColor, getSound, scaler, soundPlay } from './utils';
+import { getColor, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 import { v4 as uuidv4 } from 'uuid';
 
 function Dots(props) {
-    const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
-    const volume = useSelector((state) => state.volume.volume);
-    const fullView = useSelector((state) => state.size.fullView);
-    const [isOrganized, toggleIsOrganized] = useToggle(false);
-    const [isOrganizing, toggleIsOrganizing] = useToggle(false);
-    const [nextIndex, setNextIndex] = useState({id: 0, dir: 'vertical'});
-    const [numRows, setNumRows] = useState(7);
-    const [speed, setSpeed] = useState(1000);
-    const [sound, setSound] = useState(getSound('Swish'));
-    const [proportionalVolume, setProportionalVolume] = useState('proportional');
     const [colorPalette, setColorPalette] = useState(palette);
-    const [shape, setShape] = useState('circle');
-    const dispatch = useDispatch();
+    const [width, volume, fullView, dispatch] = useGardenSpecs();
+    const pieceSpecs = usePieceSpecs({id: 0, dir: 'vertical'}, props.number, props.proportionalVolume, props.shape, props.sound, props.speed, props.text);
+
 
     const createStartingDotArray = num => {
         let startingDotArray = [];
@@ -42,18 +34,18 @@ function Dots(props) {
     }
     
 
-    const [dots, setDots] = useState(createStartingDotArray(numRows));
+    const [dots, setDots] = useState(createStartingDotArray(pieceSpecs.number));
 
     const firstUpdate = useRef(true);
     useEffect(() => {
         if(!firstUpdate.current) {
-            if(nextIndex.id < dots.length || nextIndex.dir === 'vertical'){
+            if(pieceSpecs.nextIndex.id < dots.length || pieceSpecs.nextIndex.dir === 'vertical'){
                 setTimeout(() => {
-                    organizeDots(nextIndex.id, nextIndex.dir);
-                }, speed * .75);
+                    organizeDots(pieceSpecs.nextIndex.id, pieceSpecs.nextIndex.dir);
+                }, pieceSpecs.speed * .75);
             }
         } else {firstUpdate.current = false}
-    }, [nextIndex])
+    }, [pieceSpecs.nextIndex])
     
     const colorsPropFirstUpdate = useRef(true)
     useEffect(() => {
@@ -73,7 +65,6 @@ function Dots(props) {
     const colorsDoNotUpdate = useRef(true)
     useEffect(() => {
         if(!colorsDoNotUpdate.current) {
-            console.log('palette rerun')
             let newDots = dots.map(dot => {
                 return {...dot, color: getColor(dot.id, colorPalette)}
             });
@@ -86,16 +77,8 @@ function Dots(props) {
     
 
     const handleSetNumRows = num => {
-        setNumRows(Number(num));
+        pieceSpecs.setNumber(Number(num));
         setDots(createStartingDotArray(Number(num)))
-    }
-
-    const handleSetSpeed = time => {
-        setSpeed(time);
-    }
-
-    const handleSetSound = sound => {
-        setSound(getSound(sound));
     }
 
     const handleSetColorPalette = palette => {
@@ -103,20 +86,12 @@ function Dots(props) {
         setColorPalette(palette);
     }
 
-    const handleChangeProportionalVolume = selection => {
-        setProportionalVolume(selection);
-    }
-
-    const handleChangeShape = shape => {
-        setShape(shape);
-    }
-
     const displayDots = () => {
         let dotLines = []
         let newLine = []
-        for(let k = 0; k < numRows**2; k++){
+        for(let k = 0; k < pieceSpecs.number**2; k++){
             newLine.push(dots[k]);
-            if(newLine.length === numRows){
+            if(newLine.length === pieceSpecs.number){
                 dotLines.push(newLine);
                 newLine = []
             }
@@ -126,7 +101,7 @@ function Dots(props) {
 
     const organizeDots = (idx, dir) => {
         if(idx === 0 && dir === 'horizontal') {
-            toggleIsOrganizing();
+            pieceSpecs.toggleIsOrganizing();
             dispatch(organizingCounterActions.incrementOrganizingCounter())
         }
         let newDots;
@@ -140,7 +115,7 @@ function Dots(props) {
                     return dot
                 }
             });
-            soundPlay(sound, dots[idx].leftVolumeMultiplier, volume, proportionalVolume);
+            soundPlay(pieceSpecs.soundObj, dots[idx].leftVolumeMultiplier, volume, pieceSpecs.proportionalVolume);
         } else {
             newDots = dots.map(dot => {
                 if(dot.id === dots[idx].id){
@@ -149,16 +124,16 @@ function Dots(props) {
                     return dot
                 }
             });
-            soundPlay(sound, dots[idx].topVolumeMultiplier,volume, proportionalVolume);
+            soundPlay(pieceSpecs.soundObj, dots[idx].topVolumeMultiplier,volume, pieceSpecs.proportionalVolume);
         };
         
         setDots(newDots);
-        setNextIndex({id: newIdx, dir: newDir});
+        pieceSpecs.setNextIndex({id: newIdx, dir: newDir});
         if(idx + 1 === dots.length && dir === 'horizontal') {
             dispatch(organizingCounterActions.decrementOrganizingCounter());
             setTimeout(() => {
-                toggleIsOrganized();
-                toggleIsOrganizing();
+                pieceSpecs.toggleIsOrganized();
+                pieceSpecs.toggleIsOrganizing();
             }, 1000);
         } 
     }
@@ -176,7 +151,7 @@ function Dots(props) {
             }
         });
         setDots(newDots);
-        toggleIsOrganized();
+        pieceSpecs.toggleIsOrganized();
     }
 
     const handleToggleFullView = () => {
@@ -184,13 +159,13 @@ function Dots(props) {
             [
                 props.id, {
                     type: 'dots',
-                    palette: palette,
-                    speed: speed,
-                    sound: sound,
-                    proportionalVolume: proportionalVolume,
-                    number: numRows,
-                    shape: shape ,
-                    text: null
+                    palette: pieceSpecs.palette,
+                    speed: pieceSpecs.speed,
+                    sound: pieceSpecs.soundName,
+                    proportionalVolume: pieceSpecs.proportionalVolume,
+                    number: pieceSpecs.number,
+                    shape: pieceSpecs.shape,
+                    text: pieceSpecs.text
                 }
             ]
         ));
@@ -204,10 +179,10 @@ function Dots(props) {
                         <div className="piece-container" style={{width: '100%', height: '100%'}}>
                             {displayDots().map(dotLine => {
                                 let dotLineKey =uuidv4();
-                                return <p key={dotLineKey} style={{display: 'flex', marginBlockEnd: 0, marginBlockStart: 0, padding: 0, marginBottom: 0, marginTop: 0, width: '100%', height: `${100 / (numRows)}%`}}>
+                                return <p key={dotLineKey} style={{display: 'flex', marginBlockEnd: 0, marginBlockStart: 0, padding: 0, marginBottom: 0, marginTop: 0, width: '100%', height: `${100 / (pieceSpecs.number)}%`}}>
                                     {dotLine.map(dot => {
-                                        return (<p key={dot.key} style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center', marginBlockEnd: 0, marginBlockStart: 0, padding: '0px', width: `${100 / (numRows)}%`, height: '100%', marginBottom: '0'}}>
-                                                    <span style={{display: 'inline-block', border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: `${shape === 'circle' ? '50%' : 0}`, width: `${Math.floor(((100 / numRows) / 100) * .3 * width * .75)}px`, height: `${Math.floor(((100 / numRows) / 100 ) * .3 * width * .75)}px`, marginLeft: `${dot.marginLeft}%`, marginTop: `${dot.marginTop}%`, backgroundColor: `${dot.color}`}}></span>
+                                        return (<p key={dot.key} style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center', marginBlockEnd: 0, marginBlockStart: 0, padding: '0px', width: `${100 / (pieceSpecs.number)}%`, height: '100%', marginBottom: '0'}}>
+                                                    <span style={{display: 'inline-block', border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: `${pieceSpecs.shape === 'circle' ? '50%' : 0}`, width: `${Math.floor(((100 / pieceSpecs.number) / 100) * .3 * width * .75)}px`, height: `${Math.floor(((100 / pieceSpecs.number) / 100 ) * .3 * width * .75)}px`, marginLeft: `${dot.marginLeft}%`, marginTop: `${dot.marginTop}%`, backgroundColor: `${dot.color}`}}></span>
                                                 </p>)
                                     })}
                                 </p>
@@ -215,7 +190,7 @@ function Dots(props) {
                         </div>
                     </div>
                 </div>
-                <ControlBar id={props.id} toggleFullView={handleToggleFullView} shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={25} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Swish' organizedFunction={scatterDots} unorganizedFunction={() => organizeDots(0, 'horizontal')} unorgButton='Scatter' orgButton='Organize' />
+                <ControlBar id={props.id} toggleFullView={handleToggleFullView} shape={pieceSpecs.shape} shapes={['circle', 'square']} changeShape={pieceSpecs.setShape} changeProportionalVolume={pieceSpecs.setProportionalVolume} proportionalVolume={pieceSpecs.proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={25} number={pieceSpecs.number} setNumber={handleSetNumRows} isOrganizing={pieceSpecs.isOrganizing} isOrganized={pieceSpecs.isOrganized} setSpeed={pieceSpecs.setSpeed} setSound={pieceSpecs.setSound} soundValue='Swish' organizedFunction={scatterDots} unorganizedFunction={() => organizeDots(0, 'horizontal')} unorgButton='Scatter' orgButton='Organize' />
             </div>
             
         </div>

@@ -1,26 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import useGardenSpecs from './hooks/useGardenSpecs';
+import usePieceSpecs from './hooks/usePieceSpecs';
 import { sizeActions } from './store/size';
 import { organizingCounterActions } from './store/organizing-counter';
 import useToggle from './hooks/useToggle';
-import { getColor, getSound } from './utils';
+import { getColor, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 import { Howl } from 'howler';
 
 
 function Edges(props) {
-    const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
-    const volume = useSelector((state) => state.volume.volume);
-    const fullView = useSelector((state) => state.size.fullView);
-    const [isOrganized, toggleIsOrganized] = useToggle(false);
-    const [isOrganizing, toggleIsOrganizing] = useToggle(false);
-    const [nextIndex, setNextIndex] = useState(0);
-    const [speed, setSpeed] = useState(1000);
-    const [sound, setSound] = useState(getSound('Ding'));
     const [colorPalette, setColorPalette] = useState(palette);
-    const [numEdges, setNumEdges] = useState(17);
-    const dispatch = useDispatch();
+    const [width, volume, fullView, dispatch] = useGardenSpecs();
+    const pieceSpecs = usePieceSpecs({id: 0, dir: 'vertical'}, props.number, props.proportionalVolume, props.shape, props.sound, props.speed, props.text);
 
     const createStartingEdgeArray = num => {
         let edges = [];
@@ -46,29 +40,20 @@ function Edges(props) {
         return edges;
     }
 
-    const [edges, setEdges] = useState(createStartingEdgeArray(numEdges));
-
-    const soundPlay = soundObj => {
-        const sound = new Howl({
-            src: soundObj.src,
-            sprite: soundObj.sprite,
-            volume: volume * .01
-        });
-        sound.play(soundObj.spriteName);
-    }
+    const [edges, setEdges] = useState(createStartingEdgeArray(pieceSpecs.number));
 
     const firstUpdate = useRef(true);
     useEffect(()=>{
         if(!firstUpdate.current) {
-            if(nextIndex < edges.length){
+            if(pieceSpecs.nextIndex < edges.length){
                 setTimeout(()=>{
-                    complete(nextIndex);
-                }, speed);
+                    complete(pieceSpecs.nextIndex);
+                }, pieceSpecs.speed);
             }
         } else {
             firstUpdate.current = false;
         }     
-    }, [nextIndex]);
+    }, [pieceSpecs.nextIndex]);
 
     const colorFirstUpdate = useRef(true);
     useEffect(() => {
@@ -100,7 +85,7 @@ function Edges(props) {
 
     const complete = (idx) => {
         if(idx === 0) {
-            toggleIsOrganizing();
+            pieceSpecs.toggleIsOrganizing();
             dispatch(organizingCounterActions.incrementOrganizingCounter())
         }
         let newEdges = edges.map(edge => {
@@ -118,30 +103,22 @@ function Edges(props) {
             
         });
 
-        soundPlay(sound);
+        soundPlay(pieceSpecs.soundObj, .01, volume, pieceSpecs.proportionalVolume);
         setEdges(newEdges);
-        setNextIndex(idx + 1);
+        pieceSpecs.setNextIndex(idx + 1);
         if(idx + 1 === edges.length) {
             dispatch(organizingCounterActions.decrementOrganizingCounter());
             setTimeout(() => {
-                toggleIsOrganized();
-                toggleIsOrganizing();
-            }, speed);
+                pieceSpecs.toggleIsOrganized();
+                pieceSpecs.toggleIsOrganizing();
+            }, pieceSpecs.speed);
         } 
     }
 
     const remove = () => {
-        let newEdges = createStartingEdgeArray(numEdges);
+        let newEdges = createStartingEdgeArray(pieceSpecs.number);
         setEdges(newEdges);
-        toggleIsOrganized();
-    }
-
-    const handleSetSpeed = time => {
-        setSpeed(time);
-    }
-
-    const handleSetSound = sound => {
-        setSound(getSound(sound));
+        pieceSpecs.toggleIsOrganized();
     }
 
     const handleSetColorPalette = palette => {
@@ -150,12 +127,12 @@ function Edges(props) {
     }
 
     const handleSetNumEdges = num => {
-        setNumEdges(Number(num));
+        pieceSpecs.setNumber(Number(num));
         setEdges(createStartingEdgeArray(Number(num)))
     }
 
     const display = (id) => {
-        if(id <= numEdges) {
+        if(id <= pieceSpecs.number) {
             return (
                 <div style={{
                     margin: '0 auto',
@@ -167,8 +144,8 @@ function Edges(props) {
                     borderRight: edges[id - 1].right ? `1px solid ${edges[id -1].color}` : 'none',
                     borderBottom: edges[id - 1].bottom ? `1px solid ${edges[id -1].color}` : 'none',
                     borderLeft: edges[id - 1].left ? `1px solid ${edges[id -1].color}` : 'none',
-                    height: `${id === 1 ? `${.6 * width}px` : `${(.6 - (id - 1) * (.6 / numEdges)) * width}px`}`, 
-                    width: `${id === 1 ? `${.6 * width}px` : `${(.6 - (id - 1) * (.6 / numEdges)) * width}px`}`}}>
+                    height: `${id === 1 ? `${.6 * width}px` : `${(.6 - (id - 1) * (.6 / pieceSpecs.number)) * width}px`}`, 
+                    width: `${id === 1 ? `${.6 * width}px` : `${(.6 - (id - 1) * (.6 / pieceSpecs.number)) * width}px`}`}}>
                         {display(id + 1)}
                     </div>
             )
@@ -181,12 +158,12 @@ function Edges(props) {
                 props.id, {
                     type: 'edges',
                     palette: palette,
-                    speed: speed,
-                    sound: sound,
-                    proportionalVolume: null,
-                    number: numEdges,
-                    shape: null ,
-                    text: null
+                    speed: pieceSpecs.speed,
+                    sound: pieceSpecs.soundName,
+                    proportionalVolume: pieceSpecs.proportionalVolume,
+                    number: pieceSpecs.number,
+                    shape: pieceSpecs.shape,
+                    text: pieceSpecs.text
                 }
             ]
         ));
@@ -200,7 +177,7 @@ function Edges(props) {
                         {display(1)}
                     </div>
                 </div>
-            <ControlBar id={props.id} toggleFullView={handleToggleFullView} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumEdges} minNum={4} maxNum={40} number={numEdges} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={remove} unorganizedFunction={() => complete(0)} unorgButton='Remove' orgButton='Complete' />
+            <ControlBar id={props.id} toggleFullView={handleToggleFullView} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumEdges} minNum={4} maxNum={40} number={pieceSpecs.number} isOrganizing={pieceSpecs.isOrganizing} isOrganized={pieceSpecs.isOrganized} setSpeed={pieceSpecs.setSpeed} setSound={pieceSpecs.setSound} soundValue='Ding' organizedFunction={remove} unorganizedFunction={() => complete(0)} unorgButton='Remove' orgButton='Complete' />
 
             </div>
         </div>
