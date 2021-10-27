@@ -1,33 +1,18 @@
 import React, {useEffect, useRef, useState} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { organizingCounterActions } from './store/organizing-counter';
-import useToggle from './hooks/useToggle';
+import useGardenSpecs from './hooks/useGardenSpecs';
+import usePieceSpecs from './hooks/usePieceSpecs';
 import { v4 as uuidv4 } from 'uuid';
-import { getColor, getSound } from './utils';
+import { getColor, soundPlay } from './utils';
 import ControlBar from './ControlBar';
-import { Howl } from 'howler';
-import { fullViewActions } from './store/size';
 import { sizeActions } from './store/size';
-import useSound from './hooks/useSound';
 
 function Antlers(props) {
-    const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
-    const volume = useSelector((state) => state.volume.volume);
-    const fullView = useSelector((state) => state.size.fullView);
-    const [isOrganized, toggleIsOrganized] = useToggle(false);
-    const [isOrganizing, toggleIsOrganizing] = useToggle(false);
-    // const [numRows, setNumRows] = useState(5);
-    const [nextIndex, setNextIndex] = useState(0);
-    // const [colorPalette, setColorPalette] = useState(palette);
-    // const [speed, setSpeed] = useState(1000);
-    // const [sound, setSound] = useState(getSound('Click'));
-    const [numRows, setNumRows] = useState(props.number);
     const [colorPalette, setColorPalette] = useState(palette);
-    const [speed, setSpeed] = useState(props.speed);
-    // const [sound, setSound] = useState(getSound('Click'));
-    const [soundName, soundObj, setSound] = useSound(props.sound);
-    const dispatch = useDispatch();
+    const [width, volume, fullView, dispatch] = useGardenSpecs();
+    const pieceSpecs = usePieceSpecs(0, props.number, props.proportionalVolume, props.shape, props.sound, props.speed, props.text);
     
     const createStartingHornsArray = num => {
         let horns = [];
@@ -42,16 +27,16 @@ function Antlers(props) {
         return horns
     }
 
-    const [horns, setHorns] = useState(createStartingHornsArray(numRows));
+    const [horns, setHorns] = useState(createStartingHornsArray(pieceSpecs.number));
 
     const firstUpdate = useRef(true);
     useEffect(() => {
         if(!firstUpdate.current) {
             setTimeout(() => {
-                align(nextIndex);
-            }, speed)
+                align(pieceSpecs.nextIndex);
+            }, pieceSpecs.speed)
         } else {firstUpdate.current = false}
-    }, [nextIndex])
+    }, [pieceSpecs.nextIndex])
     
     const colorsFirstUpdate = useRef(true)
     useEffect(() => {
@@ -81,19 +66,10 @@ function Antlers(props) {
         
     }, [colorPalette]);
 
-    const soundPlay = soundObj => {
-        const sound = new Howl({
-            src: soundObj.src,
-            sprite: soundObj.sprite,
-            volume: volume * .01
-        });
-        sound.play(soundObj.spriteName);
-    }
-
     const align = (idx) => {
         let currentIdx = idx;
         if(idx === 0) {
-            toggleIsOrganizing();
+            pieceSpecs.toggleIsOrganizing();
             dispatch(organizingCounterActions.incrementOrganizingCounter())
             if(horns[0].side !== 'bottom') {
                 while(horns[currentIdx].side !== 'bottom') {
@@ -115,14 +91,14 @@ function Antlers(props) {
                 break;
             }
         }
-        soundPlay(soundObj);
+        soundPlay(pieceSpecs.soundObj, .01, volume, pieceSpecs.proportionalVolume);
         setHorns(newHorns);
         if(nextBottomIndex === horns.length){
             dispatch(organizingCounterActions.decrementOrganizingCounter());
-            toggleIsOrganizing();
-            toggleIsOrganized();
+            pieceSpecs.toggleIsOrganizing();
+            pieceSpecs.toggleIsOrganized();
         } else {
-            setNextIndex(nextBottomIndex);  
+            pieceSpecs.setNextIndex(nextBottomIndex);  
         }            
     }
 
@@ -134,20 +110,7 @@ function Antlers(props) {
             }
         })
         setHorns(newHorns);
-        toggleIsOrganized();
-    }
-
-    const handleSetSpeed = time => {
-        setSpeed(time);
-    }
-
-    const handleSetSound = soundName => {
-        setSound(soundName);
-    }
-
-    const handleSetNumRows = num => {
-        setNumRows(Number(num));
-        setHorns(createStartingHornsArray(Number(num)))
+        pieceSpecs.toggleIsOrganized();
     }
     
     const handleSetColorPalette = palette => {
@@ -158,15 +121,21 @@ function Antlers(props) {
     const displayHorns = () => {
         let hornLines = []
         let newLine = []
-        for(let k = 0; k < numRows ** 2 * 2; k++){
+        for(let k = 0; k < pieceSpecs.number ** 2 * 2; k++){
             newLine.push(horns[k]);
-            if(newLine.length === numRows * 2){
+            if(newLine.length === pieceSpecs.number * 2){
                 hornLines.push(newLine);
                 newLine = []
             }
         }
         return hornLines;
     }
+
+    const handleSetNumRows = num => {
+        pieceSpecs.setNumber(Number(num));
+        setHorns(createStartingHornsArray(Number(num)))
+    }
+
 
     const handleToggleFullView = () => {
         console.log('test')
@@ -175,12 +144,12 @@ function Antlers(props) {
                 props.id, {
                     type: 'antlers',
                     palette: palette,
-                    speed: speed,
-                    sound: soundName,
-                    proportionalVolume: null,
-                    number: numRows,
-                    shape: null ,
-                    text: null
+                    speed: pieceSpecs.speed,
+                    sound: pieceSpecs.soundName,
+                    proportionalVolume: pieceSpecs.proportionalVolume,
+                    number: pieceSpecs.number,
+                    shape: pieceSpecs.shape,
+                    text: pieceSpecs.text
                 }
             ]
         ));
@@ -194,19 +163,19 @@ function Antlers(props) {
                         {displayHorns().map((hornLine, lineIdx) => {
                             let lineKey = uuidv4()
                             return (
-                                <div key={lineKey} className="outer" style={{padding: '0', height: `${(Math.floor(width * .65 / numRows))}px`}}>
-                                    <div style={{margin: '0', height: `${(Math.floor(width* .65 / numRows) / 2) - 1}px`}}>
+                                <div key={lineKey} className="outer" style={{padding: '0', height: `${(Math.floor(width * .65 / pieceSpecs.number))}px`}}>
+                                    <div style={{margin: '0', height: `${(Math.floor(width* .65 / pieceSpecs.number) / 2) - 1}px`}}>
                                         {hornLine.map(horn => {
                                             return (
-                                                <><div key={horn.key} style={{boxSizing:'border-box', display:'inline-block', backgroundColor: `${horn.side === 'top' ? horn.color : 'transparent'}`, borderRight: `${horn.side === 'top' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`,  borderLeft: `${horn.side === 'top' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`,  borderTop: `${horn.side === 'top' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`, width: `${width * .6 / (numRows * 4)}px`, height: `${(Math.floor(width * .65 / numRows) / 2) - 1}px`, marginBottom: '0'}}></div><div style={{display:'inline-block', width: `${width * .6 / (numRows * 4)}px`, height: `${(Math.floor(width * .65 / numRows) / 2) - 1}px`, marginBottom: '0'}}></div></>
+                                                <><div key={horn.key} style={{boxSizing:'border-box', display:'inline-block', backgroundColor: `${horn.side === 'top' ? horn.color : 'transparent'}`, borderRight: `${horn.side === 'top' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`,  borderLeft: `${horn.side === 'top' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`,  borderTop: `${horn.side === 'top' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`, width: `${width * .6 / (pieceSpecs.number * 4)}px`, height: `${(Math.floor(width * .65 / pieceSpecs.number) / 2) - 1}px`, marginBottom: '0'}}></div><div style={{display:'inline-block', width: `${width * .6 / (pieceSpecs.number * 4)}px`, height: `${(Math.floor(width * .65 / pieceSpecs.number) / 2) - 1}px`, marginBottom: '0'}}></div></>
                                             )
                                         })}
                                     </div>
-                                    <div style={{margin: `0 ${.2 * width - 0 * (width * .6 / (numRows * 4))}px`, backgroundColor: 'black', height: 0, border: `1px solid ${getColor('border', colorPalette)}`, width: `${width * .6 - ((width * .6 / (numRows * 4)))}px`}}></div>
-                                    <div style={{margin: '0', height: `${(Math.floor(width * .65 / numRows) / 2) - 1}px`}}>
+                                    <div style={{margin: `0 ${.2 * width - 0 * (width * .6 / (pieceSpecs.number * 4))}px`, backgroundColor: 'black', height: 0, border: `1px solid ${getColor('border', colorPalette)}`, width: `${width * .6 - ((width * .6 / (pieceSpecs.number * 4)))}px`}}></div>
+                                    <div style={{margin: '0', height: `${(Math.floor(width * .65 / pieceSpecs.number) / 2) - 1}px`}}>
                                         {hornLine.map(horn => {
                                             return (
-                                                <><div key={horn.key} style={{boxSizing:'border-box', display:'inline-block', backgroundColor: `${horn.side === 'bottom' ? horn.color : 'transparent'}`, borderRight: `${horn.side === 'bottom' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`,  borderLeft: `${horn.side === 'bottom' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`,  borderBottom: `${horn.side === 'bottom' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`, width: `${width * .6 / (numRows * 4)}px`, height: `${(Math.floor(width * .65 / numRows) / 2) - 1}px`, marginBottom: '0'}}></div><div style={{display:'inline-block', width: `${width * .6 / (numRows * 4)}px`, height: `${(Math.floor(width * .65 / numRows) / 2) - 1}px`, marginBottom: '0'}}></div></>
+                                                <><div key={horn.key} style={{boxSizing:'border-box', display:'inline-block', backgroundColor: `${horn.side === 'bottom' ? horn.color : 'transparent'}`, borderRight: `${horn.side === 'bottom' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`,  borderLeft: `${horn.side === 'bottom' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`,  borderBottom: `${horn.side === 'bottom' ? `1px solid ${getColor('border', colorPalette)}` : '1px solid transparent'}`, width: `${width * .6 / (pieceSpecs.number * 4)}px`, height: `${(Math.floor(width * .65 / pieceSpecs.number) / 2) - 1}px`, marginBottom: '0'}}></div><div style={{display:'inline-block', width: `${width * .6 / (pieceSpecs.number * 4)}px`, height: `${(Math.floor(width * .65 / pieceSpecs.number) / 2) - 1}px`, marginBottom: '0'}}></div></>
 
                                             )
                                         })}
@@ -217,7 +186,7 @@ function Antlers(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar id={props.id} toggleFullView={handleToggleFullView} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={8} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Click' organizedFunction={flip} unorganizedFunction={() => align(0)} unorgButton='Flip' orgButton='Align'/>
+                <ControlBar id={props.id} toggleFullView={handleToggleFullView} palette={colorPalette} setPalette={handleSetColorPalette} minNum={4} maxNum={8} number={pieceSpecs.number} setNumber={handleSetNumRows} isOrganizing={pieceSpecs.isOrganizing} isOrganized={pieceSpecs.isOrganized} setSpeed={pieceSpecs.setSpeed} setSound={pieceSpecs.setSound} soundValue='Click' organizedFunction={flip} unorganizedFunction={() => align(0)} unorgButton='Flip' orgButton='Align'/>
             </div>
         </div>
     )
