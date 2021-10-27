@@ -1,26 +1,19 @@
 import React, { useEffect, useRef, useState} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import useGardenSpecs from './hooks/useGardenSpecs';
+import usePieceSpecs from './hooks/usePieceSpecs';
 import { sizeActions } from './store/size';
 import { organizingCounterActions } from './store/organizing-counter';
-import useToggle from './hooks/useToggle';
-import { getColor, getSound, scaler, soundPlay } from './utils';
+import { getColor, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 import { v4 as uuidv4 } from 'uuid';
 
 function Dominoes(props) {
-    const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
-    const volume = useSelector((state) => state.volume.volume);
-    const fullView = useSelector((state) => state.size.fullView);
-    const [isOrganized, toggleIsOrganized] = useToggle(false);
-    const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [colorPalette, setColorPalette] = useState(palette);
-    const [nextIdx, setNextIdx] = useState();
-    const [numLines, setNumLines] = useState(10);
-    const [speed, setSpeed] = useState(1000);
-    const [sound, setSound] = useState(getSound('Click'));
-    const [proportionalVolume, setProportionalVolume] = useState('proportional');
-    const dispatch = useDispatch();
+    const [width, volume, fullView, dispatch] = useGardenSpecs();
+    const pieceSpecs = usePieceSpecs(0, props.number, props.proportionalVolume, props.shape, props.sound, props.speed, props.text);
+
 
     const createStartingLinesArray = num => {
         let startingLineArray = [];
@@ -37,18 +30,18 @@ function Dominoes(props) {
         return startingLineArray;
     }
 
-    const [lines, setLines] = useState(createStartingLinesArray(numLines));
+    const [lines, setLines] = useState(createStartingLinesArray(pieceSpecs.number));
 
     const firstUpdate = useRef(true);
     useEffect(() => {
-        if(!firstUpdate.current && nextIdx < lines.length) {
+        if(!firstUpdate.current && pieceSpecs.nextIndex < lines.length) {
             setTimeout(() => {
-                straightenLines(nextIdx)
-            }, speed)
+                straightenLines(pieceSpecs.nextIndex)
+            }, pieceSpecs.speed)
         } else {
             firstUpdate.current = false;
         }
-    }, [nextIdx]);
+    }, [pieceSpecs.nextIndex]);
 
     const colorsFirstUpdate = useRef(true)
     useEffect(() => {
@@ -79,7 +72,7 @@ function Dominoes(props) {
 
     const straightenLines = idx => {
         if(idx === 0) {
-            toggleIsOrganizing();
+            pieceSpecs.toggleIsOrganizing();
             dispatch(organizingCounterActions.incrementOrganizingCounter())
         }
         let newLines = lines.map(line => {
@@ -89,16 +82,16 @@ function Dominoes(props) {
                 return line;
             }
         });
-        soundPlay(sound, lines[idx].volumeMultiplier, volume, proportionalVolume);
+        soundPlay(pieceSpecs.soundObj, lines[idx].volumeMultiplier, volume, pieceSpecs.proportionalVolume);
         setLines(newLines);
         if(idx < lines.length - 1) {
-            setNextIdx(idx + 1);
+            pieceSpecs.setNextIndex(idx + 1);
         } else {
             dispatch(organizingCounterActions.decrementOrganizingCounter());
             setTimeout(() => {
-                toggleIsOrganized();
-                toggleIsOrganizing();
-            }, speed);
+                pieceSpecs.toggleIsOrganized();
+                pieceSpecs.toggleIsOrganizing();
+            }, pieceSpecs.speed);
         }
     }
 
@@ -112,15 +105,7 @@ function Dominoes(props) {
             }
         })
         setLines(newLines);
-        toggleIsOrganized();
-    }
-
-    const handleSetSpeed = time => {
-        setSpeed(time);
-    }
-
-    const handleSetSound = sound => {
-        setSound(getSound(sound));
+        pieceSpecs.toggleIsOrganized();
     }
 
     const handleSetColorPalette = palette => {
@@ -128,12 +113,8 @@ function Dominoes(props) {
         setColorPalette(palette);
     }
 
-    const handleChangeProportionalVolume = selection => {
-        setProportionalVolume(selection);
-    }
-
     const handleSetNumLines = num => {
-        setNumLines(Number(num));
+        pieceSpecs.setNumber(Number(num));
         setLines(createStartingLinesArray(Number(num)))
     }
 
@@ -143,12 +124,12 @@ function Dominoes(props) {
                 props.id, {
                     type: 'dominoes',
                     palette: palette,
-                    speed: speed,
-                    sound: sound,
-                    proportionalVolume: proportionalVolume,
-                    number: numLines,
-                    shape: null ,
-                    text: null
+                    speed: pieceSpecs.speed,
+                    sound: pieceSpecs.soundName,
+                    proportionalVolume: pieceSpecs.proportionalVolume,
+                    number: pieceSpecs.number,
+                    shape: pieceSpecs.shape,
+                    text: pieceSpecs.text
                 }
             ]
         ));
@@ -160,11 +141,11 @@ function Dominoes(props) {
                 <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', height: '100%'}}>
                     <div>
                         {lines.map(line => {
-                            return <span key={line.key} style={{display: 'inline-block', width: `${Math.floor(width * .65 / ((numLines * 3) + 1.5))}px`, border: `.75px solid ${getColor('border', colorPalette)}`, height: .55 * width, margin: `${width * .65 * 1.35 / ((numLines * 3) + 1.5)}px`, transform: `rotate(${line.tilt}deg)`, backgroundColor: `${line.color}` }}></span>
+                            return <span key={line.key} style={{display: 'inline-block', width: `${Math.floor(width * .65 / ((pieceSpecs.number * 3) + 1.5))}px`, border: `.75px solid ${getColor('border', colorPalette)}`, height: .55 * width, margin: `${width * .65 * 1.35 / ((pieceSpecs.number * 3) + 1.5)}px`, transform: `rotate(${line.tilt}deg)`, backgroundColor: `${line.color}` }}></span>
                         })}
                     </div>
                 </div>
-                <ControlBar id={props.id} toggleFullView={handleToggleFullView} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumLines} minNum={5} maxNum={35} number={numLines} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Click' organizedFunction={tiltLines} unorganizedFunction={() => straightenLines(0)} unorgButton='Tilt' orgButton='Straighten' />
+                <ControlBar id={props.id} toggleFullView={handleToggleFullView} changeProportionalVolume={pieceSpecs.setProportionalVolume} proportionalVolume={pieceSpecs.proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumLines} minNum={5} maxNum={35} number={pieceSpecs.number} isOrganizing={pieceSpecs.isOrganizing} isOrganized={pieceSpecs.isOrganized} setSpeed={pieceSpecs.setSpeed} setSound={pieceSpecs.setSound} soundValue='Click' organizedFunction={tiltLines} unorganizedFunction={() => straightenLines(0)} unorgButton='Tilt' orgButton='Straighten' />
 
             </div>
         </div>
