@@ -1,33 +1,24 @@
 import React, {useEffect, useRef, useState} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import useGardenSpecs from './hooks/useGardenSpecs';
+import usePieceSpecs from './hooks/usePieceSpecs';
 import { sizeActions } from './store/size';
 import { organizingCounterActions } from './store/organizing-counter';
 import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
-import { getColor, getSound, scaler, soundPlay } from './utils';
+import { getColor, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 
 
 function Holes(props) {
-    const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
-    const volume = useSelector((state) => state.volume.volume);
-    const fullView = useSelector((state) => state.size.fullView);
-    const [isOrganized, toggleIsOrganized] = useToggle(false);
-    const [isOrganizing, toggleIsOrganizing] = useToggle(false);
-    const [numRows, setNumRows] = useState(9);
-    const [nextIndex, setNextIndex] = useState(0);
     const [colorPalette, setColorPalette] = useState(palette);
-    const [speed, setSpeed] = useState(1000);
-    const [sound, setSound] = useState(getSound('Ding'));
-    const [proportionalVolume, setProportionalVolume] = useState('proportional');
-    const dispatch = useDispatch();
+    const [width, volume, fullView, dispatch] = useGardenSpecs();
+    const pieceSpecs = usePieceSpecs(0, props.number, props.proportionalVolume, props.shape, props.sound, props.speed, props.text);
 
     const createStartingSquaresArray = num => {
         let squares = [];
         for(let i = 1; i < num ** 2 + 1; i++) {
-            let verticalMultiplier = Math.random() >= .5 ? 1 : -1;
-            let horizontalMultiplier = Math.random() >= .5 ? 1 : -1;
             squares.push({
                 id: i, 
                 color: getColor(i, colorPalette),
@@ -58,7 +49,6 @@ function Holes(props) {
             })
         };
         if(punctureCount < 3) {
-            console.log('holes redone')
             let randomId = Math.floor(Math.random() * num + Math.ceil(num / 3) ** 2);
             let randomId2 = Math.floor(Math.random() * num + Math.ceil(num / 3) ** 2);
             let randomId3 = Math.floor(Math.random() * num + Math.ceil(num / 3) ** 2);
@@ -79,17 +69,17 @@ function Holes(props) {
         return holes;
     }
 
-    const [squares, setSquares] = useState(createStartingSquaresArray(numRows));
-    const [holes, setHoles] = useState(createStartingHolesArray(numRows));
+    const [squares, setSquares] = useState(createStartingSquaresArray(pieceSpecs.number));
+    const [holes, setHoles] = useState(createStartingHolesArray(pieceSpecs.number));
 
     const firstUpdate = useRef(true);
     useEffect(() => {
         if(!firstUpdate.current) {
             setTimeout(() => {
-                fill(nextIndex)
-            }, speed);
+                fill(pieceSpecs.nextIndex)
+            }, pieceSpecs.speed);
         } else {firstUpdate.current = false}
-    }, [nextIndex])
+    }, [pieceSpecs.nextIndex])
     
     const colorsFirstUpdate = useRef(true)
     useEffect(() => {
@@ -127,7 +117,7 @@ function Holes(props) {
 
     const fill = idx => {
         if(idx === 0) {
-            toggleIsOrganizing();
+            pieceSpecs.toggleIsOrganizing();
             dispatch(organizingCounterActions.incrementOrganizingCounter())
             while(holes[idx].filled) {
                 idx++
@@ -150,16 +140,16 @@ function Holes(props) {
             }
         }
         
-        soundPlay(sound, holes[idx].volumeMultiplier, volume, proportionalVolume);
+        soundPlay(pieceSpecs.soundObj, holes[idx].volumeMultiplier, volume, pieceSpecs.proportionalVolume);
         setHoles(newHoles);
         if(nextIdx < holes.length) {
-            setNextIndex(nextIdx);
+            pieceSpecs.setNextIndex(nextIdx);
         } else {
             dispatch(organizingCounterActions.decrementOrganizingCounter());
             setTimeout(() => {
-                toggleIsOrganizing();
-                toggleIsOrganized();
-            }, speed);
+                pieceSpecs.toggleIsOrganizing();
+                pieceSpecs.toggleIsOrganized();
+            }, pieceSpecs.speed);
         }
     };
 
@@ -176,18 +166,11 @@ function Holes(props) {
             }
         });
         setHoles(newHoles);
-        toggleIsOrganized();
+        pieceSpecs.toggleIsOrganized();
     };
 
-    const handleSetSpeed = time => {
-        setSpeed(time);
-    }
-
-    const handleSetSound = sound => {
-        setSound(getSound(sound));
-    }
     const handleSetNumRows = num => {
-        setNumRows(Number(num));
+        pieceSpecs.setNumber(Number(num));
         setSquares(createStartingSquaresArray(Number(num)));
         setHoles(createStartingHolesArray(Number(num)));
     }
@@ -197,16 +180,12 @@ function Holes(props) {
         setColorPalette(palette);
     }
 
-    const handleChangeProportionalVolume = selection => {
-        setProportionalVolume(selection);
-    }
-
     const displaySquares = () => {
         let squareLines = []
         let newLine = []
-        for(let k = 0; k < numRows**2; k++){
+        for(let k = 0; k < pieceSpecs.number**2; k++){
             newLine.push(squares[k]);
-            if(newLine.length === numRows){
+            if(newLine.length === pieceSpecs.number){
                 squareLines.push(newLine);
                 newLine = []
             }
@@ -217,9 +196,9 @@ function Holes(props) {
     const displayHoles = () => {
         let holeLines = []
         let newLine = []
-        for(let k = 0; k < (numRows + Math.ceil(numRows / 3))**2; k++){
+        for(let k = 0; k < (pieceSpecs.number + Math.ceil(pieceSpecs.number / 3))**2; k++){
             newLine.push(holes[k]);
-            if(newLine.length === numRows + Math.ceil(numRows / 3)){
+            if(newLine.length === pieceSpecs.number + Math.ceil(pieceSpecs.number / 3)){
                 holeLines.push(newLine);
                 newLine = []
             }
@@ -233,12 +212,12 @@ function Holes(props) {
                 props.id, {
                     type: 'holes',
                     palette: palette,
-                    speed: speed,
-                    sound: sound,
-                    proportionalVolume: proportionalVolume,
-                    number: numRows,
-                    shape: null ,
-                    text: null
+                    speed: pieceSpecs.speed,
+                    sound: pieceSpecs.soundName,
+                    proportionalVolume: pieceSpecs.proportionalVolume,
+                    number: pieceSpecs.number,
+                    shape: pieceSpecs.shape ,
+                    text: pieceSpecs.text
                 }
             ]
         ));
@@ -253,7 +232,7 @@ function Holes(props) {
                         {displayHoles().map(holeLine => {
                             let holeLineKey = uuidv4()
                             return <div key={holeLineKey} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{holeLine.map(hole => {
-                                return <div style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width: `${(width * .70 * (1 / (numRows + 2)) * numRows) / (numRows + Math.ceil(numRows / 3))}px`, height: `${(width * .70 * (1 / (numRows + 2)) * numRows) / (numRows + Math.ceil(numRows / 3))}px`, margin: 'none'}}>
+                                return <div style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width: `${(width * .70 * (1 / (pieceSpecs.number + 2)) * pieceSpecs.number) / (pieceSpecs.number + Math.ceil(pieceSpecs.number / 3))}px`, height: `${(width * .70 * (1 / (pieceSpecs.number + 2)) * pieceSpecs.number) / (pieceSpecs.number + Math.ceil(pieceSpecs.number / 3))}px`, margin: 'none'}}>
                                     <div style={{position: 'relative', left: `${hole.left * (hole.size - 15)}%`, top: `${hole.top * (hole.size - 15)}%`, display: `${hole.filled ? 'none' : 'inline-block'}`, borderRadius: '50%', backgroundColor: `${getColor('base', colorPalette)}`, width: `${hole.size}%`, height: `${hole.size}%`}}></div>
                                 </div>
                             })}</div>
@@ -263,12 +242,12 @@ function Holes(props) {
                         {displaySquares().map(squareLine => {
                             let lineKey = uuidv4()
                             return <div key={lineKey} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{squareLine.map(square => {
-                                return <div key={square.key} style={{display: 'inline-block', alignItems: 'center', justifyContent: 'center', backgroundColor:`${square.color}`, width: `${width * .70 * (1 / (numRows + 2))}px`, height: `${width * .70 * (1 / (numRows + 2))}px`, margin: 'none'}}></div>
+                                return <div key={square.key} style={{display: 'inline-block', alignItems: 'center', justifyContent: 'center', backgroundColor:`${square.color}`, width: `${width * .70 * (1 / (pieceSpecs.number + 2))}px`, height: `${width * .70 * (1 / (pieceSpecs.number + 2))}px`, margin: 'none'}}></div>
                             })}</div>
                         })}
                     </div>
                 </div>
-                <ControlBar id={props.id} toggleFullView={handleToggleFullView} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={20} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={puncture} unorganizedFunction={() => fill(0)} unorgButton='Puncture' orgButton='Fill'/>
+                <ControlBar id={props.id} toggleFullView={handleToggleFullView} changeProportionalVolume={pieceSpecs.setProportionalVolume} proportionalVolume={pieceSpecs.proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={20} number={pieceSpecs.number} setNumber={handleSetNumRows} isOrganizing={pieceSpecs.isOrganizing} isOrganized={pieceSpecs.isOrganized} setSpeed={pieceSpecs.setSpeed} setSound={pieceSpecs.setSound} soundValue='Ding' organizedFunction={puncture} unorganizedFunction={() => fill(0)} unorgButton='Puncture' orgButton='Fill'/>
             </div>
         </div>
     )
