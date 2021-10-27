@@ -1,27 +1,19 @@
 import React, {useEffect, useRef, useState} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import useGardenSpecs from './hooks/useGardenSpecs';
+import usePieceSpecs from './hooks/usePieceSpecs';
 import { sizeActions } from './store/size';
 import { organizingCounterActions } from './store/organizing-counter';
-import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
-import { getColor, getSound, scaler, soundPlay } from './utils';
+import { getColor, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 
 
 function Diamonds(props) {
-    const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
-    const volume = useSelector((state) => state.volume.volume);
-    const fullView = useSelector((state) => state.size.fullView);
-    const [isOrganized, toggleIsOrganized] = useToggle(false);
-    const [isOrganizing, toggleIsOrganizing] = useToggle(false);
-    const [numRows, setNumRows] = useState(9);
-    const [nextIndex, setNextIndex] = useState(0);
     const [colorPalette, setColorPalette] = useState(palette);
-    const [speed, setSpeed] = useState(1000);
-    const [sound, setSound] = useState(getSound('Laser'));
-    const [proportionalVolume, setProportionalVolume] = useState('proportional');
-    const dispatch = useDispatch();
+    const [width, volume, fullView, dispatch] = useGardenSpecs();
+    const pieceSpecs = usePieceSpecs(0, props.number, props.proportionalVolume, props.shape, props.sound, props.speed, props.text);
 
     const createStartingSquaresArray = num => {
         let squares = [];
@@ -41,22 +33,22 @@ function Diamonds(props) {
         
     }
 
-    const [squares, setSquares] = useState(createStartingSquaresArray(numRows));
+    const [squares, setSquares] = useState(createStartingSquaresArray(pieceSpecs.number));
 
     const firstUpdate = useRef(true);
     useEffect(() => {
         if(!firstUpdate.current) {
-            if(nextIndex < squares.length){
+            if(pieceSpecs.nextIndex < squares.length){
                 setTimeout(() => {
-                    balance(nextIndex)
-                }, speed);
+                    balance(pieceSpecs.nextIndex)
+                }, pieceSpecs.speed);
             } else {
                 dispatch(organizingCounterActions.decrementOrganizingCounter());
-                toggleIsOrganizing();
-                toggleIsOrganized();
+                pieceSpecs.toggleIsOrganizing();
+                pieceSpecs.toggleIsOrganized();
             }
         } else {firstUpdate.current = false}
-    }, [nextIndex])
+    }, [pieceSpecs.nextIndex])
     
     const colorsFirstUpdate = useRef(true)
     useEffect(() => {
@@ -88,7 +80,7 @@ function Diamonds(props) {
 
     const balance = idx => {
         if(idx === 0) {
-            toggleIsOrganizing();
+            pieceSpecs.toggleIsOrganizing();
             dispatch(organizingCounterActions.incrementOrganizingCounter())
         };
         let newSquares = squares.map(square => {
@@ -100,15 +92,15 @@ function Diamonds(props) {
         });
 
         
-        soundPlay(sound, squares[idx].volumeMultiplier, volume, proportionalVolume);
+        soundPlay(pieceSpecs.soundObj, squares[idx].volumeMultiplier, volume, pieceSpecs.proportionalVolume);
         setSquares(newSquares);
         if(idx < squares.length) {
-            setNextIndex(idx + 1);
+            pieceSpecs.setNextIndex(idx + 1);
         } else {
             setTimeout(() => {
-                toggleIsOrganizing();
-                toggleIsOrganized();
-            }, speed);
+                pieceSpecs.toggleIsOrganizing();
+                pieceSpecs.toggleIsOrganized();
+            }, pieceSpecs.speed);
         }
     };
 
@@ -124,18 +116,11 @@ function Diamonds(props) {
             }
         });
         setSquares(newSquares)
-        toggleIsOrganized();
+        pieceSpecs.toggleIsOrganized();
     };
 
-    const handleSetSpeed = time => {
-        setSpeed(time);
-    }
-
-    const handleSetSound = sound => {
-        setSound(getSound(sound));
-    }
     const handleSetNumRows = num => {
-        setNumRows(Number(num));
+        pieceSpecs.setNumber(Number(num));
         setSquares(createStartingSquaresArray(Number(num)));
     }
 
@@ -144,16 +129,12 @@ function Diamonds(props) {
         setColorPalette(palette);
     }
 
-    const handleChangeProportionalVolume = selection => {
-        setProportionalVolume(selection);
-    }
-
     const displaySquares = () => {
         let squareLines = []
         let newLine = []
-        for(let k = 0; k < numRows**2; k++){
+        for(let k = 0; k < pieceSpecs.number**2; k++){
             newLine.push(squares[k]);
-            if(newLine.length === numRows){
+            if(newLine.length === pieceSpecs.number){
                 squareLines.push(newLine);
                 newLine = []
             }
@@ -167,12 +148,12 @@ function Diamonds(props) {
                 props.id, {
                     type: 'diamonds',
                     palette: palette,
-                    speed: speed,
-                    sound: sound,
-                    proportionalVolume: proportionalVolume,
-                    number: numRows,
-                    shape: null ,
-                    text: null
+                    speed: pieceSpecs.speed,
+                    sound: pieceSpecs.soundName,
+                    proportionalVolume: pieceSpecs.proportionalVolume,
+                    number: pieceSpecs.number,
+                    shape: pieceSpecs.shape,
+                    text: pieceSpecs.text
                 }
             ]
         ));
@@ -186,16 +167,16 @@ function Diamonds(props) {
                     {displaySquares().map(squareLine => {
                         let lineKey = uuidv4()
                         return <div key={lineKey} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{squareLine.map(square => {
-                            return <div key={square.key} style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', backgroundColor:`${square.color}`, width: `${Math.floor(width * .60 * (1 / (numRows + 2)))}px`, height: `${Math.floor(width * .60 * (1 / (numRows + 2)))}px`, margin: 'none'}}>
-                                        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: getColor('border', colorPalette), width: `${Math.floor(width * square.squareOneSize * (1 / (numRows + 2)))}px`, height: `${Math.floor(width * square.squareOneSize * (1 / (numRows + 2)))}px`, margin: 'none'}}>
-                                            <div style={{backgroundColor: square.color, width: `${Math.floor(width * square.squareTwoSize * (1 / (numRows + 2)))}px`, height: `${Math.floor(width * square.squareTwoSize * (1 / (numRows + 2)))}px`, margin: 'none'}}></div>
+                            return <div key={square.key} style={{display: 'inline-flex', alignItems: 'center', justifyContent: 'center', backgroundColor:`${square.color}`, width: `${Math.floor(width * .60 * (1 / (pieceSpecs.number + 2)))}px`, height: `${Math.floor(width * .60 * (1 / (pieceSpecs.number + 2)))}px`, margin: 'none'}}>
+                                        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: getColor('border', colorPalette), width: `${Math.floor(width * square.squareOneSize * (1 / (pieceSpecs.number + 2)))}px`, height: `${Math.floor(width * square.squareOneSize * (1 / (pieceSpecs.number + 2)))}px`, margin: 'none'}}>
+                                            <div style={{backgroundColor: square.color, width: `${Math.floor(width * square.squareTwoSize * (1 / (pieceSpecs.number + 2)))}px`, height: `${Math.floor(width * square.squareTwoSize * (1 / (pieceSpecs.number + 2)))}px`, margin: 'none'}}></div>
                                         </div>
                                 </div>
                         })}</div>
                     })}
                 </div>
                 </div>
-                <ControlBar id={props.id} toggleFullView={handleToggleFullView} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={'proportional'} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={20} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Laser' organizedFunction={unbalance} unorganizedFunction={() => balance(0)} unorgButton='Unbalance' orgButton='Balance'/>
+                <ControlBar id={props.id} toggleFullView={handleToggleFullView} changeProportionalVolume={pieceSpecs.setProportionalVolume} proportionalVolume={'proportional'} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={20} number={pieceSpecs.number} setNumber={handleSetNumRows} isOrganizing={pieceSpecs.isOrganizing} isOrganized={pieceSpecs.isOrganized} setSpeed={pieceSpecs.setSpeed} setSound={pieceSpecs.setSound} soundValue='Laser' organizedFunction={unbalance} unorganizedFunction={() => balance(0)} unorgButton='Unbalance' orgButton='Balance'/>
             </div>
         </div>
     )
