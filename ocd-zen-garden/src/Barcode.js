@@ -1,26 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import useGardenSpecs from './hooks/useGardenSpecs';
+import usePieceSpecs from './hooks/usePieceSpecs';
 import { organizingCounterActions } from './store/organizing-counter';
 import { sizeActions } from './store/size';
-import { getColor, getSound, scaler, soundPlay } from './utils';
+import { getColor, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
-import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
 
 function Barcode(props) {
-    const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
-    const volume = useSelector((state) => state.volume.volume);
-    const fullView = useSelector((state) => state.size.fullView);
-    const [isOrganized, toggleIsOrganized] = useToggle(false);
-    const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [colorPalette, setColorPalette] = useState(palette);
-    const [numStripes, setNumStripes] = useState(15);
-    const [nextIdx, setNextIdx] = useState(0);
-    const [sound, setSound] = useState(getSound('Blip'));
-    const [proportionalVolume, setProportionalVolume] = useState('proportional');
-    const [speed, setSpeed] = useState(1000);
-    const dispatch = useDispatch();
+    const [width, volume, fullView, dispatch] = useGardenSpecs();
+    const pieceSpecs = usePieceSpecs(0, props.number, props.proportionalVolume, props.shape, props.sound, props.speed, props.text);
+
 
     const createStartingStripeArray = num => {
         let totalHeight = .4 * (1 / num)
@@ -50,44 +43,44 @@ function Barcode(props) {
 
     const balanceStripes = idx => {
         if(idx === 0) {
-            toggleIsOrganizing();
+            pieceSpecs.toggleIsOrganizing();
             dispatch(organizingCounterActions.incrementOrganizingCounter())
         }
         let newStripes = stripes.map(stripe => {
             if(stripe.id === stripes[idx].id) {
-                return {...stripe, height: `${(1 / numStripes) * .4}`}
+                return {...stripe, height: `${(1 / pieceSpecs.number) * .4}`}
             } else {
                 return stripe;
             }
         });
-        soundPlay(sound, stripes[idx].volumeMultiplier, volume, proportionalVolume);
+        soundPlay(pieceSpecs.soundObj, stripes[idx].volumeMultiplier, volume, pieceSpecs.proportionalVolume);
         setStripes(newStripes);
-        setNextIdx(idx + 1);
+        pieceSpecs.setNextIndex(idx + 1);
         if(idx + 1 === stripes.length) {
-            toggleIsOrganizing();
-            toggleIsOrganized();
+            pieceSpecs.toggleIsOrganizing();
+            pieceSpecs.toggleIsOrganized();
             dispatch(organizingCounterActions.decrementOrganizingCounter());
         }
     }
 
     const unbalanceStripes = () => {
-        let newStripes = createStartingStripeArray(numStripes);
+        let newStripes = createStartingStripeArray(pieceSpecs.number);
         setStripes(newStripes);
-        toggleIsOrganized();
+        pieceSpecs.toggleIsOrganized();
     }
 
     let firstUpdate = useRef(true);
     useEffect(() => {
         if(!firstUpdate.current) {
-            if(nextIdx < stripes.length) {
+            if(pieceSpecs.nextIndex < stripes.length) {
                 setTimeout(() => {
-                    balanceStripes(nextIdx);
-                }, speed);
+                    balanceStripes(pieceSpecs.nextIndex);
+                }, pieceSpecs.speed);
             }
         } else {
             firstUpdate.current = false;
         }
-    }, [nextIdx]);
+    }, [pieceSpecs.nextIndex]);
 
     let colorFirstUpdate = useRef(true);
     useEffect(() => {
@@ -115,17 +108,9 @@ function Barcode(props) {
         }
         
     }, [colorPalette]);
-    
-    const handleSetSound = sound => {
-        setSound(getSound(sound))
-    }
-
-    const handleSetSpeed = speed => {
-        setSpeed(speed);
-    }
 
     const handleSetNumStripes = num => {
-        setNumStripes(Number(num));
+        pieceSpecs.setNumber(Number(num));
         setStripes(createStartingStripeArray(Number(num)))
     }
 
@@ -134,28 +119,24 @@ function Barcode(props) {
         setColorPalette(palette);
     }
 
-    const handleChangeProportionalVolume = selection => {
-        setProportionalVolume(selection);
-    }
-
     const handleToggleFullView = () => {
         dispatch(sizeActions.setFullView(
             [
                 props.id, {
                     type: 'barcode',
                     palette: palette,
-                    speed: speed,
-                    sound: sound,
-                    proportionalVolume: proportionalVolume,
-                    number: numStripes,
-                    shape: null ,
-                    text: null
+                    speed: pieceSpecs.speed,
+                    sound: pieceSpecs.soundName,
+                    proportionalVolume: pieceSpecs.proportionalVolume,
+                    number: pieceSpecs.number,
+                    shape: pieceSpecs.shape ,
+                    text: pieceSpecs.text
                 }
             ]
         ));
     }
 
-    const [stripes, setStripes] = useState(createStartingStripeArray(numStripes))
+    const [stripes, setStripes] = useState(createStartingStripeArray(pieceSpecs.number))
     return (
         <div style={{margin: fullView ? '0 auto' : 0, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${width}px`, height: `${width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%'}}>
@@ -166,7 +147,7 @@ function Barcode(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar id={props.id} toggleFullView={handleToggleFullView} palette={colorPalette} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} setPalette={handleSetColorPalette} setNumber={handleSetNumStripes} minNum={5} maxNum={25} number={numStripes} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Blip' organizedFunction={unbalanceStripes} unorganizedFunction={() => balanceStripes(0)} unorgButton='Unbalance' orgButton='Balance' />
+                <ControlBar id={props.id} toggleFullView={handleToggleFullView} palette={colorPalette} changeProportionalVolume={pieceSpecs.setProportionalVolume} proportionalVolume={pieceSpecs.proportionalVolume} setPalette={handleSetColorPalette} setNumber={handleSetNumStripes} minNum={5} maxNum={25} number={pieceSpecs.number} isOrganizing={pieceSpecs.isOrganizing} isOrganized={pieceSpecs.isOrganized} setSpeed={pieceSpecs.setSpeed} setSound={pieceSpecs.setSound} soundValue='Blip' organizedFunction={unbalanceStripes} unorganizedFunction={() => balanceStripes(0)} unorgButton='Unbalance' orgButton='Balance' />
             </div>
         </div>
     )
