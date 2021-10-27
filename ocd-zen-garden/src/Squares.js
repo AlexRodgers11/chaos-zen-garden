@@ -1,26 +1,19 @@
 import React, {useEffect, useRef, useState} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import useGardenSpecs from './hooks/useGardenSpecs';
+import usePieceSpecs from './hooks/usePieceSpecs';
 import { sizeActions } from './store/size';
 import { organizingCounterActions } from './store/organizing-counter'; 
-import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
 import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 
 function Squares(props) {
-    const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
-    const volume = useSelector((state) => state.volume.volume);
-    const fullView = useSelector((state) => state.size.fullView);
-    const [isOrganized, toggleIsOrganized] = useToggle(false);
-    const [isOrganizing, toggleIsOrganizing] = useToggle(false);
-    const [numRows, setNumRows] = useState(5);
-    const [nextIndex, setNextIndex] = useState({id: 0, dir: 'topLeft'});
     const [colorPalette, setColorPalette] = useState(palette);
-    const [speed, setSpeed] = useState(1000);
-    const [sound, setSound] = useState(getSound('Ding'));
-    const [proportionalVolume, setProportionalVolume] = useState('proportional');
-    const dispatch = useDispatch();
+    const [width, volume, fullView, dispatch] = useGardenSpecs();
+    const pieceSpecs = usePieceSpecs({id: 0, dir: 'topLeft'}, props.number, props.proportionalVolume, props.shape, props.sound, props.speed, props.text);
+
 
     const createStartingSquaresArray = num => {
         let squares = [];
@@ -52,22 +45,22 @@ function Squares(props) {
         }
     }
 
-    const [squares, setSquares] = useState(createStartingSquaresArray(numRows));
+    const [squares, setSquares] = useState(createStartingSquaresArray(pieceSpecs.number));
 
     const firstUpdate = useRef(true);
     useEffect(() => {
         if(!firstUpdate.current) {
-            if(nextIndex.id < squares.length || nextIndex.dir !== 'topLeft'){
+            if(pieceSpecs.nextIndex.id < squares.length || pieceSpecs.nextIndex.dir !== 'topLeft'){
                 setTimeout(() => {
-                    sharpen(nextIndex.id, nextIndex.dir);
-                }, speed);
+                    sharpen(pieceSpecs.nextIndex.id, pieceSpecs.nextIndex.dir);
+                }, pieceSpecs.speed);
             } else {
-                toggleIsOrganizing();
-                toggleIsOrganized();
+                pieceSpecs.toggleIsOrganizing();
+                pieceSpecs.toggleIsOrganized();
                 dispatch(organizingCounterActions.decrementOrganizingCounter());
             }
         } else {firstUpdate.current = false}
-    }, [nextIndex])
+    }, [pieceSpecs.nextIndex])
     
     const colorsFirstUpdate = useRef(true)
     useEffect(() => {
@@ -99,7 +92,7 @@ function Squares(props) {
 
     const sharpen = (idx, dir) => {
         if(idx === 0 && dir === 'topLeft') {
-            toggleIsOrganizing();
+            pieceSpecs.toggleIsOrganizing();
             dispatch(organizingCounterActions.incrementOrganizingCounter())
         } 
         let newSquares = squares.map(square => {
@@ -111,21 +104,21 @@ function Squares(props) {
         });
         switch(dir) {
             case 'topLeft':
-                soundPlay(sound, scaler(5, 15, .0075, .01, squares[idx].topLeft), volume, proportionalVolume);
+                soundPlay(pieceSpecs.soundObj, scaler(5, 15, .0075, .01, squares[idx].topLeft), volume, pieceSpecs.proportionalVolume);
                 break;
             case 'topRight':
-                soundPlay(sound, scaler(5, 15, .0075, .01, squares[idx].topRight), volume, proportionalVolume);
+                soundPlay(pieceSpecs.soundObj, scaler(5, 15, .0075, .01, squares[idx].topRight), volume, pieceSpecs.proportionalVolume);
                 break;
             case 'bottomLeft':
-                soundPlay(sound, scaler(5, 15, .0075, .01, squares[idx].bottomLeft), volume, proportionalVolume);
+                soundPlay(pieceSpecs.soundObj, scaler(5, 15, .0075, .01, squares[idx].bottomLeft), volume, pieceSpecs.proportionalVolume);
                 break;
             case 'bottomRight':
-                soundPlay(sound, scaler(5, 15, .0075, .01, squares[idx].bottomRight), volume, proportionalVolume);
+                soundPlay(pieceSpecs.soundObj, scaler(5, 15, .0075, .01, squares[idx].bottomRight), volume, pieceSpecs.proportionalVolume);
                 break;
         }
         
         setSquares(newSquares);
-        setNextIndex({id: dir === 'bottomRight' ? idx + 1 : idx, dir: getNextDir(dir)})        
+        pieceSpecs.setNextIndex({id: dir === 'bottomRight' ? idx + 1 : idx, dir: getNextDir(dir)})        
     }
 
     const dull = () => {
@@ -133,18 +126,11 @@ function Squares(props) {
             return {...square, topLeft: Math.random() * 15, topRight: Math.random() * 15, bottomLeft: Math.random() * 15, bottomRight: Math.random() * 15}
         })
         setSquares(newSquares);
-        toggleIsOrganized();
+        pieceSpecs.toggleIsOrganized();
     }
 
-    const handleSetSpeed = time => {
-        setSpeed(time);
-    }
-
-    const handleSetSound = sound => {
-        setSound(getSound(sound));
-    }
     const handleSetNumRows = num => {
-        setNumRows(Number(num));
+        pieceSpecs.setNumber(Number(num));
         setSquares(createStartingSquaresArray(Number(num)))
     }
 
@@ -153,16 +139,12 @@ function Squares(props) {
         setColorPalette(palette);
     }
 
-    const handleChangeProportionalVolume = selection => {
-        setProportionalVolume(selection);
-    }
-
     const displaySquares = () => {
         let squareLines = []
         let newLine = []
-        for(let k = 0; k < numRows**2; k++){
+        for(let k = 0; k < pieceSpecs.number**2; k++){
             newLine.push(squares[k]);
-            if(newLine.length === numRows){
+            if(newLine.length === pieceSpecs.number){
                 squareLines.push(newLine);
                 newLine = []
             }
@@ -176,12 +158,12 @@ function Squares(props) {
                 props.id, {
                     type: 'squares',
                     palette: palette,
-                    speed: speed,
-                    sound: sound,
-                    proportionalVolume: proportionalVolume,
-                    number: numRows,
-                    shape: null ,
-                    text: null
+                    speed: pieceSpecs.speed,
+                    sound: pieceSpecs.soundName,
+                    proportionalVolume: pieceSpecs.proportionalVolume,
+                    number: pieceSpecs.number,
+                    shape: pieceSpecs.shape ,
+                    text: pieceSpecs.text
                 }
             ]
         ));
@@ -195,12 +177,12 @@ function Squares(props) {
                         {displaySquares().map(squareLine => {
                             let lineKey = uuidv4()
                             return <div key={lineKey}>{squareLine.map(square => {
-                                return <div key={square.key} style={{display: 'inline-block', backgroundColor:`${square.color}`, border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: `${square.topLeft}% ${square.topRight}% ${square.bottomRight}% ${square.bottomLeft}%`, width: `${width * .70 * (1 / (numRows + 2))}px`, height: `${width * .70 * (1 / (numRows + 2))}px`, margin: `${(width * .70 * (1 / (numRows + 2)) / (numRows + 2))}px`}}></div>
+                                return <div key={square.key} style={{display: 'inline-block', backgroundColor:`${square.color}`, border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: `${square.topLeft}% ${square.topRight}% ${square.bottomRight}% ${square.bottomLeft}%`, width: `${width * .70 * (1 / (pieceSpecs.number + 2))}px`, height: `${width * .70 * (1 / (pieceSpecs.number + 2))}px`, margin: `${(width * .70 * (1 / (pieceSpecs.number + 2)) / (pieceSpecs.number + 2))}px`}}></div>
                             })}</div>
                         })}
                     </div>
                 </div>
-                <ControlBar id={props.id} toggleFullView={handleToggleFullView} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={dull} unorganizedFunction={() => sharpen(0, 'topLeft')} unorgButton='Dull' orgButton='Sharpen'/>
+                <ControlBar id={props.id} toggleFullView={handleToggleFullView} changeProportionalVolume={pieceSpecs.setProportionalVolume} proportionalVolume={pieceSpecs.proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={pieceSpecs.number} setNumber={handleSetNumRows} isOrganizing={pieceSpecs.isOrganizing} isOrganized={pieceSpecs.isOrganized} setSpeed={pieceSpecs.setSpeed} setSound={pieceSpecs.setSound} soundValue='Ding' organizedFunction={dull} unorganizedFunction={() => sharpen(0, 'topLeft')} unorgButton='Dull' orgButton='Sharpen'/>
             </div>
         </div>
     )
