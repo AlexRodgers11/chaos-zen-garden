@@ -1,26 +1,18 @@
 import React, { useEffect, useRef, useState} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import useGardenSpecs from './hooks/useGardenSpecs';
+import usePieceSpecs from './hooks/usePieceSpecs';
 import { sizeActions } from './store/size';
 import { organizingCounterActions } from './store/organizing-counter';
-import useToggle from './hooks/useToggle';
-import { getColor, getSound, scaler, soundPlay } from './utils';
+import { getColor, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 
 
 function Rainbow(props) {
-    const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
-    const volume = useSelector((state) => state.volume.volume);
-    const fullView = useSelector((state) => state.size.fullView);
-    const [isOrganized, toggleIsOrganized] = useToggle(false);
-    const [isOrganizing, toggleIsOrganizing] = useToggle(false);
     const [colorPalette, setColorPalette] = useState(palette);
-    const [nextIdx, setNextIdx] = useState();
-    const [numArcs, setNumArcs] = useState(12);
-    const [speed, setSpeed] = useState(1000);
-    const [sound, setSound] = useState(getSound('Sparkle'));
-    const [proportionalVolume, setProportionalVolume] = useState('proportional');
-    const dispatch = useDispatch();
+    const [width, volume, fullView, dispatch] = useGardenSpecs();
+    const pieceSpecs = usePieceSpecs(0, props.number, props.proportionalVolume, props.shape, props.sound, props.speed, props.text);
 
     const createStartingArcsArray = num => {
         let startingArcArray = [];
@@ -36,18 +28,18 @@ function Rainbow(props) {
         return startingArcArray;
     }
 
-    const [arcs, setArcs] = useState(createStartingArcsArray(numArcs));
+    const [arcs, setArcs] = useState(createStartingArcsArray(pieceSpecs.number));
 
     const firstUpdate = useRef(true);
     useEffect(() => {
-        if(!firstUpdate.current && nextIdx > 0) {
+        if(!firstUpdate.current && pieceSpecs.nextIndex > 0) {
             setTimeout(() => {
-                align(nextIdx)
-            }, speed)
+                align(pieceSpecs.nextIndex)
+            }, pieceSpecs.speed)
         } else {
             firstUpdate.current = false;
         }
-    }, [nextIdx]);
+    }, [pieceSpecs.nextIndex]);
 
     const colorsFirstUpdate = useRef(true)
     useEffect(() => {
@@ -78,7 +70,7 @@ function Rainbow(props) {
 
     const align = idx => {
         if(idx === arcs.length - 1) {
-            toggleIsOrganizing();
+            pieceSpecs.toggleIsOrganizing();
             dispatch(organizingCounterActions.incrementOrganizingCounter())
         }
         let newArcs = arcs.map(arc => {
@@ -88,15 +80,15 @@ function Rainbow(props) {
                 return arc;
             }
         });
-        soundPlay(sound, arcs[idx].volumeMultiplier, volume, proportionalVolume);
+        soundPlay(pieceSpecs.soundObj, arcs[idx].volumeMultiplier, volume, pieceSpecs.proportionalVolume);
         setArcs(newArcs);
-        setNextIdx(idx - 1);
+        pieceSpecs.setNextIndex(idx - 1);
         if(idx - 1 === 0) {
             dispatch(organizingCounterActions.decrementOrganizingCounter());
             setTimeout(() => {
-                toggleIsOrganized();
-                toggleIsOrganizing();
-            }, speed);
+                pieceSpecs.toggleIsOrganized();
+                pieceSpecs.toggleIsOrganizing();
+            }, pieceSpecs.speed);
         }
     }
 
@@ -110,15 +102,7 @@ function Rainbow(props) {
             }
         })
         setArcs(newArcs);
-        toggleIsOrganized();
-    }
-
-    const handleSetSpeed = time => {
-        setSpeed(time);
-    }
-
-    const handleSetSound = sound => {
-        setSound(getSound(sound));
+        pieceSpecs.toggleIsOrganized();
     }
 
     const handleSetColorPalette = palette => {
@@ -126,12 +110,8 @@ function Rainbow(props) {
         setColorPalette(palette);
     }
 
-    const handleChangeProportionalVolume = selection => {
-        setProportionalVolume(selection);
-    }
-
     const handleSetNumArcs = num => {
-        setNumArcs(Number(num));
+        pieceSpecs.setNumber(Number(num));
         setArcs(createStartingArcsArray(Number(num)))
     }
 
@@ -146,10 +126,10 @@ function Rainbow(props) {
                     justifyContent: 'center', 
                     width: `${width}px`, 
                     height: `${width}px`, 
-                    border: `${(width * .7) / (4 * numArcs)}px solid ${arcs[num].color}`, 
+                    border: `${(width * .7) / (4 * pieceSpecs.number)}px solid ${arcs[num].color}`, 
                     borderRadius: '50%'}}
                 >
-                    {displayArcs(num + 1, width - (2 * (width * .7) / (4 * numArcs)))}
+                    {displayArcs(num + 1, width - (2 * (width * .7) / (4 * pieceSpecs.number)))}
                 </div>
             )
         }
@@ -161,12 +141,12 @@ function Rainbow(props) {
                 props.id, {
                     type: 'rainbow',
                     palette: palette,
-                    speed: speed,
-                    sound: sound,
-                    proportionalVolume: proportionalVolume,
-                    number: numArcs,
-                    shape: null ,
-                    text: null
+                    speed: pieceSpecs.speed,
+                    sound: pieceSpecs.soundName,
+                    proportionalVolume: pieceSpecs.proportionalVolume,
+                    number: pieceSpecs.number,
+                    shape: pieceSpecs.shape ,
+                    text: pieceSpecs.text
                 }
             ]
         ));
@@ -180,7 +160,7 @@ function Rainbow(props) {
                             {displayArcs(0, width * .7)}
                         </div>
                 </div>
-                <ControlBar id={props.id} toggleFullView={handleToggleFullView} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumArcs} minNum={7} maxNum={25} number={numArcs} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Sparkle' organizedFunction={shift} unorganizedFunction={() => align(arcs.length - 1)} unorgButton='Shift' orgButton='Align' />
+                <ControlBar id={props.id} toggleFullView={handleToggleFullView} changeProportionalVolume={pieceSpecs.setProportionalVolume} proportionalVolume={pieceSpecs.proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumArcs} minNum={7} maxNum={25} number={pieceSpecs.number} isOrganizing={pieceSpecs.isOrganizing} isOrganized={pieceSpecs.isOrganized} setSpeed={pieceSpecs.setSpeed} setSound={pieceSpecs.setSound} soundValue='Sparkle' organizedFunction={shift} unorganizedFunction={() => align(arcs.length - 1)} unorgButton='Shift' orgButton='Align' />
 
             </div>
         </div>

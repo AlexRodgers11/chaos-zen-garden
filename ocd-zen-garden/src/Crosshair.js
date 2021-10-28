@@ -1,26 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import useGardenSpecs from './hooks/useGardenSpecs';
+import usePieceSpecs from './hooks/usePieceSpecs';
 import { organizingCounterActions } from './store/organizing-counter';
 import { sizeActions } from './store/size';
-import useToggle from './hooks/useToggle';
-import { getColor, getSound, scaler, soundPlay } from './utils';
+import { getColor, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 
 function Crosshair(props) {
-    const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
-    const volume = useSelector((state) => state.volume.volume);
-    const fullView = useSelector((state) => state.size.fullView);
-    const [isOrganized, toggleIsOrganized] = useToggle(false);
-    const [isOrganizing, toggleIsOrganizing] = useToggle(false);
-    const [nextIndex, setNextIndex] = useState(0);
-    const [speed, setSpeed] = useState(1000);
-    const [sound, setSound] = useState(getSound('Robot'));
-    const [proportionalVolume, setProportionalVolume] = useState('proportional');
     const [colorPalette, setColorPalette] = useState(palette);
-    const [numRings, setNumRings] = useState(6);
-    const [shape, setShape] = useState('circle');
-    const dispatch = useDispatch();
+    const [width, volume, fullView, dispatch] = useGardenSpecs();
+    const pieceSpecs = usePieceSpecs(0, props.number, props.proportionalVolume, props.shape, props.sound, props.speed, props.text);
 
     const createStartingRingArray = num => {
         let rings = [];
@@ -36,20 +27,20 @@ function Crosshair(props) {
         return rings;
     }
 
-    const [rings, setRings] = useState(createStartingRingArray(numRings));
+    const [rings, setRings] = useState(createStartingRingArray(pieceSpecs.number));
 
     const firstUpdate = useRef(true);
     useEffect(()=>{
         if(!firstUpdate.current) {
-            if(nextIndex < rings.length){
+            if(pieceSpecs.nextIndex < rings.length){
                 setTimeout(()=>{
-                    align(nextIndex);
-                }, speed);
+                    align(pieceSpecs.nextIndex);
+                }, pieceSpecs.speed);
             }
         } else {
             firstUpdate.current = false;
         }     
-    }, [nextIndex]);
+    }, [pieceSpecs.nextIndex]);
 
     const colorFirstUpdate = useRef(true);
     useEffect(() => {
@@ -81,7 +72,7 @@ function Crosshair(props) {
 
     const align = (idx) => {
         if(idx === 0) {
-            toggleIsOrganizing();
+            pieceSpecs.toggleIsOrganizing();
             dispatch(organizingCounterActions.incrementOrganizingCounter())
         }
         let newRings = rings.map(ring => {
@@ -93,16 +84,16 @@ function Crosshair(props) {
             
         });
 
-        soundPlay(sound, rings[idx].volumeMultiplier, volume, proportionalVolume);
+        soundPlay(pieceSpecs.soundObj, rings[idx].volumeMultiplier, volume, pieceSpecs.proportionalVolume);
         setRings(newRings);
-        setNextIndex(idx + 1);
+        pieceSpecs.setNextIndex(idx + 1);
         if(idx + 1 === rings.length) {
             // props.setNumOrganizing(-1);
             dispatch(organizingCounterActions.decrementOrganizingCounter());
             setTimeout(() => {
-                toggleIsOrganized();
-                toggleIsOrganizing();
-            }, speed)
+                pieceSpecs.toggleIsOrganized();
+                pieceSpecs.toggleIsOrganizing();
+            }, pieceSpecs.speed)
         } 
     }
 
@@ -116,15 +107,7 @@ function Crosshair(props) {
             }
         })
         setRings(newRings);
-        toggleIsOrganized();
-    }
-
-    const handleSetSpeed = time => {
-        setSpeed(time);
-    }
-
-    const handleSetSound = sound => {
-        setSound(getSound(sound));
+        pieceSpecs.toggleIsOrganized();
     }
 
     const handleSetColorPalette = palette => {
@@ -132,22 +115,14 @@ function Crosshair(props) {
         setColorPalette(palette);
     }
 
-    const handleChangeProportionalVolume = selection => {
-        setProportionalVolume(selection);
-    }
-
     const handleSetNumRings = num => {
-        setNumRings(Number(num));
+        pieceSpecs.setNumber(Number(num));
         setRings(createStartingRingArray(Number(num)))
-    }
-    
-    const handleChangeShape = shape => {
-        setShape(shape);
     }
 
     const display = (id) => {
-        let ringSize = `${id === 1 ? `${.6 * width}` : `${(.6 - (id - 1) * (.6 / numRings)) * width}`}`;
-        if(id <= numRings) {
+        let ringSize = `${id === 1 ? `${.6 * width}` : `${(.6 - (id - 1) * (.6 / pieceSpecs.number)) * width}`}`;
+        if(id <= pieceSpecs.number) {
             let lineColor = getColor(1, colorPalette);
             return (
                 <div style={{
@@ -159,7 +134,7 @@ function Crosshair(props) {
                     alignItems: 'center', 
                     backgroundColor: `${getColor('base', colorPalette)}`,
                     border: `2px solid ${rings[id - 1].color}`,
-                    borderRadius: shape === 'circle' ? '50%' : '0',
+                    borderRadius: pieceSpecs.shape === 'circle' ? '50%' : '0',
                     transform: `rotate(${rings[id - 1].rotation}deg)`,
                     height: `${ringSize}px`, 
                     width: `${ringSize}px`}}>
@@ -186,12 +161,12 @@ function Crosshair(props) {
                 props.id, {
                     type: 'crosshair',
                     palette: palette,
-                    speed: speed,
-                    sound: sound,
-                    proportionalVolume: proportionalVolume,
-                    number: numRings,
-                    shape: shape,
-                    text: null
+                    speed: pieceSpecs.speed,
+                    sound: pieceSpecs.soundName,
+                    proportionalVolume: pieceSpecs.proportionalVolume,
+                    number: pieceSpecs.number,
+                    shape: pieceSpecs.shape,
+                    text: pieceSpecs.text
                 }
             ]
         ));
@@ -205,7 +180,7 @@ function Crosshair(props) {
                         {display(1)}
                     </div>
                 </div>
-            <ControlBar toggleFullView={handleToggleFullView} shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumRings} minNum={4} maxNum={20} number={numRings} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={spin} unorganizedFunction={() => align(0)} unorgButton='Spin' orgButton='Align' />
+            <ControlBar toggleFullView={handleToggleFullView} shape={pieceSpecs.shape} shapes={['circle', 'square']} changeShape={pieceSpecs.setShape} changeProportionalVolume={pieceSpecs.setProportionalVolume} proportionalVolume={pieceSpecs.proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumRings} minNum={4} maxNum={20} number={pieceSpecs.number} isOrganizing={pieceSpecs.isOrganizing} isOrganized={pieceSpecs.isOrganized} setSpeed={pieceSpecs.setSpeed} setSound={pieceSpecs.setSound} soundValue='Ding' organizedFunction={spin} unorganizedFunction={() => align(0)} unorgButton='Spin' orgButton='Align' />
 
             </div>
         </div>

@@ -1,27 +1,19 @@
 import React, {useEffect, useRef, useState} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import useGardenSpecs from './hooks/useGardenSpecs';
+import usePieceSpecs from './hooks/usePieceSpecs';
 import { sizeActions } from './store/size';
 import { organizingCounterActions } from './store/organizing-counter';
-import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
-import { getColor, getSound, scaler, soundPlay } from './utils';
+import { getColor, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 import { GiSplurt } from 'react-icons/gi';
 
 function Smudges(props) {
-    const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
-    const volume = useSelector((state) => state.volume.volume);
-    const fullView = useSelector((state) => state.size.fullView);
-    const [isOrganized, toggleIsOrganized] = useToggle(false);
-    const [isOrganizing, toggleIsOrganizing] = useToggle(false);
-    const [numRows, setNumRows] = useState(5);
-    const [nextIndex, setNextIndex] = useState(0);
     const [colorPalette, setColorPalette] = useState(palette);
-    const [speed, setSpeed] = useState(1000);
-    const [sound, setSound] = useState(getSound('Sparkle'));
-    const [proportionalVolume, setProportionalVolume] = useState('proportional');
-    const dispatch = useDispatch();
+    const [width, volume, fullView, dispatch] = useGardenSpecs();
+    const pieceSpecs = usePieceSpecs(0, props.number, props.proportionalVolume, props.shape, props.sound, props.speed, props.text);
 
     const createStartingSquaresArray = num => {
         let squares = [];
@@ -43,16 +35,16 @@ function Smudges(props) {
         
     }
 
-    const [squares, setSquares] = useState(createStartingSquaresArray(numRows));
+    const [squares, setSquares] = useState(createStartingSquaresArray(pieceSpecs.number));
 
     const firstUpdate = useRef(true);
     useEffect(() => {
         if(!firstUpdate.current) {
             setTimeout(() => {
-                clean(nextIndex);
-            }, speed);
+                clean(pieceSpecs.nextIndex);
+            }, pieceSpecs.speed);
         } else {firstUpdate.current = false}
-    }, [nextIndex])
+    }, [pieceSpecs.nextIndex])
     
     const colorsFirstUpdate = useRef(true)
     useEffect(() => {
@@ -84,7 +76,7 @@ function Smudges(props) {
 
     const clean = idx => {
         if(idx === 0) {
-            toggleIsOrganizing();
+            pieceSpecs.toggleIsOrganizing();
             dispatch(organizingCounterActions.incrementOrganizingCounter())
             while(!squares[idx].contaminated) {
                 idx++
@@ -108,16 +100,16 @@ function Smudges(props) {
             }
         }
 
-        soundPlay(sound, squares[idx].volumeMultiplier, volume, proportionalVolume);
+        soundPlay(pieceSpecs.soundObj, squares[idx].volumeMultiplier, volume, pieceSpecs.proportionalVolume);
         setSquares(newSquares);
         if(nextIdx < squares.length) {
-            setNextIndex(nextIdx);
+            pieceSpecs.setNextIndex(nextIdx);
         } else {
             dispatch(organizingCounterActions.decrementOrganizingCounter());
             setTimeout(() => {
-                toggleIsOrganizing();
-                toggleIsOrganized();
-            }, speed);
+                pieceSpecs.toggleIsOrganizing();
+                pieceSpecs.toggleIsOrganized();
+            }, pieceSpecs.speed);
         }
     };
 
@@ -133,18 +125,11 @@ function Smudges(props) {
                 rotation: Math.random()};
         });
         setSquares(newSquares);
-        toggleIsOrganized();
+        pieceSpecs.toggleIsOrganized();
     };
 
-    const handleSetSpeed = time => {
-        setSpeed(time);
-    }
-
-    const handleSetSound = sound => {
-        setSound(getSound(sound));
-    }
     const handleSetNumRows = num => {
-        setNumRows(Number(num));
+        pieceSpecs.setNumber(Number(num));
         setSquares(createStartingSquaresArray(Number(num)))
     }
 
@@ -153,16 +138,12 @@ function Smudges(props) {
         setColorPalette(palette);
     }
 
-    const handleChangeProportionalVolume = selection => {
-        setProportionalVolume(selection);
-    }
-
     const displaySquares = () => {
         let squareLines = []
         let newLine = []
-        for(let k = 0; k < numRows**2; k++){
+        for(let k = 0; k < pieceSpecs.number**2; k++){
             newLine.push(squares[k]);
-            if(newLine.length === numRows){
+            if(newLine.length === pieceSpecs.number){
                 squareLines.push(newLine);
                 newLine = []
             }
@@ -176,12 +157,12 @@ function Smudges(props) {
                 props.id, {
                     type: 'smudges',
                     palette: palette,
-                    speed: speed,
-                    sound: sound,
-                    proportionalVolume: proportionalVolume,
-                    number: numRows,
-                    shape: null ,
-                    text: null
+                    speed: pieceSpecs.speed,
+                    sound: pieceSpecs.soundName,
+                    proportionalVolume: pieceSpecs.proportionalVolume,
+                    number: pieceSpecs.number,
+                    shape: pieceSpecs.shape ,
+                    text: pieceSpecs.text
                 }
             ]
         ));
@@ -195,12 +176,12 @@ function Smudges(props) {
                         {displaySquares().map(squareLine => {
                             let lineKey = uuidv4()
                             return <div key={lineKey} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{squareLine.map(square => {
-                                return <div key={square.key} style={{display: 'inline-block', alignItems: 'center', justifyContent: 'center', backgroundColor:`${square.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${width * .70 * (1 / (numRows + 2))}px`, height: `${width * .70 * (1 / (numRows + 2))}px`, margin: `${(width * .70 * (1 / (numRows + 2)) / (numRows + 2))}px`}}><div style={{position: 'relative', display: `${square.contaminated ? 'flex' : 'none'}`, justifyContent: 'center', alignItems: 'center', height: `${square.size}%`, width: `${square.size}%`, left: `${square.left * (100 - square.size)}%`, top: `${square.top * (100 - square.size)}%`, transform: `rotate(${square.rotation}turn)`}}><GiSplurt size='100%' fill={colorPalette === 'Zebra' ? square.id % 2 === 0 ? getColor('aux2', colorPalette) : getColor('aux1', colorPalette) : 'black'}/></div></div>
+                                return <div key={square.key} style={{display: 'inline-block', alignItems: 'center', justifyContent: 'center', backgroundColor:`${square.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${width * .70 * (1 / (pieceSpecs.number + 2))}px`, height: `${width * .70 * (1 / (pieceSpecs.number + 2))}px`, margin: `${(width * .70 * (1 / (pieceSpecs.number + 2)) / (pieceSpecs.number + 2))}px`}}><div style={{position: 'relative', display: `${square.contaminated ? 'flex' : 'none'}`, justifyContent: 'center', alignItems: 'center', height: `${square.size}%`, width: `${square.size}%`, left: `${square.left * (100 - square.size)}%`, top: `${square.top * (100 - square.size)}%`, transform: `rotate(${square.rotation}turn)`}}><GiSplurt size='100%' fill={colorPalette === 'Zebra' ? square.id % 2 === 0 ? getColor('aux2', colorPalette) : getColor('aux1', colorPalette) : 'black'}/></div></div>
                             })}</div>
                         })}
                     </div>
                 </div>
-                <ControlBar id={props.id} toggleFullView={handleToggleFullView} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Sparkle' organizedFunction={contaminate} unorganizedFunction={() => clean(0)} unorgButton='Contaminate' orgButton='Clean'/>
+                <ControlBar id={props.id} toggleFullView={handleToggleFullView} changeProportionalVolume={pieceSpecs.setProportionalVolume} proportionalVolume={pieceSpecs.proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={pieceSpecs.number} setNumber={handleSetNumRows} isOrganizing={pieceSpecs.isOrganizing} isOrganized={pieceSpecs.isOrganized} setSpeed={pieceSpecs.setSpeed} setSound={pieceSpecs.setSound} soundValue='Sparkle' organizedFunction={contaminate} unorganizedFunction={() => clean(0)} unorgButton='Contaminate' orgButton='Clean'/>
             </div>
         </div>
     )
