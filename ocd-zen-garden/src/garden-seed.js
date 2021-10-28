@@ -122,7 +122,7 @@ const startingGarden = {
         sound: 'Robot',
         proportionalVolume: 'proportional',
         number: 5,
-        shape: null ,
+        shape: 'circle' ,
         text: null
     },
     11 : {
