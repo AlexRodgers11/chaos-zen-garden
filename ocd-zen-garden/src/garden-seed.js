@@ -56,7 +56,7 @@ const startingGarden = {
     //     text: null
     // },
     4 : {
-        type: 'message1',
+        type: 'message',
         palette: 'Carnival',
         speed: 1000,
         sound: 'Robot',
