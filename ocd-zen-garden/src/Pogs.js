@@ -1,28 +1,19 @@
 import React, {useEffect, useRef, useState} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import useGardenSpecs from './hooks/useGardenSpecs';
+import usePieceSpecs from './hooks/usePieceSpecs';
 import { sizeActions } from './store/size';
 import { organizingCounterActions } from './store/organizing-counter';
-import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
-import { getColor, getSound, scaler, soundPlay } from './utils';
+import { getColor, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 import { GiFoxHead } from 'react-icons/gi';
 
 function Pogs(props) {
-    const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
-    const volume = useSelector((state) => state.volume.volume);
-    const fullView = useSelector((state) => state.size.fullView);
-    const [isOrganized, toggleIsOrganized] = useToggle(false);
-    const [isOrganizing, toggleIsOrganizing] = useToggle(false);
-    const [numRows, setNumRows] = useState(5);
-    const [nextIndex, setNextIndex] = useState(0);
     const [colorPalette, setColorPalette] = useState(palette);
-    const [speed, setSpeed] = useState(1000);
-    const [sound, setSound] = useState(getSound('Robot'));
-    const [proportionalVolume, setProportionalVolume] = useState('proportional');
-    const [shape, setShape] = useState('circle');
-    const dispatch = useDispatch();
+    const [width, volume, fullView, dispatch] = useGardenSpecs();
+    const pieceSpecs = usePieceSpecs(0, props.number, props.proportionalVolume, props.shape, props.sound, props.speed, props.text);
 
     const createStartingPogsArray = num => {
         let pogs = [];
@@ -46,22 +37,22 @@ function Pogs(props) {
         
     }
 
-    const [pogs, setPogs] = useState(createStartingPogsArray(numRows));
+    const [pogs, setPogs] = useState(createStartingPogsArray(pieceSpecs.number));
 
     const firstUpdate = useRef(true);
     useEffect(() => {
         if(!firstUpdate.current) {
-            if(nextIndex < pogs.length){
+            if(pieceSpecs.nextIndex < pogs.length){
                 setTimeout(() => {
-                    align(nextIndex);
-                }, speed);
+                    align(pieceSpecs.nextIndex);
+                }, pieceSpecs.speed);
             } else {
-                toggleIsOrganizing();
-                toggleIsOrganized();
+                pieceSpecs.toggleIsOrganizing();
+                pieceSpecs.toggleIsOrganized();
                 dispatch(organizingCounterActions.decrementOrganizingCounter());
             }
         } else {firstUpdate.current = false}
-    }, [nextIndex])
+    }, [pieceSpecs.nextIndex])
     
     const colorsFirstUpdate = useRef(true)
     useEffect(() => {
@@ -93,7 +84,7 @@ function Pogs(props) {
 
     const align = idx => {
         if(idx === 0) {
-            toggleIsOrganizing();
+            pieceSpecs.toggleIsOrganizing();
             dispatch(organizingCounterActions.incrementOrganizingCounter())
         }
         let newPogs = pogs.map(pog => {
@@ -103,7 +94,7 @@ function Pogs(props) {
                 return pog;
             }
         });
-        soundPlay(sound, pogs[idx].volumeMultplier1, volume, proportionalVolume);
+        soundPlay(pieceSpecs.soundObj, pogs[idx].volumeMultplier1, volume, pieceSpecs.proportionalVolume);
         setPogs(newPogs);
         setTimeout(() => {
             let newPogs = pogs.map(pog => {
@@ -113,10 +104,10 @@ function Pogs(props) {
                     return pog;
                 }
             });
-            soundPlay(sound, pogs[idx].volumeMultplier2, volume, proportionalVolume);
+            soundPlay(pieceSpecs.soundObj, pogs[idx].volumeMultplier2, volume, pieceSpecs.proportionalVolume);
             setPogs(newPogs);
-            setNextIndex(idx + 1);
-        }, speed)
+            pieceSpecs.setNextIndex(idx + 1);
+        }, pieceSpecs.speed)
         
         
         
@@ -138,18 +129,11 @@ function Pogs(props) {
             })
         })
         setPogs(newPogs);
-        toggleIsOrganized();
+        pieceSpecs.toggleIsOrganized();
     }
 
-    const handleSetSpeed = time => {
-        setSpeed(time);
-    }
-
-    const handleSetSound = sound => {
-        setSound(getSound(sound));
-    }
     const handleSetNumRows = num => {
-        setNumRows(Number(num));
+        pieceSpecs.setNumber(Number(num));
         setPogs(createStartingPogsArray(Number(num)))
     }
 
@@ -158,20 +142,12 @@ function Pogs(props) {
         setColorPalette(palette);
     }
 
-    const handleChangeProportionalVolume = selection => {
-        setProportionalVolume(selection);
-    }
-
-    const handleChangeShape = shape => {
-        setShape(shape);
-    }
-
     const displayPogs = () => {
         let pogLines = []
         let newLine = []
-        for(let k = 0; k < numRows**2; k++){
+        for(let k = 0; k < pieceSpecs.number**2; k++){
             newLine.push(pogs[k]);
-            if(newLine.length === numRows){
+            if(newLine.length === pieceSpecs.number){
                 pogLines.push(newLine);
                 newLine = []
             }
@@ -185,12 +161,12 @@ function Pogs(props) {
                 props.id, {
                     type: 'pogs',
                     palette: palette,
-                    speed: speed,
-                    sound: sound,
-                    proportionalVolume: proportionalVolume,
-                    number: numRows,
-                    shape: shape,
-                    text: null
+                    speed: pieceSpecs.speed,
+                    sound: pieceSpecs.soundName,
+                    proportionalVolume: pieceSpecs.proportionalVolume,
+                    number: pieceSpecs.number,
+                    shape: pieceSpecs.shape,
+                    text: pieceSpecs.text
                 }
             ]
         ));
@@ -204,12 +180,12 @@ function Pogs(props) {
                         {displayPogs().map(pogLine => {
                             let lineKey = uuidv4()
                             return <div key={lineKey}>{pogLine.map(pog => {
-                                return <div key={pog.key} style={{display: 'inline-flex', alignItems: 'center', justifyContent:'center', backgroundColor:`${pog.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${Math.floor(width * .70 * (1 / (numRows + 1.5)))}px`, height: `${Math.floor(width * .70 * (1 / (numRows + 1.5)))}px`, margin: `${Math.floor((width * .70 * (1 / (numRows + 1.5)) / (numRows + 1.)))}px`, borderRadius: `${shape === 'circle' ? '50%' : 0}`, transform: `rotate3d(${pog.x},${pog.y},${pog.z},${pog.tilt}deg)`}}><div style={{padding: 'none', margin: 'none', width: '60%', display: 'flex', justifyContent:'center', alignItems: 'center'}}><GiFoxHead size='100%' backgroundColor={colorPalette.border} fill={colorPalette === 'Zebra' ? pog.id % 2 === 0 ? getColor('aux2', colorPalette) : getColor('aux1', colorPalette) : 'black'}/></div></div>
+                                return <div key={pog.key} style={{display: 'inline-flex', alignItems: 'center', justifyContent:'center', backgroundColor:`${pog.color}`, border: `1px solid ${getColor('border', colorPalette)}`, width: `${Math.floor(width * .70 * (1 / (pieceSpecs.number + 1.5)))}px`, height: `${Math.floor(width * .70 * (1 / (pieceSpecs.number + 1.5)))}px`, margin: `${Math.floor((width * .70 * (1 / (pieceSpecs.number + 1.5)) / (pieceSpecs.number + 1.)))}px`, borderRadius: `${pieceSpecs.shape === 'circle' ? '50%' : 0}`, transform: `rotate3d(${pog.x},${pog.y},${pog.z},${pog.tilt}deg)`}}><div style={{padding: 'none', margin: 'none', width: '60%', display: 'flex', justifyContent:'center', alignItems: 'center'}}><GiFoxHead size='100%' backgroundColor={colorPalette.border} fill={colorPalette === 'Zebra' ? pog.id % 2 === 0 ? getColor('aux2', colorPalette) : getColor('aux1', colorPalette) : 'black'}/></div></div>
                             })}</div>
                         })}
                     </div>
                 </div>
-                <ControlBar id={props.id} toggleFullView={handleToggleFullView} shape={shape} shapes={['circle', 'square']} changeShape={handleChangeShape} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={twist} unorganizedFunction={() => align(0)} unorgButton='Twist' orgButton='Align'/>
+                <ControlBar id={props.id} toggleFullView={handleToggleFullView} shape={pieceSpecs.shape} shapes={['circle', 'square']} changeShape={pieceSpecs.setShape} changeProportionalVolume={pieceSpecs.setProportionalVolume} proportionalVolume={pieceSpecs.proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={pieceSpecs.number} setNumber={handleSetNumRows} isOrganizing={pieceSpecs.isOrganizing} isOrganized={pieceSpecs.isOrganized} setSpeed={pieceSpecs.setSpeed} setSound={pieceSpecs.setSound} soundValue='Ding' organizedFunction={twist} unorganizedFunction={() => align(0)} unorgButton='Twist' orgButton='Align'/>
             </div>
         </div>
     )
