@@ -1,26 +1,19 @@
 import React, {useEffect, useRef, useState} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import useGardenSpecs from './hooks/useGardenSpecs';
+import usePieceSpecs from './hooks/usePieceSpecs';
 import { sizeActions } from './store/size';
 import { organizingCounterActions } from './store/organizing-counter';
-import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
 import { getColor, getSound, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 
 function Triangles(props) {
-    const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
-    const volume = useSelector((state) => state.volume.volume);
-    const fullView = useSelector((state) => state.size.fullView);
-    const [isOrganized, toggleIsOrganized] = useToggle(false);
-    const [isOrganizing, toggleIsOrganizing] = useToggle(false);
-    const [numRows, setNumRows] = useState(7);
-    const [nextIndex, setNextIndex] = useState(0);
     const [colorPalette, setColorPalette] = useState(palette);
-    const [speed, setSpeed] = useState(1000);
-    const [sound, setSound] = useState(getSound('Chirp'));
-    const [proportionalVolume, setProportionalVolume] = useState('proportional');
-    const dispatch = useDispatch();
+    const [width, volume, fullView, dispatch] = useGardenSpecs();
+    const pieceSpecs = usePieceSpecs(0, props.number, props.proportionalVolume, props.shape, props.sound, props.speed, props.text);
+
 
 
     const createStartingTrianglesArray = num => {
@@ -41,22 +34,22 @@ function Triangles(props) {
         return triangles
     }
 
-    const [triangles, setTriangles] = useState(createStartingTrianglesArray(numRows));
+    const [triangles, setTriangles] = useState(createStartingTrianglesArray(pieceSpecs.number));
 
     const firstUpdate = useRef(true);
     useEffect(() => {
         if(!firstUpdate.current) {
-            if(nextIndex < triangles.length){
+            if(pieceSpecs.nextIndex < triangles.length){
                 setTimeout(() => {
-                    center(nextIndex);
-                }, speed);
+                    center(pieceSpecs.nextIndex);
+                }, pieceSpecs.speed);
             } else {
-                toggleIsOrganizing();
-                toggleIsOrganized();
+                pieceSpecs.toggleIsOrganizing();
+                pieceSpecs.toggleIsOrganized();
                 dispatch(organizingCounterActions.decrementOrganizingCounter());
             }
         } else {firstUpdate.current = false}
-    }, [nextIndex])
+    }, [pieceSpecs.nextIndex])
     
     const colorsFirstUpdate = useRef(true)
     useEffect(() => {
@@ -88,7 +81,7 @@ function Triangles(props) {
 
     const center = (idx) => {
         if(idx === 0) {
-            toggleIsOrganizing();
+            pieceSpecs.toggleIsOrganizing();
             dispatch(organizingCounterActions.incrementOrganizingCounter())
         }
         let newTriangles = triangles.map(triangle => {
@@ -98,9 +91,9 @@ function Triangles(props) {
                 return triangle;
             }
         });
-        soundPlay(sound, triangles[idx].volumeMultiplier, volume, proportionalVolume);
+        soundPlay(pieceSpecs.soundObj, triangles[idx].volumeMultiplier, volume, pieceSpecs.proportionalVolume);
         setTriangles(newTriangles);
-        setNextIndex(idx + 1)        
+        pieceSpecs.setNextIndex(idx + 1)        
     }
 
     const uncenter = () => {
@@ -116,19 +109,11 @@ function Triangles(props) {
             }
         })
         setTriangles(newTriangles);
-        toggleIsOrganized();
-    }
-
-    const handleSetSpeed = time => {
-        setSpeed(time);
-    }
-
-    const handleSetSound = sound => {
-        setSound(getSound(sound));
+        pieceSpecs.toggleIsOrganized();
     }
 
     const handleSetNumRows = num => {
-        setNumRows(Number(num));
+        pieceSpecs.setNumber(Number(num));
         setTriangles(createStartingTrianglesArray(Number(num)))
     }
 
@@ -137,16 +122,12 @@ function Triangles(props) {
         setColorPalette(palette);
     }
 
-    const handleChangeProportionalVolume = selection => {
-        setProportionalVolume(selection);
-    }
-
     const displayTriangles = () => {
         let triangleLines = []
         let newLine = []
-        for(let k = 0; k < numRows**2; k++){
+        for(let k = 0; k < pieceSpecs.number**2; k++){
             newLine.push(triangles[k]);
-            if(newLine.length === numRows){
+            if(newLine.length === pieceSpecs.number){
                 triangleLines.push(newLine);
                 newLine = []
             }
@@ -160,12 +141,12 @@ function Triangles(props) {
                 props.id, {
                     type: 'triangles',
                     palette: palette,
-                    speed: speed,
-                    sound: sound,
-                    proportionalVolume: proportionalVolume,
-                    number: numRows,
-                    shape: null ,
-                    text: null
+                    speed: pieceSpecs.speed,
+                    sound: pieceSpecs.soundName,
+                    proportionalVolume: pieceSpecs.proportionalVolume,
+                    number: pieceSpecs.number,
+                    shape: pieceSpecs.shape,
+                    text: pieceSpecs.text
                 }
             ]
         ));
@@ -178,14 +159,14 @@ function Triangles(props) {
                     <div>
                         {displayTriangles().map(triangleLine => {
                             let lineKey = uuidv4()
-                            return <div key={lineKey} style={{height: `${width / (numRows * 1.4)}px`, width: `${width}px`}}>{triangleLine.map(triangle => {
-                                let bottom = width / (numRows * 1.80)
+                            return <div key={lineKey} style={{height: `${width / (pieceSpecs.number * 1.4)}px`, width: `${width}px`}}>{triangleLine.map(triangle => {
+                                let bottom = width / (pieceSpecs.number * 1.80)
                                 return <div key={triangle.key} style={{display: 'inline-block', borderBottom: `${bottom + 1.5}px solid ${getColor('border', colorPalette)}`, borderLeft: `${triangle.left * bottom + 1.5}px solid transparent`, borderRight: `${triangle.right * bottom + 1.5}px solid transparent`, height: '0', width: '0', margin: `${width * (1 / 81)}px`}}><div style={{position: 'relative', display: 'inline-block', borderBottom: `${bottom}px solid ${triangle.color}`, borderLeft: `${triangle.left * bottom}px solid transparent`, borderRight: `${triangle.right * bottom}px solid transparent`, height: '0', width: '0', right:`${triangle.left * bottom}px`, top:'.75px'}}></div></div>
                             })}</div>
                         })}
                     </div>
                 </div>
-                <ControlBar id={props.id} toggleFullView={handleToggleFullView} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={12} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Chirp' organizedFunction={uncenter} unorganizedFunction={() => center(0)} unorgButton='Uncenter' orgButton='Center'/>
+                <ControlBar id={props.id} toggleFullView={handleToggleFullView} changeProportionalVolume={pieceSpecs.setProportionalVolume} proportionalVolume={pieceSpecs.proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={12} number={pieceSpecs.number} setNumber={handleSetNumRows} isOrganizing={pieceSpecs.isOrganizing} isOrganized={pieceSpecs.isOrganized} setSpeed={pieceSpecs.setSpeed} setSound={pieceSpecs.setSound} soundValue='Chirp' organizedFunction={uncenter} unorganizedFunction={() => center(0)} unorgButton='Uncenter' orgButton='Center'/>
             </div>
         </div>
     )

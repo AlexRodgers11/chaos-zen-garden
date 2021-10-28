@@ -1,26 +1,19 @@
 import React, {useEffect, useRef, useState} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import useGardenSpecs from './hooks/useGardenSpecs';
+import usePieceSpecs from './hooks/usePieceSpecs';
 import { sizeActions } from './store/size';
 import { organizingCounterActions } from './store/organizing-counter';
-import useToggle from './hooks/useToggle';
 import { v4 as uuidv4 } from 'uuid';
-import { getColor, getSound } from './utils';
+import { getColor, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 import { Howl } from 'howler';
 
 function Tallies(props) {
-    const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
-    const volume = useSelector((state) => state.volume.volume);
-    const fullView = useSelector((state) => state.size.fullView);
-    const [isOrganized, toggleIsOrganized] = useToggle(false);
-    const [isOrganizing, toggleIsOrganizing] = useToggle(false);
-    const [numRows, setNumRows] = useState(3);
-    const [nextIndex, setNextIndex] = useState({idx: 0, mark: 2});
     const [colorPalette, setColorPalette] = useState(palette);
-    const [speed, setSpeed] = useState(1000);
-    const [sound, setSound] = useState(getSound('Click'));
-    const dispatch = useDispatch();
+    const [width, volume, fullView, dispatch] = useGardenSpecs();
+    const pieceSpecs = usePieceSpecs(0, props.number, props.proportionalVolume, props.shape, props.sound, props.speed, props.text);
 
     const createStartingTalliesArray = num => {
         let tallies = [];
@@ -44,22 +37,22 @@ function Tallies(props) {
         
     }
 
-    const [tallies, setTallies] = useState(createStartingTalliesArray(numRows));
+    const [tallies, setTallies] = useState(createStartingTalliesArray(pieceSpecs.number));
 
     const firstUpdate = useRef(true);
     useEffect(() => {
         if(!firstUpdate.current) {
-            if(nextIndex.idx < tallies.length){
+            if(pieceSpecs.nextIndex.idx < tallies.length){
                 setTimeout(() => {
-                    complete(nextIndex.idx, nextIndex.mark);
-                }, speed);
+                    complete(pieceSpecs.nextIndex.idx, pieceSpecs.nextIndex.mark);
+                }, pieceSpecs.speed);
             } else {
-                toggleIsOrganizing();
-                toggleIsOrganized();
+                pieceSpecs.toggleIsOrganizing();
+                pieceSpecs.toggleIsOrganized();
                 dispatch(organizingCounterActions.decrementOrganizingCounter());
             }
         } else {firstUpdate.current = false}
-    }, [nextIndex])
+    }, [pieceSpecs.nextIndex])
     
     const colorsFirstUpdate = useRef(true)
     useEffect(() => {
@@ -89,20 +82,11 @@ function Tallies(props) {
         
     }, [colorPalette]);
 
-    const soundPlay = soundObj => {
-        const sound = new Howl({
-            src: soundObj.src,
-            sprite: soundObj.sprite,
-            volume: volume * .01
-        });
-        sound.play(soundObj.spriteName);
-    }
-
     const complete = (idx, mark) => {
         let currentIdx = idx
         let currentMark = mark;
         if(idx === 0 && mark === 2) {
-            toggleIsOrganizing();
+            pieceSpecs.toggleIsOrganizing();
             dispatch(organizingCounterActions.incrementOrganizingCounter())
         }
         while(tallies[currentIdx].marks[currentMark]) {
@@ -142,9 +126,9 @@ function Tallies(props) {
             }
         }
 
-        soundPlay(sound);
+        soundPlay(pieceSpecs.soundObj, .01, volume, pieceSpecs.proportionalVolume);
         setTallies(newTallies);
-        setNextIndex({idx: nextIdx, mark: nextMark});
+        pieceSpecs.setNextIndex({idx: nextIdx, mark: nextMark});
     }
 
     const erase = () => {
@@ -163,18 +147,11 @@ function Tallies(props) {
             }
         })
         setTallies(newTallies);
-        toggleIsOrganized();
+        pieceSpecs.toggleIsOrganized();
     }
 
-    const handleSetSpeed = time => {
-        setSpeed(time);
-    }
-
-    const handleSetSound = sound => {
-        setSound(getSound(sound));
-    }
     const handleSetNumRows = num => {
-        setNumRows(Number(num));
+        pieceSpecs.setNumber(Number(num));
         setTallies(createStartingTalliesArray(Number(num)))
     }
 
@@ -186,9 +163,9 @@ function Tallies(props) {
     const displayTallies = () => {
         let tallyLines = []
         let newLine = []
-        for(let k = 0; k < numRows**2; k++){
+        for(let k = 0; k < pieceSpecs.number**2; k++){
             newLine.push(tallies[k]);
-            if(newLine.length === numRows){
+            if(newLine.length === pieceSpecs.number){
                 tallyLines.push(newLine);
                 newLine = []
             }
@@ -202,12 +179,12 @@ function Tallies(props) {
                 props.id, {
                     type: 'tallies',
                     palette: palette,
-                    speed: speed,
-                    sound: sound,
-                    proportionalVolume: null,
-                    number: numRows,
-                    shape: null ,
-                    text: null
+                    speed: pieceSpecs.speed,
+                    sound: pieceSpecs.sound,
+                    proportionalVolume: pieceSpecs.proportionalVolume,
+                    number: pieceSpecs.number,
+                    shape: pieceSpecs.shape ,
+                    text: pieceSpecs.text
                 }
             ]
         ));
@@ -221,7 +198,7 @@ function Tallies(props) {
                         {displayTallies().map(tallyLine => {
                             let lineKey = uuidv4()
                             return <div key={lineKey}>{tallyLine.map(tally => {
-                                return <div key={tally.key} style={{position: 'relative', display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width: `${width * .70 * (1 / (numRows + 2))}px`, height: `${width * .70 * (1 / (numRows + 2))}px`, margin: `${(width * .70 * (1 / (numRows + 2)) / (numRows + 2))}px`}}>
+                                return <div key={tally.key} style={{position: 'relative', display: 'inline-flex', justifyContent: 'center', alignItems: 'center', width: `${width * .70 * (1 / (pieceSpecs.number + 2))}px`, height: `${width * .70 * (1 / (pieceSpecs.number + 2))}px`, margin: `${(width * .70 * (1 / (pieceSpecs.number + 2)) / (pieceSpecs.number + 2))}px`}}>
                                     <span style={{height: '100%', width: '12.5%', marginRight: '12.5%', backgroundColor: `${tally.color}`, border: `1px solid ${getColor('border', colorPalette)}`}}></span>
                                     <span style={{display: tally.marks[2] ? 'inline-block' : 'none', height: '100%', width: '12.5%', marginRight: '12.5%', backgroundColor: `${tally.color}`, border: `1px solid ${getColor('border', colorPalette)}`}}></span>
                                     <span style={{display: tally.marks[3] ? 'inline-block' : 'none', height: '100%', width: '12.5%', marginRight: '12.5%', backgroundColor: `${tally.color}`, border: `1px solid ${getColor('border', colorPalette)}`}}></span>
@@ -232,7 +209,7 @@ function Tallies(props) {
                         })}
                     </div>
                 </div>
-                <ControlBar id={props.id} toggleFullView={handleToggleFullView} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={numRows} setNumber={handleSetNumRows} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Click' organizedFunction={erase} unorganizedFunction={() => complete(0, 2)} unorgButton='Erase' orgButton='Complete'/>
+                <ControlBar id={props.id} toggleFullView={handleToggleFullView} palette={colorPalette} setPalette={handleSetColorPalette} minNum={3} maxNum={9} number={pieceSpecs.number} setNumber={handleSetNumRows} isOrganizing={pieceSpecs.isOrganizing} isOrganized={pieceSpecs.isOrganized} setSpeed={pieceSpecs.setSpeed} setSound={pieceSpecs.setSound} soundValue='Click' organizedFunction={erase} unorganizedFunction={() => complete(0, 2)} unorgButton='Erase' orgButton='Complete'/>
             </div>
         </div>
     )
