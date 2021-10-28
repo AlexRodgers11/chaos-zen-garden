@@ -1,25 +1,18 @@
 import React,  {useState, useEffect, useRef} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { sizeActions } from './store/size';
+import useGardenSpecs from './hooks/useGardenSpecs';
+import usePieceSpecs from './hooks/usePieceSpecs';
 import { organizingCounterActions } from './store/organizing-counter';
-import useToggle from './hooks/useToggle';
-import { getColor, getSound, scaler, soundPlay } from './utils';
+import { getColor, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 import { v4 as uuidv4 } from 'uuid';
 
 function Message(props){
-    const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
-    const volume = useSelector((state) => state.volume.volume);
-    const fullView = useSelector((state) => state.size.fullView);
-    const [isOrganized, toggleIsOrganized] = useToggle(false);
-    const [isOrganizing, toggleIsOrganizing] = useToggle(false);
-    const [nextIndex, setNextIndex] = useState(0);
-    const [speed, setSpeed] = useState(1000);
-    const [sound, setSound] = useState(getSound('Robot'));
-    const [proportionalVolume, setProportionalVolume] = useState('proportional');
     const [colorPalette, setColorPalette] = useState(palette);
-    const dispatch = useDispatch();
+    const [width, volume, fullView, dispatch] = useGardenSpecs();
+    const pieceSpecs = usePieceSpecs({id: 0, dir: 'topLeft'}, props.number, props.proportionalVolume, props.shape, props.sound, props.speed, props.text);
 
     const [message, setMessage] = useState('Plus Ultra, Go Beyond.');
 
@@ -54,19 +47,19 @@ function Message(props){
     let firstUpdate = useRef(true);
     useEffect(() => {
         if(!firstUpdate.current) {
-            if(nextIndex < letters.length){
+            if(pieceSpecs.nextIndex < letters.length){
                 setTimeout(() => {
-                    straightenLetters(nextIndex);
-                }, speed);
+                    straightenLetters(pieceSpecs.nextIndex);
+                }, pieceSpecs.speed);
             }
         } else {
             firstUpdate.current = false;
         }
-    }, [nextIndex]);
+    }, [pieceSpecs.nextIndex]);
     
     const straightenLetters = (idx) => {
         if(idx === 0) {
-            toggleIsOrganizing();
+            pieceSpecs.toggleIsOrganizing();
             dispatch(organizingCounterActions.incrementOrganizingCounter())
         }
         let newLetters = letters.map(letter => {
@@ -74,24 +67,23 @@ function Message(props){
                 return {...letter, tilt: 0}
             } else return letter;
         });
-        soundPlay(sound, letters[idx].volumeMultiplier, volume, proportionalVolume);
+        soundPlay(pieceSpecs.soundObj, letters[idx].volumeMultiplier, volume, pieceSpecs.proportionalVolume);
         setLetters(newLetters);
         if(idx + 1 !== letters.length) {
-            if(nextIndex === letters.length) {
+            if(pieceSpecs.nextIndex === letters.length) {
                 idx = 0;
             }
             if(letters[idx + 1].letter !== ' ') {
-                setNextIndex(idx + 1);
+                pieceSpecs.setNextIndex(idx + 1);
             } else {
-                setNextIndex(idx + 2);
-                console.log('found a space');
+                pieceSpecs.setNextIndex(idx + 2);
             }
         } else {
             dispatch(organizingCounterActions.decrementOrganizingCounter());
             setTimeout(() => {
-                toggleIsOrganized();
-                toggleIsOrganizing();
-            }, speed)
+                pieceSpecs.toggleIsOrganized();
+                pieceSpecs.toggleIsOrganizing();
+            }, pieceSpecs.speed)
         }
     }
 
@@ -129,8 +121,8 @@ function Message(props){
     }, [fullView])
 
     const handleChangeText = text => {
-        if(isOrganized) {
-            toggleIsOrganized();
+        if(pieceSpecs.isOrganized) {
+            pieceSpecs.toggleIsOrganized();
         };
         setMessage(text);
         setLetters(getLetters(text));
@@ -150,25 +142,13 @@ function Message(props){
             }
         });
         setLetters(newLetters);
-        toggleIsOrganized();
+        pieceSpecs.toggleIsOrganized();
         
-    }
-
-    const handleSetSpeed = time => {
-        setSpeed(time);
-    }
-
-    const handleSetSound = sound => {
-        setSound(getSound(sound));
     }
 
     const handleSetColorPalette = palette => {
         colorsDoNotUpdate.current = false;
         setColorPalette(palette);
-    }
-
-    const handleChangeProportionalVolume = selection => {
-        setProportionalVolume(selection);
     }
 
     const displayWords = letterArr => {
@@ -208,12 +188,12 @@ function Message(props){
                 props.id, {
                     type: 'message',
                     palette: palette,
-                    speed: speed,
-                    sound: sound,
-                    proportionalVolume: proportionalVolume,
-                    number: null,
-                    shape: null ,
-                    text: message
+                    speed: pieceSpecs.speed,
+                    sound: pieceSpecs.soundName,
+                    proportionalVolume: pieceSpecs.proportionalVolume,
+                    number: pieceSpecs.number,
+                    shape: pieceSpecs.shape ,
+                    text: pieceSpecs.text
                 }
             ]
         ));
@@ -227,7 +207,7 @@ function Message(props){
                         {displayWords(letters)}
                     </div>
                 </div>
-                <ControlBar id={props.id} toggleFullView={handleToggleFullView} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} soundValue='Robot' changeText={handleChangeText} setSpeed={handleSetSpeed} setSound={handleSetSound} organizedFunction={unalignLetters} unorganizedFunction={() => straightenLetters(0)} unorgButton='Unalign' orgButton='Straighten' />
+                <ControlBar id={props.id} toggleFullView={handleToggleFullView} changeProportionalVolume={pieceSpecs.setProportionalVolume} proportionalVolume={pieceSpecs.proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={pieceSpecs.isOrganizing} isOrganized={pieceSpecs.isOrganized} text="Enter your own text" textValue={message} soundValue='Robot' changeText={handleChangeText} setSpeed={pieceSpecs.setSpeed} setSound={pieceSpecs.setSound} organizedFunction={unalignLetters} unorganizedFunction={() => straightenLetters(0)} unorgButton='Unalign' orgButton='Straighten' />
             </div>
         </div>
     )

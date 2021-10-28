@@ -1,9 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import useGardenSpecs from './hooks/useGardenSpecs';
+import usePieceSpecs from './hooks/usePieceSpecs';
 import { sizeActions } from './store/size';
 import { organizingCounterActions } from './store/organizing-counter';
-import useToggle from './hooks/useToggle';
-import { getColor, getSound, scaler,soundPlay } from './utils';
+import { getColor, scaler,soundPlay } from './utils';
 import ControlBar from './ControlBar';
 import { FaRegKeyboard } from 'react-icons/fa';
 import { CgMouse } from 'react-icons/cg'
@@ -13,18 +14,10 @@ import { CgNotes } from 'react-icons/cg';
 import { GoCalendar } from 'react-icons/go';
 
 function Desk(props) {
-    const width = useSelector((state) => state.size.pieceWidth);
-    const volume = useSelector((state) => state.volume.volume);
     const palette = useSelector((state) => state.palette.palette);
-    const fullView = useSelector((state) => state.size.fullView);
-    const [isOrganized, toggleIsOrganized] = useToggle(false);
-    const [isOrganizing, toggleIsOrganizing] = useToggle(false);
-    const [nextIndex, setNextIndex] = useState(0);
     const [colorPalette, setColorPalette] = useState(palette);
-    const [speed, setSpeed] = useState(1000);
-    const [sound, setSound] = useState(getSound('Ding'));
-    const [proportionalVolume, setProportionalVolume] = useState('proportional');
-    const dispatch = useDispatch();
+    const [width, volume, fullView, dispatch] = useGardenSpecs();
+    const pieceSpecs = usePieceSpecs(0, props.number, props.proportionalVolume, props.shape, props.sound, props.speed, props.text);
 
     const createStartingItemsArray = num => {
         let items = [];
@@ -46,17 +39,17 @@ function Desk(props) {
     const firstUpdate = useRef(true);
     useEffect(() => {
         if(!firstUpdate.current) {
-            if(nextIndex < items.length){
+            if(pieceSpecs.nextIndex < items.length){
                 setTimeout(() => {
-                    align(nextIndex);
-                }, speed);
+                    align(pieceSpecs.nextIndex);
+                }, pieceSpecs.speed);
             } else {
-                toggleIsOrganizing();
-                toggleIsOrganized();
+                pieceSpecs.toggleIsOrganizing();
+                pieceSpecs.toggleIsOrganized();
                 dispatch(organizingCounterActions.decrementOrganizingCounter());
             }
         } else {firstUpdate.current = false}
-    }, [nextIndex])
+    }, [pieceSpecs.nextIndex])
     
     const colorsFirstUpdate = useRef(true)
     useEffect(() => {
@@ -88,7 +81,7 @@ function Desk(props) {
 
     const align = (idx) => {
         if(idx === 0) {
-            toggleIsOrganizing();
+            pieceSpecs.toggleIsOrganizing();
             dispatch(organizingCounterActions.incrementOrganizingCounter())
         }
         let newItems = items.map(item => {
@@ -98,9 +91,9 @@ function Desk(props) {
                 return item;
             }
         });
-        soundPlay(sound, items[idx].volumeMultiplier, volume, proportionalVolume);
+        soundPlay(pieceSpecs.soundObj, items[idx].volumeMultiplier, volume, pieceSpecs.proportionalVolume);
         setItems(newItems);
-        setNextIndex(idx + 1);
+        pieceSpecs.setNextIndex(idx + 1);
     }
 
     const shift = () => {
@@ -113,24 +106,12 @@ function Desk(props) {
             }
         })
         setItems(newItems);
-        toggleIsOrganized();
-    }
-
-    const handleSetSpeed = time => {
-        setSpeed(time);
-    }
-
-    const handleSetSound = sound => {
-        setSound(getSound(sound));
+        pieceSpecs.toggleIsOrganized();
     }
 
     const handleSetColorPalette = palette => {
         colorsDoNotUpdate.current = false;
         setColorPalette(palette);
-    }
-
-    const handleChangeProportionalVolume = selection => {
-        setProportionalVolume(selection);
     }
 
     const handleToggleFullView = () => {
@@ -139,12 +120,12 @@ function Desk(props) {
                 props.id, {
                     type: 'desk',
                     palette: palette,
-                    speed: speed,
-                    sound: sound,
-                    proportionalVolume: proportionalVolume,
-                    number: null,
-                    shape: null ,
-                    text: null
+                    speed: pieceSpecs.speed,
+                    sound: pieceSpecs.soundName,
+                    proportionalVolume: pieceSpecs.proportionalVolume,
+                    number: pieceSpecs.number,
+                    shape: pieceSpecs.shape ,
+                    text: pieceSpecs.text
                 }
             ]
         ));
@@ -178,7 +159,7 @@ function Desk(props) {
                         </div>
                     </div>
                 </div>
-                <ControlBar id={props.id} toggleFullView={handleToggleFullView} changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Ding' organizedFunction={shift} unorganizedFunction={() => align(0)} unorgButton='Shift' orgButton='Align'/>
+                <ControlBar id={props.id} toggleFullView={handleToggleFullView} changeProportionalVolume={pieceSpecs.setProportionalVolume} proportionalVolume={pieceSpecs.proportionalVolume} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={pieceSpecs.isOrganizing} isOrganized={pieceSpecs.isOrganized} setSpeed={pieceSpecs.setSpeed} setSound={pieceSpecs.setSound} soundValue='Ding' organizedFunction={shift} unorganizedFunction={() => align(0)} unorgButton='Shift' orgButton='Align'/>
             </div>
         </div>
     )
