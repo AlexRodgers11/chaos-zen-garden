@@ -1,35 +1,19 @@
 import React,  {useState, useEffect, useRef} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import useGardenSpecs from './hooks/useGardenSpecs';
+import usePieceSpecs from './hooks/usePieceSpecs';
 import { sizeActions } from './store/size';
 import { organizingCounterActions } from './store/organizing-counter';
-import useToggle from './hooks/useToggle';
-import { getColor, getSound } from './utils';
+import { getColor, soundPlay } from './utils';
 import ControlBar from './ControlBar';
 import { v4 as uuidv4 } from 'uuid';
 import { Howl } from 'howler';
 
 function Message2(props){
-    const width = useSelector((state) => state.size.pieceWidth);
     const palette = useSelector((state) => state.palette.palette);
-    const volume = useSelector((state) => state.volume.volume);
-    const fullView = useSelector((state) => state.size.fullView);
-    const [isOrganized, toggleIsOrganized] = useToggle(false);
-    const [isOrganizing, toggleIsOrganizing] = useToggle(false);
-    const [nextIndex, setNextIndex] = useState(1);
-    const [speed, setSpeed] = useState(1000);
-    const [sound, setSound] = useState(getSound('Sparkle'));
     const [colorPalette, setColorPalette] = useState(palette);
-    const dispatch = useDispatch();
-
-    const soundPlay = soundObj => {
-        const sound = new Howl({
-            src: soundObj.src,
-            sprite: soundObj.sprite,
-            volume: volume * .01,
-        });
-        sound.play(soundObj.spriteName);
-    }
-
+    const [width, volume, fullView, dispatch] = useGardenSpecs();
+    const pieceSpecs = usePieceSpecs(1, props.number, props.proportionalVolume, props.shape, props.sound, props.speed, props.text);
 
     const [message, setMessage] = useState('Plus Ultra, Go Beyond.');
 
@@ -63,19 +47,19 @@ function Message2(props){
     let firstUpdate = useRef(true);
     useEffect(() => {
         if(!firstUpdate.current) {
-            if(nextIndex < letters.length){
+            if(pieceSpecs.nextIndex < letters.length){
                 setTimeout(() => {
-                    matchLetters(nextIndex);
-                }, speed);
+                    matchLetters(pieceSpecs.nextIndex);
+                }, pieceSpecs.speed);
             }
         } else {
             firstUpdate.current = false;
         }
-    }, [nextIndex]);
+    }, [pieceSpecs.nextIndex]);
     
     const matchLetters = (idx) => {
         if(idx === 1) {
-            toggleIsOrganizing();
+            pieceSpecs.toggleIsOrganizing();
             dispatch(organizingCounterActions.incrementOrganizingCounter())
             while(letters[idx].font === letters[0].font) {
                 idx++;
@@ -95,17 +79,17 @@ function Message2(props){
                 return {...letter, font: letters[0].font}
             } else return letter;
         });
-        soundPlay(sound);
+        soundPlay(pieceSpecs.soundObj, .01, volume, pieceSpecs.proportionalVolume);
         setLetters(newLetters);
 
         if(nextIdx === letters.length) {
             dispatch(organizingCounterActions.decrementOrganizingCounter());
             setTimeout(() => {
-                toggleIsOrganized();
-                toggleIsOrganizing();
-            }, speed);
+                pieceSpecs.toggleIsOrganized();
+                pieceSpecs.toggleIsOrganizing();
+            }, pieceSpecs.speed);
         } else {
-            setNextIndex(nextIdx);
+            pieceSpecs.setNextIndex(nextIdx);
         }
 
     }
@@ -144,8 +128,8 @@ function Message2(props){
     }, [fullView])
 
     const handleChangeText = text => {
-        if(isOrganized) {
-            toggleIsOrganized();
+        if(pieceSpecs.isOrganized) {
+            pieceSpecs.toggleIsOrganized();
         };
         setMessage(text);
         setLetters(getLetters(text));
@@ -156,16 +140,8 @@ function Message2(props){
             return {...letter, font:fonts[Math.floor(Math.random() * fonts.length)]};
         });
         setLetters(newLetters);
-        toggleIsOrganized();
+        pieceSpecs.toggleIsOrganized();
         
-    }
-
-    const handleSetSpeed = time => {
-        setSpeed(time);
-    }
-
-    const handleSetSound = sound => {
-        setSound(getSound(sound));
     }
 
     const handleSetColorPalette = palette => {
@@ -210,12 +186,12 @@ function Message2(props){
                 props.id, {
                     type: 'message2',
                     palette: palette,
-                    speed: speed,
-                    sound: sound,
-                    proportionalVolume: null,
-                    number: null,
-                    shape: null ,
-                    text: message
+                    speed: pieceSpecs.speed,
+                    sound: pieceSpecs.soundName,
+                    proportionalVolume: pieceSpecs.proportionalVolume,
+                    number: pieceSpecs.number,
+                    shape: pieceSpecs.shape,
+                    text: pieceSpecs.text
                 }
             ]
         ));
@@ -229,7 +205,7 @@ function Message2(props){
                         {displayWords(letters)}
                     </div>
                 </div>
-                <ControlBar id={props.id} toggleFullView={handleToggleFullView} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={isOrganizing} isOrganized={isOrganized} text="Enter your own text" textValue={message} soundValue='Sparkle' changeText={handleChangeText} setSpeed={handleSetSpeed} setSound={handleSetSound} organizedFunction={randomizeLetters} unorganizedFunction={() => matchLetters(1)} unorgButton='Randomize' orgButton='Match' />
+                <ControlBar id={props.id} toggleFullView={handleToggleFullView} palette={colorPalette} setPalette={handleSetColorPalette} isOrganizing={pieceSpecs.isOrganizing} isOrganized={pieceSpecs.isOrganized} text="Enter your own text" textValue={pieceSpecs.text} soundValue='Sparkle' changeText={handleChangeText} setSpeed={pieceSpecs.setSpeed} setSound={pieceSpecs.setSound} organizedFunction={randomizeLetters} unorganizedFunction={() => matchLetters(1)} unorgButton='Randomize' orgButton='Match' />
 
             </div>
         </div>
