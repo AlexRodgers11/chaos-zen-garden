@@ -32,7 +32,6 @@ import Modal from './Modal';
 
 
 function Garden() {
-    console.log('garden created');
     const height = useSelector((state) => state.size.appHeight);
     const width = useSelector((state) => state.size.appWidth);
     const fullView = useSelector((state) => state.size.fullView);
