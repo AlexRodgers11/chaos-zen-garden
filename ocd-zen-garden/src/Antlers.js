@@ -5,7 +5,7 @@ import useGardenSpecs from './hooks/useGardenSpecs';
 import usePieceSpecs from './hooks/usePieceSpecs';
 import { v4 as uuidv4 } from 'uuid';
 import { getColor, soundPlay } from './utils';
-import ControlBar from './ControlBar';
+import ControlBar from './ControlBar/ControlBar';
 import { sizeActions } from './store/size';
 
 function Antlers(props) {

@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import NewUserForm from './NewUserForm';
 import LoginForm from './LoginForm';
 import ColorForm from './ColorForm';
-import OCDForm from './OCDForm';
 import { authenticationActions } from './store/authentication';
 import { modalContentActions } from './store/modal-content';
 

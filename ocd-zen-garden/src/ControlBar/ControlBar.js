@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { volumeActions } from './store/volume';
-import { highlightUserIconActions } from './store/highlight-user-icon';
-import { modalContentActions } from './store/modal-content';
-import useToggle from './hooks/useToggle';
-import { palettes, sounds, getColor } from './utils';
+import { volumeActions } from '../store/volume';
+import { highlightUserIconActions } from '../store/highlight-user-icon';
+import { modalContentActions } from '../store/modal-content';
+import useToggle from '../hooks/useToggle';
+import { palettes, sounds, getColor } from '../utils';
 import { v4 as uuidv4 } from 'uuid';
 import { FaExpandAlt, FaShapes } from 'react-icons/fa/';
 import { GiHamburgerMenu, GiRabbit, GiTortoise } from 'react-icons/gi/';
@@ -15,7 +15,7 @@ import { ImSortNumbericDesc, ImShrink2, ImVolumeHigh, ImVolumeLow, ImVolumeMediu
 import { BsFileText, BsLockFill } from 'react-icons/bs';
 import { RiSoundModuleLine } from 'react-icons/ri';
 import './ControlBar.css';
-import { sizeActions } from './store/size';
+import { sizeActions } from '../store/size';
 
 
 function ControlBar(props) {

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { organizingCounterActions } from './store/organizing-counter';
 import useToggle from './hooks/useToggle';
 import { getColor, getSound, scaler, soundPlay } from './utils';
-import ControlBar from './ControlBar';
+import ControlBar from './ControlBar/ControlBar';
 
 function BullsEye(props) {
     const width = useSelector((state) => state.size.pieceWidth);

@@ -5,7 +5,7 @@ import usePieceSpecs from './hooks/usePieceSpecs';
 import { sizeActions } from './store/size';
 import { organizingCounterActions } from './store/organizing-counter';
 import { getColor, scaler,soundPlay } from './utils';
-import ControlBar from './ControlBar';
+import ControlBar from './ControlBar/ControlBar';
 import { FaRegKeyboard } from 'react-icons/fa';
 import { CgMouse } from 'react-icons/cg'
 import { TiPencil } from 'react-icons/ti'

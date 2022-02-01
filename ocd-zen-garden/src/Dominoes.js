@@ -5,7 +5,7 @@ import usePieceSpecs from './hooks/usePieceSpecs';
 import { sizeActions } from './store/size';
 import { organizingCounterActions } from './store/organizing-counter';
 import { getColor, scaler, soundPlay } from './utils';
-import ControlBar from './ControlBar';
+import ControlBar from './ControlBar/ControlBar';
 import { v4 as uuidv4 } from 'uuid';
 
 function Dominoes(props) {

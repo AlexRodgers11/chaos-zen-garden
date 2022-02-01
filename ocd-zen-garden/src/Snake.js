@@ -5,7 +5,7 @@ import { organizingCounterActions } from './store/organizing-counter';
 import useGardenSpecs from './hooks/useGardenSpecs';
 import usePieceSpecs from './hooks/usePieceSpecs';
 import { getColor, scaler, soundPlay } from './utils';
-import ControlBar from './ControlBar';
+import ControlBar from './ControlBar/ControlBar';
 import { v4 as uuidv4 } from 'uuid';
 
 function Snake(props) {
@@ -21,7 +21,7 @@ function Snake(props) {
     //function to that will create an array of boxes with all properties they will use
     const createStartingBoxArray = num => {
         let boxes = [];
-        //create and fill the array; add some properties
+    
         for(let i = 1; i <= num; i++) {
             boxes.push({
                 id: i,

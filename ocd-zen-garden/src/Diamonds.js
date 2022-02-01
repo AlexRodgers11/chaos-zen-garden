@@ -6,7 +6,7 @@ import { sizeActions } from './store/size';
 import { organizingCounterActions } from './store/organizing-counter';
 import { v4 as uuidv4 } from 'uuid';
 import { getColor, scaler, soundPlay } from './utils';
-import ControlBar from './ControlBar';
+import ControlBar from './ControlBar/ControlBar';
 
 
 function Diamonds(props) {

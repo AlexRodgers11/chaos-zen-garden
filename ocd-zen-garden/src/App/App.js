@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { sizeActions } from './store/size';
+import { sizeActions } from '../store/size';
 import './App.css';
-import Garden from './Garden';
+import Garden from '../Garden';
 
 function App() {
   const fullView = useSelector((state) => state.size.fullView);

@@ -5,7 +5,7 @@ import usePieceSpecs from './hooks/usePieceSpecs';
 import { organizingCounterActions } from './store/organizing-counter';
 import { sizeActions } from './store/size';
 import { getColor, scaler, soundPlay } from './utils';
-import ControlBar from './ControlBar';
+import ControlBar from './ControlBar/ControlBar';
 
 function Crosshair(props) {
     const palette = useSelector((state) => state.palette.palette);
