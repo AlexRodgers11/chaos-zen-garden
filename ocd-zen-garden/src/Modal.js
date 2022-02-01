@@ -37,8 +37,6 @@ function Modal(props) {
                 return (<NewUserForm loggedIn={loggedIn} toggleLoggedIn={handleToggleLogInStatus} />);
             case 'login':
                 return (<LoginForm loggedIn={loggedIn} toggleLoggedIn={handleToggleLogInStatus}  />);
-            case 'ocd-timeout':
-                return (<OCDForm />);
             default:
                 return null;
         }
