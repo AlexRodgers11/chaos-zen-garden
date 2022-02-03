@@ -1,0 +1,124 @@
+[theme="Carnival"] {
+  --base: #404857;
+  --border: "#000000";
+  --aux1: "#44ff00";
+  --aux2: "#ff0048";
+  --first: "#ff0048";
+  --second: "#44ff00";
+  --third: "#3e0eff";
+  --fourth: "#ffa30e";
+  --fifth: "#ff00fb";
+  --sixth: "#ffff00";
+}
+
+[theme="Electric"] {
+  --base: "#000000";
+  --border: "#FFFFFF";
+  --auxBackground: "#303030";
+  --aux1: "#fffc00";
+  --aux2: "#ff009f";
+  --first: "#fffc00";
+  --second: "#3f00ff";
+  --third: "#00FF00";
+  --fourth: "#55ffff";
+  --fifth: "#ff009f";
+  --sixth: "#ff073a";
+}
+
+[theme="Zebra"] {
+  --base: "#FFFFFF";
+  --border: "#000000";
+  --auxBackground: "#303030";
+  --aux1: "#FFFFFF";
+  --aux2: "#000000";
+  --first: "#000000";
+  --second: "#FFFFFF";
+  --third: "#000000";
+  --fourth: "#FFFFFF";
+  --fifth: "#000000";
+  --sixth: "#FFFFFF";
+}
+
+[theme="Christmas"] {
+  --base: "#FFFFFF";
+  --border: "#CC9901";
+  --auxBackground: "#303030";
+  --aux1: "#B70D00";
+  --aux2: "#005C01";
+  --first: "#B70D00";
+  --second: "#005C01";
+  --third: "#B70D00";
+  --fourth: "#005C01";
+  --fifth: "#B70D00";
+  --sixth: "#005C01";
+}
+
+[theme="Rose"] {
+  --base: "#4E4E50";
+  --border: "#1A1A1D";
+  --auxBackground: "#303030";
+  --aux1: "#C3073F";
+  --aux2: "#950740";
+  --first: "#C3073F";
+  --second: "#950740";
+  --third: "#6F2232";
+  --fourth: "#C3073F";
+  --fifth: "#950740";
+  --sixth: "#6F2232";
+}
+
+[theme="Sea"] {
+  --base: "#0B0C10";
+  --border: "#C5C6C7";
+  --auxBackground: "#303030";
+  --aux1: "#66FCF1";
+  --aux2: "#45A29E";
+  --first: "#45A29E";
+  --second: "#66FCF1";
+  --third: "#1F2833";
+  --fourth: "#45A29E";
+  --fifth: "#66FCF1";
+  --sixth: "#1F2833";
+}
+
+[theme="Harvest"] {
+  --base: "#302c21";
+  --border: "#747474";
+  --auxBackground: "#303030";
+  --aux1: "#FFE400";
+  --aux2: "#FF652F";
+  --first: "#FF652F";
+  --second: "#FFE400";
+  --third: "#14A76C";
+  --fourth: "#FF652F";
+  --fifth: "#FFE400";
+  --sixth: "#14A76C";
+}
+
+[theme="Forest"] {
+  --base: "#00100b";
+  --border: "#1A1A1D";
+  --auxBackground: "#303030";
+  --aux1: "#1fff1f";
+  --aux2: "#157145";
+  --first: "#004b23";
+  --second: "#1fff1f";
+  --third: "#157145";
+  --fourth: "#004b23";
+  --fifth: "#1fff1f";
+  --sixth: "#157145";
+}
+
+[theme="Flag"] {
+  --base: "#b2b2d9";
+  --border: "#000000";
+  --auxBackground: "#303030";
+  --aux1: "#FFFFFF";
+  --aux2: "#B31942";
+  --first: "#B31942";
+  --second: "#FFFFFF";
+  --third: "#0A3161";
+  --fourth: "#B31942";
+  --fifth: "#FFFFFF";
+  --sixth: "#0A3161";
+}
