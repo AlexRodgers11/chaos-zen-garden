@@ -176,7 +176,7 @@ function Dots(props) {
             <div className="outer" style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%'}}>
             <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%'}}>
                 <div style={{width: `${.75 * width}px`, height: `${.75 * width}px`}}>
-                        <div className="piece-container" style={{width: '100%', height: '100%'}}>
+                        <div style={{width: '100%', height: '100%'}}>
                             {displayDots().map(dotLine => {
                                 let dotLineKey =uuidv4();
                                 return <p key={dotLineKey} style={{display: 'flex', marginBlockEnd: 0, marginBlockStart: 0, padding: 0, marginBottom: 0, marginTop: 0, width: '100%', height: `${100 / (pieceSpecs.number)}%`}}>
