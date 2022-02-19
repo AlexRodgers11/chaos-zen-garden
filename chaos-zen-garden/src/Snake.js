@@ -7,6 +7,8 @@ import usePieceSpecs from './hooks/usePieceSpecs';
 import { getColor, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar/ControlBar';
 import { v4 as uuidv4 } from 'uuid';
+import './color-themes.css';
+import './Snake.css';
 
 function Snake(props) {
     //pallette for entire garden, should override individual pieces when changed
@@ -27,7 +29,7 @@ function Snake(props) {
                 id: i,
                 left: `${Math.random() * .40 + .05}` * (Math.random() > .5 ? 1 : -1),
                 //very inefficient function that repeats selected color scheme throughout boxes; will be replaced with custom CSS properties imported from a master theme stylesheet using nth-of-type pseudo-selector
-                color: getColor(i, piecePalette),
+                // color: getColor(i, piecePalette),
                 key: uuidv4(),
             });
         }
@@ -62,32 +64,32 @@ function Snake(props) {
     //reference to keep useEffect tracking changes to garden-level palette from running on first render
     const colorFirstUpdate = useRef(true);
     //useEffect triggered by changes to garden-level palette
-    useEffect(() => {
-        if(!colorFirstUpdate.current) {
-            let newBoxes = boxes.map(box => {
-                return {...box, color: getColor(box.id, gardenPalette)}
-            });
-            setPiecePalette(gardenPalette);
-            setBoxes(newBoxes);
-            //change value of reference used for a useEffect hook tracking changes to individual piece palette so changing the garden palette doesn't set off inifinite useEffect loop for piece palette
-            colorsDoNotUpdate.current = true;
-        } else {
-            colorFirstUpdate.current = false;
-        }
-    }, [gardenPalette]);
+    // useEffect(() => {
+    //     if(!colorFirstUpdate.current) {
+    //         let newBoxes = boxes.map(box => {
+    //             return {...box, color: getColor(box.id, gardenPalette)}
+    //         });
+    //         setPiecePalette(gardenPalette);
+    //         setBoxes(newBoxes);
+    //         //change value of reference used for a useEffect hook tracking changes to individual piece palette so changing the garden palette doesn't set off inifinite useEffect loop for piece palette
+    //         colorsDoNotUpdate.current = true;
+    //     } else {
+    //         colorFirstUpdate.current = false;
+    //     }
+    // }, [gardenPalette]);
 
     //reference to keep useEffect hook tracking changes to piece-specific palette from running on first render or if garden-level palette just updated
-    const colorsDoNotUpdate = useRef(true)
-    useEffect(() => {
-        if(!colorsDoNotUpdate.current) {
-            let newBoxes = boxes.map(box => {
-                return {...box, color: getColor(box.id, piecePalette)}
-            });
-            setBoxes(newBoxes);
-        } else {
-            colorsDoNotUpdate.current = false;
-        }
-    }, [piecePalette]);
+    // const colorsDoNotUpdate = useRef(true)
+    // useEffect(() => {
+    //     if(!colorsDoNotUpdate.current) {
+    //         let newBoxes = boxes.map(box => {
+    //             return {...box, color: getColor(box.id, piecePalette)}
+    //         });
+    //         setBoxes(newBoxes);
+    //     } else {
+    //         colorsDoNotUpdate.current = false;
+    //     }
+    // }, [piecePalette]);
 
     //function that moves box and all boxes above it to the position of box below it (or to final "organized" position in case of final box)
     const organizeBoxes = (idx) => {
@@ -166,12 +168,12 @@ function Snake(props) {
     }
 
     return (
-        <div style={{margin: fullView ? '0 auto' : 0, width: `${width}px`, height: `${width}px`, border: '1px solid black', backgroundColor: getColor('base', piecePalette)}}>
+        <div className='piece-container' style={{margin: fullView ? '0 auto' : 0, width: `${width}px`, height: `${width}px`, border: '1px solid black'}}>
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', width: '100%'}}>
                 <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%'}}>
                         {boxes.map(box => {
                             return (
-                                <div key={box.key} style={{position: 'relative', boxSizing: 'border-box', border: `1px solid ${getColor('border', piecePalette)}`, width: `${Math.floor(width * .75 / pieceSpecs.number)}px`, height: `${Math.floor(width * .75 / pieceSpecs.number)}px`, padding: 0, marginTop: '0', marginBottom: '0', left: `${box.left * width * .75 / pieceSpecs.number}px`, backgroundColor: `${box.color}`, borderRadius: `${pieceSpecs.shape === 'circle' ? '50%' : 0}`}}></div>
+                                <div className='piece-unit' key={box.key} style={{position: 'relative', boxSizing: 'border-box', border: `1px solid}`, width: `${Math.floor(width * .75 / pieceSpecs.number)}px`, height: `${Math.floor(width * .75 / pieceSpecs.number)}px`, padding: 0, marginTop: '0', marginBottom: '0', left: `${box.left * width * .75 / pieceSpecs.number}px`, borderRadius: `${pieceSpecs.shape === 'circle' ? '50%' : 0}`}}></div>
                             )
                         })}
                 </div>
@@ -179,6 +181,19 @@ function Snake(props) {
                 <ControlBar id={props.id} toggleFullView={handleToggleFullView} shape={pieceSpecs.shape} shapes={['circle', 'square']} changeShape={pieceSpecs.setShape} changeProportionalVolume={pieceSpecs.setProportionalVolume} proportionalVolume={pieceSpecs.proportionalVolume} palette={piecePalette} setPalette={setPiecePalette} minNum={4} maxNum={30} number={pieceSpecs.number} setNumber={handleSetNumBoxes} isOrganizing={pieceSpecs.isOrganizing} isOrganized={pieceSpecs.isOrganized} setSpeed={pieceSpecs.setSpeed} setSound={pieceSpecs.setSound} soundValue='Slam' organizedFunction={scatterBoxes} unorganizedFunction={() => organizeBoxes(0)} unorgButton='Scatter' orgButton='Organize' />
             </div>
         </div>
+        // <div style={{margin: fullView ? '0 auto' : 0, width: `${width}px`, height: `${width}px`, border: '1px solid black', backgroundColor: getColor('base', piecePalette)}}>
+        //     <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', width: '100%'}}>
+        //         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%'}}>
+        //                 {boxes.map(box => {
+        //                     return (
+        //                         <div key={box.key} style={{position: 'relative', boxSizing: 'border-box', border: `1px solid ${getColor('border', piecePalette)}`, width: `${Math.floor(width * .75 / pieceSpecs.number)}px`, height: `${Math.floor(width * .75 / pieceSpecs.number)}px`, padding: 0, marginTop: '0', marginBottom: '0', left: `${box.left * width * .75 / pieceSpecs.number}px`, backgroundColor: `${box.color}`, borderRadius: `${pieceSpecs.shape === 'circle' ? '50%' : 0}`}}></div>
+        //                     )
+        //                 })}
+        //         </div>
+        //         {/* will attempt to find a way around passing these functions to controlbar this way */}
+        //         <ControlBar id={props.id} toggleFullView={handleToggleFullView} shape={pieceSpecs.shape} shapes={['circle', 'square']} changeShape={pieceSpecs.setShape} changeProportionalVolume={pieceSpecs.setProportionalVolume} proportionalVolume={pieceSpecs.proportionalVolume} palette={piecePalette} setPalette={setPiecePalette} minNum={4} maxNum={30} number={pieceSpecs.number} setNumber={handleSetNumBoxes} isOrganizing={pieceSpecs.isOrganizing} isOrganized={pieceSpecs.isOrganized} setSpeed={pieceSpecs.setSpeed} setSound={pieceSpecs.setSound} soundValue='Slam' organizedFunction={scatterBoxes} unorganizedFunction={() => organizeBoxes(0)} unorgButton='Scatter' orgButton='Organize' />
+        //     </div>
+        // </div>
     )
 }
 
