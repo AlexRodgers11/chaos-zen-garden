@@ -168,7 +168,7 @@ function Snake(props) {
     }
 
     return (
-        <div className='piece-container' style={{margin: fullView ? '0 auto' : 0, width: `${width}px`, height: `${width}px`, border: '1px solid black'}}>
+        <div className='Snake piece-container' style={{margin: fullView ? '0 auto' : 0, width: `${width}px`, height: `${width}px`, border: '1px solid black'}}>
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', width: '100%'}}>
                 <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%'}}>
                         {boxes.map(box => {
