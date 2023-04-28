@@ -36,3 +36,36 @@
     transform: rotate(360deg);
   }
 }
+
+.piece-container {
+  background-color: var(--base);
+}
+
+/* .piece-container {
+  background-color: var(--base);
+}
+
+.piece-unit {
+  border: 1px solid;
+  border-color: var(--border);
+}
+
+.piece-unit:nth-of-type(6n + 1) {
+  background-color: var(--first);
+}
+.piece-unit:nth-of-type(6n + 2) {
+  background-color: var(--second);
+}
+.piece-unit:nth-of-type(6n + 3) {
+  background-color: var(--third);
+}
+.piece-unit:nth-of-type(6n + 4) {
+  background-color: var(--fourth);
+}
+.piece-unit:nth-of-type(6n + 5) {
+  background-color: var(--fifth);
+}
+.piece-unit:nth-of-type(6n + 6) {
+  background-color: var(--sixth);
+}
+*/

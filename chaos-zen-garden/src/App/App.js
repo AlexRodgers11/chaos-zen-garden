@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { sizeActions } from '../store/size';
+import '../color-themes.css';
 import './App.css';
 import Garden from '../Garden';
 
@@ -37,7 +38,7 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div theme="Carnival" className="App">
       <Garden />
     </div>
   );

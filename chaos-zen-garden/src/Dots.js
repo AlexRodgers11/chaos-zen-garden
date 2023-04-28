@@ -1,12 +1,15 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import useGardenSpecs from './hooks/useGardenSpecs';
+// import usePieceSpecs from './hooks/usePieceSpecs';
 import usePieceSpecs from './hooks/usePieceSpecs';
 import { sizeActions } from './store/size';
 import { organizingCounterActions } from './store/organizing-counter';
 import { getColor, scaler, soundPlay } from './utils';
 import ControlBar from './ControlBar/ControlBar';
 import { v4 as uuidv4 } from 'uuid';
+import './color-themes.css';
+import './Dots.css';
 
 function Dots(props) {
     const palette = useSelector((state) => state.palette.palette);
@@ -154,7 +157,7 @@ function Dots(props) {
         pieceSpecs.toggleIsOrganized();
     }
 
-    const handleToggleFullView = () => {
+    const handleToggleFullView = useCallback(() => {
         dispatch(sizeActions.setFullView(
             [
                 props.id, {
@@ -169,19 +172,20 @@ function Dots(props) {
                 }
             ]
         ));
-    }
+    }, []);
 
     return (
-        <div className="piece" style={{margin: fullView ? '0 auto' : 0, width: `${width}px`, display: 'flex', justifyContent: 'center', alignItems: 'center', width: `${width}px`, height: `${width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
+        <div className="Dots piece-container" style={{margin: fullView ? '0 auto' : 0, width: `${width}px`, display: 'flex', justifyContent: 'center', alignItems: 'center', height: `${width}px`, border: '1px solid black'}}>
             <div className="outer" style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%'}}>
-            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%'}}>
-                <div style={{width: `${.75 * width}px`, height: `${.75 * width}px`}}>
+                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%'}}>
+                    <div style={{width: `${.75 * width}px`, height: `${.75 * width}px`}}>
                         <div style={{width: '100%', height: '100%'}}>
                             {displayDots().map(dotLine => {
                                 let dotLineKey =uuidv4();
                                 return <p key={dotLineKey} style={{display: 'flex', marginBlockEnd: 0, marginBlockStart: 0, padding: 0, marginBottom: 0, marginTop: 0, width: '100%', height: `${100 / (pieceSpecs.number)}%`}}>
                                     {dotLine.map(dot => {
-                                        return (<p key={dot.key} style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center', marginBlockEnd: 0, marginBlockStart: 0, padding: '0px', width: `${100 / (pieceSpecs.number)}%`, height: '100%', marginBottom: '0'}}>
+                                        return (<p className="piece-unit" key={dot.key} style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center', marginBlockEnd: 0, marginBlockStart: 0, padding: '0px', width: `${100 / (pieceSpecs.number)}%`, height: '100%', marginBottom: '0'}}>
+                                                    {/* <span style={{display: 'inline-block', border: '1px solid', borderRadius: `${pieceSpecs.shape === 'circle' ? '50%' : 0}`, width: `${Math.floor(((100 / pieceSpecs.number) / 100) * .3 * width * .75)}px`, height: `${Math.floor(((100 / pieceSpecs.number) / 100 ) * .3 * width * .75)}px`, marginLeft: `${dot.marginLeft}%`, marginTop: `${dot.marginTop}%`}}></span> */}
                                                     <span style={{display: 'inline-block', border: `1px solid ${getColor('border', colorPalette)}`, borderRadius: `${pieceSpecs.shape === 'circle' ? '50%' : 0}`, width: `${Math.floor(((100 / pieceSpecs.number) / 100) * .3 * width * .75)}px`, height: `${Math.floor(((100 / pieceSpecs.number) / 100 ) * .3 * width * .75)}px`, marginLeft: `${dot.marginLeft}%`, marginTop: `${dot.marginTop}%`, backgroundColor: `${dot.color}`}}></span>
                                                 </p>)
                                     })}

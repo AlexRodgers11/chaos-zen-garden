@@ -1,0 +1,18 @@
+.Dots .piece-unit:nth-of-type(6n + 1) span {
+  background-color: var(--first);
+}
+.Dots .piece-unit:nth-of-type(6n + 2) span {
+  background-color: var(--second);
+}
+.Dots .piece-unit:nth-of-type(6n + 3) span {
+  background-color: var(--third);
+}
+.Dots .piece-unit:nth-of-type(6n + 4) span {
+  background-color: var(--fourth);
+}
+.Dots .piece-unit:nth-of-type(6n + 5) span {
+  background-color: var(--fifth);
+}
+.Dots .piece-unit:nth-of-type(6n + 6) span {
+  background-color: var(--sixth);
+}
