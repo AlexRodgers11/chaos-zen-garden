@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { memo, useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { volumeActions } from '../store/volume';
 import { highlightUserIconActions } from '../store/highlight-user-icon';
@@ -272,4 +272,4 @@ function ControlBar(props) {
     )
 }
 
-export default ControlBar;
+export default memo(ControlBar);
