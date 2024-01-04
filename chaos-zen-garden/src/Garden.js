@@ -71,7 +71,11 @@ function Garden() {
 
     const displayFullSize = gardenPiece => {
         // let gardenPieceWidth = width > height ? height - 47 : width - 2;
-        return gardenSwitch(gardenPiece)
+        if(gardenPiece[1].type === 'bullseye') {
+            return gardenSwitch(gardenPiece,numRings, bullsEyeShape, handleSetNumRings, handleSetShape);
+        } else {
+            return gardenSwitch(gardenPiece);
+        }
         // switch(gardenPiece) {
         //     case 'snake':
         //         return <Snake className="Snake" />
@@ -132,8 +136,12 @@ function Garden() {
             <Header />
             <div className="Garden">
                 {Object.entries(garden).map(piece => {
-                    // return gardenSwitch(piece[1]);
-                    return gardenSwitch(piece);
+                    if(piece[1].type === 'bullseye') {
+                        return gardenSwitch(piece,numRings, bullsEyeShape, handleSetNumRings, handleSetShape);
+                    } else {
+                        return gardenSwitch(piece);
+                    }
+                    
                     // <p style={{width: '100px', height: '100px', zIndex: 1000000000000000000, backgroundColor: 'blue'}}>Test</p>
                 })}
                 {/* <Snake className="Snake" />

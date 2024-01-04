@@ -1,7 +1,7 @@
 import Snake from './Snake';
 import Dots from './Dots';
 import BullsEye from './BullsEye';
-// import Bullseye2 from './Bullseye2';
+import Bullseye2 from './Bullseye2';
 import Message from './Message';
 import Dominoes from './Dominoes';
 import Barcode from './Barcode';
@@ -45,16 +45,16 @@ const startingGarden = {
         shape: 'circle' ,
         text: null
     },
-    // 3 : {
-    //     type: 'bullseye',
-    //     palette: 'Carnival',
-    //     speed: 1000,
-    //     sound: 'Whoop',
-    //     proportionalVolume: 'proportional',
-    //     number: 7,
-    //     shape: 'circle' ,
-    //     text: null
-    // },
+    3 : {
+        type: 'bullseye',
+        palette: 'Carnival',
+        speed: 1000,
+        sound: 'Whoop',
+        proportionalVolume: 'proportional',
+        number: 7,
+        shape: 'circle' ,
+        text: null
+    },
     4 : {
         type: 'message',
         palette: 'Carnival',
@@ -268,7 +268,7 @@ const startingGarden = {
 }
 
 // const gardenSwitch = (type, palette, speed, sound, proportionalVolume, number, shape, text) => {
-const gardenSwitch = (piece) => {
+const gardenSwitch = (piece, numRings, bullsEyeShape, handleSetNumRings, handleSetShape) => {
     const id = piece[0]
     const {type, palette, speed, sound, proportionalVolume, number, shape, text} = {...piece[1]}
     switch(type) {
@@ -279,8 +279,8 @@ const gardenSwitch = (piece) => {
             return <Asterisk {...piece[1]}/>
         case 'barcode': 
             return <Barcode {...piece[1]}/>
-        // case 'bullseye':
-        //     return <BullsEye id={1} setNumRings={() => console.log('test')} numRings={15} setShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" orgIndex={numRings + 1} />    
+        case 'bullseye':
+            return <BullsEye id={1} setNumRings={handleSetNumRings} numRings={numRings} changeShape={handleSetShape} shape={bullsEyeShape} sound="Whoop" orgIndex={numRings + 1} />    
         case 'cards':
             return <Cards {...piece[1]}/>
         case 'crosshair':
@@ -321,6 +321,8 @@ const gardenSwitch = (piece) => {
             return <Tallies {...piece[1]}/>
         case 'triangles':
             return <Triangles {...piece[1]}/>
+        default:
+            return;
     }
 }
 

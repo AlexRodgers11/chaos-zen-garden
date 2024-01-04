@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { organizingCounterActions } from './store/organizing-counter';
 import useToggle from './hooks/useToggle';
 import { getColor, getSound, scaler, soundPlay } from './utils';
+import usePieceSpecs from './hooks/usePieceSpecs';
+
+import { sizeActions } from './store/size';
 import ControlBar from './ControlBar/ControlBar';
 
 function BullsEye(props) {
@@ -22,6 +25,7 @@ function BullsEye(props) {
     const [numRings, setNumRings] = useState(props.numRings);
     const [userJustChangedNumber, toggleUserJustChangedNumber] = useToggle(props.id === 1 ? false : props.userJustChangedNumber);
     const [shape, setShape] = useState('circle');
+    const pieceSpecs = usePieceSpecs(0, props.number, props.proportionalVolume, props.shape, props.sound, props.speed, props.text);
     const dispatch = useDispatch();
     
     let firstUpdate = useRef(true);
@@ -45,7 +49,22 @@ function BullsEye(props) {
             firstUpdate.current = false;
         }
     }, [orgIndex]);
-
+    
+    const handleToggleFullView = () => {
+        dispatch(sizeActions.setFullView(
+            [
+                props.id, {
+                    type: 'bullseye',
+                    palette: palette,
+                    speed: pieceSpecs.speed,
+                    sound: pieceSpecs.soundName,
+                    proportionalVolume: pieceSpecs.proportionalVolume,
+                    number: pieceSpecs.number,
+                    shape: pieceSpecs.shape
+                }
+            ]
+        ));
+    }
 
     let numRingsFirstUpdate = useRef(true);
     useEffect(() => {
@@ -166,7 +185,7 @@ function BullsEye(props) {
                         
                     </div>
                 </div>
-            {props.id === 1 ? <ControlBar piece='bullseye' changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} shape={shape} shapes={['circle', 'square']} changeShape={props.setShape} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumRings} minNum={4} maxNum={40} number={props.numRings} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Whoop' organizedFunction={scatterRings} unorganizedFunction={organizeRings} unorgButton='Scatter' orgButton='Organize' /> : null}
+            {props.id === 1 ? <ControlBar piece='bullseye' changeProportionalVolume={handleChangeProportionalVolume} proportionalVolume={proportionalVolume} toggleFullView={handleToggleFullView} shape={shape} shapes={['circle', 'square']} changeShape={props.setShape} palette={colorPalette} setPalette={handleSetColorPalette} setNumber={handleSetNumRings} minNum={4} maxNum={40} number={props.numRings} isOrganizing={isOrganizing} isOrganized={isOrganized} setSpeed={handleSetSpeed} setSound={handleSetSound} soundValue='Whoop' organizedFunction={scatterRings} unorganizedFunction={organizeRings} unorgButton='Scatter' orgButton='Organize' /> : null}
             </div>
         </div>
         
