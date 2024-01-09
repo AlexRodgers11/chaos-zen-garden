@@ -175,7 +175,7 @@ function Dots(props) {
     }, []);
 
     return (
-        <div className="Dots piece-container" style={{margin: fullView ? '0 auto' : 0, width: `${width}px`, display: 'flex', justifyContent: 'center', alignItems: 'center', height: `${width}px`, border: '1px solid black'}}>
+        <div className="Dots piece-container" style={{margin: fullView ? '0 auto' : 0, width: `${width}px`, display: 'flex', justifyContent: 'center', alignItems: 'center', height: `${width}px`, border: '1px solid black', backgroundColor: getColor('base', colorPalette)}}>
             <div className="outer" style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '100%', height: '100%'}}>
                 <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%'}}>
                     <div style={{width: `${.75 * width}px`, height: `${.75 * width}px`}}>
