@@ -73,7 +73,7 @@ function Header(){
                         })}
                     </div>
                 </div>
-                <div onMouseLeave={showDropdown.main ? () => handleToggleDropdown('main') : null} className={`Header_dropdown ${showDropdown.main ? 'Header_dropdown-active' : ''}`} >
+                {/* <div onMouseLeave={showDropdown.main ? () => handleToggleDropdown('main') : null} className={`Header_dropdown ${showDropdown.main ? 'Header_dropdown-active' : ''}`} >
                     <div style={{display: 'flex', alignItems: 'center'}}>
                         <div style={{display: 'flex', alignItems: 'center', cursor: 'pointer'}} className="tooltip">
                             {highlightUserIcon ? <span className='tooltiptext'><FaLongArrowAltUp size="1.5rem" /></span> : null}<FaUserCircle id="main" className="Header_dropbtn" onClick={() => handleToggleDropdown('main')} size="1.5rem" color={!highlightUserIcon ? getColor('aux2', palette) : 'white'}/>
@@ -85,7 +85,7 @@ function Header(){
                         <p id="login" onClick={handleSetModalContent}>{loggedIn ? 'Log Out' : 'Log In'}</p>
 
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     )
