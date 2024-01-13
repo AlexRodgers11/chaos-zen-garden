@@ -147,7 +147,7 @@ function ControlBar(props) {
                                     let key = uuidv4();
                                     return <p style={{backgroundColor: palette === paletteOption ? '#bfbfbf' : '#f9f9f9'}} key={key} onClick={() => handlePaletteChange(paletteOption)}>{paletteOption}</p>
                                 })}
-                                <p style={{alignItems: 'center'}} onClick={() => {dispatch(modalContentActions.setModalContent('monochrome'))}}>Monochrome</p>
+                                {/* <p style={{alignItems: 'center'}} onClick={() => {dispatch(modalContentActions.setModalContent('monochrome'))}}>Monochrome</p> */}
                                 {/* <p><p style={{display: 'flex', alignItems: 'center'}} onClick={loggedIn ? () => {dispatch(modalContentActions.setModalContent('custom-palette'))} : null} >Custom{!loggedIn ? <BsLockFill /> : null}</p></p> */}
                             </div>
                             <div style={{height: '1.8em', opacity: .5, backgroundColor: 'black'}}></div>    
