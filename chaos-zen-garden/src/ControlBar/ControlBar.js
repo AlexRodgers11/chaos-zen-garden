@@ -143,9 +143,9 @@ function ControlBar(props) {
                         <button disabled={props.isOrganizing} style={{position: 'relative', zIndex: 115, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="speed" onClick={() => handleTogglePopup('palette')}><IoIosColorPalette size='1.5em' /></button>
                         <div className='ControlBar_popup-content'>
                             <div style={{boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)'}}>
-                                {palettes.map(palette => {
+                                {palettes.map(paletteOption => {
                                     let key = uuidv4();
-                                    return <p key={key} onClick={() => handlePaletteChange(palette)}>{palette}</p>
+                                    return <p style={{backgroundColor: palette === paletteOption ? '#bfbfbf' : '#f9f9f9'}} key={key} onClick={() => handlePaletteChange(paletteOption)}>{paletteOption}</p>
                                 })}
                                 <p style={{alignItems: 'center'}} onClick={() => {dispatch(modalContentActions.setModalContent('monochrome'))}}>Monochrome</p>
                                 {/* <p><p style={{display: 'flex', alignItems: 'center'}} onClick={loggedIn ? () => {dispatch(modalContentActions.setModalContent('custom-palette'))} : null} >Custom{!loggedIn ? <BsLockFill /> : null}</p></p> */}
@@ -158,12 +158,12 @@ function ControlBar(props) {
                         <button style={{position: 'relative', zIndex: 113, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="speed" onClick={() => handleTogglePopup('speed')}><GiTortoise size='1.5em' /><GiRabbit size='1.5em' /></button>
                         <div className='ControlBar_popup-content'>
                             <div style={{boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)'}}>
-                                <p style={{display: 'block'}} onClick={() => handleSpeedChange(1000)}>Normal</p>
-                                <p onClick={() => handleSpeedChange(500)}>Double</p>
-                                <p onClick={() => handleSpeedChange(333)}>Triple</p>
-                                <p onClick={() => handleSpeedChange(200)}>5x</p>
-                                <p onClick={() => handleSpeedChange(100)}>10x</p>
-                                <p onClick={() => handleSpeedChange(50)}>20x</p>
+                                <p style={{backgroundColor: speed === 1000 ? '#bfbfbf' : '#f9f9f9', display: 'block'}} onClick={() => handleSpeedChange(1000)}>Normal</p>
+                                <p style={{backgroundColor: speed === 500 ? '#bfbfbf' : '#f9f9f9'}} onClick={() => handleSpeedChange(500)}>Double</p>
+                                <p style={{backgroundColor: speed === 333 ? '#bfbfbf' : '#f9f9f9'}} onClick={() => handleSpeedChange(333)}>Triple</p>
+                                <p style={{backgroundColor: speed === 200 ? '#bfbfbf' : '#f9f9f9'}} onClick={() => handleSpeedChange(200)}>5x</p>
+                                <p style={{backgroundColor: speed === 100 ? '#bfbfbf' : '#f9f9f9'}} onClick={() => handleSpeedChange(100)}>10x</p>
+                                <p style={{backgroundColor: speed === 50 ? '#bfbfbf' : '#f9f9f9'}} onClick={() => handleSpeedChange(50)}>20x</p>
                             </div>
                             <div style={{height: '1.8em', opacity: 0.5, backgroundColor: 'black'}}></div>
                         </div>
@@ -173,9 +173,9 @@ function ControlBar(props) {
                         <button style={{position: 'relative', zIndex: 111, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="sound" onClick={() => handleTogglePopup('sound')}><GoBell size='1.5em' /></button>
                         <div className='ControlBar_popup-content'>
                             <div style={{boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)'}}>
-                                {sounds.map(sound => {
+                                {sounds.map(soundOption => {
                                     let key = uuidv4();
-                                    return <p key={key} onClick={() => handleSoundChange(sound)} >{sound}</p>
+                                    return <p key={key} style={{backgroundColor: sound === soundOption ? '#bfbfbf' : '#f9f9f9'}} onClick={() => handleSoundChange(soundOption)} >{soundOption}</p>
                                 })}
                             </div>
                             <div style={{height: '1.8em', opacity: 0.5, backgroundColor: 'black'}}></div>
@@ -186,8 +186,8 @@ function ControlBar(props) {
                         <button style={{position: 'relative', zIndex: 109, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="proportionalVolume" onClick={() => handleTogglePopup('proportionalVolume')}><RiSoundModuleLine size='1.5em' /></button>
                         <div className='ControlBar_popup-content'>
                             <div >
-                                <p onClick={() => handleProportionalVolumeChange('even')}>Even Volume</p>
-                                <p onClick={() => handleProportionalVolumeChange('proportional')}>Proportional Volume</p>
+                                <p style={{backgroundColor: proportionalVolume === 'even' ? '#bfbfbf' : '#f9f9f9'}} onClick={() => handleProportionalVolumeChange('even')}>Even Volume</p>
+                                <p style={{backgroundColor: proportionalVolume === 'proportional' ? '#bfbfbf' : '#f9f9f9'}} onClick={() => handleProportionalVolumeChange('proportional')}>Proportional Volume</p>
                             </div>
                             <div style={{boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)'}}>
                             </div>
@@ -212,9 +212,9 @@ function ControlBar(props) {
                             <button disabled={props.isOrganizing} style={{position: 'relative', zIndex: 105, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="number" onClick={() => handleTogglePopup('number')}><ImSortNumbericDesc size='1.5em' /></button>
                             <div className='ControlBar_popup-content'>
                                 <div style={{boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)', overflowY: `${props.maxNum - props.minNum > 8 ? 'scroll' : null}`, overscrollBehavior: 'none', height: `${props.maxNum - props.minNum >= 8 ? `${pieceWidth * .5}px` : null}`}}>
-                                    {displayNumberOptions(props.minNum, props.maxNum).map(num => {
+                                    {displayNumberOptions(props.minNum, props.maxNum).map(numOption => {
                                         let key= uuidv4();
-                                        return <p key={key} onClick={() => handleNumberChange(num)}>{num}</p>
+                                        return <p key={key} style={{backgroundColor: number === numOption ? '#bfbfbf' : '#f9f9f9'}} onClick={() => handleNumberChange(numOption)}>{numOption}</p>
                                     })}
                                 </div>
                                 <div style={{height: '1.8em', opacity: 0.5, backgroundColor: 'black', padding: 0}}></div>
@@ -243,9 +243,9 @@ function ControlBar(props) {
                             <button disabled={props.isOrganizing} style={{position: 'relative', zIndex: 101, color: getColor('aux1', palette), backgroundColor: '#303030', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '.15em'}} id="shape" onClick={() => handleTogglePopup('shape')}><FaShapes size='1.5em' /></button>
                             <div className='ControlBar_popup-content'>
                                 <div style={{boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)'}}>
-                                    {props.shapes.map(shape => {
+                                    {props.shapes.map(shapeOption => {
                                         let key=uuidv4();
-                                        return <p key={key} onClick={() => handleShapeChange(shape)}>{shape}</p>
+                                        return <p key={key} style={{backgroundColor: shape === shapeOption ? '#bfbfbf' : '#f9f9f9'}} onClick={() => handleShapeChange(shapeOption)}>{shapeOption}</p>
                                     })}
                                 </div>
                                 <div style={{height: '1.8em', opacity: 0.5, backgroundColor: 'black', padding: 0}}></div>
